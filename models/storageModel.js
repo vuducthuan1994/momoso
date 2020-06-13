@@ -4,20 +4,26 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var StorageSchema = new Schema({
-    name: {
+    nameStorage: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    shortcutName: {
         type: String,
         required: true,
         trim: true
     },
     address: {
         type: String,
+        required: true,
         trim: true,
         default: ''
     },
     phone_number: {
         type: Number,
         trim: true,
-        default: ''
+        default: '0356125026'
     },
     note: {
         type: String,

@@ -177,6 +177,7 @@ router.post('/', function(req, res) {
         } else {
             Posts.create(fields, function(err, data) {
                 if (!err) {
+                    console.log(err)
                     req.flash('messages', 'Thêm thành công !')
                     res.redirect('/admin/posts');
 

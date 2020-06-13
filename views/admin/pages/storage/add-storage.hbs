@@ -2,13 +2,6 @@
 
 <script src="/plugins/ckeditor/ckeditor.js"></script>
 
-{{!-- <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script> --}}
-<style>
-    .banner-post,
-    .image-upload {
-        max-width: 150px;
-    }
-</style>
 <div id="content" class="main-content">
     <div class="">
         <div class="layout-px-spacing">
@@ -19,9 +12,9 @@
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                                     {{#if banner._id}}
-                                    <h4>Sửa Banner</h4>
+                                    <h4>Sửa Kho</h4>
                                     {{else}}
-                                    <h4>Thêm Banner</h4>
+                                    <h4>Thêm Kho</h4>
                                     {{/if}}
                                 </div>
                             </div>
@@ -34,45 +27,45 @@
                                 {{/each}}
                                 <div class="row">
                                     <div class="col-lg-10 col-10 col-md-10 mx-auto">
-                                        <form enctype="multipart/form-data" action="{{buildActionBanner banner._id}}"
+                                        <form action="{{buildActionStorage banner._id}}"
                                             method="post">
                                             <div class="form-group">
-                                                <label>Tiêu đề Banner</label>
-                                                <input value="{{banner.title}}" type="text" name="title"
-                                                    placeholder="Enter title of banner ..." class="form-control"
-                                                    required="">
+                                                <label>Tên Kho </label>
+                                                <input value="{{storage.nameStorage}}" type="text" name="nameStorage"
+                                                    placeholder="Tên Kho..." class="form-control" required="">
+                                            </div>
+                                               <div class="form-group">
+                                                <label>Tên viết tắt </label>
+                                                <input value="{{storage.shortcutName}}" type="text" name="shortcutName"
+                                                    placeholder="Tên viết tắt..." class="form-control" required="">
+                                            </div>
+                                                 <div class="form-group">
+                                                <label>Địa chỉ kho hàng </label>
+                                                <input value="{{storage.address}}" type="text" name="address"
+                                                    placeholder="Địa chỉ kho hàng..." class="form-control" required="">
                                             </div>
                                             <div class="form-group">
                                                 <div class="input-group mb-4">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text">Mô tả ngắn ( Viết dài hơn 20 từ)
+                                                        <span class="input-group-text">Ghi chú
                                                         </span>
                                                     </div>
-                                                    <textarea minlength="30" required=""
-                                                        placeholder="Enter short desc... " name="desc"
+                                                    <textarea minlength="0" required=""
+                                                        placeholder="Enter note... " name="note"
                                                         class="form-control"
-                                                        aria-label="With textarea">{{banner.desc}}</textarea>
+                                                        aria-label="With textarea">{{storage.note}}</textarea>
                                                 </div>
 
                                             </div>
                                             <div class="form-group">
-                                                <label>URL LINK</label>
-                                                <input type="text" name="url" placeholder="Enter Url link Shop now  ..."
-                                                    value="{{banner.url}}" class="form-control" required="">
-                                            </div>
-                                            <div class="form-group ">
-                                                <label>Ảnh banner</label>
-                                                <input accept="image/jpeg,image/gif,image/png,image/x-eps"
-                                                    name="imageUrl" type="file" class="form-control-file">
-                                                <div class="row col-md-6 mt-1">
-                                                    <img src="{{banner.imageUrl}}" class="banner-post"
-                                                        alt=" Chưa có ảnh !" class="img-fluid" src="#">
-                                                </div>
+                                                <label>Số điện thoại</label>
+                                                <input type="number" name="phone_number" placeholder="Enter Phone Number..."
+                                                    value="{{storage.phone_number}}" class="form-control" required="">
                                             </div>
                                             {{#if banner._id}}
-                                            <input type="submit" class="mt-4 btn btn-primary" value="Sửa banner">
+                                            <input type="submit" class="mt-4 btn btn-primary" value="Update">
                                             {{else}}
-                                            <input type="submit" class="mt-4 btn btn-primary" value="Tạo Banner">
+                                            <input type="submit" class="mt-4 btn btn-primary" value="Create">
                                             {{/if}}
                                         </form>
                                     </div>

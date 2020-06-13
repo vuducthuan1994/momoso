@@ -16,63 +16,65 @@ var isAuthenticated = function(req, res, next) {
 router.get('/', isAuthenticated, function(req, res) {
     Storage.find({}, function(err, storages) {
         if (!err) {
-            res.render('admin/pages/storage/index', { errors: req.flash('errors'), messages: req.flash('messages'), title: "Quản lý banner", storages: storages.map(storage => storage.toJSON()), layout: 'admin.hbs' });
+            res.render('admin/pages/storage/index', {
+                errors: req.flash('errors'),
+                messages: req.flash('messages'),
+                title: "Quản Lý Kho Hàng",
+                storages: storages.map(storage => storage.toJSON()),
+                layout: 'admin.hbs'
+            });
         }
     });
 });
-router.get('/add-storage', function(req, res) {
-    // res.render('admin/pages/storage/add-banner', { title: "Thêm Banner", layout: 'admin.hbs' });
+router.get('/add-storage', isAuthenticated, function(req, res) {
+    res.render('admin/pages/storage/add-storage', { title: "Thêm Banner", layout: 'admin.hbs' });
 });
 
-router.get('/edit-post/:id', function(req, res) {
-    // const storageID = req.params.id;
-    // Storage.findOne({ _id: storageID }, function(err, storage) {
-    //     if (err) {
-    //         req.flash('messages', 'Lỗi hệ thống, không sửa được banner !')
-    //         res.redirect('back');
-    //     } else {
-    //         res.render('admin/pages/storage/add-banner', { errors: req.flash('errors'), messages: req.flash('messages'), title: "Sửa banner", layout: 'admin.hbs', storage: storage.toJSON() });
-    //     }
-    // })
+router.get('/edit-storage/:id', isAuthenticated, function(req, res) {
+    const storageID = req.params.id;
+    Storage.findOne({ _id: storageID }, function(err, storage) {
+        if (err) {
+            req.flash('messages', 'Lỗi hệ thống, không sửa được banner !')
+            res.redirect('back');
+        } else {
+            res.render('admin/pages/storage/add-storage', {
+                errors: req.flash('errors'),
+                messages: req.flash('messages'),
+                title: "Sửa Thông Tin Kho Hàng",
+                layout: 'admin.hbs',
+                storage: storage.toJSON()
+            });
+        }
+    })
 });
 
-// create banner
+// create storage
 router.post('/', function(req, res) {
     console.log(req.body)
+    Storage.create(req.body, function(err, data) {
+        if (!err) {
+            req.flash('messages', 'Thêm thành công !')
+            res.redirect('/admin/storage');
 
-});
-//edit banner
-router.post('/edit-banner/:id', function(req, res) {
-    const idBanner = req.params.id;
-    let imageUrl = null;
-    const form = formidable({ multiples: true });
-    form.on('fileBegin', function(name, file) {
-        var dir = __basedir + '/public/img/banner';
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, 0744);
-        }
-        if (name == 'imageUrl' && file.name !== '') {
-            imageUrl = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            file.path = path.join(dir, `/${imageUrl}`);
+        } else {
+            console.log(err);
+            req.flash('messages', 'Không thêm được kho hàng')
+            res.redirect('back');
         }
     });
-    form.parse(req, (err, fields) => {
-        if (imageUrl !== null) {
-            fields.imageUrl = `/img/banner/${imageUrl}`;
-        }
-        if (err) {
-            req.flash('errors', "Không sửa được banner!");
+
+});
+//edit storage
+router.post('/edit-storage/:id', function(req, res) {
+    const idBanner = req.params.id;
+    req.body.updated_date = new Date();
+    Storage.updateOne({ _id: idBanner }, req.body, function(err, data) {
+        if (!err) {
+            req.flash('messages', 'Sửa kho hàng thành công !');
+            res.redirect('back');
         } else {
-            fields.updated_date = new Date();
-            Storage.updateOne({ _id: idBanner }, fields, function(err, data) {
-                if (!err) {
-                    req.flash('messages', 'Sửa thành công !');
-                    res.redirect('back');
-                } else {
-                    req.flash('errors', 'Không sửa được banner');
-                    res.redirect('back');
-                }
-            });
+            req.flash('errors', 'Không sửa được Kho hàng');
+            res.redirect('back');
         }
     });
 
@@ -83,17 +85,13 @@ router.get('/delete/:id', isAuthenticated, function(req, res) {
     const messages = [];
     Storage.findOneAndDelete({
         _id: id,
-    }, async function(err, banner) {
-        if (banner && banner.imageUrl) {
-            filePath = 'public' + banner.imageUrl;
-        }
-
+    }, function(err, storage) {
         if (!err) {
-            messages.push('Xóa banner thành công')
+            messages.push('Xóa Kho thành công')
             req.flash('messages', messages)
             res.redirect('back');
         } else {
-            messages.push('Xóa banner thất bại ')
+            messages.push('Xóa Kho thất bại ')
             req.flash('messages', messages)
             res.redirect('back');
         }

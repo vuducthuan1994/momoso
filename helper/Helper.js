@@ -234,6 +234,13 @@ module.exports = {
             return (`/admin/config/banner/edit-banner/${id}`)
         }
     },
+    buildActionStorage(id) {
+        if (id == null || id == undefined) {
+            return '/admin/storage';
+        } else {
+            return (`/admin/storage/edit-storage/${id}`)
+        }
+    },
     getDescriptionArtiles(description) {
         var result = description.substring(0, 85) + '...';
         return result;
