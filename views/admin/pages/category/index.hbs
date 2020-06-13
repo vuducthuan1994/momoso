@@ -56,8 +56,9 @@
                                     <thead>
                                         <tr>
                                             <th>STT</th>
+                                            <th>Trạng thái</th>
                                             <th>Tên Loại SP</th>
-                                            <th>Loại ảnh banner</th>
+                                            <th>Kích cỡ ảnh</th>
                                             <th>Ảnh đại diện</th>
                                             <th>Thời gian</th>
                                             <th class="text-center">Action</th>
@@ -67,6 +68,15 @@
                                         {{#each categorys}}
                                         <tr>
                                             <td class="checkbox-column text-center"> {{@index}}</td>
+                                            <td class="text-center">
+                                                {{#if this.isShow}}
+                                                <span class="shadow-none badge badge-primary">Đã xuất hiện trên trang
+                                                    chủ</span>
+
+                                                {{else}}
+                                                <span class="shadow-none badge badge-warning">Ẩn</span>
+                                                {{/if}}
+                                            </td>
                                             <td class="text-center title-custom">{{this.name}}</td>
                                             <td class="text-center">{{this.typeImage}}</td>
                                             <td class="text-center">

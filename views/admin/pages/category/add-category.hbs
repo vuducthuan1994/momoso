@@ -48,6 +48,14 @@
                                                 </select>
                                             </div>
                                             <div class="form-group ">
+                                                <label>Show trên trang chủ</label>
+                                                <br>
+                                                <label class="switch s-primary mr-2">
+                                                    <input {{checked category.isShow }} name="isShow" type="checkbox">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group ">
                                                 <label>Ảnh banner</label>
                                                 <input accept="image/jpeg,image/gif,image/png,image/x-eps"
                                                     name="imageUrl" type="file" class="form-control-file">
