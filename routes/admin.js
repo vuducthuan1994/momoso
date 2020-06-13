@@ -20,6 +20,8 @@ module.exports = function(cache) {
     const configBanner = require('./admin/config/banner');
     const about_us = require('./admin/config/about-us');
     const storage = require('./admin/storage');
+    const category = require('./admin/category');
+
 
     const user = require('./admin/users')();
     const posts = require('./admin/posts');
@@ -33,6 +35,7 @@ module.exports = function(cache) {
     router.use('/config/banner', configBanner);
     router.use('/config/about-us', about_us);
     router.use('/storage', storage);
+    router.use('/category', category);
 
     // router.use('/hosts', host);
     router.use('/users', user);

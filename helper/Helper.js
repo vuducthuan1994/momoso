@@ -241,6 +241,13 @@ module.exports = {
             return (`/admin/storage/edit-storage/${id}`)
         }
     },
+    buildActionCategory(id) {
+        if (id == null || id == undefined) {
+            return '/admin/category';
+        } else {
+            return (`/admin/category/edit-category/${id}`)
+        }
+    },
     getDescriptionArtiles(description) {
         var result = description.substring(0, 85) + '...';
         return result;
