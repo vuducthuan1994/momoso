@@ -27,17 +27,17 @@
                                 {{/each}}
                                 <div class="row">
                                     <div class="col-lg-10 col-10 col-md-10 mx-auto">
-                                        <form action="{{buildActionCategory category._id}}" method="post">
+                                        <form enctype="multipart/form-data" action="{{buildActionCategory category._id}}" method="post">
                                             <div class="form-group">
                                                 <label>Tên Loại SP </label>
                                                 <input id="category-name" value="{{category.name}}" type="text"
-                                                    name="nameStorage" placeholder="Tên loại sản phẩm..."
+                                                    name="name" placeholder="Tên loại sản phẩm..."
                                                     class="form-control col-md-6" required="">
                                             </div>
                                             <div class="form-group">
                                                 <label>URL SEO</label>
                                                 <input id="category-url-seo" value="{{category.urlSeo}}" type="text"
-                                                    name="nameStorage" placeholder="Enter URL SEO..."
+                                                    name="urlSeo" placeholder="Enter URL SEO..."
                                                     class="form-control col-md-6" required="">
                                             </div>
                                             <div class="form-group">
@@ -60,7 +60,7 @@
                                                 <input accept="image/jpeg,image/gif,image/png,image/x-eps"
                                                     name="imageUrl" type="file" class="form-control-file">
                                                 <div class="row col-md-6 mt-1">
-                                                    <img src="{{category.imageUrl}}" class="banner-post"
+                                                    <img src="{{category.imageUrl}}" class="imageUrl"
                                                         alt=" Chưa có ảnh !" class="img-fluid" src="#">
                                                 </div>
                                             </div>

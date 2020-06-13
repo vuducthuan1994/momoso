@@ -17,8 +17,9 @@ var CategorySchema = new Schema({
         trim: true
     },
     isShow: {
-        type: Boolean,
-        default: true
+        type: String,
+        required: true,
+        default: 'on'
     },
     typeImage: {
         type: String,
