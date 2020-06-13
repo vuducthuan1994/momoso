@@ -1,0 +1,146 @@
+<!-- BEGIN PAGE LEVEL STYLES -->
+<script src="/plugins/ckeditor/ckeditor.js"></script>
+
+
+<!-- BEGIN PAGE LEVEL CUSTOM STYLES -->
+<link rel="stylesheet" type="text/css" href="/plugins/table/datatable/datatables.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/forms/theme-checkbox-radio.css">
+<link rel="stylesheet" type="text/css" href="/plugins/table/datatable/dt-global_style.css">
+<link rel="stylesheet" type="text/css" href="/plugins/table/datatable/custom_dt_custom.css">
+<!-- END PAGE LEVEL CUSTOM STYLES -->
+
+<style>
+    table tbody td.title-custom {
+        font-size: 15px;
+        font-weight: 600;
+        color: #e2a03f;
+    }
+
+    td {
+        max-width: 200px;
+        word-break: break-all;
+        text-align: left;
+    }
+</style>
+<!--  BEGIN CONTENT AREA  -->
+<div id="content" class="main-content">
+
+    <div class="layout-px-spacing">
+        {{#each errors}}
+        {{>admin/flash-message/error}}
+        {{/each}}
+        {{#each messages}}
+        {{>admin/flash-message/success}}
+        {{/each}}
+        <div class="row layout-top-spacing layout-spacing">
+            <div class="col-lg-12">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>Danh sách kho hàng</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area">
+                        <div class="table-responsive mb-4">
+                            <div class="text-center">
+                                <div class="seperator-header">
+                                    <a href="/admin/storage/add-storage">
+                                        <h4 class="">Thêm Kho </h4>
+                                    </a>
+                                </div>
+                                <table id="style-3" class="table style-3  table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên kho</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Số điện thoại liên hệ </th>
+                                            <th>Ghi chú</th>
+                                            <th>Thời gian</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each banners}}
+                                        <tr>
+                                            <td class="checkbox-column text-center"> {{@index}}</td>
+                                            <td class="title-custom">{{this.name}}</td>
+                                            <td class="text-center">{{this.address}}</td>
+                                            <td class="text-center">{{this.phone_number}}</td>
+                                            <td class="text-center">{{this.note}}</td>
+                                            <td>
+                                                <div>
+                                                    <span class="badge badge-secondary">Ngày cập nhật</span> <br> <span
+                                                        class="text-muted">{{ formatDate this.updated_date}} </span>
+                                                </div>
+                                                <div class="mt-2 mb-2">
+                                                    <span class="badge badge-secondary">Ngày tạo</span>
+                                                    <br>
+                                                    <span class="text-muted">{{ formatDate this.created_date}} </span>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <ul class="table-controls">
+                                                    <li><a title="Sửa banner"
+                                                            href="/admin/config/banner/edit-post/{{this._id}}"
+                                                            class="bs-tooltip" data-toggle="tooltip"
+                                                            data-placement="top" title=""
+                                                            data-original-title="Edit"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-edit-2 p-1 br-6 mb-1">
+                                                                <path
+                                                                    d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                                                </path>
+                                                            </svg></a></li>
+                                                    <li><a title="Xóa storage !"
+                                                            href="/admin/config/banner/delete/{{this._id}}"
+                                                            class="bs-tooltip" data-toggle="tooltip"
+                                                            data-placement="top" title=""
+                                                            data-original-title="Delete"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-trash p-1 br-6 mb-1">
+                                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                                <path
+                                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                </path>
+                                                            </svg></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{>admin/footer}}
+    </div>
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="/plugins/table/datatable/datatables.js"></script>
+    <script>
+        c3 = $('#style-3').DataTable({
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+                "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [5, 10, 20, 50],
+            "pageLength": 10
+        });
+        multiCheck(c3);
+    </script>
+    <!-- END PAGE LEVEL SCRIPTS -->
