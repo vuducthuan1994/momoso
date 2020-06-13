@@ -90,17 +90,17 @@ router.post('/', async function(req, res) {
                         fit: "cover"
                     }).webp({ quality: 100 })
                     .toFile(img_path, function(err) {
-                        console.log(err);
                         if (!err) {
                             req.flash('messages', 'Ảnh đã được resize đúng kích cỡ !');
                             content.imageUrl = `/img/category/${imgName}`;
                             resolve();
+                        } else {
+                            reject();
                         }
                     });
             }
         });
     });
-    console.log(content);
     Category.create(content, function(err, data) {
         if (!err) {
             req.flash('messages', 'Thêm thành công !')
