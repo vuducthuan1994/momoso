@@ -16,7 +16,7 @@ var isAuthenticated = function(req, res, next) {
 module.exports = function(cache) {
 
     const cacheController = require('./admin/cache')(cache);
-    const configGeneral = require('./admin/config/general')();
+    const configGeneral = require('./admin/config/general');
     const configBanner = require('./admin/config/banner');
     const about_us = require('./admin/config/about-us');
 
