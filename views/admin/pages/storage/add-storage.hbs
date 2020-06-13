@@ -11,7 +11,7 @@
                         <div class="widget-header">
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                    {{#if banner._id}}
+                                    {{#if storage._id}}
                                     <h4>Sửa Kho</h4>
                                     {{else}}
                                     <h4>Thêm Kho</h4>
@@ -27,7 +27,7 @@
                                 {{/each}}
                                 <div class="row">
                                     <div class="col-lg-10 col-10 col-md-10 mx-auto">
-                                        <form action="{{buildActionStorage banner._id}}"
+                                        <form action="{{buildActionStorage storage._id}}"
                                             method="post">
                                             <div class="form-group">
                                                 <label>Tên Kho </label>
@@ -62,7 +62,7 @@
                                                 <input type="number" name="phone_number" placeholder="Enter Phone Number..."
                                                     value="{{storage.phone_number}}" class="form-control" required="">
                                             </div>
-                                            {{#if banner._id}}
+                                            {{#if storage._id}}
                                             <input type="submit" class="mt-4 btn btn-primary" value="Update">
                                             {{else}}
                                             <input type="submit" class="mt-4 btn btn-primary" value="Create">

@@ -7,11 +7,13 @@ var StorageSchema = new Schema({
     nameStorage: {
         type: String,
         required: true,
+        unique: true,
         trim: true
     },
     shortcutName: {
         type: String,
         required: true,
+        unique: true,
         trim: true
     },
     address: {

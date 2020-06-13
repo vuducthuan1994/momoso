@@ -27,7 +27,12 @@ router.get('/', isAuthenticated, function(req, res) {
     });
 });
 router.get('/add-storage', isAuthenticated, function(req, res) {
-    res.render('admin/pages/storage/add-storage', { title: "Thêm Banner", layout: 'admin.hbs' });
+    res.render('admin/pages/storage/add-storage', {
+        errors: req.flash('errors'),
+        messages: req.flash('messages'),
+        title: "Thêm Banner",
+        layout: 'admin.hbs'
+    });
 });
 
 router.get('/edit-storage/:id', isAuthenticated, function(req, res) {
@@ -58,7 +63,11 @@ router.post('/', function(req, res) {
 
         } else {
             console.log(err);
-            req.flash('messages', 'Không thêm được kho hàng')
+            if (err.code = 11000) {
+                req.flash('errors', `Tên kho :  ${err.keyValue.nameStorage} đã tồn tại !`)
+            } else {
+                req.flash('errors', 'Không thêm được kho hàng , liên hệ admin')
+            }
             res.redirect('back');
         }
     });
