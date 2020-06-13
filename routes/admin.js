@@ -17,12 +17,12 @@ module.exports = function(cache) {
 
     const cacheController = require('./admin/cache')(cache);
     const configGeneral = require('./admin/config/general')();
-    const configBanner = require('./admin/config/banner')();
+    const configBanner = require('./admin/config/banner');
+    const about_us = require('./admin/config/about-us');
 
 
     const user = require('./admin/users')();
     const posts = require('./admin/posts')();
-    const about_us = require('./admin/config/about-us')();
     const text_sliders = require('./admin/text-sliders')();
     const projects = require('./admin/project')();
 
