@@ -1,0 +1,485 @@
+<body data-aos-easing="ease-out-cubic">
+    <div class="modal-wrapper">
+        <div class="overlay"> </div>
+        <div class="modal" id="article-modal">
+            <div class="content">
+                <div class="img-banner-modal">
+                    <a class="btn-close-modal "> <i class="fa fa-times" aria-hidden="true"></i></a>
+                    <img src="./resources/img/design-building-left.png" id="article-image">
+                    <div class="time-post">
+                        <i class="fa fa-2x fa-calendar-alt" aria-hidden="true"></i>
+                        <span id="article-public-date">21 Tháng 5 Năm 2020</span>
+                    </div>
+
+                </div>
+                <div class="description-modal-text">
+                    <h1 id="article-title">Tieu de</h1>
+                    <p id="article-content"> Mo ta</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loader">
+        <div class="count">100%</div>
+    </div>
+    <div class="container-fluid">
+        <header>
+            <div class="container-fluid d-flex justify-content-between menu-container">
+                <a class="logo-desktop" href="#">
+                    <div class="inner-logo-desktop">
+
+                    </div>
+                    {{!-- <img class="img-fluid" src="/img/logo.png"> --}}
+
+                </a>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="#gioi-thieu" class="nav-link expand" href="#">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#vi-tri" class="nav-link expand" href="#">Vị trí</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#kien-truc" class="nav-link expand">Kiến trúc</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#tien-ich" class="nav-link expand" href="#">Tiện ích</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#tin-tuc" class="nav-link expand" href="#">Tin tức</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#thu-vien" class="nav-link  expand" href="#">Thư viện</a>
+                    </li>
+                </ul>
+         
+               <a href="tel:{{config.phone_number}}" class="phone-call">
+                    <div class="contact-vi"> Liên Hệ</div>
+                    <div class="quick-alo-ph-circle"></div>
+                    <div class="quick-alo-ph-circle-fill"></div>
+                    <div class="quick-alo-ph-img-circle"> </div>
+                </a>
+         
+ 
+                <div class="header-right-mobile">
+                    <div class="call-now"></div>
+                    <div id="hamburger" href="#"><span></span></div>
+
+                </div>
+                <!-- MENU MOBIE -->
+                <nav class="navMobie">
+                    <div class="container-menu-mobie">
+                        <ul class="navMenu">
+                            <li><a href="#gioi-thieu">Giới thiệu</a></li>
+                            <hr>
+                            <li><a href="#vi-tri">Vị trí</a></li>
+                            <hr>
+                            <li><a href="#tien-ich">Tiện ích</a></li>
+                            <hr>
+                            <li><a href="#kien-truc">Kiến trúc</a></li>
+                            <hr>
+                            <li><a href="#tin-tuc">Tin tức</a></li>
+                            <hr>
+                            <li><a href="#thu-vien">Thư viện</a></li>
+                        </ul>
+                    </div>
+
+                </nav>
+                <!-- END MENU MOBIE -->
+            </div>
+        </header>
+
+
+        <section class="header-background-image">
+            <div class="clouds">
+                <img src="/resources/img/clouds/cloud1.png" style="--i:1;">
+                <img src="/resources/img/clouds/cloud2.png" style="--i:2;">
+                <img src="/resources/img/clouds/cloud3.png" style="--i:3;">
+                <img src="/resources/img/clouds/cloud4.png" style="--i:4;">
+                <img src="/resources/img/clouds/cloud5.png" style="--i:5;">
+            </div>
+            <div class="inner-background-image">
+                <a target="_blank" href="{{config.company_banner_link}}" class="company-logo"> <img
+                        class="img-fluid scroll"></a>
+                <a target="_blank" href="{{config.download_banner_link}}" class="fb-logo"> <img
+                        class="img-fluid scroll"></a>
+                <div class="container-slogan-text">
+                    <div class="slogan-text">
+                        <h2>Giữa Núi Đồi Cao Nguyên</h2>
+                        <h1>Viên Kim Cương </h1>
+                        <h1>Vẹn Sắc Toàn Bích</h1>
+                        {{!-- <div class="test"></div> --}}
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{!-- css 683 2813 3243-5rem  --}}
+        <div data-aos="flip-up" class="poem text-center">
+            <div class="container-poem-logo text-center">
+                <img class="img-fluid logo-poem" src="./resources/img/logo_poem.png">
+                <img class="img-fluid" src="./resources/img/background-poem.svg.png">
+            </div>
+
+        </div>
+        <div id="gioi-thieu" class="full-width">
+            <div class="detail-infomation">
+                <div data-aos="fade-left" class="info-left aos-init aos-animate">
+                    <div class="left">
+                        <div class="inner-left">
+                            {{!-- <h1>Thưởng Ngoạn <strong>Mỹ Cảnh</strong><br>
+                                <strong>Châu Âu</strong> Ngay Tại Nhà</h1>
+
+                            <p>Maison de Mộc Châu chính là viên kim cương vẹn sắc bích, sáng lấp lánh giữa núi đồi Tây
+                                Bắc. Cảnh sắc Châu Âu sang trọng,kiêu sa cùng hệ thống tiện ích toàzn mỹ tạo nên một
+                                chuẩn mực sống đô thị đẳng cấp mới lần đầu tiên xuất
+                                hiện tại Mộc Châu.</p> --}}
+                            {{{introduction.thuong_ngoan_my_canh}}}
+                        </div>
+                        <div class="inner-right list-group-info">
+
+                            <div class="d-flex w-100 justify-content-between">
+                                <div class="info-km-left">
+                                    <div>
+                                        <h1 class="h1-small">3o <span>Km</span></h1>
+                                        <p>Tổng diện tích quy hoạch dự án</p>
+                                    </div>
+                                    <div>
+                                        <h1 class="h1-small">7o <span>Km</span></h1>
+                                        <p>Diện tích các lô đất</p>
+                                    </div>
+                                    <div>
+                                        <h1 class="h1-small">9o <span>Km</span></h1>
+                                        <p>Diện tích đất ở</p>
+                                    </div>
+                                </div>
+                                <div class="info-km-right">
+                                    <div>
+                                        <h1 class="h1-small">5o <span>Km</span></h1>
+                                        <p>Mật độ xây dựng </p>
+                                    </div>
+                                    <div>
+                                        <h1 class="h1-small">2o <span>Km</span></h1>
+                                        <p>Diện tích đường nội bộ và các tiện ích dự án</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a id="hinh-anh-du-an" href="#" class="custom-button block-1 ">
+                        <div class="custom-button-div button-image-project"><span>Hình ảnh dự án</span></div>
+                        <div class="container-arrow">
+                                   {{> client/arrow-button}}
+                        </div>
+                    </a>
+                </div>
+                <div data-aos="fade-right" class="info-right">
+                    <img class="img-fluid object-fit-cover" src="/img/thuong_ngoan_my_canh_big.png">
+                    <img class="object-fit-cover" src="/img/thuong_ngoan_my_canh_small.png">
+                </div>
+            </div>
+        </div>
+
+        <section id="vi-tri" class="map-info">
+            <div class="vignette-pattern-left">
+                <img src="./resources/img/hoa-van-trai.png">
+            </div>
+            <div data-aos="zoom-in" class="container-image-map">
+
+                <div class=" custom-image-map"> </div>
+                <div data-aos-delay="400" data-aos="fade-down" class="Absolute-Center">
+                    <span class="bg-position-project">
+                        <img class="logo-position-project" src="./resources/img/logo-project-position.png">
+                        <span class="circle-fill-level-1"> </span>
+                        <div class="circle-fill-level-2"> </div>
+                    </span>
+
+                </div>
+            </div>
+            <div data-aos="fade-left" class="map-info-content-right">
+                {{{introduction.vi_tri_kim_cuong}}}
+                {{!-- <h1>Vị trí <strong>Kim Cương</strong> <br> <strong>Tầm Nhìn</strong> Đắt Giá </h1>
+                <p>Nằm tựa bên sườn đồi thảo nguyên xanh ngát, Maison de MộcChâu được thừa hưởng một vị trí đắt giá,
+                    thuận tiện kết nối tới trung tâm hành chính, kinh tế và các địa điểm tham quan du lịch nổi tiếng từ
+                    trục đường quốc lộ 43 nhanh chóng, dễ
+                    dàng.
+                </p> --}}
+                <a target="_blank" href="/pdf/pdf_map_position.pdf" class="custom-button ">
+                    <div class="custom-button-div button-style-map"><span>Bản Đồ Vị Trí</span></div>
+                    <div class="container-arrow">
+                             {{> client/arrow-button}}
+                    </div>
+                </a>
+                <div class="container-hoa-van-trai">
+                    <img src="./resources/img/hoavan.png">
+                </div>
+            </div>
+        </section>
+
+        <section data-aos="fade-up" data-aos-anchor-placement="top-bottom" id="tien-ich" class="utilities">
+            <div>
+                {{{introduction.tien_ich_toan_my}}}
+                {{!-- <h1><strong>Tiện Ích</strong> Toàn Mỹ</h1>
+                <p>Maison de Mộc Châu tạo ra một miền sống mới vượt lên trên cả những chuẩn mực tiện ích từng có. Đó là
+                    một đẳng cấp sống thời thượng giao hòa giữa nghệ thuật, thiên nhiên và tiện ích.</p> --}}
+            </div>
+            <img class="img-fluid" src="/img/tien_ich_toan_my_image.png">
+        </section>
+        <section id="kien-truc" class="design-building">
+            <div data-aos="fade-right" class="design-building-left">
+                <img src="/img/kien_truc_chau_au_image.png" class=" u-pos-tl u-fit u-object-fit-cover">
+            </div>
+            <div data-aos="fade-left" class="design-building-right">
+                <div class="design-building-content">
+                    <div class="inner-design-building-content">
+                        {{{introduction.kien_truc_chau_au}}}
+
+                        {{!-- <h1>
+                            Kiến Trúc <strong>Châu Âu</strong><br>Thời Thượng
+                        </h1>
+                        <p>Kiến trúc hoàn mỹ đậm chất nghệ thuật thời thượng được ghi dấu trong từng chi tiết. Mỗi căn
+                            biệt thự đều được thiết kế trang nhã, tinh tế gần gũi với thiên nhiên kết hợp cùng hệ thống
+                            váchkính an toàn trong phòng sẽ đem đến cho
+                            gia chủ góc nhìn toàn cảnh núi đồi thơ mộng.</p> --}}
+                        <a target="_blank" href="/pdf/pdf_example_house.pdf" class="custom-button ">
+                            <div class="custom-button-div button-style-house"><span>Mẫu Biệt Thự</span></div>
+                            <div class="container-arrow">
+                                           {{> client/arrow-button}}
+                            </div>
+                        </a>
+                        <div class="container-pattern-design-building">
+                            <img src="./resources/img/vignette-pattern-design-building.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section data-aos="fade-down" id="tin-tuc" class="news-section">
+            <div class="title-news d-flex justify-content-between">
+                <h2><strong>Tin tức</strong> Của Chúng Tôi</h2>
+                <div data-aos="fade-left" id="customNav">
+                    <span class="btn am-next">
+                        <svg viewBox="0 0 38.07 13.8799">
+                            <path
+                                d="M28.07,13.88c.43-1.27.85-2.63,1.24-4.08.26-.98.49-1.93.69-2.86-.2-.92-.43-1.88-.69-2.86-.39-1.44-.81-2.8-1.24-4.08a50.327,50.327,0,0,0,4.6,3.62,52.5714,52.5714,0,0,0,5.4,3.32,52.7769,52.7769,0,0,0-5.4,3.33A50.3479,50.3479,0,0,0,28.07,13.88Z" />
+                            <rect y="6.2878" width="30" height="1.4966" /></svg>
+                    </span>
+                    <span class="btn am-prev">
+                        <svg viewBox="0 0 38.07 13.8799">
+                            <path
+                                d="M28.07,13.88c.43-1.27.85-2.63,1.24-4.08.26-.98.49-1.93.69-2.86-.2-.92-.43-1.88-.69-2.86-.39-1.44-.81-2.8-1.24-4.08a50.327,50.327,0,0,0,4.6,3.62,52.5714,52.5714,0,0,0,5.4,3.32,52.7769,52.7769,0,0,0-5.4,3.33A50.3479,50.3479,0,0,0,28.07,13.88Z" />
+                            <rect y="6.2878" width="30" height="1.4966" /></svg>
+                    </span>
+                </div>
+            </div>
+            <div id="owl-carousel-1" class="owl-carousel">
+                {{#each posts}}
+                <div class="intro-post">
+                    <a class="image-post-container">
+                        <div data-id="{{this._id}}" class="inner-image-post-container">
+                            <img class=" img-fluid banner-image" src="{{this.thumb_image}}">
+                            <div class="time-post">
+                                <i class="fa fa-2x fa-calendar-alt" aria-hidden="true"></i>
+                                <span>{{getDateArtiles this.created_date}}</span>
+
+                                {{!-- <span>21 Tháng 5 Năm 2020</span> --}}
+                            </div>
+                        </div>
+
+                    </a>
+                    <h2>{{this.title}} </h2>
+                    <p>{{getDescriptionArtiles this.short_desc}}</p>
+                    <hr>
+                    <div class="more-info d-flex justify-content-between">
+                        <a data-id="{{this._id}}" class="more-info-title">TÌM HIỂU THÊM
+                            <svg viewBox="0 0 38.07 13.8799">
+                                <path
+                                    d="M28.07,13.88c.43-1.27.85-2.63,1.24-4.08.26-.98.49-1.93.69-2.86-.2-.92-.43-1.88-.69-2.86-.39-1.44-.81-2.8-1.24-4.08a50.327,50.327,0,0,0,4.6,3.62,52.5714,52.5714,0,0,0,5.4,3.32,52.7769,52.7769,0,0,0-5.4,3.33A50.3479,50.3479,0,0,0,28.07,13.88Z" />
+                                <rect y="6.2878" width="30" height="1.4966" /></svg>
+                        </a>
+                        <a target="_blank" href="{{this.fb_link}}" class="fb-link">
+                            <img class=" img-fluid " src="./resources/img/fb-link-news.png" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+                {{/each}}
+
+
+            </div>
+        </section>
+
+        <section data-aos="zoom-in-down" class="text-slider">
+            <div class="container-logo-niem-tin-tron-ven text-center">
+                <img src="./resources/img/niem_tin_tron_ven_logo.png">
+            </div>
+            <div class="container-text-slider">
+                <div id="owl-carousel-2" class="owl-carousel">
+
+                    {{#each textSliders}}
+                    <div class="inner-text-slider">
+                        {{{this}}}
+                    </div>
+                    {{/each}}
+                    {{!-- <div class="inner-text-slider">
+                        <h1><strong>Niềm Tin</strong> Đã Trọn Vẹn</h1>
+                        <p>Lorem lorem lorem đô thị kiểu mẫu tại Thái Bình và là phát triển uy tín các dự án chung
+                            cư phức hợp tại Hà Nội</p>
+                    </div> --}}
+                </div>
+                <div class="btn btn-pre-slider">
+                    <span><i class="fa fa-2x fa-long-arrow-left" aria-hidden="true"></i></span>
+                </div>
+                <div class="btn  btn-pre-next-slider">
+                    <span><i class="fa fa-2x fa-long-arrow-right" aria-hidden="true"></i></span>
+                </div>
+            </div>
+
+
+            <div class="logo-379">
+                <img src="./resources/img/logo-379.png" class="img-fluid">
+            </div>
+            <h2>Nhà Phát triển bất động sản uy tín</h2>
+
+        </section>
+
+        <section id="thu-vien" class="project-feed">
+            <div class="inner-project-feed">
+                <div class="project-feed-content-left">
+                    <a href="/img/big_project.png" data-aos="zoom-in-up"
+                        class="container-feed-image aos-init aos-animate">
+                        <img alt="{{projects.big_image}}" src="/img/big_project.png" class="img-fluid">
+                        <h1>{{projects.big_image}}</h1>
+                    </a>
+                </div>
+                <div class="project-feed-content-right">
+                    <div class="feed-left">
+                        <div data-aos="zoom-in-up" class="container-feed-image aos-init aos-animate">
+                            <a href="/img/small_project_1.png"> <img alt="{{projects.small_image_1}}"
+                                    src="/img/small_project_1.png" class="img-fluid"> </a>
+                            <h1>{{projects.small_image_1}}</h1>
+                        </div>
+
+                        <div data-aos="zoom-in-up" class="container-feed-image aos-init aos-animate">
+                            <a href="/img/small_project_2.png"> <img alt="{{projects.small_image_2}}"
+                                    src="/img/small_project_2.png" class="img-fluid"> </a>
+                            <h1>{{projects.small_image_2}}</h1>
+                        </div>
+                    </div>
+                    <div class="feed-right">
+                        <div data-aos="zoom-in-up" class="container-feed-image aos-init aos-animate">
+                            <a href="/img/small_project_3.png"> <img alt="{{projects.small_image_3}}"
+                                    src="/img/small_project_3.png" class="img-fluid"> </a>
+                            <h1>{{projects.small_image_3}}</h1>
+                        </div>
+                        <div data-aos="zoom-in-up" class="container-feed-image aos-init aos-animate">
+                            <a href="/img/small_project_4.png"> <img alt="{{projects.small_image_4}}"
+                                    src="/img/small_project_4.png" class="img-fluid"> </a>
+                            <h1>{{projects.small_image_4}}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <footer>
+            <div class="inner-footer">
+                <div class="above-footer">
+
+                    <ul class="u-ul-footer">
+                        <li>
+                            <div class="logo-maison-footer"></div>
+                        </li>
+                        <div class="container-MA">
+                            <li><span>M</span><span>MAIL</span></li>
+                            <li><span>A</span><span> {{config.address}}</span></li>
+                        </div>
+
+                    </ul>
+
+
+                    <ul class="bottom u-ul-footer">
+                        <li>Tổng Quan</li>
+                        <li> <a class="expand footer-menu-item ">Giới thiệu</a></li>
+                        <li> <a href="#vi-tri" class="expand footer-menu-item ">Vị trí</a></li>
+                        <li> <a href="#kien-truc" class="expand footer-menu-item ">Kiến trúc</a></li>
+                    </ul>
+
+
+                    <ul class="bottom  u-ul-footer">
+                        <li>Tiện ích</li>
+                        <li> <a href="#vi-tri" class="expand footer-menu-item ">Map</a></li>
+                        <li> <a class="expand footer-menu-item ">Khu lân cận</a></li>
+                    </ul>
+
+
+                    <ul class="bottom u-ul-footer">
+                        <li>Cập nhật</li>
+                        <li> <a href="#tin-tuc" class="expand footer-menu-item ">Tin tức</a></li>
+                        <li> <a href="#thu-vien" class="expand footer-menu-item ">Thư viện</a></li>
+                        <button id="scroll_to_top" class="btn btn-to-top"><i
+                                class="fa fa-3x fa-long-arrow-alt-up"></i></button>
+                    </ul>
+
+                </div>
+                <div class="below-footer d-flex justify-content-between">
+
+                    <div class="call-footer-right">
+                        <h1>{{config.phone_number}}</h1>
+                        <a href="tel:{{config.phone_number}}">
+                            <div class="call-now"></div>
+                        </a>
+                    </div>
+                    <div class="logo-footer-left">
+                        <img src="/img/logo_footer.png" class="img-fluid ">
+                    </div>
+                </div>
+
+            </div>
+            <div class="container-vignette-pattern">
+                <div class="vignette-pattern-item"> </div>
+                <div class="vignette-pattern-item"> </div>
+                <div class="vignette-pattern-item"> </div>
+                <div class="vignette-pattern-item"> </div>
+            </div>
+        </footer>
+    </div>
+    {{#each images_project}}
+    <div class="container-images-projects">
+        <a href="{{this}}" class="fresco" data-fresco-group="unique_name_x"></a>
+    </div>
+    {{/each}}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="./resources/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="./resources/js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.0/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.2.0/dist/simpleParallax.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="/plugins/fresco-2.3.0/dist/js/fresco.min.js"></script>
+
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            var listImagesProject = [];
+            $(".container-images-projects a").each(function () {
+                console.log($(this).attr('href'));
+                listImagesProject.push($(this).attr('href'));
+            })
+     
+            $('#hinh-anh-du-an').on('click', function (event) {
+                // the page will scroll up without this
+                event.preventDefault();
+                console.log("show image");
+                // Fresco API code goes here
+                Fresco.show(listImagesProject);
+            });
+        });
+    </script>
+</body>
+
+</html>

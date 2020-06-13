@@ -1,0 +1,101 @@
+<script src="/plugins/ckeditor/ckeditor.js"></script>
+<div id="content" class="main-content">
+    <div class="col-md-12 text-center">
+        <button id="submitForm" form="formSettings" type="submit"
+            class="btn btn-secondary position-relative mt-3 mb-3 ml-2">Cập nhật</button>
+
+    </div>
+    <div class="layout-px-spacing">
+          {{#each errors}}
+        {{>admin/flash-message/error}}
+        {{/each}}
+        {{#each messages}}
+        {{>admin/flash-message/success}}
+        {{/each}}
+        <div class="row layout-top-spacing">
+            <form class="col-xl-12 col-lg-12 col-sm-12  layout-spacing" id="formSettings" 
+                method="POST" action="/admin/text-sliders">
+
+                <div class="statbox widget box box-shadow mb-4">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>Danh sách Text Sliders</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="container-text-sliders">
+                        {{#each textSliders.content}}
+
+                        <div class="widget-content widget-content-area br-6 mb-2 mt-2">
+                            <div class="form-row mb-4">
+                                <div class="form-group col-md-6">
+
+                                    <a class="delete-silder-text btn btn-danger">Xóa</a>
+
+                                    <textarea id="text-slider-{{@index}}" name="content[]"
+                                        class="editor form-control"> {{this}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+
+                    </div>
+                </div>
+            </form>
+
+            <div style="display: none" class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+
+                <div id="base-text-slider"  class="statbox widget box box-shadow mb-4">
+                    <div lass="widget-content widget-content-area br-6 mb-2 mt-2">
+                        <div class="form-row mb-4">
+                                <div class="form-group col-md-6">
+                                <a class="delete-silder-text btn btn-danger">Xóa</a>
+                                <textarea  name="content[]" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <a id="add-text-slider" class="mt-1 mb-2 btn btn-primary">Thêm Text Slider</a>
+
+        </div>
+
+    </div>
+</div>
+<script src="/assets/js/clipboard/clipboard.min.js"></script>
+<script src="/assets/js/forms/custom-clipboard.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var countAddSlider = 0;
+        $(".editor").each(function () {
+            let id = $(this).attr('id');
+            let value = $(this).attr('value');
+            CKEDITOR.replace(id);
+            CKEDITOR.instances[id].setData(value);
+        });
+        function addTextSlider() {
+            countAddSlider++;
+            const textSlider = $('#base-text-slider').clone(true);
+            const newID = `new-text-slider-${countAddSlider}`;
+            $(textSlider).find('textarea').attr('id', newID);
+            $('#container-text-sliders').prepend(textSlider.children().clone(true));
+            CKEDITOR.replace(newID);
+
+
+        }
+
+        function deleteSliderText() {
+            console.log('xóa element')
+            $(this).parent().parent().parent().remove();
+        }
+        $('#add-text-slider').on('click', addTextSlider);
+        $('.delete-silder-text').on('click', deleteSliderText)
+    });
+
+
+</script>

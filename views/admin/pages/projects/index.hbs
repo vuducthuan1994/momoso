@@ -1,0 +1,126 @@
+<script src="/plugins/ckeditor/ckeditor.js"></script>
+<div id="content" class="main-content">
+    <div class="col-md-12 text-center">
+        <button id="submitForm" form="formSettings" type="submit"
+            class="btn btn-secondary position-relative mt-3 mb-3 ml-2">Cập nhật</button>
+
+    </div>
+    <div class="layout-px-spacing">
+        {{#each errors}}
+        {{>admin/flash-message/error}}
+        {{/each}}
+        {{#each messages}}
+        {{>admin/flash-message/success}}
+        {{/each}}
+        <div class="row layout-top-spacing">
+            <div class="col-xl-6 col-lg-6 col-sm-6  layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>Cấu hình chung</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area br-6">
+                        <form enctype="multipart/form-data" id="formSettings" method="POST" action="/admin/projects">
+                            <div class="form-row mb-4">
+                                <div class="form-group col-md-12">
+                                    <label for="">Ảnh to</label>
+                                    <input name="big_image" value="{{projects.content.big_image}}" type="text"
+                                        class="form-control" placeholder="Điền tên dự án">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Ảnh nhỏ</label>
+                                    <input name="small_image_1" value="{{projects.content.small_image_1}}"
+                                        type="text" class="form-control" placeholder="Điền tên dự án ">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Ảnh nhỏ</label>
+                                    <input name="small_image_2" value="{{projects.content.small_image_2}}"
+                                        type="text" class="form-control" placeholder="Điền tên dự án ">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Ảnh nhỏ</label>
+                                    <input name="small_image_3" value="{{projects.content.small_image_3}}"
+                                        type="text" class="form-control" placeholder="Điền tên dự án ">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Ảnh nhỏ</label>
+                                    <input name="small_image_4" value="{{projects.content.small_image_4}}"
+                                        type="text" class="form-control" placeholder="Điền tên dự án ">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-xl-6 col-lg-6 col-sm-6  layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>Cấu hình Files, Images</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area br-6">
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12 mb-4 mt-3">
+                                <label>Ảnh to tương ứng</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="big_project" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-2">
+                                    <img alt="Chưa có ảnh " class="img-fluid" src="/img/big_project.png">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12 mb-4 mt-3">
+                                <label>Ảnh nhỏ tương ứng</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="small_project_1" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-1">
+                                    <img alt=" Chưa có ảnh" class="img-fluid" src="/img/small_project_1.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12 mb-4 mt-3">
+                                <label>Ảnh nhỏ tương ứng</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="small_project_2" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-1">
+                                    <img alt=" Chưa có ảnh" class="img-fluid" src="/img/small_project_2.png">
+                                </div>
+                            </div>
+                        </div>
+              
+                           <div class="form-row mb-2">
+                            <div class="form-group col-md-12 mb-4 mt-3">
+                                <label>Ảnh nhỏ tương ứng</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="small_project_3" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-1">
+                                    <img alt=" Chưa có ảnh" class="img-fluid" src="/img/small_project_3.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12 mb-4 mt-3">
+                                <label>Ảnh nhỏ tương ứng</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="small_project_4" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-1">
+                                    <img alt=" Chưa có ảnh" class="img-fluid" src="/img/small_project_4.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

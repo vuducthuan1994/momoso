@@ -1,0 +1,11 @@
+# IDEs and editors
+.idea/
+.vs/
+.env
+.pk
+.pem
+.pub
+public/img
+public/artiles
+node_modules
+package-lock.json

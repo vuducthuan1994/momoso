@@ -1,0 +1,78 @@
+<!--  BEGIN CONTENT AREA  -->
+<div id="content" class="main-content">
+    <div class="layout-px-spacing">
+
+        <div class="row layout-top-spacing">
+
+
+            <div id="basic" class="col-lg-12 layout-spacing">
+
+                <div class="statbox widget box box-shadow">
+                    {{#each messages }}
+                    {{>admin/message}}
+                    {{/each}}
+                    {{#each validateErrors}}
+                    <div class="alert alert-danger mb-1" role="alert"> <button type="button" class="close"
+                            data-dismiss="alert" aria-label="Close"> <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-x close"
+                                data-dismiss="alert">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg></button> <strong>Validate!</strong> {{this.msg}} </div>
+                    {{/each}}
+
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>Chỉnh sửa người dùng !</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area">
+
+                        <div class="row">
+
+                            <div class="col-lg-6 col-12 mx-auto">
+                                <form action="/admin/users/edit-user" method="post">
+                                    <div class="form-group">
+                                        <label>Tên tài khoản</label>
+                                        <input readonly value="{{user.account}}" type="text" name="account"
+                                            placeholder="Điền tên tài khoản !" class="form-control" required="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input value="{{user.email}}" type="text" name="email"
+                                            placeholder="Điền email !" class="form-control" required="">
+                                    </div>
+                                            <div class="form-group">
+                                                          <label>Role</label>
+                                    <select name="role" class="form-control  basic">
+    <option selected="selected">admin</option>
+    <option>member</option>
+</select>
+                                            </div>
+
+                                    <div class="form-group">
+                                        <label>Mật khẩu mới</label>
+                                        <input type="text" name="hash_password" placeholder="Điền mật khẩu mới"
+                                            class="form-control" required="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Điền lại mật khẩu mới </label>
+                                        <input type="text" name="confirmPassword" placeholder="Nhập lại mật khẩu mới !"
+                                            class="form-control" required="">
+                                    </div>
+                                    <input type="submit" class="mt-4 btn btn-primary">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{>admin/footer}}
+
+</div>
+<!--  END CONTENT AREA  -->

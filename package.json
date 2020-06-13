@@ -1,0 +1,44 @@
+{
+    "name": "mp3youtube",
+    "version": "1.0.0",
+    "description": "mp3",
+    "main": "app.js",
+    "scripts": {
+        "test": "node test.js",
+        "start": "nodemon app.js",
+        "stop": "forever stop app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuducthuan1994/mp3youtube.git"
+    },
+    "author": "vuducthuan1994@gmail.com",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/vuducthuan1994/mp3youtube/issues"
+    },
+    "homepage": "https://github.com/vuducthuan1994/mp3youtube#readme",
+    "dependencies": {
+        "bcrypt": "^4.0.1",
+        "body-parser": "^1.19.0",
+        "check-disk-space": "^2.1.0",
+        "cheerio": "^1.0.0-rc.3",
+        "connect-flash": "^0.1.1",
+        "cookie-parser": "^1.4.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-handlebars": "^4.0.4",
+        "express-session": "^1.17.1",
+        "express-validator": "^6.4.1",
+        "formidable": "1.2.2",
+        "mongoose": "^5.9.10",
+        "node-cache": "^5.1.0",
+        "nodemon": "^2.0.3",
+        "passport": "^0.4.1",
+        "passport-local": "^1.0.0",
+        "request-promise": "^4.2.5",
+        "sharp": "^0.25.3",
+        "sitemap": "^6.1.2",
+        "uslug": "^1.0.4"
+    }
+}

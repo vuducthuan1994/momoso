@@ -1,0 +1,140 @@
+<div id="content" class="main-content">
+    <div class="col-md-12 text-center">
+        <button id="submitForm" form="formSettings" type="submit"
+            class="btn btn-secondary position-relative mt-3 mb-3 ml-2">Submit</button>
+
+    </div>
+    <div class="layout-px-spacing">
+        {{#each messages}}
+        <div class="mt-4 alert alert-success mb-2" role="alert"> <button type="button" class="close"
+                data-dismiss="alert" aria-label="Close"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="feather feather-x close" data-dismiss="alert">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg></button> <strong>Thông báo</strong> {{this}} </div>
+        {{/each}}
+        <div class="row layout-top-spacing">
+
+            <div class="col-xl-6 col-lg-6 col-sm-6  layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>Cấu hình chung</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area br-6">
+                        <form enctype="multipart/form-data" id="formSettings" method="POST"
+                            action="/admin/config/general">
+                            <div class="form-row mb-4">
+                                <div class="form-group col-md-12">
+                                    <label for="">Title Home</label>
+                                    <input name="title_home" value="{{config.content.title_home}}" type="text"
+                                        class="form-control" placeholder="Tiêu đề website">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Phone Number</label>
+                                    <input name="phone_number" value="{{config.content.phone_number}}" type="text"
+                                        class="form-control" placeholder="Enter phone number !">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Desc Home</label>
+                                    <textarea placeholder="Mô tả website " class="form-control" name="web_desc"
+                                        name="text">{{config.content.web_desc}}</textarea>
+
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Keywords</label>
+                                    <input name="keywords" value="{{config.content.keywords}}" type="text"
+                                        class="form-control" placeholder="Keywords website">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Mô tả footer </label>
+                                    <textarea placeholder="Mô tả footer " class="form-control" name="footer_desc"
+                                        name="text">{{config.content.footer_desc}}</textarea>
+
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="">Email</label>
+                                    <input name="email" value="{{config.content.email}}" type="url" class="form-control"
+                                        placeholder="Enter email...">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Google Analytic</label>
+                                    <input name="google_analytic" value="{{config.content.google_analytic}}" type="text"
+                                        class="form-control" placeholder="ID theo dõi google...">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Địa chỉ</label>
+                                    <input name="address" value="{{config.content.address}}" type="text"
+                                        class="form-control" placeholder="Địa chỉ dự án ">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-sm-6  layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>Cấu hình Files, Images</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area br-6">
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12 mb-4 mt-3">
+                                <label>Ảnh home page ( Hiển thị khi chia sẻ trang)</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="home_image" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-2">
+                                    <img alt="Chưa có ảnh " class="img-fluid" src="/img/home_image.png">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12 mb-4 mt-3">
+                                <label>Logo</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="logo" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-1">
+                                    <img alt=" Chưa có ảnh" class="img-fluid" src="/img/logo.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12 mb-4 mt-3">
+                                <label>Logo Footer</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="logo_footer" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-1">
+                                    <img alt=" Chưa có ảnh" class="img-fluid" src="/img/logo_footer.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12 mb-4 mt-3">
+                                <label>Shortcut Icon</label>
+                                <input accept=".ico" form="formSettings" name="shortcut_icon" type="file"
+                                    class="form-control-file">
+                                <div class="row col-md-6 mt-1">
+                                    <img alt=" Chưa có ảnh" class="img-fluid" src="/img/icon.ico">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="/assets/js/clipboard/clipboard.min.js"></script>
+<script src="/assets/js/forms/custom-clipboard.js"></script>
