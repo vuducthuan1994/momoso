@@ -46,7 +46,7 @@
                     </div>
                     <div class="widget-content widget-content-area">
                         <div class="table-responsive mb-4">
-                            <div class="text-center">
+                            <div>
                                 <div class="seperator-header">
                                     <a href="/admin/category/add-category">
                                         <h4 class="">Thêm Loại Sản Phẩm</h4>
@@ -58,6 +58,7 @@
                                             <th>STT</th>
                                             <th>Trạng thái</th>
                                             <th>Tên Loại SP</th>
+                                            <th>URL SEO</th>
                                             <th>Kích cỡ ảnh</th>
                                             <th>Ảnh đại diện</th>
                                             <th>Thời gian</th>
@@ -76,6 +77,7 @@
                                                 {{/if}}
                                             </td>
                                             <td class="text-center title-custom">{{this.name}}</td>
+                                              <td class="text-center title-custom">{{this.urlSeo}}</td>
                                             <td class="text-center">{{this.typeImage}}</td>
                                             <td class="text-center">
                                                 <span><img src="{{this.imageUrl}}" class="banner-category "
