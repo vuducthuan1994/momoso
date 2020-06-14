@@ -51,7 +51,6 @@ var ProductSchema = new Schema({
     },
     listImages: {
         type: Array,
-        required: true,
         default: []
     },
     category: {

@@ -68,7 +68,7 @@ router.post('/', function(req, res) {
             } else {
                 req.flash('errors', 'Không thêm được kho hàng , liên hệ admin')
             }
-            res.redirect('back');
+            // res.redirect('back');
         }
     });
 
