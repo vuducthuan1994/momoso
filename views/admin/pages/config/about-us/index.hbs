@@ -13,8 +13,28 @@
         {{>admin/flash-message/success}}
         {{/each}}
         <div class="row layout-top-spacing">
-            <form id="formSettings" enctype="multipart/form-data" method="POST" action="/admin/about-us">
+            <form id="formSettings" enctype="multipart/form-data" method="POST" action="/admin/config/about-us">
                 <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                    <div class="statbox widget box box-shadow mb-2">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Ảnh Banner </h4>
+                                    <p class="text-success">Kích cỡ chuẩn : 1770x630</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area br-6">
+                            <div class="form-group  col-md-12">
+                                <label>Ảnh to</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="banner-about-us" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-2">
+                                    <img alt="Chưa có ảnh " class="img-fluid" src="/img/about-us.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="statbox widget box box-shadow mb-4">
                         <div class="widget-header">
                             <div class="row">
@@ -34,45 +54,6 @@
                         </div>
                     </div>
 
-                    <div class="statbox widget box box-shadow mb-4">
-                        <div class="widget-header">
-                            <div class="row">
-                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                    <h4>Ảnh Banner</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="widget-content widget-content-area br-6">
-    
-        
-                                <div class="form-row col-md-12">
-                                   
-                                             <div class="form-group col-md-6">
-                                            <label>Ảnh to</label>
-                                            <input accept="image/jpeg,image/gif,image/png,image/x-eps"
-                                                form="formSettings" name="thuong_ngoan_my_canh_big" type="file"
-                                                class="form-control-file">
-                                            <div class="row col-md-6 mt-2">
-                                                <img alt="Chưa có ảnh " class="img-fluid"
-                                                    src="/img/thuong_ngoan_my_canh_big.png">
-                                            </div>
-                                        </div>
-                                  <div class="form-group col-md-6">
-                                            <label>Ảnh nhỏ</label>
-                                            <input accept="image/jpeg,image/gif,image/png,image/x-eps"
-                                                form="formSettings" name="thuong_ngoan_my_canh_small" type="file"
-                                                class="form-control-file">
-                                            <div class="row col-md-6 mt-2">
-                                                <img alt="Chưa có ảnh " class="img-fluid"
-                                                    src="/img/thuong_ngoan_my_canh_small.png">
-                                            </div>
-                                        </div>
-                                
-
-                                </div>
-                    
-                        </div>
-                    </div>
                 </div>
             </form>
         </div>

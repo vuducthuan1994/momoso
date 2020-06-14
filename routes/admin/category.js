@@ -58,6 +58,7 @@ router.get('/edit-category/:id', isAuthenticated, function(req, res) {
     })
 });
 
+
 // create category
 router.post('/', async function(req, res) {
     let resizeWidth = 370;
@@ -114,7 +115,6 @@ router.post('/', async function(req, res) {
             res.redirect('back');
         }
     });
-
 });
 //edit storage
 router.post('/edit-storage/:id', function(req, res) {
