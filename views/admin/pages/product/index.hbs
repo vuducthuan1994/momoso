@@ -13,14 +13,14 @@
 <!-- END PAGE LEVEL CUSTOM STYLES -->
 
 <style>
-    table tbody td.title-custom {
+    table tbody p.title-custom {
         font-size: 15px;
         font-weight: 600;
         color: #e2a03f;
     }
 
-    td {
-        max-width: 200px;
+    td p{
+        max-width: 150px;
         word-break: break-all;
         text-align: left;
     }
@@ -47,7 +47,7 @@
                     </div>
                     <div class="widget-content widget-content-area">
                         <div class="table-responsive mb-4">
-                            <div >
+                            <div>
                                 <div class="seperator-header">
                                     <a href="/admin/product/add-product">
                                         <h4 class="">Thêm sản phẩm </h4>
@@ -57,24 +57,34 @@
                                     <thead>
                                         <tr>
                                             <th>STT</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>Mã Sản Phẩm</th>
-                                            <th>Địa chỉ</th>
-                                            <th>Phone </th>
+                                            <th>Tên</th>
+                                            <th>Mã</th>
+                                            <th>Số lượng</th>
                                             <th>Ghi chú</th>
+                                            <th>Loại</th>
+                                            <th>Kho Chứa</th>
                                             <th>Thời gian</th>
-                                            <th >Action</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each products}}
                                         <tr>
                                             <td class="checkbox-column"> {{@index}}</td>
-                                            <td >{{this.name}}</td>
-                                            <td class=" title-custom">{{this.code}}</td>
-                                            <td >{{this.address}}</td>
-                                            <td >{{this.phone_number}}</td>
-                                            <td >{{this.note}}</td>
+                                            <td><p> {{this.name}}</p></td>
+                                            <td> <p  class=" title-custom"> {{this.code}}</p></td>
+                                            <td>{{this.quantity}}</td>
+                                            <td> <p>{{this.note}} </p></td>
+                                            <td>
+                                                {{#each this.category}}
+                                                 <p> {{this.name}}</p>
+                                                {{/each}}
+                                            </td>
+                                               <td>
+                                                {{#each this.storage}}
+                                                 <p> {{this.name}}</p>
+                                                {{/each}}
+                                            </td>
                                             <td>
                                                 <div>
                                                     <span class="badge badge-secondary">Ngày cập nhật</span> <br> <span
@@ -86,10 +96,10 @@
                                                     <span class="text-muted">{{ formatDate this.created_date}} </span>
                                                 </div>
                                             </td>
-                                            <td >
+                                            <td>
                                                 <ul class="table-controls">
-                                                    <li><a title="Sửa Thông Tin Kho Hàng"
-                                                            href="/admin/storage/edit-storage/{{this._id}}"
+                                                    <li><a title="Sửa Thông Tin Sản Phẩm"
+                                                            href="/admin/product/edit-product/{{this._id}}"
                                                             class="bs-tooltip" data-toggle="tooltip"
                                                             data-placement="top" title=""
                                                             data-original-title="Edit"><svg
@@ -104,8 +114,8 @@
                                                             </svg></a></li>
                                                     {{!-- href="/admin/storage/delete/{{this._id}}"  --}}
                                                     <li data-toggle="modal" data-target="#exampleModal"
-                                                        data-storageid="{{this._id}}" class="btn-delete-storage"><a
-                                                            title="Xóa Kho Hàng !" class="bs-tooltip"
+                                                        data-productid="{{this._id}}" class="btn-delete-storage"><a
+                                                            title="Xóa Sản Phẩm" class="bs-tooltip"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Delete"><svg
                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
@@ -137,7 +147,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Xóa Kho Hàng</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa Sản Phẩm</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -148,7 +158,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p class="modal-text"> Vui lòng xác thực để xóa kho hàng ! </p>
+                        <p class="modal-text"> Vui lòng xác thực để xóa sản phẩm! </p>
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Hủy</button>
@@ -175,10 +185,10 @@
             "pageLength": 10
         });
         multiCheck(c3);
-        $('.btn-delete-storage').on('click', handleDeleteStorage);
-        function handleDeleteStorage() {
-            var idStorageDelete = $(this).data("storageid");
-            $('#delete-modal').attr('href', `/admin/storage/delete/${idStorageDelete}`);
+        $('.btn-delete-storage').on('click', deleteProduct);
+        function deleteProduct() {
+            var productId = $(this).data("productid");
+            $('#delete-modal').attr('href', `/admin/product/delete/${productId}`);
         }
     </script>
     <!-- END PAGE LEVEL SCRIPTS -->

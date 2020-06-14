@@ -64,7 +64,7 @@ router.post('/', function(req, res) {
         } else {
             console.log(err);
             if (err.code = 11000) {
-                req.flash('errors', `Tên kho :  ${err.keyValue.nameStorage} đã tồn tại !`)
+                req.flash('errors', `Thông tin lỗi:  ${err.errmsg}`)
             } else {
                 req.flash('errors', 'Không thêm được kho hàng , liên hệ admin')
             }

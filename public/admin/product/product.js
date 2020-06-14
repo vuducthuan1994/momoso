@@ -1,0 +1,186 @@
+$(document).ready(function() {
+    initSelectTag();
+    getPriceVND();
+
+    function addImageProduct() {
+        const imageProduct = $('#base-image-product').clone(true);
+        $('#container-images-product').prepend(imageProduct.children().clone(true));
+    }
+
+    function deleteImageProduct() {
+        $(this).parent().parent().remove();
+    }
+
+    $('#add-product-image').on('click', addImageProduct);
+    $('.delete-image-product').on('click', deleteImageProduct)
+
+
+
+    $('#product-price').on('input', function() {
+        getPriceVND();
+    });
+});
+
+function initTagSelected(categoryList, storageList) {
+    const categorysSelected = $('#product-category').data('selected');
+    if (categorysSelected) {
+        categorysSelected.forEach((selected) => {
+            categoryList.forEach((category) => {
+                if (category._id == selected._id) {
+                    $('#product-category').val(category.id);
+                    $('#product-category').trigger('change.select2');
+                }
+            });
+        });
+    }
+
+    const storageSlected = $('#product-storage').data('selected');
+    if (storageSlected) {
+        storageSlected.forEach((selected) => {
+            storageList.forEach((storage) => {
+                if (storage._id == selected._id) {
+                    $('#product-storage').val(storage.id);
+                    $('#product-storage').trigger('change.select2');
+                }
+            });
+        });
+    }
+}
+
+function initSelectTag() {
+    var data_categorys = $('#product-category').data('categorys');
+    var data_storages = $('#product-storage').data('storages');
+
+    // format data for selectTag
+    data_categorys.forEach((element, index) => {
+        element['text'] = element.name;
+        element['id'] = index
+    });
+    data_storages.forEach((element, index) => {
+        element['text'] = element.name;
+        element['id'] = index
+    });
+
+    var selectagCategory = $("#product-category").select2({
+        multiple: true,
+        data: data_categorys
+    });
+    var selectagStorage = $("#product-storage").select2({
+        multiple: true,
+        data: data_storages
+    });
+    initTagSelected(data_categorys, data_storages);
+}
+
+function getPriceVND() {
+    var price = parseInt($('#product-price').val());
+    console.log(price);
+    price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+    $('#show-price').text(price);
+}
+
+var slugFromTitle = function(str) {
+    str = str.toLowerCase();
+    str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+    str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+    str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+    str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+    str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+    str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+    str = str.replace(/(đ)/g, 'd');
+    str = str.replace(/([^0-9a-z-\s])/g, '');
+    str = str.replace(/(\s+)/g, '-');
+    str = str.replace(/^-+/g, '');
+    str = str.replace(/-+$/g, '');
+    return str;
+};
+
+$('#product-name').on('input', function() {
+    var slugFromName = slugFromTitle($('#product-name').val());
+    $('#product-url-seo').val(slugFromName);
+});
+
+
+let handlerForm = function(idProduct) {
+    var formData = $('#formProduct').serializeArray();
+
+    var newFormData = new FormData();
+
+    // lấy tất cả file từ form 
+    $.each($("input[type='file']"), function(index, file) {
+        newFormData.append('files[]', $('input[type=file]')[index].files[0]);
+    });
+    // lấy tất cả file từ form 
+
+
+    let categorysSelected = $("#product-category").select2('data');
+    let storagesSelected = $("#product-storage").select2('data');
+    for (var i in formData) {
+        if (formData[i].name == 'detail') {
+            formData[i].value = CKEDITOR.instances['product-detail'].getData();
+        }
+        if (formData[i].name == 'storage') {
+            formData[i].value = JSON.stringify(storagesSelected);
+        }
+        if (formData[i].name == 'category') {
+            formData[i].value = JSON.stringify(categorysSelected);
+        }
+        newFormData.append(formData[i].name, formData[i].value);
+    }
+    $('.submitForm div').removeClass('d-none');
+    $.ajax({
+        url: !idProduct ? '/admin/product' : `/admin/product/edit-product/${idProduct}`,
+        data: newFormData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        type: 'POST', // For jQuery < 1.9
+        success: function(data) {
+            console.log(data);
+            if (data.success) {
+                $('.submitForm div').addClass('d-none');
+                swal({
+                    title: 'Thành công',
+                    text: `Sản phẩm ${data.data.name} đã được thêm vào hệ thống`,
+                    type: 'success',
+                    padding: '2em'
+                });
+            } else {
+                $('.submitForm div').addClass('d-none');
+                swal({
+                    title: 'Thất bại',
+                    text: `Không thêm được sản phẩm , mã lỗi : ${data.msg}`,
+                    type: 'error',
+                    padding: '2em'
+                });
+            }
+        }
+    });
+}
+
+$('.submitForm').on('click', function(event) {
+
+    var formStatus = $('#formProduct').validate({
+        errorClass: "text-danger",
+        messages: {
+            name: {
+                required: "Vui lòng điền tên sản phẩm !"
+            },
+            price: {
+                required: "bạn chưa chọn giá sản phẩm"
+            }
+        }
+    }).form();
+    if (formStatus) {
+        const idProduct = $(this).data('productid');
+        handlerForm(idProduct);
+    } else {
+        swal({
+            title: 'Validate Error !',
+            text: "Vui lòng kiểm tra lại các thông tin sản phẩm !",
+            type: 'error',
+            padding: '2em'
+        });
+    }
+});

@@ -2,10 +2,17 @@
 
 <script src="/plugins/ckeditor/ckeditor.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="/plugins/select2/select2.min.js"></script>
 <link href="/plugins/loaders/custom-loader.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/plugins/select2/select2.min.css">
 <style>
     .error {
         color: red !improtant;
+    }
+    #container-images-product img {
+        max-width: 250px;
+        height: auto;
+        object-fit: cover;
     }
 </style>
 <div id="content" class="main-content">
@@ -64,20 +71,23 @@
                                             <div class="form-group">
                                                 <label>New or Sale</label>
                                                 <select required="" name="type" class="form-control col-md-6">
-                                                    <option value="new">NEW</option>
-                                                    <option value="sale">SALE</option>
+                                                    <option {{selected 'new' product.type }} value="new">NEW</option>
+                                                    <option {{selected 'sale' product.type }} value="sale">SALE</option>
                                                 </select>
 
                                             </div>
                                             <div class="form-group">
-                                                <label> LOẠI SẢN PHẨM</label>
-                                                <select id="product-category" name="category"
+                                                <label> Kho Hàng</label>
+                                                <select data-selected="{{storageSelected}}" name="storage"
+                                                    data-storages="{{storages}}" id="product-storage" required=""
                                                     class="form-control col-md-6">
-                                                    {{#each categorys}}
-                                                    <option data-idcategory="{{this._id}}" value="{{this.urlSeo}}">
-                                                        {{this.name}}
-                                                    </option>
-                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> LOẠI SẢN PHẨM</label>
+                                                <select data-selected="{{categorySelected}}" required=""
+                                                    data-categorys="{{categorys}}" id="product-category" name="category"
+                                                    class="form-control col-md-6">
                                                 </select>
 
                                             </div>
@@ -104,38 +114,37 @@
                                             <a id="add-product-image" class="btn btn-primary mb-4">Thêm ảnh sản phẩm</a>
                                             <div id="container-images-product" class="form-group row">
                                                 {{#each product.listImages}}
-
+                                                <div class="col-lg-4 col-md-4 mb-2 ">
+                                                    <div class="form-group">
+                                                        <a class="delete-image-product btn btn-danger">Xóa</a>
+                                                        <br>
+                                                        <img src="{{this}}" alt="Ảnh đã bị xóa khỏi server">
+                                                    </div>
+                                                </div>
                                                 {{/each}}
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Mô tả sản phẩm</label>
                                                 <textarea id="product-detail" name="detail" class="ckeditor" required=""
-                                                    value="hahaha" placeholder="Enter description of product">
+                                                    placeholder="Enter detail of product....">
                                                  {{{product.detail}}}
                                                 </textarea>
                                             </div>
 
-
                                         </form>
-                                        {{#if post._id}}
+                                        {{#if product._id}}
 
-                                        <button class=" submitForm btn btn-secondary btn-lg mb-3 mr-3">
-                                            <div class="spinner-grow text-white mr-2 align-self-center loader-sm"></div>
+                                        <button data-productid="{{product._id}}"   class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
+                                            <div class=" d-none spinner-grow text-white mr-2 align-self-center loader-sm"></div>
                                             Update
                                         </button>
                                         {{else}}
-                                        <button class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
-                                            <div
-                                                class="d-none spinner-grow text-white mr-2 align-self-center loader-sm">
-                                            </div>
+                                        <button  class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
+                                            <div class="d-none spinner-grow text-white mr-2 align-self-center loader-sm"> </div>
                                             Create
                                         </button>
                                         {{/if}}
-                                        <div class="d-flex justify-content-between mx-5 mt-3 mb-5">
-
-
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -159,141 +168,4 @@
         {{>admin/footer}}
 
     </div>
-    <script>
-        $(document).ready(function () {
-
-            function addImageProduct() {
-                const imageProduct = $('#base-image-product').clone(true);
-                $('#container-images-product').prepend(imageProduct.children().clone(true));
-            }
-
-            function deleteImageProduct() {
-                $(this).parent().parent().remove();
-            }
-
-            $('#add-product-image').on('click', addImageProduct);
-            $('.delete-image-product').on('click', deleteImageProduct)
-
-
-            getPriceVND();
-            $('#product-price').on('input', function () {
-                getPriceVND();
-            });
-        });
-
-        function getPriceVND() {
-            var price = parseInt($('#product-price').val());
-            price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
-            $('#show-price').text(price);
-        }
-
-        var slugFromTitle = function (str) {
-            str = str.toLowerCase();
-            str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
-            str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
-            str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
-            str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
-            str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
-            str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
-            str = str.replace(/(đ)/g, 'd');
-            str = str.replace(/([^0-9a-z-\s])/g, '');
-            str = str.replace(/(\s+)/g, '-');
-            str = str.replace(/^-+/g, '');
-            str = str.replace(/-+$/g, '');
-            return str;
-        };
-
-        $('#product-name').on('input', function () {
-            var slugFromName = slugFromTitle($('#product-name').val());
-            console.log(slugFromName);
-            $('#product-url-seo').val(slugFromName);
-        });
-
-
-        let handlerForm = function () {
-            var formData = $('#formProduct').serializeArray();
-            const idCategorySelected = $("select#product-category option").filter(":selected").data('idcategory');
-            const nameCategorySelected = $("select#product-category option").filter(":selected").text().trim();
-            const urlSeo = $("select#product-category option").filter(":selected").val();
-            categorySelected = {
-                id: idCategorySelected,
-                name: nameCategorySelected,
-                urlSeo: urlSeo
-            }
-            var newFormData = new FormData();
-
-            // lấy tất cả file từ form 
-            $.each($("input[type='file']"), function (index, file) {
-                newFormData.append('files[]', $('input[type=file]')[index].files[0]);
-            });
-            // lấy tất cả file từ form 
-
-            for (var i in formData) {
-                if (formData[i].name == 'detail') {
-                    formData[i].value = CKEDITOR.instances['product-detail'].getData();
-                }
-                if (formData[i].name == 'category') {
-                    formData[i].value = JSON.stringify(categorySelected);
-                }
-                newFormData.append(formData[i].name, formData[i].value);
-            }
-            $('.submitForm div').removeClass('d-none');
-            $.ajax({
-                url: '/admin/product',
-                data: newFormData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: 'POST',
-                type: 'POST', // For jQuery < 1.9
-                success: function (data) {
-                    console.log(data);
-                    if (data.success) {
-                        $('.submitForm div').addClass('d-none');
-                        swal({
-                            title: 'Thành công',
-                            text: `Sản phẩm ${data.data.name} đã được thêm vào hệ thống`,
-                            type: 'success',
-                            padding: '2em'
-                        });
-                    } else {
-                        $('.submitForm div').addClass('d-none');
-                        swal({
-                            title: 'Thất bại',
-                            text: `Không thêm được sản phẩm , mã lỗi : ${data.msg}`,
-                            type: 'error',
-                            padding: '2em'
-                        });
-                    }
-                }
-            });
-        }
-
-        $('.submitForm').on('click', function (event) {
-            event.preventDefault();
-            var formStatus = $('#formProduct').validate({
-                errorClass: "text-danger",
-                messages: {
-                    name: {
-                        required: "Vui lòng điền tên sản phẩm !"
-                    },
-                    password: {
-                        required: "Please enter your password"
-                    }
-                }
-            }).form();
-            if (formStatus) {
-                handlerForm();
-            }
-            else {
-                swal({
-                    title: 'Validate Error !',
-                    text: "Vui lòng kiểm tra lại các thông tin sản phẩm !",
-                    type: 'error',
-                    padding: '2em'
-                });
-            }
-        });
-
-
-    </script>
+    <script src="/admin/product/product.js"></script>

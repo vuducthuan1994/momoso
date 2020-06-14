@@ -213,6 +213,15 @@ module.exports = {
     checked(currentValue) {
         return currentValue ? 'checked' : '';
     },
+    selected(option, value) {
+        if (option && value) {
+            return option.toLowerCase() == value.toLowerCase() ? 'selected' : '';
+        } else {
+            if (option == 'new') {
+                return 'selected';
+            }
+        }
+    },
     getStatusPost(isPublic) {
         if (isPublic) {
             return 'Đã xuất bản';

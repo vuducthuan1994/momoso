@@ -55,10 +55,14 @@ var ProductSchema = new Schema({
         default: []
     },
     category: {
-        type: Object,
+        type: Array,
         require: true,
-        trim: true,
-        default: null
+        default: []
+    },
+    storage: {
+        type: Array,
+        require: true,
+        default: []
     },
     price: {
         type: Number,
