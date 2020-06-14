@@ -116,9 +116,10 @@
                                                 {{#each product.listImages}}
                                                 <div class="col-lg-4 col-md-4 mb-2 ">
                                                     <div class="form-group">
-                                                        <a class="delete-image-product btn btn-danger">Xóa</a>
+                                                        <a data-path="{{this}}" class="delete-image-product btn btn-danger">Xóa</a>
                                                         <br>
                                                         <img src="{{this}}" alt="Ảnh đã bị xóa khỏi server">
+                                                        <input  class="d-none currentImage" value="{{this}}">
                                                     </div>
                                                 </div>
                                                 {{/each}}

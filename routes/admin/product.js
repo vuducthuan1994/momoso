@@ -165,8 +165,36 @@ router.post('/', isAuthenticated, async function(req, res) {
     });
 });
 
+router.post('/deleteImage', function(req, res) {
+    console.log("hahahaha");
+
+    const form = formidable({ multiples: true });
+
+    form.parse(req);
+    form.on('field', function(fieldName, fieldValue) {
+        if (fieldName == 'url') {
+            const filePath = 'public' + fieldValue;
+            fs.unlink(filePath, function(err) {
+                if (!err) {
+                    res.json({
+                        success: true,
+                        msg: 'Ảnh đã xóa khỏi hệ thống'
+                    });
+                } else {
+                    res.json({
+                        success: false,
+                        msg: 'Không xóa được ảnh khỏi hệ thống'
+                    });
+                }
+            });
+        }
+    });
+
+});
+
 //edit product
 router.post('/edit-product/:id', async function(req, res) {
+    console.log("edit product")
     const idProduct = req.params.id;
     let newListImage = [];
     let content = {};
@@ -180,6 +208,9 @@ router.post('/edit-product/:id', async function(req, res) {
         }
         if (fieldName == 'category' || fieldName == 'storage') {
             content[fieldName] = JSON.parse(fieldValue);
+        }
+        if (fieldName == 'currentImages') {
+            newListImage = newListImage.concat(JSON.parse(fieldValue));
         }
     });
 
@@ -202,8 +233,9 @@ router.post('/edit-product/:id', async function(req, res) {
     });
     form.on('end', async function() {
         await delay(2000);
+        delete content.currentImages;
         content['listImages'] = newListImage;
-        Product.updateOne({ _id: idProduct }, content, function(err, product) {
+        Product.findOneAndUpdate({ _id: idProduct }, content, function(err, product) {
             if (!err) {
                 req.res.json({
                     success: true,

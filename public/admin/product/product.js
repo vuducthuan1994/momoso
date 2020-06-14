@@ -9,6 +9,39 @@ $(document).ready(function() {
 
     function deleteImageProduct() {
         $(this).parent().parent().remove();
+        const path = $(this).data('path');
+        if (path) {
+            let formData = new FormData();
+            formData.append('url', path)
+            $.ajax({
+                url: `/admin/product/deleteImage`,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST', // For jQuery < 1.9
+                success: function(data) {
+                    if (data.success) {
+                        swal({
+                            title: 'Thành công',
+                            text: `Ảnh đã xóa khỏi hệ thống, vui lòng update !`,
+                            type: 'success',
+                            padding: '2em'
+                        });
+                    } else {
+                        swal({
+                            title: 'Thất bại',
+                            text: `Không xóa được ảnh khỏi hệ thống`,
+                            type: 'error',
+                            padding: '2em'
+                        });
+                    }
+                }
+            });
+        }
+
+
     }
 
     $('#add-product-image').on('click', addImageProduct);
@@ -21,29 +54,40 @@ $(document).ready(function() {
     });
 });
 
+function getListCurrentImages() {
+    let results = [];
+    $(".currentImage").each(function() {
+        results.push($(this).val());
+    });
+    return JSON.stringify(results);
+};
+
 function initTagSelected(categoryList, storageList) {
+    let optionsCategorySelected = [];
     const categorysSelected = $('#product-category').data('selected');
     if (categorysSelected) {
         categorysSelected.forEach((selected) => {
             categoryList.forEach((category) => {
                 if (category._id == selected._id) {
-                    $('#product-category').val(category.id);
-                    $('#product-category').trigger('change.select2');
+                    optionsCategorySelected.push(category.id);
                 }
             });
         });
+        $('#product-category').val(optionsCategorySelected).trigger('change.select2');
     }
 
+    let optionsStorageSelected = [];
     const storageSlected = $('#product-storage').data('selected');
     if (storageSlected) {
         storageSlected.forEach((selected) => {
             storageList.forEach((storage) => {
                 if (storage._id == selected._id) {
-                    $('#product-storage').val(storage.id);
-                    $('#product-storage').trigger('change.select2');
+                    optionsStorageSelected.push(storage.id);
                 }
             });
         });
+        $('#product-storage').val(optionsStorageSelected).trigger('change.select2');
+
     }
 }
 
@@ -127,6 +171,11 @@ let handlerForm = function(idProduct) {
         }
         newFormData.append(formData[i].name, formData[i].value);
     }
+
+    if (idProduct) {
+        const currentImages = getListCurrentImages();
+        newFormData.append('currentImages', currentImages);
+    }
     $('.submitForm div').removeClass('d-none');
     $.ajax({
         url: !idProduct ? '/admin/product' : `/admin/product/edit-product/${idProduct}`,
@@ -142,7 +191,7 @@ let handlerForm = function(idProduct) {
                 $('.submitForm div').addClass('d-none');
                 swal({
                     title: 'Thành công',
-                    text: `Sản phẩm ${data.data.name} đã được thêm vào hệ thống`,
+                    text: idProduct ? `Sản phẩm ${data.data.name} đã update thành công !` : `Sản phẩm ${data.data.name} đã được thêm vào hệ thống`,
                     type: 'success',
                     padding: '2em'
                 });
@@ -169,6 +218,9 @@ $('.submitForm').on('click', function(event) {
             },
             price: {
                 required: "bạn chưa chọn giá sản phẩm"
+            },
+            urlSeo: {
+                required: "URL Sản phẩm không được để trống"
             }
         }
     }).form();
