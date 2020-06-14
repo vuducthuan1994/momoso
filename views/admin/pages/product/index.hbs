@@ -19,7 +19,7 @@
         color: #e2a03f;
     }
 
-    td p{
+    td p {
         max-width: 150px;
         word-break: break-all;
         text-align: left;
@@ -71,18 +71,24 @@
                                         {{#each products}}
                                         <tr>
                                             <td class="checkbox-column"> {{@index}}</td>
-                                            <td><p> {{this.name}}</p></td>
-                                            <td> <p  class=" title-custom"> {{this.code}}</p></td>
+                                            <td>
+                                                <p> {{this.name}}</p>
+                                            </td>
+                                            <td>
+                                                <p class=" title-custom"> {{this.code}}</p>
+                                            </td>
                                             <td>{{this.quantity}}</td>
-                                            <td> <p>{{this.note}} </p></td>
+                                            <td>
+                                                <p>{{this.note}} </p>
+                                            </td>
                                             <td>
                                                 {{#each this.category}}
-                                                 <p> {{this.name}}</p>
+                                                <p> {{this.name}}</p>
                                                 {{/each}}
                                             </td>
-                                               <td>
+                                            <td>
                                                 {{#each this.storage}}
-                                                 <p> {{this.name}}</p>
+                                                <p> {{this.name}}</p>
                                                 {{/each}}
                                             </td>
                                             <td>
@@ -112,7 +118,6 @@
                                                                     d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
                                                                 </path>
                                                             </svg></a></li>
-                                                    {{!-- href="/admin/storage/delete/{{this._id}}"  --}}
                                                     <li data-toggle="modal" data-target="#exampleModal"
                                                         data-productid="{{this._id}}" class="btn-delete-storage"><a
                                                             title="Xóa Sản Phẩm" class="bs-tooltip"
