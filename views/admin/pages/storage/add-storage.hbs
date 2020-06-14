@@ -27,19 +27,18 @@
                                 {{/each}}
                                 <div class="row">
                                     <div class="col-lg-10 col-10 col-md-10 mx-auto">
-                                        <form action="{{buildActionStorage storage._id}}"
-                                            method="post">
+                                        <form action="{{buildActionStorage storage._id}}" method="post">
                                             <div class="form-group">
                                                 <label>Tên Kho </label>
                                                 <input value="{{storage.nameStorage}}" type="text" name="nameStorage"
                                                     placeholder="Tên Kho..." class="form-control" required="">
                                             </div>
-                                               <div class="form-group">
+                                            <div class="form-group">
                                                 <label>Tên viết tắt </label>
                                                 <input value="{{storage.shortcutName}}" type="text" name="shortcutName"
                                                     placeholder="Tên viết tắt..." class="form-control" required="">
                                             </div>
-                                                 <div class="form-group">
+                                            <div class="form-group">
                                                 <label>Địa chỉ kho hàng </label>
                                                 <input value="{{storage.address}}" type="text" name="address"
                                                     placeholder="Địa chỉ kho hàng..." class="form-control" required="">
@@ -50,17 +49,17 @@
                                                         <span class="input-group-text">Ghi chú
                                                         </span>
                                                     </div>
-                                                    <textarea minlength="0" required=""
-                                                        placeholder="Enter note... " name="note"
-                                                        class="form-control"
+                                                    <textarea minlength="0" required="" placeholder="Enter note... "
+                                                        name="note" class="form-control"
                                                         aria-label="With textarea">{{storage.note}}</textarea>
                                                 </div>
 
                                             </div>
                                             <div class="form-group">
                                                 <label>Số điện thoại</label>
-                                                <input type="number" name="phone_number" placeholder="Enter Phone Number..."
-                                                    value="{{storage.phone_number}}" class="form-control" required="">
+                                                <input type="number" name="phone_number"
+                                                    placeholder="Enter Phone Number..." value="{{storage.phone_number}}"
+                                                    class="form-control" required="">
                                             </div>
                                             {{#if storage._id}}
                                             <input type="submit" class="mt-4 btn btn-primary" value="Update">

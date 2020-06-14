@@ -13,18 +13,17 @@
 <!-- END PAGE LEVEL CUSTOM STYLES -->
 
 <style>
-    <style>.banner-category {
-        max-width: 150px;
-    }
-    .banner-category {
-        max-width: 150px;
-    }
     table tbody td.title-custom {
         font-size: 15px;
         font-weight: 600;
         color: #e2a03f;
     }
-</style>
+
+    td {
+        max-width: 200px;
+        word-break: break-all;
+        text-align: left;
+    }
 </style>
 <!--  BEGIN CONTENT AREA  -->
 <div id="content" class="main-content">
@@ -42,50 +41,40 @@
                     <div class="widget-header">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>Danh sách loại sản phẩm</h4>
+                                <h4>Danh sách kho hàng</h4>
                             </div>
                         </div>
                     </div>
                     <div class="widget-content widget-content-area">
                         <div class="table-responsive mb-4">
-                            <div>
+                            <div class="text-center">
                                 <div class="seperator-header">
-                                    <a href="/admin/category/add-category">
-                                        <h4 class="">Thêm Loại Sản Phẩm</h4>
+                                    <a href="/admin/storage/add-storage">
+                                        <h4 class="">Thêm Kho </h4>
                                     </a>
                                 </div>
                                 <table id="style-3" class="table style-3  table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">STT</th>
-                                            <th class="text-center">Trạng thái</th>
-                                            <th class="text-center">Tên Loại SP</th>
-                                            <th class="text-center">URL SEO</th>
-                                            <th class="text-center">Kích cỡ ảnh</th>
-                                            <th class="text-center">Ảnh đại diện</th>
-                                            <th class="text-center">Thời gian</th>
+                                            <th>STT</th>
+                                            <th>Tên kho</th>
+                                            <th>Tên viết tắt</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Phone </th>
+                                            <th>Ghi chú</th>
+                                            <th>Thời gian</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each categorys}}
+                                        {{#each storages}}
                                         <tr>
                                             <td class="checkbox-column text-center"> {{@index}}</td>
-                                            <td class="text-center">
-                                                {{#if this.isShow}}
-                                                <span class="shadow-none badge badge-primary">Public</span>
-                                                {{else}}
-                                                <span class="shadow-none badge badge-warning">Ẩn</span>
-                                                {{/if}}
-                                            </td>
-                                            <td class="text-center title-custom">{{this.name}}</td>
-                                              <td class="text-center title-custom">{{this.urlSeo}}</td>
-                                            <td class="text-center">{{this.typeImage}}</td>
-                                            <td class="text-center">
-                                                <span><img src="{{this.imageUrl}}" class="banner-category "
-                                                        alt="chưa có ảnh !"></span>
-                                            </td>
-
+                                            <td class="text-center title-custom">{{this.nameStorage}}</td>
+                                            <td class="text-center">{{this.shortcutName}}</td>
+                                            <td class="text-center">{{this.address}}</td>
+                                            <td class="text-center">{{this.phone_number}}</td>
+                                            <td class="text-center">{{this.note}}</td>
                                             <td>
                                                 <div>
                                                     <span class="badge badge-secondary">Ngày cập nhật</span> <br> <span
@@ -99,7 +88,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <ul class="table-controls">
-                                                    <li><a title="Sửa Thông Tin Loại SP"
+                                                    <li><a title="Sửa Thông Tin Kho Hàng"
                                                             href="/admin/storage/edit-storage/{{this._id}}"
                                                             class="bs-tooltip" data-toggle="tooltip"
                                                             data-placement="top" title=""
@@ -113,9 +102,9 @@
                                                                     d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
                                                                 </path>
                                                             </svg></a></li>
-                                                    <li data-toggle="modal" data-target="#exampleModal"
-                                                        data-categoryid="{{this._id}}" class="btn-delete-category"><a
-                                                            title="Xóa Loại SP !" class="bs-tooltip"
+                                                              {{!-- href="/admin/storage/delete/{{this._id}}"  --}}
+                                                    <li data-toggle="modal" data-target="#exampleModal" data-storageid = "{{this._id}}"  class="btn-delete-storage"><a title="Xóa Kho Hàng !" 
+                                                          class="bs-tooltip"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Delete"><svg
                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
@@ -147,18 +136,13 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Xóa Loại Sản Phẩm</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa Kho Hàng</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
+                       <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p class="modal-text"> Vui lòng xác thực để xóa Loại Sản Phẩm ! </p>
+                        <p class="modal-text"> Vui lòng xác thực để xóa kho hàng ! </p>
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Hủy</button>
@@ -185,10 +169,10 @@
             "pageLength": 10
         });
         multiCheck(c3);
-        $('.btn-delete-category').on('click', handleDeleteCategory);
-        function handleDeleteCategory() {
-            var idCategoryDelete = $(this).data("categoryid");
-            $('#delete-modal').attr('href', `/admin/storage/delete/${idCategoryDelete}`);
+        $('.btn-delete-storage').on('click', handleDeleteStorage);
+        function handleDeleteStorage() {
+            var idStorageDelete = $(this).data("storageid"); 
+            $('#delete-modal').attr('href',`/admin/storage/delete/${idStorageDelete}`);
         }
     </script>
     <!-- END PAGE LEVEL SCRIPTS -->

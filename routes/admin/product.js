@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const sharp = require('sharp');
 const Product = require('../../models/productModel');
+const Category = require('../../models/categoryModel');
 var path = require('path');
 const fs = require('fs');
 const formidable = require('formidable');
@@ -31,14 +32,26 @@ router.get('/', isAuthenticated, function(req, res) {
         }
     });
 });
-router.get('/add-category', isAuthenticated, function(req, res) {
-    res.render('admin/pages/category/add-category', {
+router.get('/add-product', isAuthenticated, async function(req, res) {
+
+    let categorys = await getCategory();
+    res.render('admin/pages/product/add-product', {
         errors: req.flash('errors'),
         messages: req.flash('messages'),
         title: "Thêm Loại SP",
+        categorys: categorys.map(category => category.toJSON()),
         layout: 'admin.hbs'
     });
 });
+let getCategory = function() {
+    return new Promise(function(resolve, reject) {
+        Category.find({}, function(err, categorys) {
+            if (!err) {
+                resolve(categorys);
+            }
+        });
+    });
+}
 
 router.get('/edit-category/:id', isAuthenticated, function(req, res) {
     const categoryID = req.params.id;
