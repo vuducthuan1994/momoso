@@ -88,7 +88,7 @@
                                                 {{/each}}
                                             </td>
                                             <td>
-                                                <p id="product-price" data-price="{{this.price}}"> {{this.price}}</p>
+                                                <p class="product-price" data-price="{{this.price}}"> {{this.price}}</p>
                                             </td>
                                             <td>
                                                 {{#each this.storage}}
@@ -200,9 +200,11 @@
             $('#delete-modal').attr('href', `/admin/product/delete/${productId}`);
         }
         function getPriceVND() {
-            var price = parseInt($('#product-price').data('price'));
-            price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
-            $('#product-price').text(price);
+            $('.product-price').each(function (index, element) {
+                var price = parseInt($(this).data('price'));
+                price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+                $(this).text(price);
+            });
         }
         getPriceVND();
 

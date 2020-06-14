@@ -85,11 +85,11 @@ initPassport(passport);
 
 var auth = require('./routes/auth')(passport);
 var admin = require('./routes/admin')(cache);
-var client = require('./routes/client')(cache);
+var routerClient = require('./routes/client');
 
 app.use('/', auth);
 app.use('/admin', admin);
-app.use('/', client);
+app.use('/', routerClient);
 
 
 

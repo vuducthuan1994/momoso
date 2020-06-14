@@ -72,7 +72,6 @@ var ProductSchema = new Schema({
     detail: {
         type: String,
         trim: true,
-        required: true,
         default: ''
     },
     note: {
