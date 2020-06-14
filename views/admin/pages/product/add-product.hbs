@@ -212,7 +212,6 @@
 
         let handlerForm = function () {
             var formData = $('#formProduct').serializeArray();
-
             const idCategorySelected = $("select#product-category option").filter(":selected").data('idcategory');
             const nameCategorySelected = $("select#product-category option").filter(":selected").text().trim();
             const urlSeo = $("select#product-category option").filter(":selected").val();
@@ -253,7 +252,7 @@
                         $('.submitForm div').addClass('d-none');
                         swal({
                             title: 'Thành công',
-                            text: "Sản phẩm đã được thêm vào hệ thống",
+                            text: `Sản phẩm ${data.data.name} đã được thêm vào hệ thống`,
                             type: 'success',
                             padding: '2em'
                         });
@@ -261,16 +260,15 @@
                         $('.submitForm div').addClass('d-none');
                         swal({
                             title: 'Thất bại',
-                            text: "Không thêm được sản phẩm , liên hệ admin !",
+                            text: `Không thêm được sản phẩm , mã lỗi : ${data.msg}`,
                             type: 'error',
                             padding: '2em'
                         });
                     }
                 }
             });
-
-
         }
+
         $('.submitForm').on('click', function (event) {
             event.preventDefault();
             var formStatus = $('#formProduct').validate({
@@ -284,13 +282,13 @@
                     }
                 }
             }).form();
-            if (!formStatus) {
+            if (formStatus) {
                 handlerForm();
             }
             else {
                 swal({
                     title: 'Validate Error !',
-                    text: "Vui lòng kiểm tra lại các trường !",
+                    text: "Vui lòng kiểm tra lại các thông tin sản phẩm !",
                     type: 'error',
                     padding: '2em'
                 });

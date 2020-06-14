@@ -18,22 +18,21 @@ var isAuthenticated = function(req, res, next) {
 }
 
 
-//get all posts
+//get all products
 router.get('/', isAuthenticated, function(req, res) {
-    Product.find({}, function(err, categorys) {
+    Product.find({}, function(err, products) {
         if (!err) {
-            res.render('admin/pages/category/index', {
+            res.render('admin/pages/product/index', {
                 errors: req.flash('errors'),
                 messages: req.flash('messages'),
-                title: "Quản Lý Loại SP",
-                categorys: categorys.map(category => category.toJSON()),
+                title: "Quản Lý Sản Phẩm",
+                products: products.map(product => product.toJSON()),
                 layout: 'admin.hbs'
             });
         }
     });
 });
 router.get('/add-product', isAuthenticated, async function(req, res) {
-
     let categorys = await getCategory();
     res.render('admin/pages/product/add-product', {
         errors: req.flash('errors'),
@@ -53,6 +52,7 @@ let getCategory = function() {
     });
 }
 const delay = ms => new Promise(res => setTimeout(res, ms));
+
 router.get('/edit-category/:id', isAuthenticated, function(req, res) {
     const categoryID = req.params.id;
     Product.findOne({ _id: categoryID }, function(err, storage) {
@@ -60,7 +60,7 @@ router.get('/edit-category/:id', isAuthenticated, function(req, res) {
             req.flash('messages', 'Lỗi hệ thống, không sửa được Loại SP !')
             res.redirect('back');
         } else {
-            res.render('admin/pages/storage/add-storage', {
+            res.render('admin/pages/product/add-storage', {
                 errors: req.flash('errors'),
                 messages: req.flash('messages'),
                 title: "Sửa Thông Tin Kho Hàng",
@@ -136,7 +136,7 @@ router.post('/', isAuthenticated, async function(req, res) {
             } else {
                 let msg = null;
                 if (err.code = 11000) {
-                    msg = err._message;
+                    msg = err.errmsg;
                 } else {}
                 res.json({
                     success: false,
