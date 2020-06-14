@@ -21,7 +21,7 @@ module.exports = function(cache) {
     const about_us = require('./admin/config/about-us');
     const storage = require('./admin/storage');
     const category = require('./admin/category');
-
+    const product = require('./admin/product');
 
     const user = require('./admin/users')();
     const posts = require('./admin/posts');
@@ -36,7 +36,7 @@ module.exports = function(cache) {
     router.use('/config/about-us', about_us);
     router.use('/storage', storage);
     router.use('/category', category);
-
+    router.use('/product', product);
     // router.use('/hosts', host);
     router.use('/users', user);
 
