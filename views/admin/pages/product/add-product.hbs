@@ -1,7 +1,13 @@
 <!--  BEGIN CONTENT AREA  -->
 
 <script src="/plugins/ckeditor/ckeditor.js"></script>
-
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<link href="/plugins/loaders/custom-loader.css" rel="stylesheet" type="text/css">
+<style>
+    .error {
+        color: red !improtant;
+    }
+</style>
 <div id="content" class="main-content">
     <div class="">
         <div class="layout-px-spacing">
@@ -11,7 +17,7 @@
                         <div class="widget-header">
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                    {{#if storage._id}}
+                                    {{#if product._id}}
                                     <h4>Sửa Sản Phẩm</h4>
                                     {{else}}
                                     <h4>Thêm Sản Phẩm</h4>
@@ -27,28 +33,29 @@
                                 {{/each}}
                                 <div class="row">
                                     <div class="col-lg-8 col-8 col-md-8 mx-auto">
-                                        <form enctype="multipart/form-data" action="{{buildActionStorage storage._id}}"
-                                            method="post">
+                                        <form id="formProduct" enctype="multipart/form-data" method="post">
                                             <div class=" form-group">
                                                 <label>Tên Sản Phẩm</label>
                                                 <input id="product-name" value="{{product.name}}" type="text"
-                                                    name="name" placeholder="Enter name of product..."
-                                                    class="form-control" required="">
+                                                    minlength="5" name="name"
+                                                    placeholder="Enter unique name of product..." class="form-control"
+                                                    required="">
                                             </div>
                                             <div class="form-group">
                                                 <label>URL SEO</label>
                                                 <input id="product-url-seo" value="{{product.urlSeo}}" type="text"
-                                                    name="urlSeo" placeholder="Enter URL SEO..." class="form-control "
-                                                    required="">
+                                                    minlength="5" name="urlSeo"
+                                                    placeholder="Enter unique URL SEO of product..."
+                                                    class="form-control " required="">
                                             </div>
                                             <div class="form-group">
                                                 <label>Mã Code Sản Phẩm</label>
-                                                <input value="{{product.code}}" type="text" name="shortcutName"
-                                                    placeholder="Enter code product..." class="form-control"
+                                                <input value="{{product.code}}" type="text" name="code"
+                                                    placeholder="Enter unique code product..." class="form-control"
                                                     required="">
                                             </div>
                                             <div class="form-group">
-                                                <label>Giá Sản Sản Phẩm</label>
+                                                <label>Giá Sản Phẩm</label>
                                                 <input id="product-price" value="{{product.price}}" type="number"
                                                     name="price" placeholder="Enter price of product (VNĐ)..."
                                                     class="form-control" required="">
@@ -56,7 +63,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>New or Sale</label>
-                                                <select name="type" class="form-control col-md-6">
+                                                <select required="" name="type" class="form-control col-md-6">
                                                     <option value="new">NEW</option>
                                                     <option value="sale">SALE</option>
                                                 </select>
@@ -64,9 +71,10 @@
                                             </div>
                                             <div class="form-group">
                                                 <label> LOẠI SẢN PHẨM</label>
-                                                <select name="category" class="form-control col-md-6">
+                                                <select id="product-category" name="category"
+                                                    class="form-control col-md-6">
                                                     {{#each categorys}}
-                                                    <option data-id="{{this._id}}" value="{{this.urlSeo}}">
+                                                    <option data-idcategory="{{this._id}}" value="{{this.urlSeo}}">
                                                         {{this.name}}
                                                     </option>
                                                     {{/each}}
@@ -75,36 +83,59 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Điểm thưởng</label>
-                                                <input type="number" name="point" placeholder="Số điểm thưởng nhận được khi khách mua hàng ..."
+                                                <input type="number" name="point"
+                                                    placeholder="Số điểm thưởng nhận được khi khách mua hàng ..."
                                                     value="{{product.point}}" class="form-control col-md-6" required="">
                                             </div>
+
+
+
                                             <div class="form-group">
                                                 <div class="input-group mb-4">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Ghi chú
                                                         </span>
                                                     </div>
-                                                    <textarea minlength="0" required="" placeholder="Enter note... "
-                                                        name="note" class="form-control"
+                                                    <textarea placeholder="Enter note... " name="note"
+                                                        class="form-control"
                                                         aria-label="With textarea">{{product.note}}</textarea>
                                                 </div>
+                                            </div>
+                                            <a id="add-product-image" class="btn btn-primary mb-4">Thêm ảnh sản phẩm</a>
+                                            <div id="container-images-product" class="form-group row">
+                                                {{#each product.listImages}}
 
+                                                {{/each}}
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Mô tả sản phẩm</label>
-                                                <textarea name="detail" class="ckeditor" required="" value="hahaha"
-                                                    placeholder="Enter description of product">
-                                            {{{product.detail}}}
+                                                <textarea id="product-detail" name="detail" class="ckeditor" required=""
+                                                    value="hahaha" placeholder="Enter description of product">
+                                                 {{{product.detail}}}
                                                 </textarea>
                                             </div>
 
-                                            {{#if storage._id}}
-                                            <input type="submit" class="mt-4 btn btn-primary" value="Update">
-                                            {{else}}
-                                            <input type="submit" class="mt-4 btn btn-primary" value="Create">
-                                            {{/if}}
+
                                         </form>
+                                        {{#if post._id}}
+
+                                        <button class=" submitForm btn btn-secondary btn-lg mb-3 mr-3">
+                                            <div class="spinner-grow text-white mr-2 align-self-center loader-sm"></div>
+                                            Update
+                                        </button>
+                                        {{else}}
+                                        <button class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
+                                            <div
+                                                class="d-none spinner-grow text-white mr-2 align-self-center loader-sm">
+                                            </div>
+                                            Create
+                                        </button>
+                                        {{/if}}
+                                        <div class="d-flex justify-content-between mx-5 mt-3 mb-5">
+
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -113,53 +144,158 @@
                 </div>
             </div>
         </div>
+
+
+        <div style="display: none" id="base-image-product">
+            <div class="col-lg-4 col-md-4 mb-2 ">
+                <div class="form-group">
+                    <a class="delete-image-product btn btn-danger">Xóa</a>
+                    <input required="" accept="image/jpeg,image/gif,image/png,image/x-eps" type="file"
+                        class="form-control-file">
+                </div>
+            </div>
+        </div>
+
+        {{>admin/footer}}
+
     </div>
-    {{>admin/footer}}
+    <script>
+        $(document).ready(function () {
 
-</div>
-<script>
-    $(document).ready(function () {
-        getPriceVND();
-        $('#product-price').on('input', function () {
+            function addImageProduct() {
+                const imageProduct = $('#base-image-product').clone(true);
+                $('#container-images-product').prepend(imageProduct.children().clone(true));
+            }
+
+            function deleteImageProduct() {
+                $(this).parent().parent().remove();
+            }
+
+            $('#add-product-image').on('click', addImageProduct);
+            $('.delete-image-product').on('click', deleteImageProduct)
+
+
             getPriceVND();
+            $('#product-price').on('input', function () {
+                getPriceVND();
+            });
         });
-    });
-    function getPriceVND() {
-        var price = parseInt($('#product-price').val());
-        price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
-        $('#show-price').text(price);
-    }
-    var slugFromTitle = function (str) {
-        console.log(str);
-        // Chuyển hết sang chữ thường
-        str = str.toLowerCase();
-        // xóa dấu
-        str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
-        str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
-        str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
-        str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
-        str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
-        str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
-        str = str.replace(/(đ)/g, 'd');
-        // Xóa ký tự đặc biệt
-        str = str.replace(/([^0-9a-z-\s])/g, '');
-        // Xóa khoảng trắng thay bằng ký tự -
-        str = str.replace(/(\s+)/g, '-');
 
-        // xóa phần dự - ở đầu
-        str = str.replace(/^-+/g, '');
+        function getPriceVND() {
+            var price = parseInt($('#product-price').val());
+            price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+            $('#show-price').text(price);
+        }
 
-        // xóa phần dư - ở cuối
-        str = str.replace(/-+$/g, '');
+        var slugFromTitle = function (str) {
+            str = str.toLowerCase();
+            str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+            str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+            str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+            str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+            str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+            str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+            str = str.replace(/(đ)/g, 'd');
+            str = str.replace(/([^0-9a-z-\s])/g, '');
+            str = str.replace(/(\s+)/g, '-');
+            str = str.replace(/^-+/g, '');
+            str = str.replace(/-+$/g, '');
+            return str;
+        };
 
-        // return
-        return str;
-    };
-    $('#product-name').on('input', function () {
-        var slugFromName = slugFromTitle($('#product-name').val());
-        console.log(slugFromName);
-        $('#product-url-seo').val(slugFromName);
-    });
+        $('#product-name').on('input', function () {
+            var slugFromName = slugFromTitle($('#product-name').val());
+            console.log(slugFromName);
+            $('#product-url-seo').val(slugFromName);
+        });
 
 
-</script>
+        let handlerForm = function () {
+            var formData = $('#formProduct').serializeArray();
+
+            const idCategorySelected = $("select#product-category option").filter(":selected").data('idcategory');
+            const nameCategorySelected = $("select#product-category option").filter(":selected").text().trim();
+            const urlSeo = $("select#product-category option").filter(":selected").val();
+            categorySelected = {
+                id: idCategorySelected,
+                name: nameCategorySelected,
+                urlSeo: urlSeo
+            }
+            var newFormData = new FormData();
+
+            // lấy tất cả file từ form 
+            $.each($("input[type='file']"), function (index, file) {
+                newFormData.append('files[]', $('input[type=file]')[index].files[0]);
+            });
+            // lấy tất cả file từ form 
+
+            for (var i in formData) {
+                if (formData[i].name == 'detail') {
+                    formData[i].value = CKEDITOR.instances['product-detail'].getData();
+                }
+                if (formData[i].name == 'category') {
+                    formData[i].value = JSON.stringify(categorySelected);
+                }
+                newFormData.append(formData[i].name, formData[i].value);
+            }
+            $('.submitForm div').removeClass('d-none');
+            $.ajax({
+                url: '/admin/product',
+                data: newFormData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST', // For jQuery < 1.9
+                success: function (data) {
+                    console.log(data);
+                    if (data.success) {
+                        $('.submitForm div').addClass('d-none');
+                        swal({
+                            title: 'Thành công',
+                            text: "Sản phẩm đã được thêm vào hệ thống",
+                            type: 'success',
+                            padding: '2em'
+                        });
+                    } else {
+                        $('.submitForm div').addClass('d-none');
+                        swal({
+                            title: 'Thất bại',
+                            text: "Không thêm được sản phẩm , liên hệ admin !",
+                            type: 'error',
+                            padding: '2em'
+                        });
+                    }
+                }
+            });
+
+
+        }
+        $('.submitForm').on('click', function (event) {
+            event.preventDefault();
+            var formStatus = $('#formProduct').validate({
+                errorClass: "text-danger",
+                messages: {
+                    name: {
+                        required: "Vui lòng điền tên sản phẩm !"
+                    },
+                    password: {
+                        required: "Please enter your password"
+                    }
+                }
+            }).form();
+            if (!formStatus) {
+                handlerForm();
+            }
+            else {
+                swal({
+                    title: 'Validate Error !',
+                    text: "Vui lòng kiểm tra lại các trường !",
+                    type: 'error',
+                    padding: '2em'
+                });
+            }
+        });
+
+
+    </script>

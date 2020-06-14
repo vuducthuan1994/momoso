@@ -52,7 +52,7 @@ let getCategory = function() {
         });
     });
 }
-
+const delay = ms => new Promise(res => setTimeout(res, ms));
 router.get('/edit-category/:id', isAuthenticated, function(req, res) {
     const categoryID = req.params.id;
     Product.findOne({ _id: categoryID }, function(err, storage) {
@@ -71,67 +71,89 @@ router.get('/edit-category/:id', isAuthenticated, function(req, res) {
     })
 });
 
-// create category
-router.post('/', async function(req, res) {
-    let resizeWidth = 370;
-    let content = { imageUrl: '#' };
+
+let resizeImages = function(oldPath, newPath) {
+        return new Promise(function(resolve, reject) {
+            sharp(oldPath)
+                .resize(600, 756, {
+                    fit: "cover"
+                }).toFile(newPath, function(err) {
+                    if (!err) {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                });
+        });
+    }
+    // create product
+router.post('/', isAuthenticated, async function(req, res) {
+    // let resizeWidth = 370;
+    let newListImage = [];
+    let content = {};
+    formidable
     const form = formidable({ multiples: true });
     form.parse(req);
 
     form.on('field', function(fieldName, fieldValue) {
-        content[fieldName] = fieldValue;
-        if (fieldName == 'typeImage') {
-            if (fieldValue !== 'small') {
-                resizeWidth = 700;
-            }
+        if (fieldName !== 'files[]') {
+            content[fieldName] = fieldValue;
         }
-
+        if (fieldName == 'category') {
+            content[fieldName] = JSON.parse(fieldValue);
+        }
     });
 
-    await new Promise(function(resolve, reject) {
-        form.on('file', function(fieldName, file) {
-            if (fieldName == 'imageUrl' && file.name !== '') {
-                const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-                var dir = __basedir + '/public/img/category';
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir, 0744);
-                }
-                const img_path = path.join(__basedir, `public/img/category/${imgName}`);
+    form.on('file', async function(fieldName, file) {
+        if (fieldName == 'files[]' && file.name !== '') {
+            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
 
-                sharp(file.path)
-                    .resize(resizeWidth, 400, {
-                        fit: "cover"
-                    }).webp({ quality: 100 })
-                    .toFile(img_path, function(err) {
-                        if (!err) {
-                            req.flash('messages', 'Ảnh đã được resize đúng kích cỡ !');
-                            content.imageUrl = `/img/category/${imgName}`;
-                            resolve();
-                        } else {
-                            reject();
-                        }
-                    });
+            var dir = __basedir + '/public/img/product';
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, 0744);
+            }
+            const new_path = path.join(__basedir, `public/img/product/${imgName}`);
+
+            let resizeImage = await resizeImages(file.path, new_path);
+
+            if (resizeImage) {
+                req.flash('messages', 'Ảnh đã được resize đúng kích cỡ !');
+                newListImage.push(`/img/product/${imgName}`);
+            }
+        }
+    });
+    form.on('end', async function() {
+        await delay(2000);
+        content['listImages'] = newListImage;
+        Product.create(content, function(err, data) {
+            console.log(err)
+            if (!err) {
+                res.json({
+                    success: true,
+                    msg: 'Sản phẩm đã được thêm vào hệ thống !',
+                    data: data
+                });
+            } else {
+                let msg = null;
+                if (err.code = 11000) {
+                    msg = err._message;
+                } else {}
+                res.json({
+                    success: false,
+                    msg: msg,
+                    data: data
+                });
             }
         });
-    });
-    Product.create(content, function(err, data) {
-        if (!err) {
-            req.flash('messages', 'Thêm thành công !')
-            res.redirect('/admin/category');
-        } else {
-            if (err.code = 11000) {
-                req.flash('errors', err._message);
-            } else {
-                req.flash('errors', 'Không thêm được loại sản phẩm')
-            }
-            res.redirect('back');
-        }
-    });
+
+    })
+
+
 
 });
 
-//edit storage
-router.post('/edit-storage/:id', async function(req, res) {
+//edit product
+router.post('/edit-product/:id', async function(req, res) {
     let resizeWidth = 370;
     let content = {};
     const form = formidable({ multiples: true });
@@ -162,7 +184,6 @@ router.post('/edit-storage/:id', async function(req, res) {
                     }).webp({ quality: 100 })
                     .toFile(img_path, function(err) {
                         if (!err) {
-                            req.flash('messages', 'Ảnh đã được resize đúng kích cỡ !');
                             content['imageUrl'] = `/img/category/${imgName}`;
                             resolve();
                         } else {
@@ -196,7 +217,7 @@ router.get('/delete/:id', isAuthenticated, function(req, res) {
             req.flash('messages', messages)
             res.redirect('back');
         } else {
-            messages.push('Xóa Kho thất bại ')
+            messages.push('Xóa sản phẩm thất bại ')
             req.flash('messages', messages)
             res.redirect('back');
         }
