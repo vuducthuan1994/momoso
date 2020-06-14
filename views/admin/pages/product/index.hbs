@@ -62,6 +62,7 @@
                                             <th>Số lượng</th>
                                             <th>Ghi chú</th>
                                             <th>Loại</th>
+                                            <th>Giá</th>
                                             <th>Kho Chứa</th>
                                             <th>Thời gian</th>
                                             <th>Action</th>
@@ -85,6 +86,9 @@
                                                 {{#each this.category}}
                                                 <p> {{this.name}}</p>
                                                 {{/each}}
+                                            </td>
+                                            <td>
+                                                <p id="product-price" data-price="{{this.price}}"> {{this.price}}</p>
                                             </td>
                                             <td>
                                                 {{#each this.storage}}
@@ -118,7 +122,7 @@
                                                                     d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
                                                                 </path>
                                                             </svg></a></li>
-                                                    <li data-toggle="modal" data-target="#exampleModal"
+                                                    <li data-toggle="modal" data-target="#modalDeleteProduct"
                                                         data-productid="{{this._id}}" class="btn-delete-storage"><a
                                                             title="Xóa Sản Phẩm" class="bs-tooltip"
                                                             data-toggle="tooltip" data-placement="top" title=""
@@ -147,7 +151,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="modalDeleteProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -195,5 +199,12 @@
             var productId = $(this).data("productid");
             $('#delete-modal').attr('href', `/admin/product/delete/${productId}`);
         }
+        function getPriceVND() {
+            var price = parseInt($('#product-price').data('price'));
+            price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+            $('#product-price').text(price);
+        }
+        getPriceVND();
+
     </script>
     <!-- END PAGE LEVEL SCRIPTS -->

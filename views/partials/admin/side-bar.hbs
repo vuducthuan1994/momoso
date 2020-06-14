@@ -118,7 +118,7 @@
             </li>
             
             <li class="menu">
-                <a href="#products" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <a href="#sanphamss" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -137,9 +137,9 @@
                         </svg>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled" id="products" data-parent="#products">
+                <ul class="collapse submenu list-unstyled" id="sanphamss" data-parent="#accordionExample">
                     <li>
-                        <a href="/admin/product"> Quản lý sản phẩm</a>
+                        <a href="/admin/product/"> Quản lý sản phẩm</a>
                     </li>
                     <li>
                         <a href="/admin/product/add-product"> Thêm sản phẩm</a>
@@ -227,6 +227,7 @@
 
         // get current URL path and assign 'active' class
         const pathname = window.location.pathname;
+        console.log(pathname);
         $('ul > li > a[href="' + pathname + '"]').parent().addClass('active');
         $('ul > li > a[href="' + pathname + '"]').parent().parent().addClass('show');
         if ($('ul > li > a[href="' + pathname + '"]').parent().parent().prev().length > 0) {
