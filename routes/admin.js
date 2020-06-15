@@ -23,7 +23,7 @@ module.exports = function(cache) {
     const category = require('./admin/category');
     const product = require('./admin/product');
 
-    const user = require('./admin/users')();
+    const user = require('./admin/users');
     const posts = require('./admin/posts');
 
 
