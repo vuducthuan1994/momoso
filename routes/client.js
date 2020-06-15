@@ -19,11 +19,13 @@ router.get('/', async function(req, res) {
 
 router.get(process.env.ABOUT_US, async function(req, res) {
     let general = await getGeneralConfig();
+    let about_us = await getAboutUsInfo();
     res.render('client/about-us', {
         title: "About US",
         layout: 'client.hbs',
         general: general,
-        seasonID: req.sessionID
+        seasonID: req.sessionID,
+        about_us: about_us
     });
 });
 
@@ -97,6 +99,21 @@ let getGeneralConfig = function() {
             });
         } else {
             resolve(general)
+        }
+    });
+}
+let getAboutUsInfo = function() {
+    return new Promise(function(resolve, reject) {
+        let about_us = cache.get("about-us");
+        if (about_us == undefined) {
+            Settings.findOne({ type: 'about-us' }, function(err, about_us) {
+                if (!err) {
+                    resolve(about_us.content);
+                    cache.set("about-us", about_us.content);
+                }
+            });
+        } else {
+            resolve(about_us)
         }
     });
 }
