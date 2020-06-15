@@ -13,14 +13,14 @@
 <!-- END PAGE LEVEL CUSTOM STYLES -->
 
 <style>
-    table tbody p.title-custom {
+    table tbody td.title-custom {
         font-size: 15px;
         font-weight: 600;
         color: #e2a03f;
     }
 
-    td p {
-        max-width: 150px;
+    td {
+        max-width: 200px;
         word-break: break-all;
         text-align: left;
     }
@@ -41,90 +41,36 @@
                     <div class="widget-header">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>Danh sách sản phẩm</h4>
+                                <h4>Danh sách email khách hàng</h4>
                             </div>
                         </div>
                     </div>
                     <div class="widget-content widget-content-area">
                         <div class="table-responsive mb-4">
                             <div>
-                                <div class="seperator-header">
-                                    <a href="/admin/product/add-product">
-                                        <h4 class="">Thêm sản phẩm </h4>
-                                    </a>
-                                </div>
+
                                 <table id="style-3" class="table style-3  table-hover">
                                     <thead>
                                         <tr>
                                             <th>STT</th>
-                                            <th>Tên</th>
-                                            <th>Mã</th>
-                                            <th>Số lượng</th>
+                                            <th>Email Khách Hàng</th>
                                             <th>Ghi chú</th>
-                                            <th>Loại</th>
-                                            <th>Giá</th>
-                                            <th>Kho Chứa</th>
-                                            <th>Thời gian</th>
+                                            <th>Ngày Đăng Ký</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each products}}
+                                        {{#each subscribes}}
                                         <tr>
-                                            <td class="checkbox-column"> {{@index}}</td>
-                                            <td>
-                                                <p> {{this.name}}</p>
-                                            </td>
-                                            <td>
-                                                <p class=" title-custom"> {{this.code}}</p>
-                                            </td>
-                                            <td>{{this.quantity}}</td>
-                                            <td>
-                                                <p>{{this.note}} </p>
-                                            </td>
-                                            <td>
-                                                {{#each this.category}}
-                                                <p> {{this.name}}</p>
-                                                {{/each}}
-                                            </td>
-                                            <td>
-                                                <p class="product-price" data-price="{{this.price}}"> {{this.price}}</p>
-                                            </td>
-                                            <td>
-                                                {{#each this.storage}}
-                                                <p> {{this.name}}</p>
-                                                {{/each}}
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <span class="badge badge-secondary">Ngày cập nhật</span> <br> <span
-                                                        class="text-muted">{{ formatDate this.updated_date}} </span>
-                                                </div>
-                                                <div class="mt-2 mb-2">
-                                                    <span class="badge badge-secondary">Ngày tạo</span>
-                                                    <br>
-                                                    <span class="text-muted">{{ formatDate this.created_date}} </span>
-                                                </div>
-                                            </td>
-                                            <td>
+                                            <td> {{@index}}</td>
+                                            <td class="title-custom">{{this.email}}</td>
+                                            <td>{{this.note}}</td>
+                                            <td>{{this.created_date}}</td>
+                                            <td class="text-center">
                                                 <ul class="table-controls">
-                                                    <li><a title="Sửa Thông Tin Sản Phẩm"
-                                                            href="/admin/product/edit-product/{{this._id}}"
-                                                            class="bs-tooltip" data-toggle="tooltip"
-                                                            data-placement="top" title=""
-                                                            data-original-title="Edit"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-edit-2 p-1 br-6 mb-1">
-                                                                <path
-                                                                    d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                                </path>
-                                                            </svg></a></li>
-                                                    <li data-toggle="modal" data-target="#modalDeleteProduct"
-                                                        data-productid="{{this._id}}" class="btn-delete-storage"><a
-                                                            title="Xóa Sản Phẩm" class="bs-tooltip"
+                                                    <li data-toggle="modal" data-target="#exampleModal"
+                                                        data-subscibeid="{{this._id}}" class="btn-delete-subscribe"><a
+                                                            title="Xóa Kho Hàng !" class="bs-tooltip"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Delete"><svg
                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
@@ -151,12 +97,12 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="modalDeleteProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Xóa Sản Phẩm</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa Kho Hàng</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -167,7 +113,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p class="modal-text"> Vui lòng xác thực để xóa sản phẩm! </p>
+                        <p class="modal-text text-danger">Vui lòng xác thực! </p>
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Hủy</button>
@@ -194,19 +140,10 @@
             "pageLength": 10
         });
         multiCheck(c3);
-        $('.btn-delete-storage').on('click', deleteProduct);
-        function deleteProduct() {
-            var productId = $(this).data("productid");
-            $('#delete-modal').attr('href', `/admin/product/delete/${productId}`);
+        $('.btn-delete-subscribe').on('click', handleDeleteStorage);
+        function handleDeleteStorage() {
+            var id = $(this).data("subscibeid");
+            $('#delete-modal').attr('href', `/admin/subscribe/delete/${id}`);
         }
-        function getPriceVND() {
-            $('.product-price').each(function (index, element) {
-                var price = parseInt($(this).data('price'));
-                price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
-                $(this).text(price);
-            });
-        }
-        getPriceVND();
-
     </script>
     <!-- END PAGE LEVEL SCRIPTS -->

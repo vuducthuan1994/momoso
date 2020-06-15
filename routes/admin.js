@@ -22,6 +22,7 @@ module.exports = function(cache) {
     const storage = require('./admin/storage');
     const category = require('./admin/category');
     const product = require('./admin/product');
+    const subscribes = require('./admin/subscribe');
 
     const user = require('./admin/users');
     const posts = require('./admin/posts');
@@ -36,7 +37,7 @@ module.exports = function(cache) {
     router.use('/storage', storage);
     router.use('/category', category);
     router.use('/product', product);
-    // router.use('/hosts', host);
+    router.use('/subscribe', subscribes);
     router.use('/users', user);
 
 
