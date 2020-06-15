@@ -18,7 +18,7 @@
                 <!-- Logo Start -->
                 <div class="col-lg-2 col-md-2 col-sm-6 col-xs-5 full-col pl-0">
                     <div class="logo">
-                        <a href="index.html"><img src="img/logo/logo.png" alt="brand-image"></a>
+                        <a href="/"><img src="/img/logo/logo.png" alt="brand-image"></a>
                     </div>
                 </div>
                 <!-- Logo End -->
@@ -598,8 +598,8 @@
                         <!-- Product Image Start -->
                         <div class="pro-img">
                             <a href="#">
-                                <img class="primary-img" src="/img/new-products/1_2.jpg" alt="single-product">
-                                <img class="secondary-img" src="/img/new-products/5_1.jpg" alt="single-product">
+                                <img class="primary-img" src="{{getAvatarImage 'primary' this.listImages}}" alt="single-product">
+                                <img class="secondary-img" src="{{getAvatarImage 'secendary' this.listImages}}" alt="single-product">
                             </a>
                             <div class="quick-view">
                                 <a href="#" data-toggle="modal" data-target="#myModal"><i class="pe-7s-look"></i>quick
@@ -611,7 +611,7 @@
                         <!-- Product Content Start -->
                         <div class="pro-content text-center">
                             <h4><a href="product-page.html">{{this.name}}</a></h4>
-                            <p class="price"><span>$241.99</span></p>
+                            <p data-price="{{this.price}}" class="price product-price-vnd"><span>{{this.price}}</span></p>
                             <div class="action-links2">
                                 <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to cart</a>
                             </div>

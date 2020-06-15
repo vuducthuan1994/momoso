@@ -215,13 +215,13 @@ module.exports = {
     },
     getAvatarImage(type, listImages) {
         if (type == 'primary') {
-            return listImages[0] ? listImages[0] : 'img/new-products/1_2.jpg';
+            return listImages[0] ? listImages[0] : '/img/new-products/1_2.jpg';
         } else {
-            return listImages[1] ? listImages[1] : 'img/new-products/1_2.jpg';
+            return listImages[1] ? listImages[1] : '/img/new-products/1_2.jpg';
         }
     },
     getActiveProductImage(listImages) {
-        return listImages[0] ? listImages[0] : 'img/new-products/1_2.jpg';
+        return listImages[0] ? listImages[0] : '/img/new-products/1_2.jpg';
     },
     selected(option, value) {
         if (option && value) {
