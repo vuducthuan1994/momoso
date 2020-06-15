@@ -14,6 +14,10 @@ $(document).ready(function() {
             localStorage.setItem('isShowPopup', false);
         }
     });
+    $('.show-quick-modal').on('click', function() {
+        const productID = $(this).data('idproduct');
+        getProductById(productID);
+    });
     getPriceVND();
 });
 
@@ -45,6 +49,28 @@ function toast(title, msg, type = 'info') {
         showHideTransition: 'plain',
         icon: type,
         position: 'bottom-right',
+    });
+}
+
+function getProductById(id) {
+    $.ajax({
+        url: `/api/product/${id}`,
+        method: 'GET',
+        success: function(data) {
+            if (data.success) {
+                $('#modal-product-name').text(data.data.name);
+                $('#modal-product-price').text(data.data.price);
+                $('#modal-product-total-review').text(data.data.totalReview);
+                $('#modal-product-price').attr('data-price', data.data.price);
+                $('#modal-product-code').text(data.data.code);
+                $('#modal-product-point').text(data.data.point);
+                getPriceVND();
+                console.log(data);
+                $('#myModal').modal();
+            } else {
+
+            }
+        }
     });
 }
 

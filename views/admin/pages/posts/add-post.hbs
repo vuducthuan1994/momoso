@@ -65,8 +65,8 @@
                                                     value="{{post.fb_link}}" class="form-control" required="">
                                             </div>
                                             <div id="app1">
-                                                <h1>hahahhaha</h1>
-                                                <test></test>
+                                                <test :myprop="text"></test>
+                                                <button @click="text = 'Another text'">Change text</button>
                                             </div>
 
 
@@ -119,17 +119,19 @@
     {{>admin/footer}}
 
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         CKEDITOR.replace('editor1');
-      $(document).ready(function () {
         new Vue({
-          el: '#app1',
-          components: {
-            test: httpVueLoader("/Test.vue")
-          }
+            el: '#app1',
+            data: {
+                text: 'Hello'
+            },
+            components: {
+                'test': httpVueLoader('/Test.vue')
+            }
         });
-      });
 
     });
 </script>

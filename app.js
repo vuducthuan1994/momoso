@@ -34,8 +34,8 @@ app.enable('trust proxy');
 //Serves static files (we need it to import a css file)
 app.use(express.static('public'));
 app.use(express.static('adminTheme'));
-app.use(express.static('clientTheme'))
-    // view engine setup
+app.use(express.static('clientTheme'));
+// view engine setup
 app.engine('.hbs', expressHbs({
     defaultLayout: 'layout',
     partialsDir: "views/partials/",
