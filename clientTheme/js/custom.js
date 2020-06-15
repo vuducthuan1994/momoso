@@ -1,5 +1,13 @@
 $(document).ready(function() {
-    $('#submitSubscribe').on('click', submitSubscribeHandler);
+    $('#submitFromFooter').on('click', function() {
+        const email = ($('#subscribe_email').val());
+        submitSubscribeHandler(email);
+    });
+    $('#submitFromModal').on('click', function() {
+        const email = ($('.modalSubscribe input').val());
+        submitSubscribeHandler(email)
+    });
+
 });
 
 function showToastSubscribe() {
@@ -25,8 +33,7 @@ function toast(title, msg, type = 'info') {
     });
 }
 
-function submitSubscribeHandler() {
-    const email = ($('#subscribe_email').val());
+function submitSubscribeHandler(email) {
     if (!email || !(validateEmail(email))) {
         toast('Thông báo', 'Vui lòng nhập đúng địa chỉ email !', 'warning');
     } else {
@@ -39,6 +46,7 @@ function submitSubscribeHandler() {
             data: data,
             method: 'POST',
             success: function(data) {
+                $(".popup_wrapper").fadeOut(500);
                 if (data.success) {
                     toast('Thông báo', 'Cám ơn bạn đã subscibe !', 'success');
                 } else {
