@@ -86,12 +86,13 @@ initPassport(passport);
 
 var auth = require('./routes/auth')(passport);
 var admin = require('./routes/admin')(cache);
-var routerClient = require('./routes/client');
+var client = require('./routes/client');
+var api = require('./routes/api');
 
 app.use('/', auth);
 app.use('/admin', admin);
-app.use('/', routerClient);
-
+app.use('/', client);
+app.use('/api', api);
 
 
 
