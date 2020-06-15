@@ -410,6 +410,7 @@
                 <div class="col-sm-12">
                     <!-- New Products Activation Start -->
                     <div class="new-products owl-carousel">
+                        {{#each newProducts}}
                         <!-- Double Product Start -->
                         <div class="double-products">
                             <!-- Single Product Start -->
@@ -424,13 +425,13 @@
                                         <a href="#" data-toggle="modal" data-target="#myModal"><i
                                                 class="pe-7s-look"></i>quick view</a>
                                     </div>
-                                    <span class="sticker-new">new</span>
+                                    <span class="sticker-new">{{this.one.type}}</span>
                                 </div>
                                 <!-- Product Image End -->
                                 <!-- Product Content Start -->
                                 <div class="pro-content text-center">
-                                    <h4><a href="product-page.html">Sheepskin Pillow2</a></h4>
-                                    <p class="price"><span>$241.99</span></p>
+                                    <h4><a href="product-page.html">{{this.one.name}}</a></h4>
+                                    <p data-price="{{this.one.price}}" class="product-price-vnd price" ><span>{{this.one.price}}</span></p>
                                     <div class="action-links2">
                                         <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
                                             cart</a>
@@ -468,242 +469,7 @@
                             <!-- Single Product End -->
                         </div>
                         <!-- Double Product End -->
-                        
-                        <!-- Double Product Start -->
-                        <div class="double-products">
-
-                            <!-- Single Product Start -->
-                            <div class="single-product mb-25">
-                                <!-- Product Image Start -->
-                                <div class="pro-img">
-                                    <a href="product-page.html">
-                                        <img class="primary-img" src="img/new-products/2_1.jpg" alt="single-product">
-                                        <img class="secondary-img" src="img/new-products/2_2.jpg" alt="single-product">
-                                    </a>
-                                    <div class="quick-view">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="pe-7s-look"></i>quick view</a>
-                                    </div>
-                                    <span class="sticker-new">new</span>
-                                </div>
-                                <!-- Product Image End -->
-                                <!-- Product Content Start -->
-                                <div class="pro-content text-center">
-                                    <h4><a href="product-page.html">Carte Postal Clock</a></h4>
-                                    <p class="price"><span>$2000</span></p>
-                                    <div class="action-links2">
-                                        <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
-                                            cart</a>
-                                    </div>
-                                </div>
-                                <!-- Product Content End -->
-                            </div>
-                            <!-- Single Product End -->
-
-                            <!-- Single Product Start -->
-                            <div class="single-product">
-                                <!-- Product Image Start -->
-                                <div class="pro-img">
-                                    <a href="product-page.html">
-                                        <img class="primary-img" src="img/new-products/6_1.jpg" alt="single-product">
-                                        <img class="secondary-img" src="img/new-products/6_2.jpg" alt="single-product">
-                                    </a>
-                                    <div class="quick-view">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="pe-7s-look"></i>quick view</a>
-                                    </div>
-                                    <span class="sticker-new">new</span>
-                                </div>
-                                <!-- Product Image End -->
-                                <!-- Product Content Start -->
-                                <div class="pro-content text-center">
-                                    <h4><a href="product-page.html">Nulla massa est</a></h4>
-                                    <p class="price"><span>$602</span></p>
-                                    <div class="action-links2">
-                                        <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
-                                            cart</a>
-                                    </div>
-                                </div>
-                                <!-- Product Content End -->
-                            </div>
-                            <!-- Single Product End -->
-                        </div>
-                        <!-- Double Product End -->
-
-                        <!-- Double Product Start -->
-                        <div class="double-products">
-                            <!-- Single Product Start -->
-                            <div class="single-product mb-25">
-                                <!-- Product Image Start -->
-                                <div class="pro-img">
-                                    <a href="product-page.html">
-                                        <img class="primary-img" src="img/new-products/3_1.jpg" alt="single-product">
-                                        <img class="secondary-img" src="img/new-products/3_2.jpg" alt="single-product">
-                                    </a>
-                                    <div class="quick-view">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="pe-7s-look"></i>quick view</a>
-                                    </div>
-                                    <span class="sticker-new">new</span>
-                                </div>
-                                <!-- Product Image End -->
-                                <!-- Product Content Start -->
-                                <div class="pro-content text-center">
-                                    <h4><a href="product-page.html">congue sitamet</a></h4>
-                                    <p class="price"><span>$241.99</span></p>
-                                    <div class="action-links2">
-                                        <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
-                                            cart</a>
-                                    </div>
-                                </div>
-                                <!-- Product Content End -->
-                            </div>
-                            <!-- Single Product End -->
-                            <!-- Single Product Start -->
-                            <div class="single-product">
-                                <!-- Product Image Start -->
-                                <div class="pro-img">
-                                    <a href="product-page.html">
-                                        <img class="primary-img" src="img/new-products/5_1.jpg" alt="single-product">
-                                        <img class="secondary-img" src="img/new-products/4_1.jpg" alt="single-product">
-                                    </a>
-                                    <div class="quick-view">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="pe-7s-look"></i>quick view</a>
-                                    </div>
-                                    <span class="sticker-new">new</span>
-                                </div>
-                                <!-- Product Image End -->
-                                <!-- Product Content Start -->
-                                <div class="pro-content text-center">
-                                    <h4><a href="product-page.html">Splacerat volutpat</a></h4>
-                                    <p class="price"><span>$122.99</span></p>
-                                    <div class="action-links2">
-                                        <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
-                                            cart</a>
-                                    </div>
-                                </div>
-                                <!-- Product Content End -->
-                            </div>
-                            <!-- Single Product End -->
-                        </div>
-                        <!-- Double Product End -->
-                        <!-- Double Product Start -->
-                        <div class="double-products">
-                            <!-- Single Product Start -->
-                            <div class="single-product mb-25">
-                                <!-- Product Image Start -->
-                                <div class="pro-img">
-                                    <a href="product-page.html">
-                                        <img class="primary-img" src="img/new-products/4_1.jpg" alt="single-product">
-                                        <img class="secondary-img" src="img/new-products/2_2.jpg" alt="single-product">
-                                    </a>
-                                    <div class="quick-view">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="pe-7s-look"></i>quick view</a>
-                                    </div>
-                                    <span class="sticker-new">new</span>
-                                </div>
-                                <!-- Product Image End -->
-                                <!-- Product Content Start -->
-                                <div class="pro-content text-center">
-                                    <h4><a href="product-page.html">dictum idrisus</a></h4>
-                                    <p class="price"><span>$541.99</span></p>
-                                    <div class="action-links2">
-                                        <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
-                                            cart</a>
-                                    </div>
-                                </div>
-                                <!-- Product Content End -->
-                            </div>
-                            <!-- Single Product End -->
-                            <!-- Single Product Start -->
-                            <div class="single-product">
-                                <!-- Product Image Start -->
-                                <div class="pro-img">
-                                    <a href="product-page.html">
-                                        <img class="primary-img" src="img/new-products/8_1.jpg" alt="single-product">
-                                        <img class="secondary-img" src="img/new-products/8_2.jpg" alt="single-product">
-                                    </a>
-                                    <div class="quick-view">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="pe-7s-look"></i>quick view</a>
-                                    </div>
-                                    <span class="sticker-sale">new</span>
-                                </div>
-                                <!-- Product Image End -->
-                                <!-- Product Content Start -->
-                                <div class="pro-content text-center">
-                                    <h4><a href="product-page.html">Maple Wood Table</a></h4>
-                                    <p class="price"><span>$255</span></p>
-                                    <div class="action-links2">
-                                        <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
-                                            cart</a>
-                                    </div>
-                                </div>
-                                <!-- Product Content End -->
-                            </div>
-                            <!-- Single Product End -->
-                        </div>
-                        <!-- Double Product End -->
-                        <!-- Double Product Start -->
-                        <div class="double-products">
-                            <!-- Single Product Start -->
-                            <div class="single-product mb-25">
-                                <!-- Product Image Start -->
-                                <div class="pro-img">
-                                    <a href="product-page.html">
-                                        <img class="primary-img" src="img/new-products/2_2.jpg" alt="single-product">
-                                        <img class="secondary-img" src="img/new-products/2_1.jpg" alt="single-product">
-                                    </a>
-                                    <div class="quick-view">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="pe-7s-look"></i>quick view</a>
-                                    </div>
-                                    <span class="sticker-new">new</span>
-                                </div>
-                                <!-- Product Image End -->
-                                <!-- Product Content Start -->
-                                <div class="pro-content text-center">
-                                    <h4><a href="product-page.html">Decorative Vase</a></h4>
-                                    <p class="price"><span>$241.99</span></p>
-                                    <div class="action-links2">
-                                        <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
-                                            cart</a>
-                                    </div>
-                                </div>
-                                <!-- Product Content End -->
-                            </div>
-                            <!-- Single Product End -->
-                            <!-- Single Product Start -->
-                            <div class="single-product">
-                                <!-- Product Image Start -->
-                                <div class="pro-img">
-                                    <a href="product-page.html">
-                                        <img class="primary-img" src="img/new-products/9_1.jpg" alt="single-product">
-                                        <img class="secondary-img" src="img/new-products/5_1.jpg" alt="single-product">
-                                    </a>
-                                    <div class="quick-view">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="pe-7s-look"></i>quick view</a>
-                                    </div>
-                                    <span class="sticker-new">new</span>
-                                </div>
-                                <!-- Product Image End -->
-                                <!-- Product Content Start -->
-                                <div class="pro-content text-center">
-                                    <h4><a href="product-page.html">Simplify One Drawer</a></h4>
-                                    <p class="price"><span>$117.99</span></p>
-                                    <div class="action-links2">
-                                        <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
-                                            cart</a>
-                                    </div>
-                                </div>
-                                <!-- Product Content End -->
-                            </div>
-                            <!-- Single Product End -->
-                        </div>
-                        <!-- Double Product End -->
+                        {{/each}}
                     </div>
                     <!-- New Products Activation End -->
                 </div>

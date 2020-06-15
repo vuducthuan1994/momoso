@@ -14,7 +14,16 @@ $(document).ready(function() {
             localStorage.setItem('isShowPopup', false);
         }
     });
+    getPriceVND();
 });
+
+function getPriceVND() {
+    $('.product-price-vnd').each(function(index, element) {
+        var price = parseInt($(this).data('price'));
+        price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+        $(this).text(price);
+    });
+}
 
 function showToastSubscribe() {
     // https://github.com/kamranahmedse/jquery-toast-plugin
