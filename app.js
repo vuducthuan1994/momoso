@@ -88,17 +88,15 @@ var auth = require('./routes/auth')(passport);
 var admin = require('./routes/admin')(cache);
 var client = require('./routes/client');
 var api = require('./routes/api');
-
-app.use('/', auth);
-app.use('/admin', admin);
 app.use('/', client);
+app.use('/admin', admin);
 app.use('/api', api);
-
+app.use('/', auth);
 
 
 // Moi request voi route ko dinh nghia tro ve trang chu
-app.get('/*', function(req, res) {
-    res.redirect('/');
-});
+// app.get('/*', function(req, res) {
+//     res.redirect('/');
+// });
 
 app.listen(process.env.PORT || 4300);

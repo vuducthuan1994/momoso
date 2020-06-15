@@ -10,6 +10,10 @@ var ProductSchema = new Schema({
         unique: true,
         trim: true
     },
+    view: {
+        type: Number,
+        default: 0
+    },
     urlSeo: {
         type: String,
         required: true,
