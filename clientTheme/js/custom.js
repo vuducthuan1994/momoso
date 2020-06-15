@@ -19,6 +19,7 @@ $(document).ready(function() {
         getProductById(productID);
     });
     getPriceVND();
+    onModalQuickViewClose();
 });
 
 function getPriceVND() {
@@ -52,6 +53,14 @@ function toast(title, msg, type = 'info') {
     });
 }
 
+function onModalQuickViewClose() {
+    $('#myModal').on('hidden.bs.modal', function() {
+        // $('#modal-product-images')
+        const myNode = document.getElementById("modal-product-images");
+        myNode.textContent = '';
+    });
+}
+
 function getProductById(id) {
     $.ajax({
         url: `/api/product/${id}`,
@@ -64,9 +73,15 @@ function getProductById(id) {
                 $('#modal-product-price').attr('data-price', data.data.price);
                 $('#modal-product-code').text(data.data.code);
                 $('#modal-product-point').text(data.data.point);
+                data.data.listImages.forEach((value, index) => {
+                    let imageItem = `<div id="thumb${index+1}" class="tab-pane ${index == 0 ? 'fade in active' : 'fade'}">
+                <img src="${value}" alt="product-thumbnail" />
+            </div>`
+                    $('#modal-product-images').append(imageItem);
+                });
                 getPriceVND();
                 console.log(data);
-                $('#myModal').modal();
+                $('#myModal').modal('show');
             } else {
 
             }
