@@ -25,7 +25,6 @@ module.exports = function(cache) {
 
     const user = require('./admin/users')();
     const posts = require('./admin/posts');
-    const text_sliders = require('./admin/text-sliders')();
 
 
 
@@ -40,7 +39,7 @@ module.exports = function(cache) {
     // router.use('/hosts', host);
     router.use('/users', user);
 
-    router.use('/text-sliders', text_sliders);
+
     router.use('/posts', posts);
     router.use('/cache', cacheController);
     router.get('/', isAuthenticated, function(req, res) {
