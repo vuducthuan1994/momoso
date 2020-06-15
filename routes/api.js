@@ -32,7 +32,7 @@ router.get('/product/:id', function(req, res) {
                 data: err
             });
         }
-    })
+    });
 });
 
 

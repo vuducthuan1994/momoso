@@ -19,7 +19,6 @@ $(document).ready(function() {
         getProductById(productID);
     });
     getPriceVND();
-    onModalQuickViewClose();
 });
 
 function getPriceVND() {
@@ -53,12 +52,14 @@ function toast(title, msg, type = 'info') {
     });
 }
 
-function onModalQuickViewClose() {
-    $('#myModal').on('hidden.bs.modal', function() {
-        // $('#modal-product-images')
-        const myNode = document.getElementById("modal-product-images");
-        myNode.textContent = '';
-    });
+
+function resetDataModalProduct() {
+    const myNode = document.getElementById("modal-product-images");
+    myNode.textContent = '';
+    // const myNode1 = document.getElementById("thumb-menu-owl");
+    // myNode1.textContent = '';
+    // $('#thumb-menu-owl').removeClass('owl-loaded');
+    // $('#thumb-menu-owl').removeClass('owl-drag');
 }
 
 function getProductById(id) {
@@ -67,23 +68,29 @@ function getProductById(id) {
         method: 'GET',
         success: function(data) {
             if (data.success) {
+                resetDataModalProduct();
                 $('#modal-product-name').text(data.data.name);
                 $('#modal-product-price').text(data.data.price);
                 $('#modal-product-total-review').text(data.data.totalReview);
                 $('#modal-product-price').attr('data-price', data.data.price);
                 $('#modal-product-code').text(data.data.code);
                 $('#modal-product-point').text(data.data.point);
+                let htmlOWL = '';
                 data.data.listImages.forEach((value, index) => {
                     let imageItem = `<div id="thumb${index+1}" class="tab-pane ${index == 0 ? 'fade in active' : 'fade'}">
-                <img src="${value}" alt="product-thumbnail" />
-            </div>`
+                <img src="${value}" alt="product-thumbnail" /> </div>`
+
+                    let owl_item = `<div  ${index == 0 ? 'class="active"' : ''}> <a data-toggle="tab" href="#thumb${index+1}"> <img src="${value}"
+                    alt="product-thumbnail"></a> </div>`
                     $('#modal-product-images').append(imageItem);
+                    htmlOWL += owl_item;
                 });
+                $('.thumb-menu').trigger('replace.owl.carousel', htmlOWL).trigger('refresh.owl.carousel');
                 getPriceVND();
                 console.log(data);
                 $('#myModal').modal('show');
             } else {
-
+                toast('Thông báo', 'Hệ thống đang gặp sự cố, vui lòng thử lại sau', 'info')
             }
         }
     });

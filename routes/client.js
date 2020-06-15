@@ -7,8 +7,7 @@ const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
 
 router.get('/', async function(req, res) {
     let general = await getGeneralConfig();
-    let newProducts = await getNewProducts();
-    console.log(newProducts);
+    let newProducts = await getNewProducts('chan-ga-goi-dem');
     res.render('client/index', {
         title: "Sửa Thông Tin Kho Hàng",
         layout: 'client.hbs',
@@ -18,7 +17,7 @@ router.get('/', async function(req, res) {
     });
 });
 
-router.get('/about-us', async function(req, res) {
+router.get(process.env.ABOUT_US, async function(req, res) {
     let general = await getGeneralConfig();
     res.render('client/about-us', {
         title: "About US",
@@ -28,6 +27,64 @@ router.get('/about-us', async function(req, res) {
     });
 });
 
+router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
+    const urlSeo = req.params.url;
+    let product = await getProductDetail(urlSeo);
+    let general = await getGeneralConfig();
+    let productsRelated = await getRelatedProducts(product);
+    if (product !== null) {
+        res.render('client/product-detail', {
+            title: "PRODUCT",
+            layout: 'client.hbs',
+            product: product.toJSON(),
+            general: general,
+            seasonID: req.sessionID,
+            productsRelated: productsRelated
+        });
+    } else {
+        // returrn 404
+    }
+});
+
+let getRelatedProducts = function(productItem) {
+    const keyCache = 'related' + productItem._id;
+    let listURLSeoRelated = [];
+    productItem.category.forEach((item) => {
+        listURLSeoRelated.push(item.urlSeo);
+    });
+    return new Promise(function(resolve, reject) {
+        let products = cache.get(keyCache);
+        if (products == undefined) {
+            Products.aggregate([{ $match: { "category": { $elemMatch: { "urlSeo": { $in: ['chan-ga-goi-dem'] } } } } }], function(err, products) {
+                if (!err) {
+                    resolve(products);
+                    cache.set(keyCache, products);
+                } else {
+                    resolve([]);
+                }
+            }).limit(15);
+        } else {
+            resolve(products)
+        }
+    });
+}
+let getProductDetail = function(urlSeo) {
+    return new Promise(function(resolve, reject) {
+        let product = cache.get(urlSeo);
+        if (product == undefined) {
+            Products.findOne({ urlSeo: urlSeo }, function(err, product) {
+                if (!err) {
+                    resolve(product)
+                    cache.set(urlSeo, product);
+                } else {
+                    resolve(null)
+                }
+            });
+        } else {
+            resolve(product)
+        }
+    });
+}
 let getGeneralConfig = function() {
     return new Promise(function(resolve, reject) {
         let general = cache.get("general");
