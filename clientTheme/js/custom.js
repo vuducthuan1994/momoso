@@ -4,20 +4,16 @@ $(document).ready(function() {
         submitSubscribeHandler(email);
     });
     $('#submitFromModal').on('click', function() {
-        const email = ($('.modalSubscribe input').val());
+        const email = $('.modalSubscribe input').val();
+
         submitSubscribeHandler(email)
     });
-
-    //check for Navigation Timing API support
-    if (window.performance) {
-        console.info("window.performance works fine on this browser");
-    }
-    if (performance.navigation.type == 1) {
-        console.info("This page is reloaded");
-    } else {
-        console.info("This page is not reloaded");
-    }
-
+    $('#newsletter-permission').on('input', function() {
+        const isShowPopup = $('#newsletter-permission').is(':checked');
+        if (isShowPopup) {
+            localStorage.setItem('isShowPopup', false);
+        }
+    });
 });
 
 function showToastSubscribe() {

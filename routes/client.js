@@ -10,7 +10,8 @@ router.get('/', async function(req, res) {
     res.render('client/index', {
         title: "Sửa Thông Tin Kho Hàng",
         layout: 'client.hbs',
-        general: general
+        general: general,
+        seasonID: req.sessionID
     });
 });
 
@@ -19,7 +20,8 @@ router.get('/about-us', async function(req, res) {
     res.render('client/about-us', {
         title: "About US",
         layout: 'client.hbs',
-        general: general
+        general: general,
+        seasonID: req.sessionID
     });
 });
 

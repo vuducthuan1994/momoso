@@ -34,35 +34,38 @@ NOTE: main.js, All custom script and plugin activation script in this file.
  
 ================================================*/
 
-(function ($) {
+(function($) {
     "use Strict";
     /*----------------------------
     1. preloader Activation
     -----------------------------*/
-    $(window).load(function () {
+    $(window).load(function() {
         $(".preloader").fadeOut("slow");
     });
-    
+
     /*--------------------------
     2. Newsletter Popup
     ---------------------------*/
-    setTimeout(function () {
-        $('.popup_wrapper').css({
-            "opacity": "1",
-            "visibility": "visible"
-        });
-        $('.popup_off').on('click', function () {
-            $(".popup_wrapper").fadeOut(500);
-        })
-    }, 2500);
-    
+    const isShowPopup = localStorage.getItem('isShowPopup');
+    if (isShowPopup == undefined) {
+        setTimeout(function() {
+            $('.popup_wrapper').css({
+                "opacity": "1",
+                "visibility": "visible"
+            });
+            $('.popup_off').on('click', function() {
+                $(".popup_wrapper").fadeOut(500);
+            })
+        }, 2500);
+    }
+
     /*----------------------------
     3. Mobile Menu Activation
     -----------------------------*/
     $('.mobile-menu nav').meanmenu({
         meanScreenWidth: "991",
     });
-    
+
     /*----------------------------
     4. NivoSlider Activation
     -----------------------------*/
@@ -78,7 +81,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
         prevText: "<i class='zmdi zmdi-chevron-left'></i>",
         nextText: "<i class='zmdi zmdi-chevron-right'></i>"
     });
-    
+
     /*----------------------------
     5. Footer Banner Slider Activation
     -----------------------------*/
@@ -103,7 +106,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
             }
         }
     })
-    
+
     /*----------------------------
     6. New Products Activation
     -----------------------------*/
@@ -112,7 +115,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
         nav: true,
         dots: false,
         margin: 30,
-        navText: ["<i class='fa fa-angle-left'></i>" , "<i class='fa fa-angle-right'></i>"],
+        navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
         smartSpeed: 1000,
         responsive: {
             0: {
@@ -129,7 +132,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
             }
         }
     })
-    
+
     /*----------------------------
     7. Tooltip Activation
     ------------------------------ */
@@ -138,7 +141,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
         placement: 'top',
         container: 'body'
     });
-    
+
     /*----------------------------
     8. New Products Activation
     -----------------------------*/
@@ -160,13 +163,13 @@ NOTE: main.js, All custom script and plugin activation script in this file.
             }
         }
     })
-    
+
     /*-------------------------------------
     9. Thumbnail Product activation
     --------------------------------------*/
     $('.thumb-menu').owlCarousel({
         loop: false,
-        navText: ["<i class='fa fa-angle-left'></i>" , "<i class='fa fa-angle-right'></i>"],
+        navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
         margin: 15,
         smartSpeed: 1000,
         nav: true,
@@ -183,27 +186,27 @@ NOTE: main.js, All custom script and plugin activation script in this file.
             }
         }
     })
-    
+
     /*----------------------------
     10. Cart Box Quantity Selection
     -----------------------------*/
-	 $(".cart-plus-minus").append('<div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>');
-	  $(".qtybutton").on("click", function() {
-		var $button = $(this);
-		var oldValue = $button.parent().find("input").val();
-		if ($button.text() == "+") {
-		  var newVal = parseFloat(oldValue) + 1;
-		} else {
-		   // Don't allow decrementing below zero
-		  if (oldValue > 0) {
-			var newVal = parseFloat(oldValue) - 1;
-			} else {
-			newVal = 0;
-		  }
-		  }
-		$button.parent().find("input").val(newVal);
-	  });
-    
+    $(".cart-plus-minus").append('<div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>');
+    $(".qtybutton").on("click", function() {
+        var $button = $(this);
+        var oldValue = $button.parent().find("input").val();
+        if ($button.text() == "+") {
+            var newVal = parseFloat(oldValue) + 1;
+        } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 0) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 0;
+            }
+        }
+        $button.parent().find("input").val(newVal);
+    });
+
     /*----------------------------
     11. Elevatezoom Activation
     -----------------------------*/
@@ -214,7 +217,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
         cursor: 'pointer',
         galleryActiveClass: "active"
     });
-    
+
     /*----------------------------
     12. Price Slider Activation
     -----------------------------*/
@@ -223,13 +226,13 @@ NOTE: main.js, All custom script and plugin activation script in this file.
         min: 80,
         max: 2000,
         values: [0, 2000],
-        slide: function (event, ui) {
+        slide: function(event, ui) {
             $("#amount").val("$" + ui.values[0] + "  $" + ui.values[1]);
         }
     });
     $("#amount").val("$" + $("#slider-range").slider("values", 0) +
         "  $" + $("#slider-range").slider("values", 1));
-    
+
     /*-------------------------------------
     13. Most Viewd Product activation
     --------------------------------------*/
@@ -251,18 +254,18 @@ NOTE: main.js, All custom script and plugin activation script in this file.
             }
         }
     })
-    
+
     /*----------------------------
     14. Sticky-Menu Activation
     ------------------------------ */
-    $(window).scroll(function () {
+    $(window).scroll(function() {
         if ($(this).scrollTop() > 40) {
             $('.header-sticky').addClass("sticky");
         } else {
             $('.header-sticky').removeClass("sticky");
         }
     });
-    
+
     /*-------------------------------------
     15. Home-2 Featured Products Activation
     --------------------------------------*/
@@ -271,7 +274,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
         nav: true,
         dots: false,
         margin: 30,
-        navText: ["<i class='fa fa-angle-left'></i>" , "<i class='fa fa-angle-right'></i>"],
+        navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
         smartSpeed: 1000,
         responsive: {
             0: {
@@ -294,25 +297,25 @@ NOTE: main.js, All custom script and plugin activation script in this file.
             }
         }
     })
-    
+
     /*----------------------------
     16. WOW Js Activation
     -----------------------------*/
     new WOW().init();
-    
+
     /*----------------------------
     17. Checkout Page Activation
     -----------------------------*/
-    $('#showlogin').on('click', function () {
+    $('#showlogin').on('click', function() {
         $('#checkout-login').slideToggle();
     });
-     $('#cbox').on('click', function () {
+    $('#cbox').on('click', function() {
         $('#cbox_info').slideToggle();
     });
-     $('#ship-box').on('click', function () {
+    $('#ship-box').on('click', function() {
         $('#ship-box-info').slideToggle();
     });
-    
+
     /*----------------------------
     18. ScrollUp Activation
     -----------------------------*/
@@ -325,7 +328,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
         animationInSpeed: 1000, // Animation in speed (ms)
         animationOutSpeed: 1000, // Animation out speed (ms)
         scrollText: '<i class="fa fa-angle-up" aria-hidden="true"></i>', // Text for element
-        activeOverlay: false// Set CSS color to display scrollUp active point, e.g '#00FFFF'
+        activeOverlay: false // Set CSS color to display scrollUp active point, e.g '#00FFFF'
     });
-   
+
 })(jQuery);
