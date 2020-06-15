@@ -10,6 +10,11 @@ var CategorySchema = new Schema({
         unique: true,
         trim: true
     },
+    desc: {
+        type: String,
+        trim: true,
+        default: ''
+    },
     urlSeo: {
         type: String,
         required: true,
@@ -41,7 +46,6 @@ var CategorySchema = new Schema({
     },
     totalProduct: {
         type: Number,
-        required: false,
         trim: true,
         default: 0
     }
