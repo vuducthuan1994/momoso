@@ -18,8 +18,8 @@ function toast(title, msg, type = 'info') {
 
 function addToCart() {
     var cart = $('#js-cart-data').data('cart');
+    var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
-    var sessionID = $(this).data('seasonid');
     if (cart !== null) {
         listCartProducts = cart.listCartProducts;
     };

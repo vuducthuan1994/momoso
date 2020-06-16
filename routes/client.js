@@ -8,15 +8,16 @@ const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
 
 router.get('/', async function(req, res) {
+    console.log(req.sessionID);
     let general = await getGeneralConfig();
-    let newProducts = await getNewProducts('chan-ga-goi-dem');
+    let newProducts = await getNewProducts();
     let cart = await getCart(req.sessionID);
-
+    console.log(cart);
     res.render('client/index', {
-        title: "Sửa Thông Tin Kho Hàng",
+        title: "Trang chu",
         layout: 'client.hbs',
         general: general,
-        seasonID: req.sessionID,
+        sessionID: req.sessionID,
         newProducts: newProducts,
         cart: JSON.stringify(cart)
     });
@@ -188,7 +189,7 @@ let getNewProducts = function() {
                     resolve(results);
                     cache.set("newProducts", results);
                 }
-            }).limit(50);
+            }).limit(50).sort({ created_date: -1 });
         } else {
             resolve(newProducts)
         }
