@@ -164,7 +164,7 @@
                                 </ul>
                             </li>
                             <!-- Search Box End -->
-                            <li><a href="wish-list.html"><i class="pe-7s-like"></i><span>2</span></a></li>
+                            <li><a href="wish-list.html"><i class="pe-7s-like"></i><span id="wish-list-length">2</span></a></li>
                             <li><i class="pe-7s-shopbag"></i><span>2</span>
                                 <ul class="ht-dropdown main-cart-box">
                                     <li>
@@ -597,7 +597,7 @@
                     <div class="single-product">
                         <!-- Product Image Start -->
                         <div class="pro-img">
-                            <a href="#">
+                            <a href="{{ createURLProduct this.urlSeo}}">
                                 <img class="primary-img" src="{{getAvatarImage 'primary' this.listImages}}"
                                     alt="single-product">
                                 <img class="secondary-img" src="{{getAvatarImage 'secendary' this.listImages}}"

@@ -34,8 +34,9 @@ router.post('/updateCart/:sessionID', function(req, res) {
     });
 });
 
-router.post('/updateFavor/sessionID', function(req, res) {
-    Carts.findOneAndUpdate({ sessionID: req.params.sessionID }, req.body, { upsert: true }, function(err, data) {
+router.post('/updateFavor', function(req, res) {
+    console.log(req.body);
+    Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, req.body, { upsert: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,

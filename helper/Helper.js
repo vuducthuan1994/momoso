@@ -190,6 +190,9 @@ module.exports = {
         const protocol = proxy.protocol ? proxy.protocol : 'http';
         return `${protocol}://${proxy.user}:${proxy.password}@${proxy.ip}:${proxy.port}`;
     },
+    createURLProduct(urlSeo) {
+        return `${process.env.PRODUCT}/${urlSeo}`
+    },
     formatDate(dt) {
         return (`${
             (dt.getMonth()+1).toString().padStart(2, '0')}/${

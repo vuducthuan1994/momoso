@@ -56,10 +56,6 @@ function toast(title, msg, type = 'info') {
 function resetDataModalProduct() {
     const myNode = document.getElementById("modal-product-images");
     myNode.textContent = '';
-    // const myNode1 = document.getElementById("thumb-menu-owl");
-    // myNode1.textContent = '';
-    // $('#thumb-menu-owl').removeClass('owl-loaded');
-    // $('#thumb-menu-owl').removeClass('owl-drag');
 }
 
 function getProductById(id) {
