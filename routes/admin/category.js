@@ -89,8 +89,7 @@ router.post('/', async function(req, res) {
                 sharp(file.path)
                     .resize(resizeWidth, 400, {
                         fit: "cover"
-                    }).webp({ quality: 100 })
-                    .toFile(img_path, function(err) {
+                    }).toFile(img_path, function(err) {
                         if (!err) {
                             req.flash('messages', 'Ảnh đã được resize đúng kích cỡ !');
                             content.imageUrl = `/img/category/${imgName}`;

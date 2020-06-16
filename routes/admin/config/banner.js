@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Banners = require('../../../models/config/bannerModel');
+const sharp = require('sharp');
 
 var fs = require('fs');
 const formidable = require('formidable');
@@ -45,19 +46,21 @@ router.get('/edit-post/:id', function(req, res) {
 router.post('/', function(req, res) {
     let imageUrl = null;
     const form = formidable({ multiples: true });
-    form.on('file', function(fieldName, file) {
-        if (fieldName == 'imageUrl' && file.name !== '') {
-            var dir = __basedir + '/public/img/banner';
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, 0744);
-            }
+    form.on('file', function(name, file) {
+        var dir = __basedir + '/public/img/banner';
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, 0744);
+        }
+        if (name == 'imageUrl' && file.name !== '') {
             imageUrl = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            newPath = path.join(dir, `/${imageUrl}`);
+            newpath = path.join(dir, `/${imageUrl}`);
+
             sharp(file.path)
-                .resize(1770, 700)
-                .toFile(newPath, function(err) {
+                .resize(1770, 700, {
+                    fit: "cover"
+                }).toFile(newpath, function(err) {
                     if (!err) {
-                        req.flash('messages', 'Image was resize !')
+                        req.flash('messages', 'Ảnh đã được resize đúng kích cỡ !');
                     }
                 });
         }
@@ -94,29 +97,48 @@ router.post('/edit-banner/:id', function(req, res) {
     const idBanner = req.params.id;
     let imageUrl = null;
     const form = formidable({ multiples: true });
-    form.on('fileBegin', function(name, file) {
+
+    form.on('file', function(name, file) {
         var dir = __basedir + '/public/img/banner';
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, 0744);
         }
         if (name == 'imageUrl' && file.name !== '') {
             imageUrl = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            file.path = path.join(dir, `/${imageUrl}`);
+            const newpath = path.join(dir, `/${imageUrl}`);
+            sharp(file.path)
+                .resize(1770, 700, {
+                    fit: "cover"
+                }).toFile(newpath, function(err) {
+                    if (!err) {
+                        req.flash('messages', 'Ảnh đã được resize đúng kích cỡ !');
+                    } else {
+                        console.log(err)
+                    }
+                });
         }
     });
     form.parse(req, (err, fields) => {
         if (imageUrl !== null) {
             fields.imageUrl = `/img/banner/${imageUrl}`;
         }
+        if (fields.isShow) {
+            fields.isShow = true;
+        } else {
+            fields.isShow = false;
+        }
         if (err) {
+
             req.flash('errors', "Không sửa được banner!");
         } else {
             fields.updated_date = new Date();
             Banners.updateOne({ _id: idBanner }, fields, function(err, data) {
                 if (!err) {
+
                     req.flash('messages', 'Sửa thành công !');
                     res.redirect('back');
                 } else {
+                    console.log(err);
                     req.flash('errors', 'Không sửa được banner');
                     res.redirect('back');
                 }

@@ -11,13 +11,16 @@ router.get('/', async function(req, res) {
     let general = await getGeneralConfig();
     let newProducts = await getNewProducts();
     let cart = await getCart(req.sessionID);
+    let banners = await getBanners();
+    console.log(banners);
     res.render('client/index', {
         title: "Trang chu",
         layout: 'client.hbs',
         general: general,
         sessionID: req.sessionID,
         newProducts: newProducts,
-        cart: cart ? cart.toJSON() : null
+        cart: cart ? cart.toJSON() : null,
+        banners: banners.map(banner => banner.toJSON())
     });
 });
 
@@ -50,7 +53,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     let product = await getProductDetail(urlSeo);
     let general = await getGeneralConfig();
     let productsRelated = await getRelatedProducts(product);
-    let banners = await getBanners();
+
     let cart = await getCart(req.sessionID);
     if (product !== null) {
         res.render('client/product-detail', {
@@ -60,8 +63,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             general: general,
             sessionID: req.sessionID,
             productsRelated: productsRelated,
-            cart: cart ? cart.toJSON() : null,
-            banners: banners.map(banner => banner.toJSON())
+            cart: cart ? cart.toJSON() : null
         });
     } else {
         // returrn 404
