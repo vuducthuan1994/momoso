@@ -10,12 +10,15 @@ const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
 router.get('/', async function(req, res) {
     let general = await getGeneralConfig();
     let newProducts = await getNewProducts('chan-ga-goi-dem');
+    let cart = await getCart(req.sessionID);
+
     res.render('client/index', {
         title: "Sửa Thông Tin Kho Hàng",
         layout: 'client.hbs',
         general: general,
         seasonID: req.sessionID,
-        newProducts: newProducts
+        newProducts: newProducts,
+        cart: JSON.stringify(cart)
     });
 });
 
@@ -59,7 +62,6 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             seasonID: req.sessionID,
             productsRelated: productsRelated,
             cart: JSON.stringify(cart),
-            dataProduct: JSON.stringify(product),
             banners: banners.map(banner => banner.toJSON())
         });
     } else {

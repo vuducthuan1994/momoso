@@ -164,8 +164,10 @@
                                 </ul>
                             </li>
                             <!-- Search Box End -->
-                            <li><a href="wish-list.html"><i class="pe-7s-like"></i><span id="wish-list-length">2</span></a></li>
-                            <li><i class="pe-7s-shopbag"></i><span>2</span>
+                            <li><a href="wish-list.html"><i class="pe-7s-like"></i><span
+                                        id="wish-list-length">2</span></a></li>
+                            <li data-cart="{{cart}}" id="js-cart-data"><i class="pe-7s-shopbag"></i><span
+                                    id="cart-length">2</span>
                                 <ul class="ht-dropdown main-cart-box">
                                     <li>
                                         <!-- Cart Box Start -->
@@ -431,9 +433,11 @@
                         <!-- Product Box Quantity End -->
                         <!-- Product Button Actions Start -->
                         <div class="product-button-actions">
-                            <button class="add-to-cart">add to cart</button>
-                            <a data-seasonid = "{{seasonID}}" data-product="{{dataProduct}}" data-cart="{{cart}}" id="add-wish-list" data-toggle="tooltip" title="Add to Wishlist"
-                                class="same-btn mr-15"><i class="pe-7s-like"></i></a>
+                            <button  data-product="{{objectToString product}}"
+                                data-seasonid="{{seasonID}}" class="add-to-cart add-product-to-cart">add to cart</button>
+                            <a id="add-wish-list" data-seasonid="{{seasonID}}" data-product="{{objectToString product}}"
+                                data-toggle="tooltip" title="Add to Wishlist" class="same-btn mr-15"><i
+                                    class="pe-7s-like"></i></a>
                             <button data-toggle="tooltip" title="Compare this Product" class="same-btn"><i
                                     class="pe-7s-repeat"></i></button>
                         </div>

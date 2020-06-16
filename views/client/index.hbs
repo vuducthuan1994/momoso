@@ -165,21 +165,21 @@
                                     <li>
                                         <form action="#">
                                             <input type="text" class="search" name="search"
-                                                placeholder="Search for products...">
+                                                placeholder="Tìm kiếm sản phẩm...">
                                         </form>
                                         <i class="pe-7s-search"></i>
                                     </li>
                                 </ul>
                             </li>
                             <!-- Search Box End -->
-                            <li><a href="wish-list.html"><i class="pe-7s-like"></i><span>2</span></a></li>
-                            <li><i class="pe-7s-shopbag"></i><span>2</span>
+                            <li><a href="wish-list.html"><i class="pe-7s-like"></i><span id="wish-list-length">2</span></a></li>
+                            <li data-cart="{{cart}}" id="js-cart-data" ><i class="pe-7s-shopbag"></i><span id="cart-length">2</span>
                                 <ul class="ht-dropdown main-cart-box">
                                     <li>
                                         <!-- Cart Box Start -->
                                         <div class="single-cart-box">
                                             <div class="cart-img">
-                                                <a href="#"><img src="img/menu/1.jpg" alt="cart-image"></a>
+                                                <a href="#"><img src="/img/menu/1.jpg" alt="cart-image"></a>
                                             </div>
                                             <div class="cart-content">
                                                 <h6><a href="#">Alpha Block Black Polo T-Shirt</a></h6>
@@ -191,7 +191,7 @@
                                         <!-- Cart Box Start -->
                                         <div class="single-cart-box">
                                             <div class="cart-img">
-                                                <a href="#"><img src="img/menu/2.jpg" alt="cart-image"></a>
+                                                <a href="#"><img src="/img/menu/2.jpg" alt="cart-image"></a>
                                             </div>
                                             <div class="cart-content">
                                                 <h6><a href="#">Red Printed Round Neck T-Shirt</a></h6>
@@ -437,7 +437,8 @@
                                     <p data-price="{{this.one.price}}" class="product-price-vnd price">
                                         <span>{{this.one.price}}</span></p>
                                     <div class="action-links2">
-                                        <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to
+                                        <a class="add-product-to-cart"   data-product="{{objectToString this.one}}" data-seasonid="{{seasonID}}" data-toggle="tooltip" 
+                                        title="Add to Cart" >add to
                                             cart</a>
                                     </div>
                                 </div>

@@ -186,6 +186,9 @@ module.exports = {
         }
         return str;
     },
+    objectToString(obj) {
+        return JSON.stringify(obj);
+    },
     createProxy(proxy) {
         const protocol = proxy.protocol ? proxy.protocol : 'http';
         return `${protocol}://${proxy.user}:${proxy.password}@${proxy.ip}:${proxy.port}`;
