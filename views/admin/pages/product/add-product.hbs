@@ -9,6 +9,7 @@
     .error {
         color: red !improtant;
     }
+
     #container-images-product img {
         max-width: 250px;
         height: auto;
@@ -39,7 +40,7 @@
                                 {{>admin/flash-message/success}}
                                 {{/each}}
                                 <div class="row">
-                                    <div class="col-lg-8 col-8 col-md-8 mx-auto">
+                                    <div class="col-lg-12 col-12 col-md-12 mx-auto">
                                         <form id="formProduct" enctype="multipart/form-data" method="post">
                                             <div class=" form-group">
                                                 <label>Tên Sản Phẩm</label>
@@ -58,8 +59,10 @@
                                             <div class="form-group">
                                                 <label>Mã Code Sản Phẩm</label>
                                                 <input value="{{product.code}}" type="text" name="code"
-                                                    placeholder="Enter unique code product..." class="form-control"
-                                                    required="">
+                                                    placeholder="Enter unique code product..."
+                                                    class="form-control col-md-6 " required="">
+
+
                                             </div>
                                             <div class="form-group">
                                                 <label>Giá Sản Phẩm</label>
@@ -111,20 +114,28 @@
                                                         aria-label="With textarea">{{product.note}}</textarea>
                                                 </div>
                                             </div>
-                                            <a id="add-product-image" class="btn btn-primary mb-4">Thêm ảnh sản phẩm</a>
-                                            <div id="container-images-product" class="form-group row">
+                                            <a id="add-product-image" class="btn btn-primary mb-4">Thêm ảnh chung SP</a>
+
+                                            <div id="container-images-product" class="form-group row border pt-2">
                                                 {{#each product.listImages}}
                                                 <div class="col-lg-4 col-md-4 mb-2 ">
                                                     <div class="form-group">
-                                                        <a data-path="{{this}}" class="delete-image-product btn btn-danger">Xóa</a>
+                                                        <a data-path="{{this}}"
+                                                            class="delete-image-product btn btn-danger mt-2">Xóa</a>
                                                         <br>
                                                         <img src="{{this}}" alt="Ảnh đã bị xóa khỏi server">
-                                                        <input  class="d-none currentImage" value="{{this}}">
+                                                        <input class="d-none currentImage" value="{{this}}">
                                                     </div>
                                                 </div>
                                                 {{/each}}
                                             </div>
+                                            <a id="add-block-color" class="btn btn-primary mb-4">Thêm block màu</a>
+                                            <div id="container-color-blocks" class="form-group row">
+                                                {{!-- <div class="col-lg-4 col-md-4 mb-2 ">
+                                                            <input placeholder="Định danh màu" class="form-control">
+                                                         </div> --}}
 
+                                            </div>
                                             <div class="form-group">
                                                 <label>Mô tả sản phẩm</label>
                                                 <textarea id="product-detail" name="detail" class="ckeditor" required=""
@@ -136,13 +147,18 @@
                                         </form>
                                         {{#if product._id}}
 
-                                        <button data-productid="{{product._id}}"   class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
-                                            <div class=" d-none spinner-grow text-white mr-2 align-self-center loader-sm"></div>
+                                        <button data-productid="{{product._id}}"
+                                            class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
+                                            <div
+                                                class=" d-none spinner-grow text-white mr-2 align-self-center loader-sm">
+                                            </div>
                                             Update
                                         </button>
                                         {{else}}
-                                        <button  class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
-                                            <div class="d-none spinner-grow text-white mr-2 align-self-center loader-sm"> </div>
+                                        <button class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
+                                            <div
+                                                class="d-none spinner-grow text-white mr-2 align-self-center loader-sm">
+                                            </div>
                                             Create
                                         </button>
                                         {{/if}}
@@ -160,6 +176,30 @@
             <div class="col-lg-4 col-md-4 mb-2 ">
                 <div class="form-group">
                     <a class="delete-image-product btn btn-danger">Xóa</a>
+                    <input required="" accept="image/jpeg,image/gif,image/png,image/x-eps" type="file"
+                        class="form-control-file">
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none" id="base-block-color">
+            <div class="col-lg-12 col-md-12 mb-2 border mt-4 mb-4">
+                <div class="form-group">
+                    <a class="delete-block-color btn btn-danger mb-2 mt-2">Xóa</a>
+                    <input required="" placeholder="Định danh màu... (mã màu)" class="form-control col-md-6 mb-2 color-code">
+                </div>
+                <a class="btn btn-info add-color-to-block mb-2"> Thêm ảnh cho màu</a>
+
+                <div class="container-images-color form-group row" >
+
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none" id="base-image-color">
+            <div class="col-lg-4 col-md-4 mb-2 ">
+                <div class="form-group">
+                    <a class="delete-image-color btn btn-danger mt-2">Xóa</a>
                     <input required="" accept="image/jpeg,image/gif,image/png,image/x-eps" type="file"
                         class="form-control-file">
                 </div>

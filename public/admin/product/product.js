@@ -7,6 +7,25 @@ $(document).ready(function() {
         $('#container-images-product').prepend(imageProduct.children().clone(true));
     }
 
+    function addColorBlock() {
+        const colorBlock = $('#base-block-color').clone(true);
+        $('#container-color-blocks').prepend(colorBlock.children().clone(true));
+    }
+
+    function addImageToBlock() {
+        const colorItem = $('#base-image-color').clone(true);
+        $(this).next().prepend(colorItem.children().clone(true));
+        // $('#container-images-color').prepend(colorItem.children().clone(true));
+    }
+
+    function deleteImageOfColor() {
+        $(this).parent().parent().remove();
+    }
+
+    function deleteBlockColor() {
+        $(this).parent().parent().remove();
+    }
+
     function deleteImageProduct() {
         $(this).parent().parent().remove();
         const path = $(this).data('path');
@@ -45,14 +64,19 @@ $(document).ready(function() {
     }
 
     $('#add-product-image').on('click', addImageProduct);
-    $('.delete-image-product').on('click', deleteImageProduct)
+    $('.delete-image-product').on('click', deleteImageProduct);
 
+    $('#add-block-color').on('click', addColorBlock);
+    $('.add-color-to-block').on('click', addImageToBlock)
+    $('.delete-image-color').on('click', deleteImageOfColor)
+    $('.delete-block-color ').on('click', deleteBlockColor)
 
 
     $('#product-price').on('input', function() {
         getPriceVND();
     });
 });
+const ENV = 'PRODUCT';
 
 function getListCurrentImages() {
     let results = [];
@@ -118,7 +142,6 @@ function initSelectTag() {
 
 function getPriceVND() {
     var price = parseInt($('#product-price').val());
-    console.log(price);
     price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
     $('#show-price').text(price);
 }
@@ -149,9 +172,12 @@ let handlerForm = function(idProduct) {
     var formData = $('#formProduct').serializeArray();
 
     var newFormData = new FormData();
+    if (ENV == 'DEV') {
+        getFormColor(newFormData);
 
+    }
     // lấy tất cả file từ form 
-    $.each($("input[type='file']"), function(index, file) {
+    $.each($("#container-images-product input[type='file']"), function(index, file) {
         newFormData.append('files[]', $('input[type=file]')[index].files[0]);
     });
     // lấy tất cả file từ form 
@@ -208,8 +234,23 @@ let handlerForm = function(idProduct) {
     });
 }
 
-$('.submitForm').on('click', function(event) {
+function getListColorBlock() {
+    let results = [];
+    $('.color-code').each(function() {
+        results.push($(this).val());
+    });
+    results.pop();
+    return JSON.stringify(results);
+}
 
+function getFormColor(formData) {
+    $('#container-color-blocks .container-images-color').each(function(idx) {
+        $(this).find("input[type='file']").each(function(index, file) {
+            formData.append(`color_image_block_${idx}`, $('input[type=file]')[index].files[0]);
+        });
+    });
+}
+$('.submitForm').on('click', function(event) {
     var formStatus = $('#formProduct').validate({
         errorClass: "text-danger",
         messages: {
@@ -224,7 +265,7 @@ $('.submitForm').on('click', function(event) {
             }
         }
     }).form();
-    if (formStatus) {
+    if (formStatus || ENV == 'DEV') {
         const idProduct = $(this).data('productid');
         handlerForm(idProduct);
     } else {

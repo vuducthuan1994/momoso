@@ -92,25 +92,25 @@ router.get('/edit-product/:id', isAuthenticated, async function(req, res) {
 
 
 let resizeImages = function(oldPath, newPath) {
-        return new Promise(function(resolve, reject) {
-            sharp(oldPath)
-                .resize(600, 756, {
-                    fit: "cover"
-                }).toFile(newPath, function(err) {
-                    if (!err) {
-                        resolve(true);
-                    } else {
-                        resolve(false);
-                    }
-                });
-        });
+
+        sharp(oldPath)
+            .resize(600, 756, {
+                fit: "cover"
+            }).toFile(newPath, function(err) {
+
+            });
     }
     // create product
 router.post('/', isAuthenticated, async function(req, res) {
     let newListImage = [];
     let content = {};
-    formidable
+    let blocksColor = []
     const form = formidable({ multiples: true });
+
+    var dir = __basedir + '/public/img/product';
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, 0744);
+    }
 
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
@@ -124,19 +124,28 @@ router.post('/', isAuthenticated, async function(req, res) {
 
     form.on('file', async function(fieldName, file) {
         if (fieldName == 'files[]' && file.name !== '') {
-            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
 
-            var dir = __basedir + '/public/img/product';
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, 0744);
-            }
+            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
 
-            let resizeImage = await resizeImages(file.path, new_path);
+            newListImage.push(`/img/product/${imgName}`);
+            resizeImages(file.path, new_path);
+        }
+        if (file.name !== '' && fieldName.includes('block_image')) {
 
-            if (resizeImage) {
-                newListImage.push(`/img/product/${imgName}`);
+            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
+            const new_path = path.join(__basedir, `public/img/product/${imgName}`);
+
+            const indexColor = parseInt(fieldName.slice(fieldName.length - 1));
+            if (blocksColor[indexColor] == undefined) {
+                blocksColor[indexColor] = {
+                    listImages: [],
+                    colorCode: null
+                }
             }
+            blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
+
+            resizeImages(file.path, new_path);
         }
     });
     form.on('end', async function() {
@@ -223,12 +232,11 @@ router.post('/edit-product/:id', async function(req, res) {
                 fs.mkdirSync(dir, 0744);
             }
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
+            newListImage.push(`/img/product/${imgName}`);
 
-            let resizeImage = await resizeImages(file.path, new_path);
+            resizeImages(file.path, new_path);
 
-            if (resizeImage) {
-                newListImage.push(`/img/product/${imgName}`);
-            }
+
         }
     });
     form.on('end', async function() {
