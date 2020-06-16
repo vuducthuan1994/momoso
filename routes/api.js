@@ -2,6 +2,7 @@ const express = require('express');
 let router = express.Router();
 const Subscribe = require('../models/subscribeModel');
 const Products = require('../models/productModel');
+const Carts = require('../models/cartModel');
 
 router.post('/subscribe', function(req, res) {
     Subscribe.create(req.body, function(err, data) {
@@ -15,6 +16,40 @@ router.post('/subscribe', function(req, res) {
             });
         }
     })
+});
+
+router.post('/updateCart/:seasonID', function(req, res) {
+    const seasonID = req.params.seasonID;
+    Carts.findOneAndUpdate({ seasonID: seasonID }, req.body, { upsert: true }, function(err, data) {
+        if (!err) {
+            res.json({
+                success: true,
+                msg: 'Cập nhật giỏ hàng thành công !'
+            });
+        } else {
+            res.json({
+                success: false,
+                msg: 'Không cập nhật được giỏ hàng !'
+            });
+        }
+    });
+});
+
+router.post('/updateFavor/seasonID', function(req, res) {
+    const seasonID = req.params.seasonID;
+    Carts.findOneAndUpdate({ seasonID: seasonID }, req.body, { upsert: true }, function(err, data) {
+        if (!err) {
+            res.json({
+                success: true,
+                msg: 'Cập nhật danh sách ưa thích thành công !'
+            });
+        } else {
+            res.json({
+                success: false,
+                msg: 'Không cập nhật được danh sách ưa thích !'
+            });
+        }
+    });
 });
 
 router.get('/product/:id', function(req, res) {
