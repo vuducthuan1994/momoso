@@ -362,7 +362,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each wishList}}
+                                        {{#each cart.listFavorProducts}}
                                         <tr id="{{this._id}}">
                                             <td class="product-remove"> <a href="#"><i data-product="{{objectToString this}}"  class="remove-wish-list fa fa-times"
                                                         aria-hidden="true"></i></a></td>
@@ -371,7 +371,7 @@
                                                         alt="cart-image" /></a>
                                             </td>
                                             <td class="product-name"><a href="#">{{this.name}}</a></td>
-                                            <td class="product-price"><span class="amount">{{this.price}}</span></td>
+                                            <td class="product-price"><span  data-price = "{{this.price}}"class="amount product-price-vnd">{{this.price}}</span></td>
                                             <td class="product-stock-status"><span>in stock</span></td>
                                             <td class="product-add-to-cart"><a class="add-product-to-cart"
                                                     data-product="{{objectToString this}}">add to cart</a></td>

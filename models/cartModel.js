@@ -18,10 +18,6 @@ var CartSchema = new Schema({
         type: Array,
         default: []
     },
-    listTotals: {
-        type: Array,
-        default: []
-    },
     created_date: {
         type: Date,
         default: Date.now

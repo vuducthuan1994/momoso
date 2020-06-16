@@ -17,7 +17,7 @@ router.get('/', async function(req, res) {
         general: general,
         sessionID: req.sessionID,
         newProducts: newProducts,
-        cart: JSON.stringify(cart)
+        cart: cart ? cart.toJSON() : null
     });
 });
 
@@ -41,8 +41,7 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
         layout: 'client.hbs',
         general: general,
         sessionID: req.sessionID,
-        cart: JSON.stringify(cart),
-        wishList: cart ? cart.listFavorProducts : []
+        cart: cart ? cart.toJSON() : null
     });
 });
 
@@ -61,7 +60,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             general: general,
             sessionID: req.sessionID,
             productsRelated: productsRelated,
-            cart: JSON.stringify(cart),
+            cart: cart ? cart.toJSON() : null,
             banners: banners.map(banner => banner.toJSON())
         });
     } else {
@@ -72,9 +71,10 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
 let getCart = function(sessionID) {
     return new Promise(function(resolve, reject) {
         Carts.findOne({ sessionID: sessionID }, function(err, cart) {
-            if (!err) {
-                resolve(cart);
-            }
+            console.log(cart);
+
+            resolve(cart);
+
         });
     });
 

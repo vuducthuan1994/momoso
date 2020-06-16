@@ -1,7 +1,8 @@
 $(document).ready(function() {
     $('#add-wish-list').on('click', addToWishList);
-    $('.add-product-to-cart').on('click', addToCart)
-    $('.remove-wish-list').on('click', removeFromWishList)
+    $('.add-product-to-cart').on('click', addToCart);
+    $('.remove-wish-list').on('click', removeFromWishList);
+    $('.remove-product-from-cart').on('click', removeFromCart)
     initCart();
 });
 
@@ -20,11 +21,42 @@ function toast(title, msg, type = 'info') {
 
 function initCart() {
     var cart = $('#js-cart-data').data('cart');
-    if (cart !== null && cart !== undefined) {
+    if (cart && cart !== null && cart !== undefined) {
         $('#cart-length').text(cart.listCartProducts.length);
         $('#wish-list-length').text(cart.listFavorProducts.length);
     }
 
+}
+
+function removeFromCart() {
+    var cart = $('#js-cart-data').data('cart');
+    var sessionID = $('#js-cart-data').data('seasonid');
+    var product = $(this).data('product');
+    if (cart !== null && cart !== undefined && cart.listCartProducts.length > 0) {
+        cart.listCartProducts.splice(cart.listCartProducts.findIndex(function(i) {
+            return i._id === product._id;
+        }), 1);
+        let data = {
+            sessionID: sessionID,
+            listCartProducts: cart.listCartProducts
+        }
+        $.ajax({
+            url: `/api/updateCart`,
+            dataType: "json",
+            data: data,
+            method: 'POST',
+            success: function(data) {
+                if (data.success) {
+                    toast('Thông báo', 'Xóa thành công khỏi giỏ hàng', 'success');
+                    $('#cart-length').text(cart.listCartProducts.length);
+                    $('#js-cart-data').data('cart', cart);
+                    $(`#${product._id}.single-cart-box`).remove();
+                } else {
+                    toast('Thông báo', 'Lỗi hệ thống!', 'error');
+                }
+            }
+        });
+    }
 }
 
 function removeFromWishList() {
@@ -63,7 +95,9 @@ function addToCart() {
     var cart = $('#js-cart-data').data('cart');
     var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
-    if (cart !== null) {
+    product['quantity'] = $('.cart-plus-minus-box').val();
+    console.log(product);
+    if (cart && cart !== null && cart !== undefined) {
         listCartProducts = cart.listCartProducts;
     };
     const added = checkProductInList(product, listCartProducts);
@@ -98,7 +132,7 @@ function addToWishList() {
     var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
 
-    if (cart !== null) {
+    if (cart && cart !== null && cart !== undefined) {
         listFavorProducts = cart.listFavorProducts;
     };
     const added = checkProductInList(product, listFavorProducts);

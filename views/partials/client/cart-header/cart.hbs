@@ -1,33 +1,26 @@
 <!-- Cart and wishlist icon -->
 <li><a href="{{createWishLishURL}}"><i class="pe-7s-like"></i><span id="wish-list-length">0</span></a></li>
-<li data-seasonid="{{sessionID}}" data-cart="{{cart}}" id="js-cart-data"><i class="pe-7s-shopbag"></i><span
+<li data-seasonid="{{sessionID}}" data-cart="{{ objectToString cart}}" id="js-cart-data"><i class="pe-7s-shopbag"></i><span
         id="cart-length">0</span>
     <ul class="ht-dropdown main-cart-box">
-        <li>
+        <li class="container-products">
             <!-- Cart Box Start -->
-            <div class="single-cart-box">
+
+            {{#each cart.listCartProducts }}
+            <div id="{{this._id}}" class="single-cart-box">
                 <div class="cart-img">
-                    <a href="#"><img src="/img/menu/1.jpg" alt="cart-image"></a>
+                    <a href="{{createURLProduct this.urlSeo}}"><img src="/img/menu/1.jpg" alt="cart-image"></a>
                 </div>
                 <div class="cart-content">
-                    <h6><a href="#">Alpha Block Black Polo T-Shirt</a></h6>
-                    <span>1 × $399.00</span>
+                    <h6><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h6>
+                   <span>1 ×</span> <span class="product-price-vnd" data-price="{{this.price}}">$399.00</span>
                 </div>
-                <i class="pe-7s-close"></i>
+                <i data-product="{{objectToString this}}" class="pe-7s-close remove-product-from-cart"></i>
             </div>
+              {{/each }}
             <!-- Cart Box End -->
-            <!-- Cart Box Start -->
-            <div class="single-cart-box">
-                <div class="cart-img">
-                    <a href="#"><img src="/img/menu/2.jpg" alt="cart-image"></a>
-                </div>
-                <div class="cart-content">
-                    <h6><a href="#">Red Printed Round Neck T-Shirt</a></h6>
-                    <span>2 × $299.00</span>
-                </div>
-                <i class="pe-7s-close"></i>
-            </div>
-            <!-- Cart Box End -->
+
+
             <!-- Cart Footer Inner Start -->
             <div class="cart-footer fix">
                 <h5>total :<span class="f-right">$698.00</span></h5>
