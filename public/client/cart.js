@@ -8,6 +8,7 @@ $(document).ready(function() {
 
 var listFavorProducts = [];
 var listCartProducts = [];
+const BASE_URL = 'product';
 
 function toast(title, msg, type = 'info') {
     $.toast({
@@ -31,10 +32,10 @@ function initCart() {
 function removeFromCart() {
     var cart = $('#js-cart-data').data('cart');
     var sessionID = $('#js-cart-data').data('seasonid');
-    var product = $(this).data('product');
+    var productid = $(this).data('product');
     if (cart !== null && cart !== undefined && cart.listCartProducts.length > 0) {
         cart.listCartProducts.splice(cart.listCartProducts.findIndex(function(i) {
-            return i._id === product._id;
+            return i._id === productid;
         }), 1);
         let data = {
             sessionID: sessionID,
@@ -50,7 +51,7 @@ function removeFromCart() {
                     toast('Thông báo', 'Xóa thành công khỏi giỏ hàng', 'success');
                     $('#cart-length').text(cart.listCartProducts.length);
                     $('#js-cart-data').data('cart', cart);
-                    $(`#${product._id}.single-cart-box`).remove();
+                    $(`#${productid}.single-cart-box`).remove();
                 } else {
                     toast('Thông báo', 'Lỗi hệ thống!', 'error');
                 }
@@ -95,8 +96,7 @@ function addToCart() {
     var cart = $('#js-cart-data').data('cart');
     var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
-    product['quantity'] = $('.cart-plus-minus-box').val();
-    console.log(product);
+    product['quantity'] = $('.cart-plus-minus-box').val() == 0 ? 1 : $('.cart-plus-minus-box').val();
     if (cart && cart !== null && cart !== undefined) {
         listCartProducts = cart.listCartProducts;
     };
@@ -114,8 +114,10 @@ function addToCart() {
             method: 'POST',
             success: function(data) {
                 if (data.success) {
+
                     toast('Thông báo', 'Thêm thành công vào giỏ hàng!', 'success');
                     $('#cart-length').text(listCartProducts.length);
+                    addProductToListHeader(product);
                 } else {
                     toast('Thông báo', 'Lỗi hệ thống ! , vui lòng liên hệ admin', 'error');
                 }
@@ -125,6 +127,29 @@ function addToCart() {
     } else {
         toast('Thông báo', 'Sản phẩm đã tồn tại trong giỏ hàng ', 'info');
     }
+}
+
+function addProductToListHeader(product) {
+    let html = `  <div id="${product._id}" class="single-cart-box">
+    <div class="cart-img">
+        <a href="${BASE_URL+'/'+product.urlSeo}"><img src="/img/menu/1.jpg" alt="cart-image"></a>
+    </div>
+    <div class="cart-content">
+        <h6><a href="${BASE_URL+'/'+product.urlSeo}">${product.name}</a></h6>
+       <span>${product.quantity} ×</span> <span class="product-price-vnd" data-price="${product.price} ">${product.price}</span>
+    </div>
+    <i data-productid="${product._id}" class="pe-7s-close remove-product-from-cart"></i>
+</div>`
+    $('#container-products').append(html);
+    getPriceVND();
+}
+
+function getPriceVND() {
+    $('.product-price-vnd').each(function(index, element) {
+        var price = parseInt($(this).data('price'));
+        price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+        $(this).text(price);
+    });
 }
 
 function addToWishList() {

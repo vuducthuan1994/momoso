@@ -24,11 +24,6 @@ var BannersSchema = new Schema({
         trim: true,
         default: true
     },
-    url: {
-        type: String,
-        trim: true,
-        default: ''
-    },
     created_date: {
         type: Date,
         default: Date.now

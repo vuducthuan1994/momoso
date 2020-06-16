@@ -1,25 +1,26 @@
 <!-- Cart and wishlist icon -->
 <li><a href="{{createWishLishURL}}"><i class="pe-7s-like"></i><span id="wish-list-length">0</span></a></li>
-<li data-seasonid="{{sessionID}}" data-cart="{{ objectToString cart}}" id="js-cart-data"><i class="pe-7s-shopbag"></i><span
-        id="cart-length">0</span>
+<li data-seasonid="{{sessionID}}" data-cart="{{ objectToString cart}}" id="js-cart-data"><i
+        class="pe-7s-shopbag"></i><span id="cart-length">0</span>
     <ul class="ht-dropdown main-cart-box">
-        <li class="container-products">
+        <li>
             <!-- Cart Box Start -->
-
-            {{#each cart.listCartProducts }}
-            <div id="{{this._id}}" class="single-cart-box">
-                <div class="cart-img">
-                    <a href="{{createURLProduct this.urlSeo}}"><img src="/img/menu/1.jpg" alt="cart-image"></a>
+            <div id="container-products">
+                {{#each cart.listCartProducts }}
+                <div id="{{this._id}}" class="single-cart-box">
+                    <div class="cart-img">
+                        <a href="{{createURLProduct this.urlSeo}}"><img src="/img/menu/1.jpg" alt="cart-image"></a>
+                    </div>
+                    <div class="cart-content">
+                        <h6><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h6>
+                        <span>{{this.quantity}} ×</span> <span class="product-price-vnd"
+                            data-price="{{this.price}}">$399.00</span>
+                    </div>
+                    <i data-productid="{{this._id}}" class="pe-7s-close remove-product-from-cart"></i>
                 </div>
-                <div class="cart-content">
-                    <h6><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h6>
-                   <span>1 ×</span> <span class="product-price-vnd" data-price="{{this.price}}">$399.00</span>
-                </div>
-                <i data-product="{{objectToString this}}" class="pe-7s-close remove-product-from-cart"></i>
+                {{/each }}
+                <!-- Cart Box End -->
             </div>
-              {{/each }}
-            <!-- Cart Box End -->
-
 
             <!-- Cart Footer Inner Start -->
             <div class="cart-footer fix">
