@@ -33,7 +33,7 @@ router.get(process.env.ABOUT_US, async function(req, res) {
 
 router.get(process.env.FAVOR_LIST, async function(req, res) {
     let general = await getGeneralConfig();
-    let cart = await getFavorProducts(req.sessionID);
+    let cart = await getCart(req.sessionID);
     res.render('client/favor-list', {
         title: "favor-list",
         layout: 'client.hbs',
@@ -44,12 +44,12 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
 });
 
 router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
-    console.log("hahaha");
     const urlSeo = req.params.url;
     let product = await getProductDetail(urlSeo);
     let general = await getGeneralConfig();
     let productsRelated = await getRelatedProducts(product);
     let banners = await getBanners();
+    let cart = await getCart(req.sessionID);
     if (product !== null) {
         res.render('client/product-detail', {
             title: "PRODUCT",
@@ -58,6 +58,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             general: general,
             seasonID: req.sessionID,
             productsRelated: productsRelated,
+            cart: JSON.stringify(cart),
             banners: banners.map(banner => banner.toJSON())
         });
     } else {
@@ -65,7 +66,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     }
 });
 
-let getFavorProducts = function(sessionID) {
+let getCart = function(sessionID) {
     return new Promise(function(resolve, reject) {
         Carts.findOne({ sessionID: sessionID }, function(err, cart) {
             if (!err) {
