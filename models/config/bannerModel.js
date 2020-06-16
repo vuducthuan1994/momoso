@@ -19,6 +19,11 @@ var BannersSchema = new Schema({
         trim: true,
         default: ''
     },
+    isShow: {
+        type: Boolean,
+        trim: true,
+        default: true
+    },
     url: {
         type: String,
         trim: true,

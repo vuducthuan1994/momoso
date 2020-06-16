@@ -45,20 +45,32 @@ router.get('/edit-post/:id', function(req, res) {
 router.post('/', function(req, res) {
     let imageUrl = null;
     const form = formidable({ multiples: true });
-    form.on('fileBegin', function(name, file) {
-        var dir = __basedir + '/public/img/banner';
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, 0744);
-        }
-        if (name == 'imageUrl' && file.name !== '') {
+    form.on('file', function(fieldName, file) {
+        if (fieldName == 'imageUrl' && file.name !== '') {
+            var dir = __basedir + '/public/img/banner';
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, 0744);
+            }
             imageUrl = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            file.path = path.join(dir, `/${imageUrl}`);
+            newPath = path.join(dir, `/${imageUrl}`);
+            sharp(file.path)
+                .resize(1770, 700)
+                .toFile(newPath, function(err) {
+                    if (!err) {
+                        req.flash('messages', 'Image was resize !')
+                    }
+                });
         }
     });
 
     form.parse(req, (err, fields) => {
-        if (imageUrl !== null) {
+        if (newPath !== null) {
             fields.imageUrl = `/img/banner/${imageUrl}`;
+        }
+        if (fields.isShow) {
+            fields.isShow = true;
+        } else {
+            fields.isShow = false;
         }
         if (err) {
             req.flash('messages', "Không thêm được Banner!");
@@ -66,7 +78,7 @@ router.post('/', function(req, res) {
         } else {
             Banners.create(fields, function(err, data) {
                 if (!err) {
-                    req.flash('messages', 'Thêm thành công !')
+                    req.flash('messages', 'Thêm thành Banner công !')
                     res.redirect('/admin/config/banner');
 
                 } else {

@@ -49,7 +49,7 @@
                     </div>
                     <div class="widget-content widget-content-area">
                         <div class="table-responsive mb-4">
-                            <div >
+                            <div>
                                 <div class="seperator-header">
                                     <a href="/admin/config/banner/add-banner">
                                         <h4 class="">Thêm mới </h4>
@@ -61,25 +61,35 @@
                                         <tr>
                                             <th class="checkbox-column text-center"> ID</th>
                                             <th>Tiêu đề</th>
-                                            <th class="text-center">Ảnh banner</th>
+                                            <th>Ảnh banner</th>
                                             <th>Mô tả </th>
                                             <th>URL Link</th>
+                                            <th>Trạng thái</th>
                                             <th>Thời gian</th>
-                                            <th class="text-center">Action</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each banners}}
                                         <tr>
-                                            <td class="checkbox-column text-center"> {{@index}}</td>
+                                            <td class="checkbox-column"> {{@index}}</td>
                                             <td class="title-custom">{{this.title}}</td>
-                                            <td class="text-center">
+                                            <td>
                                                 <span><img src="{{this.imageUrl}}" class="banner-post "
-                                                        alt="avatar"></span>
+                                                        alt="banner"></span>
                                             </td>
-                                            <td class="text-center">{{this.desc}}</td>
+                                            <td>{{this.desc}}</td>
                                             <td> <a target="_blank" class="text-info"
-                                                    href="{{this.fb_link}}">{{this.url}}</a></td>
+                                                    href="{{this.url}}">{{this.url}}</a>
+                                            </td>
+                                            <td class="text-center">
+                                                {{#if this.isShow}}
+                                                <span class="shadow-none badge badge-primary">Hiện</span>
+
+                                                {{else}}
+                                                <span class="shadow-none badge badge-warning">Ẩn</span>
+                                                {{/if}}
+                                            </td>
                                             <td>
                                                 <div>
                                                     <span class="badge badge-secondary">Ngày cập nhật</span> <br> <span
@@ -92,7 +102,7 @@
                                                     <span class="text-muted">{{ formatDate this.created_date}} </span>
                                                 </div>
                                             </td>
-                                            <td class="text-center">
+                                            <td>
                                                 <ul class="table-controls">
                                                     <li><a title="Sửa banner"
                                                             href="/admin/config/banner/edit-post/{{this._id}}"
@@ -108,7 +118,9 @@
                                                                     d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
                                                                 </path>
                                                             </svg></a></li>
-                                                    <li data-toggle="modal" data-target="#exampleModal" data-bannerid="{{this._id}}" class="btn-delete-banner"><a title="Xóa banner !"
+                                                    <li data-toggle="modal" data-target="#exampleModal"
+                                                        data-bannerid="{{this._id}}" class="btn-delete-banner"><a
+                                                            title="Xóa banner !"
                                                             {{!-- href="/admin/config/banner/delete/{{this._id}}" --}}
                                                             class="bs-tooltip" data-toggle="tooltip"
                                                             data-placement="top" title=""
@@ -135,7 +147,7 @@
                 </div>
             </div>
         </div>
-            <!-- Modal -->
+        <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -143,7 +155,12 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Xóa Banner</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -172,8 +189,8 @@
             "stripeClasses": [],
             "lengthMenu": [5, 10, 20, 50],
             "pageLength": 10,
-             "bPaginate": false,
-             "bFilter": false, //hide Search bar
+            "bPaginate": false,
+            "bFilter": false, //hide Search bar
 
 
         });
@@ -191,10 +208,10 @@
         }
         $('#testAPI').on('click', testFunction);
 
-            $('.btn-delete-banner').on('click', handleDeleteStorage);
+        $('.btn-delete-banner').on('click', handleDeleteStorage);
         function handleDeleteStorage() {
-            var idBannerDelete = $(this).data("bannerid"); 
-            $('#delete-modal').attr('href',`/admin/config/banner/delete/${idBannerDelete}`);
+            var idBannerDelete = $(this).data("bannerid");
+            $('#delete-modal').attr('href', `/admin/config/banner/delete/${idBannerDelete}`);
         }
 
     </script>

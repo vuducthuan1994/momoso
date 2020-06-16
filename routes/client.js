@@ -1,6 +1,7 @@
 const express = require('express');
 const Settings = require('../models/settingModel');
 const Products = require('../models/productModel');
+const Banners = require('../models/config/bannerModel');
 let router = express.Router();
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
@@ -34,6 +35,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     let product = await getProductDetail(urlSeo);
     let general = await getGeneralConfig();
     let productsRelated = await getRelatedProducts(product);
+    let banners = await getBanners();
     if (product !== null) {
         res.render('client/product-detail', {
             title: "PRODUCT",
@@ -41,7 +43,8 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             product: product.toJSON(),
             general: general,
             seasonID: req.sessionID,
-            productsRelated: productsRelated
+            productsRelated: productsRelated,
+            banners: banners.map(banner => banner.toJSON())
         });
     } else {
         // returrn 404
@@ -99,6 +102,24 @@ let getGeneralConfig = function() {
             });
         } else {
             resolve(general)
+        }
+    });
+}
+
+let getBanners = function() {
+    return new Promise(function(resolve, reject) {
+        let banners = cache.get("banners");
+        if (about_us == undefined) {
+            Banners.find({ isShow: true }, function(err, banners) {
+                if (!err) {
+                    resolve(banners);
+                    cache.set("banners", banners);
+                } else {
+                    resolve([]);
+                }
+            });
+        } else {
+            resolve(banners)
         }
     });
 }

@@ -148,7 +148,7 @@ router.post('/', function(req, res) {
             }
             const thumb_path = path.join(__basedir, `public/img/thumbails/400x268-${banner_image}`);
             sharp(file.path)
-                .resize(400, 268).webp({ quality: 100 })
+                .resize(400, 268)
                 .toFile(thumb_path, function(err) {
                     if (!err) {
                         req.flash('messages', 'Image was resize !')
