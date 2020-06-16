@@ -39,7 +39,7 @@ router.get('/add-product', isAuthenticated, async function(req, res) {
     res.render('admin/pages/product/add-product', {
         errors: req.flash('errors'),
         messages: req.flash('messages'),
-        title: "Thêm Loại SP",
+        title: "Thêm Sản Phẩm",
         categorys: JSON.stringify(categorys),
         storages: JSON.stringify(storages),
         layout: 'admin.hbs'
