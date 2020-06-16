@@ -30,7 +30,7 @@ router.get('/add-storage', isAuthenticated, function(req, res) {
     res.render('admin/pages/storage/add-storage', {
         errors: req.flash('errors'),
         messages: req.flash('messages'),
-        title: "Thêm Banner",
+        title: "Thêm Kho Hàng Mới",
         layout: 'admin.hbs'
     });
 });
