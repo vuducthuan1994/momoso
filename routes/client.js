@@ -2,6 +2,7 @@ const express = require('express');
 const Settings = require('../models/settingModel');
 const Products = require('../models/productModel');
 const Banners = require('../models/config/bannerModel');
+const Carts = require('../models/cartModel');
 let router = express.Router();
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
@@ -31,13 +32,14 @@ router.get(process.env.ABOUT_US, async function(req, res) {
 });
 
 router.get(process.env.FAVOR_LIST, async function(req, res) {
-    let favor_list = await getFavorProducts(req.sessionID);
+    let general = await getGeneralConfig();
+    let cart = await getFavorProducts(req.sessionID);
     res.render('client/favor-list', {
         title: "favor-list",
         layout: 'client.hbs',
         general: general,
         seasonID: req.sessionID,
-        about_us: about_us
+        cart: cart
     });
 });
 
@@ -62,7 +64,17 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     }
 });
 
-let getFavorProducts = function(sessionID)
+let getFavorProducts = function(sessionID) {
+    return new Promise(function(resolve, reject) {
+        Carts.findOne({ sessionID: sessionID }, function(err, cart) {
+            if (!err) {
+                resolve(cart);
+            }
+        });
+    });
+
+}
+
 let getRelatedProducts = function(productItem) {
     const keyCache = 'related' + productItem._id;
     let listURLSeoRelated = [];
