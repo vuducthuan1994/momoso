@@ -1,6 +1,8 @@
 $(document).ready(function() {
     $('#add-wish-list').on('click', addToWishList);
     $('.add-product-to-cart').on('click', addToCart)
+    $('.remove-wish-list').on('click', removeFromWishList)
+    initCart();
 });
 
 var listFavorProducts = [];
@@ -14,6 +16,47 @@ function toast(title, msg, type = 'info') {
         icon: type,
         position: 'bottom-right',
     });
+}
+
+function initCart() {
+    var cart = $('#js-cart-data').data('cart');
+    if (cart !== null && cart !== undefined) {
+        $('#cart-length').text(cart.listCartProducts.length);
+        $('#wish-list-length').text(cart.listFavorProducts.length);
+    }
+
+}
+
+function removeFromWishList() {
+    var cart = $('#js-cart-data').data('cart');
+    var sessionID = $('#js-cart-data').data('seasonid');
+    var product = $(this).data('product');
+    if (cart !== null && cart !== undefined && cart.listFavorProducts.length > 0) {
+        cart.listFavorProducts.splice(cart.listFavorProducts.findIndex(function(i) {
+            return i._id === product._id;
+        }), 1);
+        let data = {
+            sessionID: sessionID,
+            listFavorProducts: cart.listFavorProducts
+        }
+        $.ajax({
+            url: `/api/updateFavor`,
+            dataType: "json",
+            data: data,
+            method: 'POST',
+            success: function(data) {
+                if (data.success) {
+                    toast('Thông báo', 'Xóa thành công khỏi danh sách', 'success');
+                    $('#wish-list-length').text(cart.listFavorProducts.length);
+                    $('#js-cart-data').data('cart', cart);
+                    $(`#${product._id}`).remove();
+                } else {
+                    toast('Thông báo', 'Lỗi hệ thống!', 'error');
+                }
+            }
+        });
+    }
+
 }
 
 function addToCart() {
@@ -52,8 +95,8 @@ function addToCart() {
 
 function addToWishList() {
     var cart = $('#js-cart-data').data('cart');
+    var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
-    var sessionID = $(this).data('seasonid');
 
     if (cart !== null) {
         listFavorProducts = cart.listFavorProducts;
@@ -75,7 +118,7 @@ function addToWishList() {
                     toast('Thông báo', 'Thêm thành công !', 'success');
                     $('#wish-list-length').text(listFavorProducts.length);
                 } else {
-                    toast('Thông báo', 'Lỗi hệ thống !', 'error');
+                    toast('Thông báo', 'Lỗi hệ thống!', 'error');
                 }
             }
         });

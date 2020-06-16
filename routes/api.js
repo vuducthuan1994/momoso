@@ -36,6 +36,7 @@ router.post('/updateCart', function(req, res) {
 });
 
 router.post('/updateFavor', function(req, res) {
+    console.log(req.body)
     Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, req.body, { upsert: true }, function(err, data) {
         if (!err) {
             res.json({

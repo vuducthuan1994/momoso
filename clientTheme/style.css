@@ -4241,3 +4241,7 @@ input[type="radio"] {
 .login-form .form-control {
     font-size: 13px;
 }
+
+.product-add-to-cart {
+    cursor: pointer;
+}

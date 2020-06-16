@@ -189,6 +189,9 @@ module.exports = {
     objectToString(obj) {
         return JSON.stringify(obj);
     },
+    createWishLishURL() {
+        return process.env.FAVOR_LIST;
+    },
     createProxy(proxy) {
         const protocol = proxy.protocol ? proxy.protocol : 'http';
         return `${protocol}://${proxy.user}:${proxy.password}@${proxy.ip}:${proxy.port}`;
@@ -221,13 +224,13 @@ module.exports = {
     },
     getAvatarImage(type, listImages) {
         if (type == 'primary') {
-            return listImages[0] ? listImages[0] : '/img/new-products/1_2.jpg';
+            return listImages.length > 0 ? listImages[0] : '/img/new-products/1_2.jpg';
         } else {
-            return listImages[1] ? listImages[1] : '/img/new-products/1_2.jpg';
+            return listImages.length > 1 ? listImages[1] : '/img/new-products/1_2.jpg';
         }
     },
     getActiveProductImage(listImages) {
-        return listImages[0] ? listImages[0] : '/img/new-products/1_2.jpg';
+        return listImages.length > 0 ? listImages[0] : '/img/new-products/1_2.jpg';
     },
     selected(option, value) {
         if (option && value) {

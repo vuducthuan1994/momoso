@@ -8,11 +8,9 @@ const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
 
 router.get('/', async function(req, res) {
-    console.log(req.sessionID);
     let general = await getGeneralConfig();
     let newProducts = await getNewProducts();
     let cart = await getCart(req.sessionID);
-    console.log(cart);
     res.render('client/index', {
         title: "Trang chu",
         layout: 'client.hbs',
@@ -42,8 +40,9 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
         title: "favor-list",
         layout: 'client.hbs',
         general: general,
-        seasonID: req.sessionID,
-        cart: cart
+        sessionID: req.sessionID,
+        cart: JSON.stringify(cart),
+        wishList: cart ? cart.listFavorProducts : []
     });
 });
 
@@ -60,7 +59,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             layout: 'client.hbs',
             product: product.toJSON(),
             general: general,
-            seasonID: req.sessionID,
+            sessionID: req.sessionID,
             productsRelated: productsRelated,
             cart: JSON.stringify(cart),
             banners: banners.map(banner => banner.toJSON())
