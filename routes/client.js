@@ -30,6 +30,17 @@ router.get(process.env.ABOUT_US, async function(req, res) {
     });
 });
 
+router.get(process.env.FAVOR_LIST, async function(req, res) {
+    let favor_list = await getFavorProducts(req.sessionID);
+    res.render('client/favor-list', {
+        title: "favor-list",
+        layout: 'client.hbs',
+        general: general,
+        seasonID: req.sessionID,
+        about_us: about_us
+    });
+});
+
 router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     const urlSeo = req.params.url;
     let product = await getProductDetail(urlSeo);
@@ -51,6 +62,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     }
 });
 
+let getFavorProducts = function(sessionID)
 let getRelatedProducts = function(productItem) {
     const keyCache = 'related' + productItem._id;
     let listURLSeoRelated = [];

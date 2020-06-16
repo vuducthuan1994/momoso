@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var CartSchema = new Schema({
-    seasonID: {
+    sessionID: {
         type: String,
         required: true,
         unique: true,

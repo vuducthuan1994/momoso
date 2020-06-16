@@ -18,9 +18,8 @@ router.post('/subscribe', function(req, res) {
     })
 });
 
-router.post('/updateCart/:seasonID', function(req, res) {
-    const seasonID = req.params.seasonID;
-    Carts.findOneAndUpdate({ seasonID: seasonID }, req.body, { upsert: true }, function(err, data) {
+router.post('/updateCart/:sessionID', function(req, res) {
+    Carts.findOneAndUpdate({ sessionID: req.params.sessionID }, req.body, { upsert: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,
@@ -35,9 +34,8 @@ router.post('/updateCart/:seasonID', function(req, res) {
     });
 });
 
-router.post('/updateFavor/seasonID', function(req, res) {
-    const seasonID = req.params.seasonID;
-    Carts.findOneAndUpdate({ seasonID: seasonID }, req.body, { upsert: true }, function(err, data) {
+router.post('/updateFavor/sessionID', function(req, res) {
+    Carts.findOneAndUpdate({ sessionID: req.params.sessionID }, req.body, { upsert: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,
