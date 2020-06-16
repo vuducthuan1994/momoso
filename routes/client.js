@@ -44,6 +44,7 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
 });
 
 router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
+    console.log("hahaha");
     const urlSeo = req.params.url;
     let product = await getProductDetail(urlSeo);
     let general = await getGeneralConfig();
@@ -133,7 +134,7 @@ let getGeneralConfig = function() {
 let getBanners = function() {
     return new Promise(function(resolve, reject) {
         let banners = cache.get("banners");
-        if (about_us == undefined) {
+        if (banners == undefined) {
             Banners.find({ isShow: true }, function(err, banners) {
                 if (!err) {
                     resolve(banners);

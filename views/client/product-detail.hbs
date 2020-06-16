@@ -598,11 +598,14 @@
                         <!-- Product Image Start -->
                         <div class="pro-img">
                             <a href="#">
-                                <img class="primary-img" src="{{getAvatarImage 'primary' this.listImages}}" alt="single-product">
-                                <img class="secondary-img" src="{{getAvatarImage 'secendary' this.listImages}}" alt="single-product">
+                                <img class="primary-img" src="{{getAvatarImage 'primary' this.listImages}}"
+                                    alt="single-product">
+                                <img class="secondary-img" src="{{getAvatarImage 'secendary' this.listImages}}"
+                                    alt="single-product">
                             </a>
                             <div class="quick-view">
-                                <a data-idproduct="{{this._id}}" class="show-quick-modal" data-target="#myModal"><i class="pe-7s-look"></i>quick
+                                <a data-idproduct="{{this._id}}" class="show-quick-modal" data-target="#myModal"><i
+                                        class="pe-7s-look"></i>quick
                                     view</a>
                             </div>
                             <span class="sticker-new">{{this.type}}</span>
@@ -611,7 +614,8 @@
                         <!-- Product Content Start -->
                         <div class="pro-content text-center">
                             <h4><a href="product-page.html">{{this.name}}</a></h4>
-                            <p data-price="{{this.price}}" class="price product-price-vnd"><span>{{this.price}}</span></p>
+                            <p data-price="{{this.price}}" class="price product-price-vnd"><span>{{this.price}}</span>
+                            </p>
                             <div class="action-links2">
                                 <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to cart</a>
                             </div>
@@ -641,3 +645,4 @@
     {{>client/modal/quick-view-product}}
     <!-- Quick View Content End -->
 </div>
+<script src="/client/product-detail.js"></script>
