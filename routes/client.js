@@ -59,6 +59,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             seasonID: req.sessionID,
             productsRelated: productsRelated,
             cart: JSON.stringify(cart),
+            dataProduct: JSON.stringify(product),
             banners: banners.map(banner => banner.toJSON())
         });
     } else {
