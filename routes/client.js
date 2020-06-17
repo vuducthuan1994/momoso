@@ -108,7 +108,7 @@ let getProductDetail = function(urlSeo) {
     return new Promise(function(resolve, reject) {
         let product = cache.get(urlSeo);
         if (product == undefined) {
-            Products.findOne({ urlSeo: urlSeo }, function(err, product) {
+            Products.findOneAndUpdate({ urlSeo: urlSeo }, { $inc: { view: 1 } }, function(err, product) {
                 if (!err) {
                     resolve(product)
                     cache.set(urlSeo, product);
