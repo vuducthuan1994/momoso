@@ -10,6 +10,10 @@ var ReviewSchema = new Schema({
         unique: true,
         trim: true
     },
+    product: {
+        type: Object,
+        require: true
+    },
     name: {
         type: String,
         required: true,
@@ -36,4 +40,4 @@ var ReviewSchema = new Schema({
 });
 
 let Review = mongoose.model('Reviews', ReviewSchema);
-module.exports = Storage;
+module.exports = Review;
