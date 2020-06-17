@@ -76,7 +76,7 @@ $(document).ready(function() {
         getPriceVND();
     });
 });
-const ENV = 'PRODUCT';
+const ENV = 'DEV';
 
 function getListCurrentImages() {
     let results = [];
@@ -185,6 +185,8 @@ let handlerForm = function(idProduct) {
 
     let categorysSelected = $("#product-category").select2('data');
     let storagesSelected = $("#product-storage").select2('data');
+    let colorsCode = getListColorBlock();
+
     for (var i in formData) {
         if (formData[i].name == 'detail') {
             formData[i].value = CKEDITOR.instances['product-detail'].getData();
@@ -197,6 +199,7 @@ let handlerForm = function(idProduct) {
         }
         newFormData.append(formData[i].name, formData[i].value);
     }
+    newFormData.append('colorsCode', colorsCode);
 
     if (idProduct) {
         const currentImages = getListCurrentImages();
@@ -246,7 +249,9 @@ function getListColorBlock() {
 function getFormColor(formData) {
     $('#container-color-blocks .container-images-color').each(function(idx) {
         $(this).find("input[type='file']").each(function(index, file) {
-            formData.append(`color_image_block_${idx}`, $('input[type=file]')[index].files[0]);
+            console.log(index);
+            console.log($(this)[0].files[0]);
+            formData.append(`color_image_block_${idx}`, $(this)[0].files[0]);
         });
     });
 }
