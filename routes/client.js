@@ -12,7 +12,6 @@ router.get('/', async function(req, res) {
     let newProducts = await getNewProducts();
     let cart = await getCart(req.sessionID);
     let banners = await getBanners();
-    console.log(banners);
     res.render('client/index', {
         title: "Trang chu",
         layout: 'client.hbs',
@@ -27,12 +26,28 @@ router.get('/', async function(req, res) {
 router.get(process.env.ABOUT_US, async function(req, res) {
     let general = await getGeneralConfig();
     let about_us = await getAboutUsInfo();
+    let cart = await getCart(req.sessionID);
     res.render('client/about-us', {
         title: "About US",
         layout: 'client.hbs',
         general: general,
         seasonID: req.sessionID,
-        about_us: about_us
+        about_us: about_us,
+        cart: cart ? cart.toJSON() : null
+    });
+});
+
+router.get(process.env.CART, async function(req, res) {
+    let general = await getGeneralConfig();
+    let about_us = await getAboutUsInfo();
+    let cart = await getCart(req.sessionID);
+    res.render('client/cart', {
+        title: "About US",
+        layout: 'client.hbs',
+        general: general,
+        seasonID: req.sessionID,
+        about_us: about_us,
+        cart: cart ? cart.toJSON() : null
     });
 });
 

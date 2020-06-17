@@ -72,30 +72,6 @@ module.exports = {
         }
         return string.replace('\n', '<br>');
     },
-
-    fancyTimeFormat(time) {
-        // Hours, minutes and seconds
-        var hrs = ~~(time / 3600);
-        var mins = ~~((time % 3600) / 60);
-        var secs = ~~time % 60;
-
-        // Output like "1:01" or "4:03:59" or "123:03:59"
-        var ret = "";
-
-        if (hrs > 0) {
-            ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
-        }
-
-        ret += "" + mins + ":" + (secs < 10 ? "0" : "");
-        ret += "" + secs;
-        return ret;
-    },
-
-    buildRoute(id, title) {
-        var slugFromTitle = uslug(title);
-        const url = '/' + process.env.R_VIDEO + '/' + id + '/' + slugFromTitle;
-        return url;
-    },
     createShareFbLink(url) {
         const BASE_URL = 'https://www.facebook.com/sharer/sharer.php?u=';
         return BASE_URL + url;
@@ -104,16 +80,6 @@ module.exports = {
         const BASE_URL = 'https://twitter.com/share?url=';
         return BASE_URL + url;
     },
-    buildRouteSearch(text) {
-        // console.log(text);
-        if (text == null || text == undefined || text == '') {
-            return text;
-        }
-        slug = uslug(text);
-
-        return `/${process.env.R_SEARCH}/${slug}`;
-    },
-
     fullUrlFromRequest(req) {
         return decodeURIComponent(url.format({
             protocol: getProtocol(req),
@@ -149,12 +115,6 @@ module.exports = {
             return true;
         }
         return false
-    },
-    buildLinkDownloadMp3(host, id) {
-        return `https://s10.infodwnld.info/?id=${id}&site=${host}`;
-    },
-    buildLinkDownloadMp4(host, id) {
-        return `https://s10.infodwnld.info/?id=${id}&type=video&site=${host}`;
     },
     timeDifference(previous) {
         const current = new Date().getTime();
@@ -192,9 +152,8 @@ module.exports = {
     createWishLishURL() {
         return process.env.FAVOR_LIST;
     },
-    createProxy(proxy) {
-        const protocol = proxy.protocol ? proxy.protocol : 'http';
-        return `${protocol}://${proxy.user}:${proxy.password}@${proxy.ip}:${proxy.port}`;
+    createCartDetailURL() {
+        return process.env.CART;
     },
     createURLProduct(urlSeo) {
         return `${process.env.PRODUCT}/${urlSeo}`
