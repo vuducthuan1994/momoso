@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const Storage = require('../../models/storageModel');
-var path = require('path');
 var isAuthenticated = function(req, res, next) {
     if (process.env.ENV == 'DEV') {
         return next();
@@ -12,7 +11,7 @@ var isAuthenticated = function(req, res, next) {
 }
 
 
-//get all posts
+//get all storage
 router.get('/', isAuthenticated, function(req, res) {
     Storage.find({}, function(err, storages) {
         if (!err) {

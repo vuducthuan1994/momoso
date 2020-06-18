@@ -10,6 +10,10 @@ var ReviewSchema = new Schema({
         unique: true,
         trim: true
     },
+    public: {
+        type: Boolean,
+        default: false
+    },
     product: {
         type: Object,
         require: true
