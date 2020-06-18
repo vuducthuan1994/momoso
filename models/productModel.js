@@ -57,6 +57,10 @@ var ProductSchema = new Schema({
         type: Array,
         default: []
     },
+    blocksColor: {
+        type: Array,
+        default: []
+    },
     category: {
         type: Array,
         require: true,

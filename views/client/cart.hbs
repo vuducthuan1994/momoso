@@ -297,10 +297,10 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th class="product-thumbnail">Image</th>
-                                        <th class="product-name">Product</th>
-                                        <th class="product-price">Price</th>
-                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-thumbnail">Ảnh</th>
+                                        <th class="product-name">Sản phẩm</th>
+                                        <th class="product-price">Giá</th>
+                                        <th class="product-quantity">Số lượng</th>
                                         <th class="product-subtotal">Total</th>
                                         <th class="product-remove">Remove</th>
                                     </tr>
@@ -309,14 +309,25 @@
                                     {{#each cart.listCartProducts }}
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a href="#"><img src="img/new-products/2_2.jpg" alt="cart-image" /></a>
+                                            <a href="#"><img src="{{getActiveProductImage this.listImages}}"
+                                                    alt="cart-image" /></a>
                                         </td>
                                         <td class="product-name"><a href="#">{{this.name}}</a></td>
-                                        <td class="product-price"><span class="amount">£165.00</span></td>
-                                        <td class="product-quantity"><input type="number" value="{{this.quantity}}" /></td>
-                                        <td class="product-subtotal product-price-vnd">{{{{this.price}}}}</td>
-                                        <td class="product-remove"> <a href="#"><i data-productid="{{this._id}}" class="fa fa-times remove-product-from-cart" aria-hidden="true"></i></a></td>
+                                        <td data-price="{{this.price}}" class="product-price product-price-vnd"><span
+                                                class="amount">{{this.price}}</span></td>
+                                        <td class="product-quantity"><input type="number" value="{{this.quantity}}" />
+                                        </td>
+                                        <td class="product-subtotal ">ds</td>
+                                        <td class="product-remove"> <a href="#"><i data-productid="{{this._id}}"
+                                                    class="fa fa-times remove-product-from-cart"
+                                                    aria-hidden="true"></i></a></td>
                                     </tr>
+                                    {{else}}
+                                        <tr>
+                                            <td colspan="6" class="text-center">
+                                                <p class="text-warning">Bạn chưa thêm sản phẩm nào vào giỏ hàng !</p>
+                                            </td>
+                                        </tr>
                                     {{/each}}
 
                                 </tbody>

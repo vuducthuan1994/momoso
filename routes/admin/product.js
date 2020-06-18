@@ -120,9 +120,20 @@ router.post('/', isAuthenticated, async function(req, res) {
         if (fieldName == 'category' || fieldName == 'storage') {
             content[fieldName] = JSON.parse(fieldValue);
         }
+        if (fieldName == 'colorsCode') {
+            JSON.parse(fieldValue).forEach((colorCode, index) => {
+                if (blocksColor[index] == undefined) {
+                    blocksColor[index] = {
+                        listImages: [],
+                        colorCode: colorCode
+                    }
+                }
+            });
+        }
     });
 
     form.on('file', async function(fieldName, file) {
+
         if (fieldName == 'files[]' && file.name !== '') {
 
             const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
@@ -131,8 +142,9 @@ router.post('/', isAuthenticated, async function(req, res) {
             newListImage.push(`/img/product/${imgName}`);
             resizeImages(file.path, new_path);
         }
-        if (file.name !== '' && fieldName.includes('block_image')) {
-
+        if (file.name !== '' && fieldName.includes('color_image_block_')) {
+            console.log(fieldName);
+            console.log(file.name)
             const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
 
@@ -144,33 +156,33 @@ router.post('/', isAuthenticated, async function(req, res) {
                 }
             }
             blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
-
             resizeImages(file.path, new_path);
         }
     });
     form.on('end', async function() {
-        await delay(2000);
+        // await delay(2000);
         content['listImages'] = newListImage;
-        Product.create(content, function(err, product) {
-            console.log(err)
-            if (!err) {
-                res.json({
-                    success: true,
-                    msg: 'Sản phẩm đã được thêm vào hệ thống !',
-                    data: product
-                });
-            } else {
-                let msg = null;
-                if (err.code = 11000) {
-                    msg = err.errmsg;
-                } else {}
-                res.json({
-                    success: false,
-                    msg: msg,
-                    data: product
-                });
-            }
-        });
+        content['blocksColor'] = blocksColor;
+        // console.log(content['blocksColor']);
+        // Product.create(content, function(err, product) {
+        //     if (!err) {
+        //         res.json({
+        //             success: true,
+        //             msg: 'Sản phẩm đã được thêm vào hệ thống !',
+        //             data: product
+        //         });
+        //     } else {
+        //         let msg = null;
+        //         if (err.code = 11000) {
+        //             msg = err.errmsg;
+        //         } else {}
+        //         res.json({
+        //             success: false,
+        //             msg: msg,
+        //             data: product
+        //         });
+        //     }
+        // });
     });
 });
 
