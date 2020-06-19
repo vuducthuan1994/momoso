@@ -23,3 +23,7 @@
     height: 50px;
     padding: 1px;
 }
+
+.tab-content #detail p {
+    margin-bottom: 10px;
+}

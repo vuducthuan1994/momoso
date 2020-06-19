@@ -31,7 +31,7 @@ router.get('/', isAuthenticated, function(req, res) {
                 layout: 'admin.hbs'
             });
         }
-    });
+    }).sort({ created_date: -1 });
 });
 router.get('/add-product', isAuthenticated, async function(req, res) {
     let categorys = await getCategory();
@@ -225,6 +225,7 @@ router.post('/edit-product/:id', async function(req, res) {
         }
         if (fieldName == 'category' || fieldName == 'storage') {
             content[fieldName] = JSON.parse(fieldValue);
+            console.log(fieldValue);
         }
         if (fieldName == 'commonImages') {
             newListImage = newListImage.concat(JSON.parse(fieldValue));

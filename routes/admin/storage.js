@@ -34,9 +34,11 @@ router.get('/add-storage', isAuthenticated, function(req, res) {
     });
 });
 
-router.get('/edit-storage/:id', isAuthenticated, function(req, res) {
-    const storageID = req.params.id;
-    Storage.findOne({ _id: storageID }, function(err, storage) {
+router.get('/edit-storage/:idStorage', isAuthenticated, function(req, res) {
+    const storageID = req.params.idStorage;
+    console.log(storageID);
+    Storage.findById({ _id: storageID }, function(err, storage) {
+        console.log(storage);
         if (err) {
             req.flash('messages', 'Lỗi hệ thống, không sửa được banner !')
             res.redirect('back');
@@ -46,11 +48,14 @@ router.get('/edit-storage/:id', isAuthenticated, function(req, res) {
                 messages: req.flash('messages'),
                 title: "Sửa Thông Tin Kho Hàng",
                 layout: 'admin.hbs',
-                storage: storage.toJSON()
+                storage: storage ? storage.toJSON() : null
             });
         }
     })
 });
+
+
+
 
 // create storage
 router.post('/', function(req, res) {

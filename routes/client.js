@@ -2,6 +2,7 @@ const express = require('express');
 const Settings = require('../models/settingModel');
 const Products = require('../models/productModel');
 const Banners = require('../models/config/bannerModel');
+const Categorys = require('../models/categoryModel');
 const Carts = require('../models/cartModel');
 let router = express.Router();
 const NodeCache = require("node-cache");
@@ -182,6 +183,12 @@ let getAboutUsInfo = function() {
         } else {
             resolve(about_us)
         }
+    });
+}
+
+let getCategorys = function() {
+    return new Promise(function(resolve, reject) {
+        Categorys.find({})
     });
 }
 

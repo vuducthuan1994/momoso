@@ -58,8 +58,15 @@ router.get('/edit-category/:id', isAuthenticated, function(req, res) {
     })
 });
 
+let resizeImages = function(width, oldPath, newPath) {
+        sharp(oldPath)
+            .resize(width, 400, {
+                fit: "cover"
+            }).toFile(newPath, function(err) {
 
-// create category
+            });
+    }
+    // create category
 router.post('/', async function(req, res) {
     let resizeWidth = 370;
     let content = { imageUrl: '#' };
@@ -76,31 +83,19 @@ router.post('/', async function(req, res) {
 
     });
 
-    await new Promise(function(resolve, reject) {
-        form.on('file', function(fieldName, file) {
-            if (fieldName == 'imageUrl' && file.name !== '') {
-                const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-                var dir = __basedir + '/public/img/category';
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir, 0744);
-                }
-                const img_path = path.join(__basedir, `public/img/category/${imgName}`);
-
-                sharp(file.path)
-                    .resize(resizeWidth, 400, {
-                        fit: "cover"
-                    }).toFile(img_path, function(err) {
-                        if (!err) {
-                            req.flash('messages', 'Ảnh đã được resize đúng kích cỡ !');
-                            content.imageUrl = `/img/category/${imgName}`;
-                            resolve();
-                        } else {
-                            reject();
-                        }
-                    });
+    form.on('file', function(fieldName, file) {
+        if (fieldName == 'imageUrl' && file.name !== '') {
+            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
+            var dir = __basedir + '/public/img/category';
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, 0744);
             }
-        });
+            const img_path = path.join(__basedir, `public/img/category/${imgName}`);
+            content.imageUrl = `/img/category/${imgName}`;
+            resizeImages(resizeWidth, file.path, img_path);
+        }
     });
+
     Category.create(content, function(err, data) {
         if (!err) {
             req.flash('messages', 'Thêm thành công !')
@@ -115,8 +110,9 @@ router.post('/', async function(req, res) {
         }
     });
 });
-//edit storage
-router.post('/edit-storage/:id', function(req, res) {
+
+//edit category
+router.post('/edit-category/:id', function(req, res) {
     const idBanner = req.params.id;
     req.body.updated_date = new Date();
     Category.updateOne({ _id: idBanner }, req.body, function(err, data) {
