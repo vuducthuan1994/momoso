@@ -80,11 +80,26 @@ const ENV = 'DEV';
 
 function getListCurrentImages() {
     let results = [];
-    $(".currentImage").each(function() {
+    $(".common-image").each(function() {
         results.push($(this).val());
     });
     return JSON.stringify(results);
 };
+
+function getListCurrentBlockColor() {
+    let results = [];
+    $('.old-color-block').each(function(idx) {
+        const colorCode = $(this).find('input').val();
+        results[idx] = {
+            colorCode: colorCode,
+            listImages: []
+        }
+        $(this).find('.container-images-color img').each(function(index) {
+            results[idx].listImages.push($(this).data('image'));
+        });
+    });
+    return JSON.stringify(results);
+}
 
 function initTagSelected(categoryList, storageList) {
     let optionsCategorySelected = [];
@@ -172,10 +187,10 @@ let handlerForm = function(idProduct) {
     var formData = $('#formProduct').serializeArray();
 
     var newFormData = new FormData();
-    if (ENV == 'DEV') {
-        getFormColor(newFormData);
 
-    }
+    getFormColor(newFormData);
+
+
     // lấy tất cả file từ form 
     $.each($("#container-images-product input[type='file']"), function(index, file) {
         newFormData.append('files[]', $('input[type=file]')[index].files[0]);
@@ -185,7 +200,7 @@ let handlerForm = function(idProduct) {
 
     let categorysSelected = $("#product-category").select2('data');
     let storagesSelected = $("#product-storage").select2('data');
-    let colorsCode = getListColorBlock();
+    let newcolorsCode = getListColorBlock();
 
     for (var i in formData) {
         if (formData[i].name == 'detail') {
@@ -199,11 +214,13 @@ let handlerForm = function(idProduct) {
         }
         newFormData.append(formData[i].name, formData[i].value);
     }
-    newFormData.append('colorsCode', colorsCode);
+    newFormData.append('newcolorsCode', newcolorsCode);
 
     if (idProduct) {
-        const currentImages = getListCurrentImages();
-        newFormData.append('currentImages', currentImages);
+        const commonImages = getListCurrentImages();
+        newFormData.append('commonImages', commonImages);
+        const oldColorBlocks = getListCurrentBlockColor();
+        newFormData.append('oldColorBlocks', oldColorBlocks);
     }
     $('.submitForm div').removeClass('d-none');
     $.ajax({
@@ -239,7 +256,7 @@ let handlerForm = function(idProduct) {
 
 function getListColorBlock() {
     let results = [];
-    $('.color-code').each(function() {
+    $('.new-color-code').each(function() {
         results.push($(this).val());
     });
     results.pop();
@@ -249,8 +266,6 @@ function getListColorBlock() {
 function getFormColor(formData) {
     $('#container-color-blocks .container-images-color').each(function(idx) {
         $(this).find("input[type='file']").each(function(index, file) {
-            console.log(index);
-            console.log($(this)[0].files[0]);
             formData.append(`color_image_block_${idx}`, $(this)[0].files[0]);
         });
     });

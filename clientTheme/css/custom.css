@@ -1,3 +1,25 @@
 .col-xs-12 .about-us p:not(:last-child) {
     margin-bottom: 20px;
 }
+
+.container-list-color ul {
+    display: flex;
+}
+
+.container-list-color ul li {
+    margin-right: 10px;
+    transition: all .5s cubic-bezier(.59, .08, .385, 1);
+    -webkit-transition: all .5s cubic-bezier(.59, .08, .385, 1);
+    -ms-transition: all .5s cubic-bezier(.59, .08, .385, 1);
+}
+
+.container-list-color ul li.active {
+    border: 2px solid #1b95e0;
+}
+
+.container-list-color ul li img {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    padding: 1px;
+}

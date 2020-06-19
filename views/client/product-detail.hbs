@@ -148,7 +148,7 @@
                 </div>
                 <!-- Primary-Menu End -->
                 <!-- Header All Shopping Selection Start -->
-                 {{>client/header/header-all}}
+                {{>client/header/header-all}}
                 <!-- Header All Shopping Selection End -->
                 <!-- Mobile Menu  Start -->
                 <div class="mobile-menu visible-sm visible-xs">
@@ -327,9 +327,18 @@
                         <!-- Product Price Description Start -->
                         <div class="product-price-desc">
                             <ul class="pro-desc-list">
-                                <li>Product Code: <span>{{product.code}}</span></li>
+                                <li>Mã Sản Phẩm: <span>{{product.code}}</span></li>
                                 <li>Reward Points: <span>{{product.point}}</span></li>
                                 <li>Availability: <span>in Stock</span></li>
+                                <li class="container-list-color">Màu Sắc:
+                                    <ul>
+                                        {{#each product.blocksColor}}
+                                        <li data-owl="{{this.listImages}}" data-code = "{{this.colorCode}}" >
+                                            <img src="{{ getActiveProductImage this.listImages}}">
+                                        </li>
+                                        {{/each}}
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                         <!-- Product Price Description End -->

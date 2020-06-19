@@ -92,7 +92,6 @@ router.get('/edit-product/:id', isAuthenticated, async function(req, res) {
 
 
 let resizeImages = function(oldPath, newPath) {
-
         sharp(oldPath)
             .resize(600, 756, {
                 fit: "cover"
@@ -114,26 +113,27 @@ router.post('/', isAuthenticated, async function(req, res) {
 
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
-        if (fieldName !== 'files[]') {
+        if (fieldName !== 'files[]' && fieldName !== 'newcolorsCode') {
             content[fieldName] = fieldValue;
         }
         if (fieldName == 'category' || fieldName == 'storage') {
             content[fieldName] = JSON.parse(fieldValue);
         }
-        if (fieldName == 'colorsCode') {
+        if (fieldName == 'newcolorsCode') {
             JSON.parse(fieldValue).forEach((colorCode, index) => {
                 if (blocksColor[index] == undefined) {
                     blocksColor[index] = {
                         listImages: [],
                         colorCode: colorCode
                     }
+                } else {
+                    blocksColor[index].colorCode = colorCode;
                 }
             });
         }
     });
 
     form.on('file', async function(fieldName, file) {
-
         if (fieldName == 'files[]' && file.name !== '') {
 
             const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
@@ -143,8 +143,6 @@ router.post('/', isAuthenticated, async function(req, res) {
             resizeImages(file.path, new_path);
         }
         if (file.name !== '' && fieldName.includes('color_image_block_')) {
-            console.log(fieldName);
-            console.log(file.name)
             const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
 
@@ -154,43 +152,40 @@ router.post('/', isAuthenticated, async function(req, res) {
                     listImages: [],
                     colorCode: null
                 }
+                blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
+            } else {
+                blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
             }
-            blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
             resizeImages(file.path, new_path);
         }
     });
     form.on('end', async function() {
-        // await delay(2000);
         content['listImages'] = newListImage;
         content['blocksColor'] = blocksColor;
-        // console.log(content['blocksColor']);
-        // Product.create(content, function(err, product) {
-        //     if (!err) {
-        //         res.json({
-        //             success: true,
-        //             msg: 'Sản phẩm đã được thêm vào hệ thống !',
-        //             data: product
-        //         });
-        //     } else {
-        //         let msg = null;
-        //         if (err.code = 11000) {
-        //             msg = err.errmsg;
-        //         } else {}
-        //         res.json({
-        //             success: false,
-        //             msg: msg,
-        //             data: product
-        //         });
-        //     }
-        // });
+        Product.create(content, function(err, product) {
+            if (!err) {
+                res.json({
+                    success: true,
+                    msg: 'Sản phẩm đã được thêm vào hệ thống !',
+                    data: product
+                });
+            } else {
+                let msg = null;
+                if (err.code = 11000) {
+                    msg = err.errmsg;
+                } else {}
+                res.json({
+                    success: false,
+                    msg: msg,
+                    data: product
+                });
+            }
+        });
     });
 });
 
 router.post('/deleteImage', function(req, res) {
-    console.log("hahahaha");
-
     const form = formidable({ multiples: true });
-
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
         if (fieldName == 'url') {
@@ -199,12 +194,12 @@ router.post('/deleteImage', function(req, res) {
                 if (!err) {
                     res.json({
                         success: true,
-                        msg: 'Ảnh đã xóa khỏi hệ thống'
+                        msg: 'Ảnh đã xóa khỏi hệ thống !'
                     });
                 } else {
                     res.json({
                         success: false,
-                        msg: 'Không xóa được ảnh khỏi hệ thống'
+                        msg: 'Không xóa được ảnh khỏi hệ thống !'
                     });
                 }
             });
@@ -215,23 +210,39 @@ router.post('/deleteImage', function(req, res) {
 
 //edit product
 router.post('/edit-product/:id', async function(req, res) {
-    console.log("edit product")
+
     const idProduct = req.params.id;
     let newListImage = [];
+    let oldColorBlock = [];
+    let blocksColor = []
     let content = {};
-    formidable
     const form = formidable({ multiples: true });
 
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
-        if (fieldName !== 'files[]') {
+        if (fieldName !== 'files[]' && fieldName !== 'oldColorBlock' && fieldName !== 'commonImages' && fieldName !== 'newcolorsCode') {
             content[fieldName] = fieldValue;
         }
         if (fieldName == 'category' || fieldName == 'storage') {
             content[fieldName] = JSON.parse(fieldValue);
         }
-        if (fieldName == 'currentImages') {
+        if (fieldName == 'commonImages') {
             newListImage = newListImage.concat(JSON.parse(fieldValue));
+        }
+        if (fieldName == 'oldColorBlocks') {
+            oldColorBlock = JSON.parse(fieldValue);
+        }
+        if (fieldName == 'newcolorsCode') {
+            JSON.parse(fieldValue).forEach((colorCode, index) => {
+                if (blocksColor[index] == undefined) {
+                    blocksColor[index] = {
+                        listImages: [],
+                        colorCode: colorCode
+                    }
+                } else {
+                    blocksColor[index].colorCode = colorCode;
+                }
+            });
         }
     });
 
@@ -245,16 +256,29 @@ router.post('/edit-product/:id', async function(req, res) {
             }
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
             newListImage.push(`/img/product/${imgName}`);
-
             resizeImages(file.path, new_path);
+        }
 
+        if (file.name !== '' && fieldName.includes('color_image_block_')) {
+            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
+            const new_path = path.join(__basedir, `public/img/product/${imgName}`);
 
+            const indexColor = parseInt(fieldName.slice(fieldName.length - 1));
+            if (blocksColor[indexColor] == undefined) {
+                blocksColor[indexColor] = {
+                    listImages: [],
+                    colorCode: null
+                }
+                blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
+            } else {
+                blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
+            }
+            resizeImages(file.path, new_path);
         }
     });
     form.on('end', async function() {
-        await delay(2000);
-        delete content.currentImages;
         content['listImages'] = newListImage;
+        content['blocksColor'] = oldColorBlock.concat(blocksColor);
         Product.findOneAndUpdate({ _id: idProduct }, content, function(err, product) {
             if (!err) {
                 req.res.json({
