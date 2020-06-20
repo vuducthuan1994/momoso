@@ -190,7 +190,7 @@
         $('.btn-delete-category').on('click', handleDeleteCategory);
         function handleDeleteCategory() {
             var idCategoryDelete = $(this).data("categoryid");
-            $('#delete-modal').attr('href', `/admin/storage/delete/${idCategoryDelete}`);
+            $('#delete-modal').attr('href', `/admin/category/delete/${idCategoryDelete}`);
         }
     </script>
     <!-- END PAGE LEVEL SCRIPTS -->

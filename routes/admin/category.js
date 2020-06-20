@@ -96,19 +96,21 @@ router.post('/', async function(req, res) {
         }
     });
 
-    Category.create(content, function(err, data) {
-        if (!err) {
-            req.flash('messages', 'Thêm thành công !')
-            res.redirect('/admin/category');
-        } else {
-            if (err.code = 11000) {
-                req.flash('errors', err._message);
+    form.on('end', function() {
+        Category.create(content, function(err, data) {
+            if (!err) {
+                req.flash('messages', 'Thêm loại SP thành công !')
+                res.redirect('/admin/category');
             } else {
-                req.flash('errors', 'Không thêm được loại sản phẩm')
+                if (err.code = 11000) {
+                    req.flash('errors', err._message);
+                } else {
+                    req.flash('errors', 'Không thêm được loại sản phẩm')
+                }
+                res.redirect('back');
             }
-            res.redirect('back');
-        }
-    });
+        });
+    })
 });
 
 //edit category
@@ -161,9 +163,10 @@ router.post('/edit-category/:id', function(req, res) {
     });
 
 });
+
 let updateCategoryInProduct = function(category) {
     let id = category._id.toString();
-    Product.findOneAndUpdate({ "category._id": id }, {
+    Product.updateMany({ "category._id": id }, {
             $set: {
                 "category.$.name": category.name,
                 "category.$.urlSeo": category.urlSeo,
@@ -171,34 +174,37 @@ let updateCategoryInProduct = function(category) {
                 "category.$.text": category.name,
                 "category.$.isShow": category.isShow,
                 "category.$.typeImage": category.typeImage
-
             }
         }, { new: true },
-
         function(err, data) {
             if (err) {
                 console.log(err);
 
             } else {
-                // console.log(data);
                 console.log("update thành công")
             }
         }
-
     );
 }
+
+let deleteCategoryInProduct = function(category) {
+    let _id = category._id.toString();
+    Product.updateMany({ "category._id": _id }, { $pull: { 'category': { '_id': _id } } });
+}
+
 router.get('/delete/:id', isAuthenticated, function(req, res) {
     const id = req.params.id;
     const messages = [];
-    Storage.findOneAndDelete({
+    Category.findOneAndDelete({
         _id: id,
-    }, function(err, storage) {
+    }, function(err, category) {
         if (!err) {
-            messages.push('Xóa Kho thành công')
+            deleteCategoryInProduct(category);
+            messages.push('Xóa Thể loại SP thành công')
             req.flash('messages', messages)
             res.redirect('back');
         } else {
-            messages.push('Xóa Kho thất bại ')
+            messages.push('Không xóa được thể loại sản phẩm')
             req.flash('messages', messages)
             res.redirect('back');
         }
