@@ -113,17 +113,31 @@ router.post('/', isAuthenticated, async function(req, res) {
 
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
-        if (fieldName !== 'files[]' && fieldName !== 'newcolorsCode') {
+        if (fieldName !== 'files[]' && fieldName !== 'newcolorsName') {
             content[fieldName] = fieldValue;
         }
         if (fieldName == 'category' || fieldName == 'storage') {
             content[fieldName] = JSON.parse(fieldValue);
+        }
+        if (fieldName == 'newcolorsName') {
+            JSON.parse(fieldValue).forEach((colorName, index) => {
+                if (blocksColor[index] == undefined) {
+                    blocksColor[index] = {
+                        listImages: [],
+                        colorName: colorName,
+                        colorCode: null
+                    }
+                } else {
+                    blocksColor[index].colorName = colorName;
+                }
+            });
         }
         if (fieldName == 'newcolorsCode') {
             JSON.parse(fieldValue).forEach((colorCode, index) => {
                 if (blocksColor[index] == undefined) {
                     blocksColor[index] = {
                         listImages: [],
+                        colorName: null,
                         colorCode: colorCode
                     }
                 } else {
@@ -150,7 +164,7 @@ router.post('/', isAuthenticated, async function(req, res) {
             if (blocksColor[indexColor] == undefined) {
                 blocksColor[indexColor] = {
                     listImages: [],
-                    colorCode: null
+                    colorName: null
                 }
                 blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
             } else {
@@ -220,7 +234,7 @@ router.post('/edit-product/:id', async function(req, res) {
 
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
-        if (fieldName !== 'files[]' && fieldName !== 'oldColorBlock' && fieldName !== 'commonImages' && fieldName !== 'newcolorsCode') {
+        if (fieldName !== 'files[]' && fieldName !== 'oldColorBlock' && fieldName !== 'commonImages' && fieldName !== 'newcolorsName' && fieldName !== 'newcolorsCode') {
             content[fieldName] = fieldValue;
         }
         if (fieldName == 'category' || fieldName == 'storage') {
@@ -233,11 +247,37 @@ router.post('/edit-product/:id', async function(req, res) {
         if (fieldName == 'oldColorBlocks') {
             oldColorBlock = JSON.parse(fieldValue);
         }
+        if (fieldName == 'newcolorsName') {
+            JSON.parse(fieldValue).forEach((colorName, index) => {
+                if (blocksColor[index] == undefined) {
+                    blocksColor[index] = {
+                        listImages: [],
+                        colorName: colorName
+                    }
+                } else {
+                    blocksColor[index].colorName = colorName;
+                }
+            });
+        }
+        if (fieldName == 'newcolorsName') {
+            JSON.parse(fieldValue).forEach((colorName, index) => {
+                if (blocksColor[index] == undefined) {
+                    blocksColor[index] = {
+                        listImages: [],
+                        colorName: colorName,
+                        colorCode: null
+                    }
+                } else {
+                    blocksColor[index].colorName = colorName;
+                }
+            });
+        }
         if (fieldName == 'newcolorsCode') {
             JSON.parse(fieldValue).forEach((colorCode, index) => {
                 if (blocksColor[index] == undefined) {
                     blocksColor[index] = {
                         listImages: [],
+                        colorName: null,
                         colorCode: colorCode
                     }
                 } else {
@@ -268,7 +308,7 @@ router.post('/edit-product/:id', async function(req, res) {
             if (blocksColor[indexColor] == undefined) {
                 blocksColor[indexColor] = {
                     listImages: [],
-                    colorCode: null
+                    colorName: null
                 }
                 blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
             } else {

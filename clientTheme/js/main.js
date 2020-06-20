@@ -212,9 +212,10 @@ NOTE: main.js, All custom script and plugin activation script in this file.
     -----------------------------*/
     $("#big-img").elevateZoom({
         constrainType: "width",
+        animation: "fade",
         containLensZoom: true,
         gallery: 'small-img',
-        cursor: 'pointer',
+        cursor: "crosshair",
         galleryActiveClass: "active"
     });
 

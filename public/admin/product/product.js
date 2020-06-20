@@ -8,6 +8,12 @@ $(document).ready(function() {
     }
 
     function addColorBlock() {
+        var index = $('#container-color-blocks .color-block ').length;
+        var productCode = $(".form-group  input[name='code']").val()
+        const colorCode = productCode + '-C' + index;
+        console.log(colorCode);
+
+        $('#base-block-color').find('.new-color-code').val(colorCode);
         const colorBlock = $('#base-block-color').clone(true);
         $('#container-color-blocks').prepend(colorBlock.children().clone(true));
     }
@@ -89,8 +95,10 @@ function getListCurrentImages() {
 function getListCurrentBlockColor() {
     let results = [];
     $('.old-color-block').each(function(idx) {
-        const colorCode = $(this).find('input').val();
+        const colorName = $(this).find('input.colorName').val();
+        const colorCode = $(this).find('input.colorCode').val();
         results[idx] = {
+            colorName: colorName,
             colorCode: colorCode,
             listImages: []
         }
@@ -200,8 +208,8 @@ let handlerForm = function(idProduct) {
 
     let categorysSelected = $("#product-category").select2('data');
     let storagesSelected = $("#product-storage").select2('data');
-    let newcolorsCode = getListColorBlock();
-
+    let newcolorsName = getListColorName();
+    let newcolorsCode = getListColorCode();
     for (var i in formData) {
         if (formData[i].name == 'detail') {
             formData[i].value = CKEDITOR.instances['product-detail'].getData();
@@ -214,8 +222,8 @@ let handlerForm = function(idProduct) {
         }
         newFormData.append(formData[i].name, formData[i].value);
     }
+    newFormData.append('newcolorsName', newcolorsName);
     newFormData.append('newcolorsCode', newcolorsCode);
-
     if (idProduct) {
         const commonImages = getListCurrentImages();
         newFormData.append('commonImages', commonImages);
@@ -254,12 +262,19 @@ let handlerForm = function(idProduct) {
     });
 }
 
-function getListColorBlock() {
+function getListColorName() {
     let results = [];
-    $('.new-color-code').each(function() {
+    $('#container-color-blocks .new-color-name').each(function() {
         results.push($(this).val());
     });
-    results.pop();
+    return JSON.stringify(results);
+}
+
+function getListColorCode() {
+    let results = [];
+    $('#container-color-blocks .new-color-code').each(function() {
+        results.push($(this).val());
+    });
     return JSON.stringify(results);
 }
 

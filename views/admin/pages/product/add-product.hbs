@@ -43,7 +43,7 @@
                                 <div class="row">
                                     <div class="col-lg-12 col-12 col-md-12 mx-auto">
                                         <form id="formProduct" enctype="multipart/form-data" method="post">
-                                            <div class=" form-group col-6">
+                                            <div class=" form-group col-lg-6  col-md-12">
                                                 <label>Tên Sản Phẩm</label>
                                                 <input id="product-name" value="{{product.name}}" type="text"
                                                     minlength="5" name="name"
@@ -51,7 +51,7 @@
                                                     required="">
                                             </div>
                                             <br>
-                                            <div class=" form-group col-6">
+                                            <div class=" form-group col-lg-6  col-md-12">
                                                 <label>URL SEO</label>
                                                 <input id="product-url-seo" value="{{product.urlSeo}}" type="text"
                                                     minlength="5" name="urlSeo"
@@ -63,7 +63,7 @@
                                                 <small id="emailHelp" class="form-text text-success">URL SEO CŨ:
                                                     {{product.urlSeo}}</small> </div>
                                             <br>
-                                            <div class=" form-group col-6">
+                                            <div class=" form-group col-lg-6  col-md-12">
                                                 <label>Mã sản phẩm</label>
 
 
@@ -74,7 +74,7 @@
 
                                             </div>
                                             <br>
-                                            <div class=" form-group col-6">
+                                            <div class=" form-group col-lg-6  col-md-12">
                                                 <label>Giá Sản Phẩm</label>
                                                 <input id="product-price" value="{{product.price}}" type="number"
                                                     name="price" placeholder="Enter price of product (VNĐ)..."
@@ -82,7 +82,7 @@
                                                 <p id="show-price" class="text-success">0</p>
                                             </div>
                                             <br>
-                                            <div class=" form-group col-6">
+                                            <div class=" form-group col-lg-6  col-md-12">
                                                 <label>New or Sale</label>
                                                 <select required="" name="type" class="form-control col-md-6">
                                                     <option {{selected 'new' product.type }} value="new">NEW</option>
@@ -91,7 +91,7 @@
 
                                             </div>
                                             <br>
-                                            <div class=" form-group col-8">
+                                            <div class="form-group col-lg-8  col-md-12">
                                                 <label> Kho Hàng</label>
                                                 <select data-selected="{{storageSelected}}" name="storage"
                                                     data-storages="{{storages}}" id="product-storage" required=""
@@ -147,16 +147,22 @@
                                             <h5 class="text-success text-center">Quản lý ảnh màu sắc của sản phẩm</h5>
 
                                             <a id="add-block-color" class="btn btn-primary mb-2">Thêm block màu</a>
+                                                    <p class="text-info">Sản phẩm hiện có {{product.blocksColor.length}} loại màu </p>
                                             <div id="container-color-blocks" class="form-group row">
-                                                <p>Sản phẩm có {{product.blocksColor.length}} loại màu </p>
+                                        
                                                 {{#each product.blocksColor}}
-                                                <div class="col-lg-12 col-md-12 mb-2 border mt-4 mb-4 old-color-block">
+                                                <div
+                                                    class="color-block col-lg-12 col-md-12 mb-2 border mt-4 mb-4 old-color-block">
                                                     <div class="form-group">
                                                         <a class="delete-block-color btn btn-danger mb-2 mt-2">Xóa Block
                                                             Màu</a>
-                                                        <input value="{{this.colorCode}}" required=""
-                                                            placeholder="Định danh màu... (mã màu)"
-                                                            class="form-control col-md-6 mb-2 ">
+                                                        <input readonly value="{{this.colorCode}}" required=""
+                                                            placeholder="Mã màu sắc...."
+                                                            class=" colorCode form-control col-md-6 mb-2 ">
+                                                        <input value="{{this.colorName}}" required=""
+                                                            placeholder="Tên màu sắc...(hiển thị trên website)"
+                                                            class="colorName form-control col-md-6 mb-2 ">
+
                                                     </div>
                                                     <a class="btn btn-info add-color-to-block mb-2"> Thêm ảnh cho
                                                         màu</a>
@@ -224,11 +230,12 @@
         </div>
 
         <div style="display: none" id="base-block-color">
-            <div class="col-lg-12 col-md-12 mb-2 border mt-4 mb-4">
+            <div class="color-block  col-lg-12 col-md-12 mb-2 border mt-4 mb-4">
                 <div class="form-group">
                     <a class="delete-block-color btn btn-danger mb-2 mt-2">Xóa</a>
-                    <input required="" placeholder="Định danh màu... (mã màu)"
-                        class="form-control col-md-6 mb-2 new-color-code">
+                    <input readonly required="" placeholder="Mã màu" class="form-control col-md-6 mb-2 new-color-code">
+                    <input required="" placeholder="Tên màu ( hiển thị trên website )"
+                        class="form-control col-md-6 mb-2 new-color-name">
                 </div>
                 <a class="btn btn-info add-color-to-block mb-2"> Thêm ảnh cho màu</a>
 

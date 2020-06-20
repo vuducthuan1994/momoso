@@ -331,10 +331,13 @@
                                 <li>Reward Points: <span>{{product.point}}</span></li>
                                 <li>Availability: <span>in Stock</span></li>
                                 <li class="container-list-color">Màu Sắc:
-                                    <ul>
+                                    <ul id="small-img">
                                         {{#each product.blocksColor}}
-                                        <li data-owl="{{this.listImages}}" data-code = "{{this.colorCode}}" >
-                                            <img src="{{ getActiveProductImage this.listImages}}">
+                                        <li data-code="{{this.colorName}}">
+                                            <a href="#" data-image="{{getActiveProductImage this.listImages}}"
+                                                data-zoom-image={{getActiveProductImage this.listImages}}>
+                                                <img src="{{ getActiveProductImage this.listImages}}">
+                                            </a>
                                         </li>
                                         {{/each}}
                                     </ul>
@@ -449,7 +452,7 @@
                                 which gives you access to more commonly used apps to help ease multitasking and it
                                 is capable of Adobe Flash Player 10.2, powered by 6860mAh battery that gives you
                                 10hours of video-playback time. äö</p> --}}
-                                {{{product.detail}}}
+                            {{{product.detail}}}
                         </div>
                         <div id="review" class="tab-pane fade">
                             <!-- Reviews Start -->
@@ -542,7 +545,8 @@
                             <p data-price="{{this.price}}" class="price product-price-vnd"><span>{{this.price}}</span>
                             </p>
                             <div class="action-links2">
-                                <a data-product="{{objectToString this}}" class="add-product-to-cart" data-toggle="tooltip" title="" >thêm vào giỏ hàng</a>
+                                <a data-product="{{objectToString this}}" class="add-product-to-cart"
+                                    data-toggle="tooltip" title="">thêm vào giỏ hàng</a>
                             </div>
                         </div>
                         <!-- Product Content End -->
