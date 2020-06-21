@@ -2,87 +2,122 @@ $(document).ready(function() {
     initSelectTag();
     getPriceVND();
 
-    function addImageProduct() {
-        const imageProduct = $('#base-image-product').clone(true);
-        $('#container-images-product').prepend(imageProduct.children().clone(true));
-    }
-
-    function addColorBlock() {
-        var index = $('#container-color-blocks .color-block ').length;
-        var productCode = $(".form-group  input[name='code']").val()
-        const colorCode = productCode + '-C' + index;
-        console.log(colorCode);
-
-        $('#base-block-color').find('.new-color-code').val(colorCode);
-        const colorBlock = $('#base-block-color').clone(true);
-        $('#container-color-blocks').prepend(colorBlock.children().clone(true));
-    }
-
-    function addImageToBlock() {
-        const colorItem = $('#base-image-color').clone(true);
-        $(this).next().prepend(colorItem.children().clone(true));
-        // $('#container-images-color').prepend(colorItem.children().clone(true));
-    }
-
-    function deleteImageOfColor() {
-        $(this).parent().parent().remove();
-    }
-
-    function deleteBlockColor() {
-        $(this).parent().parent().remove();
-    }
-
-    function deleteImageProduct() {
-        $(this).parent().parent().remove();
-        const path = $(this).data('path');
-        if (path) {
-            let formData = new FormData();
-            formData.append('url', path)
-            $.ajax({
-                url: `/admin/product/deleteImage`,
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: 'POST',
-                type: 'POST', // For jQuery < 1.9
-                success: function(data) {
-                    if (data.success) {
-                        swal({
-                            title: 'Thành công',
-                            text: `Ảnh đã xóa khỏi hệ thống, vui lòng update !`,
-                            type: 'success',
-                            padding: '2em'
-                        });
-                    } else {
-                        swal({
-                            title: 'Thất bại',
-                            text: `Không xóa được ảnh khỏi hệ thống`,
-                            type: 'error',
-                            padding: '2em'
-                        });
-                    }
-                }
-            });
-        }
 
 
-    }
 
     $('#add-product-image').on('click', addImageProduct);
     $('.delete-image-product').on('click', deleteImageProduct);
 
     $('#add-block-color').on('click', addColorBlock);
+    $('#add-block-size').on('click', addSizeBlock);
     $('.add-color-to-block').on('click', addImageToBlock)
     $('.delete-image-color').on('click', deleteImageOfColor)
     $('.delete-block-color ').on('click', deleteBlockColor)
-
+    $('.delete-block-size ').on('click', deleteBlockSize)
 
     $('#product-price').on('input', function() {
         getPriceVND();
     });
 });
 const ENV = 'DEV';
+
+function addImageProduct() {
+    const imageProduct = $('#base-image-product').clone(true);
+    $('#container-images-product').prepend(imageProduct.children().clone(true));
+}
+
+function addColorBlock() {
+
+    var productCode = $(".form-group  input[name='code']").val()
+    if (productCode == undefined || productCode == null || productCode == "") {
+        toast('Thông báo', 'Bạn chưa thêm mã sản phẩm', 'error')
+    } else {
+        var index = $('#container-color-blocks .color-block ').length;
+        const colorCode = productCode + '-C' + index;
+        $('#base-block-color').find('.new-color-code').val(colorCode);
+        const colorBlock = $('#base-block-color').clone(true);
+        $('#container-color-blocks').prepend(colorBlock.children().clone(true));
+    }
+}
+
+function addSizeBlock() {
+    var productCode = $(".form-group  input[name='code']").val()
+    if (productCode == undefined || productCode == null || productCode == "") {
+        toast('Thông báo', 'Bạn chưa thêm mã sản phẩm', 'error')
+    } else {
+        var index = $('#container-size-blocks .size-block ').length;
+        const sizeCode = productCode + '-S' + index;
+        $('#base-block-size').find('.size-code').val(sizeCode);
+        const sizeBlock = $('#base-block-size').clone(true);
+        $('#container-size-blocks').prepend(sizeBlock.children().clone(true));
+    }
+}
+
+function addImageToBlock() {
+    const colorItem = $('#base-image-color').clone(true);
+    $(this).next().prepend(colorItem.children().clone(true));
+    // $('#container-images-color').prepend(colorItem.children().clone(true));
+}
+
+function deleteImageOfColor() {
+    $(this).parent().parent().remove();
+}
+
+function deleteBlockColor() {
+    $(this).parent().parent().remove();
+}
+
+
+function deleteBlockSize() {
+    $(this).parent().parent().remove();
+}
+
+function deleteImageProduct() {
+    $(this).parent().parent().remove();
+    const path = $(this).data('path');
+    if (path) {
+        let formData = new FormData();
+        formData.append('url', path)
+        $.ajax({
+            url: `/admin/product/deleteImage`,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: 'POST', // For jQuery < 1.9
+            success: function(data) {
+                if (data.success) {
+                    swal({
+                        title: 'Thành công',
+                        text: `Ảnh đã xóa khỏi hệ thống, vui lòng update !`,
+                        type: 'success',
+                        padding: '2em'
+                    });
+                } else {
+                    swal({
+                        title: 'Thất bại',
+                        text: `Không xóa được ảnh khỏi hệ thống`,
+                        type: 'error',
+                        padding: '2em'
+                    });
+                }
+            }
+        });
+    }
+
+
+}
+
+function toast(title, msg, type = 'info') {
+    $.toast({
+        heading: title,
+        text: msg,
+        showHideTransition: 'plain',
+        icon: type,
+        position: 'top-right',
+    });
+}
 
 function getListCurrentImages() {
     let results = [];
@@ -105,6 +140,19 @@ function getListCurrentBlockColor() {
         $(this).find('.container-images-color img').each(function(index) {
             results[idx].listImages.push($(this).data('image'));
         });
+    });
+    return JSON.stringify(results);
+}
+
+function getListSize() {
+    let results = [];
+    $('#container-size-blocks .size-block').each(function(idx) {
+        const sizeCode = $(this).find('input.size-code').val();
+        const sizeName = $(this).find('input.size-name').val();
+        results[idx] = {
+            sizeCode: sizeCode,
+            sizeName: sizeName
+        }
     });
     return JSON.stringify(results);
 }
@@ -210,6 +258,7 @@ let handlerForm = function(idProduct) {
     let storagesSelected = $("#product-storage").select2('data');
     let newcolorsName = getListColorName();
     let newcolorsCode = getListColorCode();
+    let sizes = getListSize();
     for (var i in formData) {
         if (formData[i].name == 'detail') {
             formData[i].value = CKEDITOR.instances['product-detail'].getData();
@@ -224,6 +273,7 @@ let handlerForm = function(idProduct) {
     }
     newFormData.append('newcolorsName', newcolorsName);
     newFormData.append('newcolorsCode', newcolorsCode);
+    newFormData.append('blocksSize', sizes);
     if (idProduct) {
         const commonImages = getListCurrentImages();
         newFormData.append('commonImages', commonImages);

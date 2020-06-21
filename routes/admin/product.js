@@ -103,7 +103,8 @@ let resizeImages = function(oldPath, newPath) {
 router.post('/', isAuthenticated, async function(req, res) {
     let newListImage = [];
     let content = {};
-    let blocksColor = []
+    let blocksColor = [];
+    let blocksSize = [];
     const form = formidable({ multiples: true });
 
     var dir = __basedir + '/public/img/product';
@@ -113,10 +114,10 @@ router.post('/', isAuthenticated, async function(req, res) {
 
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
-        if (fieldName !== 'files[]' && fieldName !== 'newcolorsName') {
+        if (fieldName !== 'files[]' && fieldName !== 'newcolorsName' && fieldName !== 'newcolorsCode' && fieldName !== 'blocksSize') {
             content[fieldName] = fieldValue;
         }
-        if (fieldName == 'category' || fieldName == 'storage') {
+        if (fieldName == 'category' || fieldName == 'storage' || fieldName == 'blocksSize') {
             content[fieldName] = JSON.parse(fieldValue);
         }
         if (fieldName == 'newcolorsName') {
@@ -176,6 +177,7 @@ router.post('/', isAuthenticated, async function(req, res) {
     form.on('end', async function() {
         content['listImages'] = newListImage;
         content['blocksColor'] = blocksColor;
+        console.log(content['blocksSize']);
         Product.create(content, function(err, product) {
             if (!err) {
                 res.json({
@@ -234,12 +236,11 @@ router.post('/edit-product/:id', async function(req, res) {
 
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
-        if (fieldName !== 'files[]' && fieldName !== 'oldColorBlock' && fieldName !== 'commonImages' && fieldName !== 'newcolorsName' && fieldName !== 'newcolorsCode') {
+        if (fieldName !== 'files[]' && fieldName !== 'oldColorBlock' && fieldName !== 'commonImages' && fieldName !== 'newcolorsName' && fieldName !== 'newcolorsCode' && fieldName !== 'blocksSize') {
             content[fieldName] = fieldValue;
         }
-        if (fieldName == 'category' || fieldName == 'storage') {
+        if (fieldName == 'category' || fieldName == 'storage' || fieldName == 'blocksSize') {
             content[fieldName] = JSON.parse(fieldValue);
-            console.log(fieldValue);
         }
         if (fieldName == 'commonImages') {
             newListImage = newListImage.concat(JSON.parse(fieldValue));
@@ -320,7 +321,7 @@ router.post('/edit-product/:id', async function(req, res) {
     form.on('end', async function() {
         content['listImages'] = newListImage;
         content['blocksColor'] = oldColorBlock.concat(blocksColor);
-        Product.findOneAndUpdate({ _id: idProduct }, content, function(err, product) {
+        Product.findOneAndUpdate({ _id: idProduct }, content, { new: true }, function(err, product) {
             if (!err) {
                 req.res.json({
                     success: true,
