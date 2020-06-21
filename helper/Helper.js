@@ -179,6 +179,9 @@ module.exports = {
         return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     },
     checked(currentValue) {
+        if (currentValue == '') {
+            return ''
+        }
         return currentValue ? 'checked' : '';
     },
     getAvatarImage(type, listImages) {
@@ -190,6 +193,15 @@ module.exports = {
     },
     getActiveProductImage(listImages) {
         return listImages.length > 0 ? listImages[0] : '/img/new-products/1_2.jpg';
+    },
+    getTotalPrice(listProducts) {
+        let total = 0;
+        if (listProducts !== null && listProducts !== undefined) {
+            listProducts.forEach(element => {
+                total = element.quantity * (parseInt(total) + parseInt(element.price));
+            });
+        }
+        return total;
     },
     selected(option, value) {
         if (option && value) {

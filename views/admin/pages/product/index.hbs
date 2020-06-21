@@ -123,7 +123,7 @@
                                                                 </path>
                                                             </svg></a></li>
                                                     <li data-toggle="modal" data-target="#modalDeleteProduct"
-                                                        data-productid="{{this._id}}" class="btn-delete-storage"><a
+                                                        data-productid="{{this._id}}" class="btn-delete-product"><a
                                                             title="Xóa Sản Phẩm" class="bs-tooltip"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Delete"><svg
@@ -194,7 +194,7 @@
             "pageLength": 10
         });
         multiCheck(c3);
-        $('.btn-delete-storage').on('click', deleteProduct);
+        $('.btn-delete-product').on('click', deleteProduct);
         function deleteProduct() {
             var productId = $(this).data("productid");
             $('#delete-modal').attr('href', `/admin/product/delete/${productId}`);

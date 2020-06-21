@@ -9,6 +9,14 @@ var PostsSchema = new Schema({
         required: true,
         trim: true
     },
+    view: {
+        type: Number,
+        default: 0
+    },
+    comment: {
+        type: Number,
+        default: 0
+    },
     body: {
         type: String,
         trim: true,
@@ -17,28 +25,22 @@ var PostsSchema = new Schema({
     banner_image: {
         type: String,
         trim: true,
-        default: '#'
+        default: null
     },
     thumb_image: {
         type: String,
         trim: true,
-        default: '#'
+        default: null
     },
     user: {
-        type: Object,
-        required: false
+        type: Object
     },
     edit_by: {
-        type: Object,
-        required: false
+        type: Object
     },
     short_desc: {
         type: String,
         default: '',
-        trim: true
-    },
-    fb_link: {
-        type: String,
         trim: true
     },
     isPublic: {

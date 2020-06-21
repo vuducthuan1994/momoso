@@ -3,12 +3,17 @@ $(document).ready(function() {
     $('.add-product-to-cart').on('click', addToCart);
     $('.remove-wish-list').on('click', removeFromWishList);
     $('.remove-product-from-cart').on('click', removeFromCart)
+    $('.pe-7s-close').on('click', removeProduct)
     initCart();
 });
 
 var listFavorProducts = [];
 var listCartProducts = [];
 const BASE_URL = 'product';
+
+function removeProduct() {
+    console.log('hahahaha');
+}
 
 function toast(title, msg, type = 'info') {
     $.toast({
@@ -32,7 +37,7 @@ function initCart() {
 function removeFromCart() {
     var cart = $('#js-cart-data').data('cart');
     var sessionID = $('#js-cart-data').data('seasonid');
-    var productid = $(this).data('product');
+    var productid = $(this).data('productid');
     if (cart !== null && cart !== undefined && cart.listCartProducts.length > 0) {
         cart.listCartProducts.splice(cart.listCartProducts.findIndex(function(i) {
             return i._id === productid;
@@ -138,9 +143,12 @@ function addProductToListHeader(product) {
         <h6><a href="${BASE_URL+'/'+product.urlSeo}">${product.name}</a></h6>
        <span>${product.quantity} ×</span> <span class="product-price-vnd" data-price="${product.price} ">${product.price}</span>
     </div>
-    <i data-productid="${product._id}" class="pe-7s-close remove-product-from-cart"></i>
+    <i data-productid="${product._id}" class="remove-product-from-cart pe-7s-close"></i>
 </div>`
     $('#container-products').append(html);
+    let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
+    totalPrice = parseInt(totalPrice) + (parseInt(product.quantity) * parseInt(product.price));
+    $('#totalPrice').data('price', totalPrice);
     getPriceVND();
 }
 

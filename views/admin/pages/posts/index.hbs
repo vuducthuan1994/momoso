@@ -7,6 +7,8 @@
 <link rel="stylesheet" type="text/css" href="/assets/css/forms/theme-checkbox-radio.css">
 <link rel="stylesheet" type="text/css" href="/plugins/table/datatable/dt-global_style.css">
 <link rel="stylesheet" type="text/css" href="/plugins/table/datatable/custom_dt_custom.css">
+<link href="/assets/css/components/custom-modal.css" rel="stylesheet" type="text/css" />
+
 <!-- END PAGE LEVEL CUSTOM STYLES -->
 
 <style>
@@ -51,7 +53,7 @@
                     </div>
                     <div class="widget-content widget-content-area">
                         <div class="table-responsive mb-4">
-                            <div >
+                            <div>
                                 <div class="seperator-header">
                                     <a href="/admin/posts/add-post">
                                         <h4 class="">Thêm mới </h4>
@@ -128,8 +130,8 @@
                                                                     d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
                                                                 </path>
                                                             </svg></a></li>
-                                                    <li><a title="Xóa bài viết !"
-                                                            href="/admin/posts/delete/{{this._id}}" class="bs-tooltip"
+                                                    <li  data-toggle="modal" data-target="#modalDeletePost" data-postid="{{this._id}}" class="btn-delete-post"><a title="Xóa bài viết !"
+                                                            class="bs-tooltip"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Delete"><svg
                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
@@ -150,6 +152,33 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalDeletePost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa Bài Viết </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-text"> Vui lòng xác thực để xóa sản phẩm! </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Hủy</button>
+                        <a id="delete-modal" type="button" class="btn btn-primary">Xóa Ngay</a>
                     </div>
                 </div>
             </div>
@@ -182,7 +211,11 @@
         });
 
         multiCheck(c3);
-
+        $('.btn-delete-post').on('click', deletePost);
+        function deletePost() {
+            var postID = $(this).data("postid");
+            $('#delete-modal').attr('href', `/admin/posts/delete/${postID}`);
+        }
 
     </script>
 

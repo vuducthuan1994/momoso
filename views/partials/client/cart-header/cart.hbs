@@ -24,7 +24,7 @@
                         <span>{{this.quantity}} ×</span> <span class="product-price-vnd"
                             data-price="{{this.price}}">$399.00</span>
                     </div>
-                    <i data-productid="{{this._id}}" class="pe-7s-close remove-product-from-cart"></i>
+                    <i data-productid="{{this._id}}" class="remove-product-from-cart pe-7s-close"></i>
                 </div>
                 {{/each }}
                 <!-- Cart Box End -->
@@ -32,7 +32,7 @@
 
             <!-- Cart Footer Inner Start -->
             <div class="cart-footer fix">
-                <h5>total :<span class="f-right">$698.00</span></h5>
+                <h5>total :<span id="totalPrice"  data-price="{{getTotalPrice cart.listCartProducts}}" class="f-right product-price-vnd"> {{getTotalPrice cart.listCartProducts}}</span></h5>
                 <div class="cart-actions">
                     <a class="checkout" href="checkout.html">Checkout</a>
                 </div>

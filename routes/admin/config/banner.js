@@ -67,7 +67,7 @@ router.post('/', function(req, res) {
     });
 
     form.parse(req, (err, fields) => {
-        if (newPath !== null) {
+        if (imageUrl !== null) {
             fields.imageUrl = `/img/banner/${imageUrl}`;
         }
         if (fields.isShow) {

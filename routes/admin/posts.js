@@ -74,119 +74,106 @@ router.post('/uploadImages', function(req, res) {
 
 router.post('/edit-post/:id', function(req, res) {
     const idPost = req.params.id;
-    let banner_image = null;
     const form = formidable({ multiples: true });
-    form.on('fileBegin', function(name, file) {
-        if (name == 'banner_image' && file.name !== '') {
-            banner_image = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            file.path = path.join(__basedir, `public/img/${banner_image}`);
+    form.parse(req);
+    let content = {};
+    form.on('field', function(fieldName, fieldValue) {
+        if (fieldName !== 'banner_image') {
+            content[fieldName] = fieldValue;
         }
     });
+
     form.on('file', function(fieldName, file) {
         if (fieldName == 'banner_image' && file.name !== '') {
-            var dir = __basedir + '/public/img/thumbails';
+            var dir = __basedir + '/public/img/posts';
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, 0744);
             }
-            const thumb_path = path.join(__basedir, `public/img/thumbails/400x268-${banner_image}`);
-            sharp(file.path)
-                .resize(400, 268).webp({ quality: 100 })
-                .toFile(thumb_path, function(err) {
-                    if (!err) {
-                        req.flash('messages', 'Image was resize !')
-                    }
-                });
+            const fileName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
+
+            const thumb_path = path.join(__basedir, `public/img/posts/thumb-${fileName}`);
+            const banner_path = path.join(__basedir, `public/img/posts/banner-${fileName}`);
+            content['thumb_image'] = `/img/posts/thumb-${fileName}`;
+            content['banner_image'] = `/img/posts/banner-${fileName}`;
+            resizeImage(file.path, thumb_path, 370, 246);
+            resizeImage(file.path, banner_path, 1770, 630);
         }
     });
 
-    form.parse(req, (err, fields) => {
-        if (banner_image !== null) {
-            fields.banner_image = `/img/${banner_image}`;
-            fields.thumb_image = `/img/thumbails/400x268-${banner_image}`;
-        }
-        if (req.user) {
-            fields.edit_by = req.user;
-        }
-        if (fields.isPublic) {
-            fields.isPublic = true;
+    form.on('end', function() {
+        if (content.isPublic) {
+            content.isPublic = true;
         } else {
-            fields.isPublic = false;
+            content.isPublic = false;
         }
-        if (err) {
-            req.flash('errors', "Không sửa được bài viết !");
-        } else {
-            fields.updated_date = new Date();
-            Posts.updateOne({ _id: idPost }, fields, function(err, data) {
-                if (!err) {
-                    req.flash('messages', 'Sửa thành công !');
-                    res.redirect('back');
-                } else {
-                    req.flash('errors', 'Không sửa được bài viết');
-                    res.redirect('back');
-                }
-            });
-        }
+        Posts.updateOne({ _id: idPost }, content, function(err, data) {
+            if (!err) {
+                console.log(err)
+                req.flash('messages', 'Sửa bài viết thành công !')
+                res.redirect('back');
+            } else {
+                req.flash('messages', 'Không sửa được bài viết')
+                res.redirect('back');
+            }
+        });
     });
-
 });
 
-// create post
+let resizeImage = function(oldPath, newPath, width, height) {
+        sharp(oldPath)
+            .resize(width, height)
+            .toFile(newPath, function(err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+    }
+    // create post
 router.post('/', function(req, res) {
-    let banner_image = null;
+    console.log('hahahahaha');
+    let content = {};
+
     const form = formidable({ multiples: true });
-    form.on('fileBegin', function(name, file) {
-        if (name == 'banner_image' && file.name !== '') {
-            banner_image = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            file.path = path.join(__basedir, `public/img/${banner_image}`);
+    form.parse(req);
+    form.on('field', function(fieldName, fieldValue) {
+        if (fieldName !== 'banner_image') {
+            content[fieldName] = fieldValue;
         }
     });
     form.on('file', function(fieldName, file) {
         if (fieldName == 'banner_image' && file.name !== '') {
-            var dir = __basedir + '/public/img/thumbails';
+            var dir = __basedir + '/public/img/posts';
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, 0744);
             }
-            const thumb_path = path.join(__basedir, `public/img/thumbails/400x268-${banner_image}`);
-            sharp(file.path)
-                .resize(400, 268)
-                .toFile(thumb_path, function(err) {
-                    if (!err) {
-                        req.flash('messages', 'Image was resize !')
-                    }
-                });
+            const fileName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
+
+            const thumb_path = path.join(__basedir, `public/img/posts/thumb-${fileName}`);
+            const banner_path = path.join(__basedir, `public/img/posts/banner-${fileName}`);
+            content['thumb_image'] = `/img/posts/thumb-${fileName}`;
+            content['banner_image'] = `/img/posts/banner-${fileName}`;
+            resizeImage(file.path, thumb_path, 370, 246);
+            resizeImage(file.path, banner_path, 1770, 630);
         }
     });
 
-    form.parse(req, (err, fields) => {
-        if (req.account) {
-            fields.user = req.account;
-        }
-        if (fields.isPublic) {
-            fields.isPublic = true;
+    form.on('end', function() {
+        if (content.isPublic) {
+            content.isPublic = true;
         } else {
-            fields.isPublic = false;
+            content.isPublic = false;
         }
-        if (banner_image !== null) {
-            fields.banner_image = `/img/${banner_image}`;
-            fields.thumb_image = `/img/thumbails/400x268-${banner_image}`;
-        }
-
-        if (err) {
-            req.flash('messages', "Không thêm được bài viết !");
-            res.redirect('back');
-        } else {
-            Posts.create(fields, function(err, data) {
-                if (!err) {
-                    console.log(err)
-                    req.flash('messages', 'Thêm thành công !')
-                    res.redirect('/admin/posts');
-
-                } else {
-                    req.flash('messages', 'Không thêm được bài viết')
-                    res.redirect('back');
-                }
-            });
-        }
+        Posts.create(content, function(err, data) {
+            if (!err) {
+                console.log(err)
+                req.flash('messages', 'Thêm thành công !')
+                res.redirect('/admin/posts');
+            } else {
+                console.log(err)
+                req.flash('messages', 'Không thêm được bài viết')
+                res.redirect('back');
+            }
+        });
     });
 });
 
