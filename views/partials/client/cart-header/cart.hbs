@@ -8,7 +8,7 @@
 <li data-seasonid="{{sessionID}}" data-cart="{{ objectToString cart}}" id="js-cart-data">
     <a href="{{createCartDetailURL}}">
         <i class="pe-7s-shopbag"></i>
-        <span id="cart-length">0</span>
+        <span  id="cart-length">0</span>
     </a>
     <ul class="ht-dropdown main-cart-box">
         <li>
@@ -24,7 +24,7 @@
                         <span>{{this.quantity}} ×</span> <span class="product-price-vnd"
                             data-price="{{this.price}}">$399.00</span>
                     </div>
-                    <i data-productid="{{this._id}}" class="remove-product-from-cart pe-7s-close"></i>
+                    <i data-price="{{this.price}}" data-productid="{{this._id}}" class="remove-product-from-cart pe-7s-close"></i>
                 </div>
                 {{/each }}
                 <!-- Cart Box End -->

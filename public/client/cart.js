@@ -2,8 +2,10 @@ $(document).ready(function() {
     $('#add-wish-list').on('click', addToWishList);
     $('.add-product-to-cart').on('click', addToCart);
     $('.remove-wish-list').on('click', removeFromWishList);
-    $('.remove-product-from-cart').on('click', removeFromCart)
-    $('.pe-7s-close').on('click', removeProduct)
+    // for element render from server
+    $('.remove-product-from-cart').on('click', removeFromCart);
+    // for element after append
+    $('#container-products').on('click', '.remove-product-from-cart', removeFromCart);
     initCart();
 });
 
@@ -11,9 +13,7 @@ var listFavorProducts = [];
 var listCartProducts = [];
 const BASE_URL = 'product';
 
-function removeProduct() {
-    console.log('hahahaha');
-}
+
 
 function toast(title, msg, type = 'info') {
     $.toast({
@@ -25,6 +25,7 @@ function toast(title, msg, type = 'info') {
     });
 }
 
+
 function initCart() {
     var cart = $('#js-cart-data').data('cart');
     if (cart && cart !== null && cart !== undefined) {
@@ -32,37 +33,6 @@ function initCart() {
         $('#wish-list-length').text(cart.listFavorProducts.length);
     }
 
-}
-
-function removeFromCart() {
-    var cart = $('#js-cart-data').data('cart');
-    var sessionID = $('#js-cart-data').data('seasonid');
-    var productid = $(this).data('productid');
-    if (cart !== null && cart !== undefined && cart.listCartProducts.length > 0) {
-        cart.listCartProducts.splice(cart.listCartProducts.findIndex(function(i) {
-            return i._id === productid;
-        }), 1);
-        let data = {
-            sessionID: sessionID,
-            listCartProducts: cart.listCartProducts
-        }
-        $.ajax({
-            url: `/api/updateCart`,
-            dataType: "json",
-            data: data,
-            method: 'POST',
-            success: function(data) {
-                if (data.success) {
-                    toast('Thông báo', 'Xóa thành công khỏi giỏ hàng', 'success');
-                    $('#cart-length').text(cart.listCartProducts.length);
-                    $('#js-cart-data').data('cart', cart);
-                    $(`#${productid}.single-cart-box`).remove();
-                } else {
-                    toast('Thông báo', 'Lỗi hệ thống!', 'error');
-                }
-            }
-        });
-    }
 }
 
 function removeFromWishList() {
@@ -86,7 +56,7 @@ function removeFromWishList() {
                 if (data.success) {
                     toast('Thông báo', 'Xóa thành công khỏi danh sách', 'success');
                     $('#wish-list-length').text(cart.listFavorProducts.length);
-                    $('#js-cart-data').data('cart', cart);
+                    $('#js-cart-data').data('cart', data.cart);
                     $(`#${product._id}`).remove();
                 } else {
                     toast('Thông báo', 'Lỗi hệ thống!', 'error');
@@ -97,41 +67,62 @@ function removeFromWishList() {
 
 }
 
+function removeFromCart() {
+    console.log("hahahaha");
+    var sessionID = $('#js-cart-data').data('seasonid');
+    let productid = $(this).data('productid');
+    let price = $(this).data('price');
+    let data = {
+        sessionID: sessionID,
+        _id: productid
+    }
+    $.ajax({
+        url: `/api/removeFromCart`,
+        dataType: "json",
+        data: data,
+        method: 'POST',
+        success: function(data) {
+            if (data.success) {
+                toast('Thông báo', 'Xóa sản phẩm thành công khỏi giỏ hàng', 'success');
+                $('#cart-length').text(data.lengthCart);
+                $(`.single-cart-box#${productid}`).remove();
+
+                let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
+                totalPrice = parseInt(totalPrice) - (parseInt(price));
+                $('#totalPrice').data('price', totalPrice);
+                getPriceVND();
+            } else {
+                toast('Thông báo', 'Không xóa được', 'info');
+            }
+        }
+    });
+}
+
 function addToCart() {
-    var cart = $('#js-cart-data').data('cart');
+
     var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
     product['quantity'] = $('.cart-plus-minus-box').val() == 0 ? 1 : $('.cart-plus-minus-box').val();
-    if (cart && cart !== null && cart !== undefined) {
-        listCartProducts = cart.listCartProducts;
-    };
-    const added = checkProductInList(product, listCartProducts);
-    if (!added) {
-        listCartProducts.push(product);
-        let data = {
-            sessionID: sessionID,
-            listCartProducts: listCartProducts
-        }
-        $.ajax({
-            url: `/api/updateCart`,
-            dataType: "json",
-            data: data,
-            method: 'POST',
-            success: function(data) {
-                if (data.success) {
 
-                    toast('Thông báo', 'Thêm thành công vào giỏ hàng!', 'success');
-                    $('#cart-length').text(listCartProducts.length);
-                    addProductToListHeader(product);
-                } else {
-                    toast('Thông báo', 'Lỗi hệ thống ! , vui lòng liên hệ admin', 'error');
-                }
-            }
-        });
-
-    } else {
-        toast('Thông báo', 'Sản phẩm đã tồn tại trong giỏ hàng ', 'info');
+    let data = {
+        sessionID: sessionID,
+        product: product
     }
+    $.ajax({
+        url: `/api/addToCart`,
+        dataType: "json",
+        data: data,
+        method: 'POST',
+        success: function(data) {
+            if (data.success) {
+                toast('Thông báo', 'Thêm thành công vào giỏ hàng!', 'success');
+                $('#cart-length').text(data.lengthCart);
+                addProductToListHeader(product);
+            } else {
+                toast('Thông báo', 'Sản phẩm đã tồn tại trong giỏ hàng !', 'info');
+            }
+        }
+    });
 }
 
 function addProductToListHeader(product) {
@@ -143,13 +134,15 @@ function addProductToListHeader(product) {
         <h6><a href="${BASE_URL+'/'+product.urlSeo}">${product.name}</a></h6>
        <span>${product.quantity} ×</span> <span class="product-price-vnd" data-price="${product.price} ">${product.price}</span>
     </div>
-    <i data-productid="${product._id}" class="remove-product-from-cart pe-7s-close"></i>
-</div>`
+    <i data-price="${product.price}" data-productid="${product._id}" class="remove-product-from-cart pe-7s-close"></i>
+</div>`;
     $('#container-products').append(html);
     let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
     totalPrice = parseInt(totalPrice) + (parseInt(product.quantity) * parseInt(product.price));
     $('#totalPrice').data('price', totalPrice);
     getPriceVND();
+
+
 }
 
 function getPriceVND() {
@@ -168,41 +161,26 @@ function addToWishList() {
     if (cart && cart !== null && cart !== undefined) {
         listFavorProducts = cart.listFavorProducts;
     };
-    const added = checkProductInList(product, listFavorProducts);
-    if (!added) {
-        listFavorProducts.push(product);
-        let data = {
-            sessionID: sessionID,
-            listFavorProducts: listFavorProducts
-        }
-        $.ajax({
-            url: `/api/updateFavor`,
-            dataType: "json",
-            data: data,
-            method: 'POST',
-            success: function(data) {
-                if (data.success) {
-                    toast('Thông báo', 'Thêm thành công !', 'success');
-                    $('#wish-list-length').text(listFavorProducts.length);
-                } else {
-                    toast('Thông báo', 'Lỗi hệ thống!', 'error');
-                }
-            }
-        });
 
-    } else {
-        toast('Thông báo', 'Sản phẩm đã tồn tại trong danh sách ưa thích của bạn ', 'info');
+
+    listFavorProducts.push(product);
+    let data = {
+        sessionID: sessionID,
+        listFavorProducts: listFavorProducts
     }
-}
-
-
-
-function checkProductInList(product, list) {
-    let result = false;
-    list.forEach(item => {
-        if (item._id == product._id) {
-            result = true;
+    $.ajax({
+        url: `/api/updateFavor`,
+        dataType: "json",
+        data: data,
+        method: 'POST',
+        success: function(data) {
+            if (data.success) {
+                toast('Thông báo', 'Thêm thành công !', 'success');
+                $('#wish-list-length').text(listFavorProducts.length);
+            } else {
+                toast('Thông báo', 'Lỗi hệ thống!', 'error');
+            }
         }
     });
-    return result;
+
 }
