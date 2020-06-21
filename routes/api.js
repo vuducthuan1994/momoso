@@ -41,14 +41,12 @@ router.post('/createReview', reviewLimiter, function(req, res) {
 router.post('/addToCart', function(req, res) {
     Carts.findOneAndUpdate({ sessionID: req.body.sessionID, "listCartProducts._id": { $ne: req.body.product._id } }, { $push: { "listCartProducts": req.body.product } }, { upsert: true, new: true }, function(err, data) {
         if (!err) {
-            console.log(data);
             res.json({
                 success: true,
                 msg: 'Cập nhật giỏ hàng thành công !',
                 lengthCart: data.listCartProducts.length
             });
         } else {
-            console.log(err);
             res.json({
                 success: false,
                 msg: 'Không cập nhật được giỏ hàng !'
@@ -60,14 +58,12 @@ router.post('/addToCart', function(req, res) {
 router.post('/removeFromCart', function(req, res) {
     Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, { $pull: { "listCartProducts": { _id: req.body._id } } }, { upsert: true, new: true }, function(err, data) {
         if (!err) {
-            console.log(data);
             res.json({
                 success: true,
                 msg: 'Xóa sản phẩm khỏi giỏ hàng thành công',
                 lengthCart: data.listCartProducts.length
             });
         } else {
-            console.log(err);
             res.json({
                 success: false,
                 msg: 'Không cập nhật được giỏ hàng !'
@@ -76,18 +72,38 @@ router.post('/removeFromCart', function(req, res) {
     });
 });
 
-router.post('/updateFavor', function(req, res) {
-    Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, req.body, { upsert: true }, function(err, cart) {
+router.post('/addToWishList', function(req, res) {
+    Carts.findOneAndUpdate({ sessionID: req.body.sessionID, "listFavorProducts._id": { $ne: req.body.product._id } }, { $push: { "listFavorProducts": req.body.product } }, { upsert: true, new: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,
-                cart: cart,
-                msg: 'Cập nhật danh sách ưa thích thành công !'
+                msg: 'thêm sản phẩm thành công vào danh sách ưa thích !',
+                lengthWishList: data.listFavorProducts.length
             });
         } else {
+            console.log(err);
             res.json({
                 success: false,
-                msg: 'Không cập nhật được danh sách ưa thích !'
+                msg: 'Không thêm được sản phẩm vào danh sách ưa thích!'
+            });
+        }
+    });
+});
+
+
+router.post('/removeFromWishList', function(req, res) {
+    Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, { $pull: { "listFavorProducts": { _id: req.body._id } } }, { upsert: true, new: true }, function(err, data) {
+        if (!err) {
+            res.json({
+                success: true,
+                msg: 'Xóa thành công!',
+                lengthWishList: data.listFavorProducts.length
+            });
+        } else {
+            console.log(err);
+            res.json({
+                success: false,
+                msg: 'Không xóa được sản phẩm khỏi danh sách ưa thích !'
             });
         }
     });

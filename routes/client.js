@@ -38,6 +38,18 @@ router.get(process.env.ABOUT_US, async function(req, res) {
     });
 });
 
+router.get(process.env.CHECK_OUT, async function(req, res) {
+    let general = await getGeneralConfig();
+    let cart = await getCart(req.sessionID);
+    res.render('client/check-out', {
+        title: "Đặt hàng ngay",
+        layout: 'client.hbs',
+        general: general,
+        seasonID: req.sessionID,
+        cart: cart ? cart.toJSON() : null
+    });
+});
+
 router.get(process.env.CART, async function(req, res) {
     let general = await getGeneralConfig();
     let about_us = await getAboutUsInfo();
@@ -137,6 +149,7 @@ let getProductDetail = function(urlSeo) {
         }
     });
 }
+
 let getGeneralConfig = function() {
     return new Promise(function(resolve, reject) {
         let general = cache.get("general");
@@ -197,7 +210,7 @@ let getNewProducts = function() {
         let newProducts = cache.get("newProducts");
         if (newProducts == undefined) {
             let results = [];
-            Products.find({ type: 'new' }, function(err, products) {
+            Products.find({ type: 'new' }, { storage: 0, category: 0, note: 0, detail: 0, created_date: 0, updated_date: 0, view: 0, blocksSize: 0, blocksColor: 0, point: 0, __v: 0, totalReview: 0, rate: 0, code: 0 }, function(err, products) {
                 if (!err) {
                     var totalProduct = products.length;
                     if (products.length % 2 !== 0) {

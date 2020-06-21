@@ -1,4 +1,4 @@
-<body>
+
     <!--[if lt IE 8]>
 	<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
@@ -22,7 +22,7 @@
                     <!-- Logo Start -->
                     <div class="col-lg-2 col-md-2 col-sm-6 col-xs-5 full-col pl-0">
                         <div class="logo">
-                            <a href="index.html"><img src="img/logo/logo.png" alt="brand-image"></a>
+                            <a href="/"><img src="img/logo/logo.png" alt="brand-image"></a>
                         </div>
                     </div>
                     <!-- Logo End -->
@@ -42,10 +42,10 @@
                         <div class="primary-menu">
                             <nav>
                                 <ul class="primary-menu-list text-center">
-                                    <li><a href="index.html">home<i class="pe-7s-angle-down"></i></a>
+                                    <li><a href="/">home<i class="pe-7s-angle-down"></i></a>
                                         <!-- Home Version Dropdown Start -->
                                         <ul class="ht-dropdown">
-                                            <li><a href="index.html">Home Version 1</a></li>
+                                            <li><a href="/">Home Version 1</a></li>
                                             <li><a href="home-2.html">Home Version 2</a></li>
                                             <li><a href="home-3.html">Home Version 3</a></li>
                                             <li><a href="home-4.html">Home Version 4</a></li>
@@ -164,7 +164,7 @@
                                 <li><a href="#">Home</a>
                                     <!-- Mobile Menu Dropdown Start -->
                                     <ul>
-                                        <li><a href="index.html">Home Version 1</a></li>
+                                        <li><a href="/">Home Version 1</a></li>
                                         <li><a href="home-2.html">Home Version 2</a></li>
                                         <li><a href="home-3.html">Home Version 3</a></li>
                                         <li><a href="home-4.html">Home Version 4</a></li>
@@ -314,7 +314,7 @@
                                     <tbody>
                                         {{#each cart.listFavorProducts}}
                                         <tr id="{{this._id}}">
-                                            <td class="product-remove"> <a href="#"><i data-product="{{objectToString this}}"  class="remove-wish-list fa fa-times"
+                                            <td class="product-remove"> <a href="#"><i data-productid="{{this._id}}"  class="remove-wish-list fa fa-times"
                                                         aria-hidden="true"></i></a></td>
                                             <td class="product-thumbnail">
                                                 <a href="#"><img src="{{getActiveProductImage this.listImages}}"
@@ -359,4 +359,3 @@
     </div>
     <!-- Wrapper End -->
 
-</body>

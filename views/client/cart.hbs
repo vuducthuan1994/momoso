@@ -352,12 +352,12 @@
                                         <tbody>
                                             <tr class="cart-subtotal">
                                                 <th>Subtotal</th>
-                                                <td><span class="amount">$215.00</span></td>
+                                                <td><span data-price="{{getTotalPrice cart.listCartProducts}}" class="amount product-price-vnd">{{getTotalPrice cart.listCartProducts}}</span></td>
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Total</th>
                                                 <td>
-                                                    <strong><span class="amount">$215.00</span></strong>
+                                                    <strong><span data-price="{{getTotalPrice cart.listCartProducts}}"  class="amount product-price-vnd">{{getTotalPrice cart.listCartProducts}}</span></strong>
                                                 </td>
                                             </tr>
                                         </tbody>

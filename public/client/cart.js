@@ -36,36 +36,36 @@ function initCart() {
 }
 
 function removeFromWishList() {
-    var cart = $('#js-cart-data').data('cart');
     var sessionID = $('#js-cart-data').data('seasonid');
-    var product = $(this).data('product');
-    if (cart !== null && cart !== undefined && cart.listFavorProducts.length > 0) {
-        cart.listFavorProducts.splice(cart.listFavorProducts.findIndex(function(i) {
-            return i._id === product._id;
-        }), 1);
-        let data = {
-            sessionID: sessionID,
-            listFavorProducts: cart.listFavorProducts
-        }
-        $.ajax({
-            url: `/api/updateFavor`,
-            dataType: "json",
-            data: data,
-            method: 'POST',
-            success: function(data) {
-                if (data.success) {
-                    toast('Thông báo', 'Xóa thành công khỏi danh sách', 'success');
-                    $('#wish-list-length').text(cart.listFavorProducts.length);
-                    $('#js-cart-data').data('cart', data.cart);
-                    $(`#${product._id}`).remove();
-                } else {
-                    toast('Thông báo', 'Lỗi hệ thống!', 'error');
-                }
-            }
-        });
-    }
+    var productid = $(this).data('productid');
 
+    let data = {
+        sessionID: sessionID,
+        _id: productid
+    }
+    $.ajax({
+        url: `/api/removeFromWishList`,
+        dataType: "json",
+        data: data,
+        method: 'POST',
+        success: function(data) {
+            if (data.success) {
+                toast('Thông báo', 'Xóa thành công khỏi danh sách', 'success');
+                $('#wish-list-length').text(data.lengthWishList);
+                $(`tr#${productid}`).remove();
+                if (data.lengthWishList == 0) {
+                    $('tbody').append(
+                        '<tr><td colspan="6" class="text-warning"><p class="text-muted">Bạn chưa thêm sản phẩm nào vào danh sách !</p></td></tr>'
+                    );
+                }
+            } else {
+                toast('Thông báo', 'Lỗi hệ thống!', 'error');
+            }
+        }
+    });
 }
+
+
 
 function removeFromCart() {
     console.log("hahahaha");
@@ -156,31 +156,23 @@ function getPriceVND() {
 }
 
 function addToWishList() {
-    var cart = $('#js-cart-data').data('cart');
     var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
-
-    if (cart && cart !== null && cart !== undefined) {
-        listFavorProducts = cart.listFavorProducts;
-    };
-
-
-    listFavorProducts.push(product);
     let data = {
         sessionID: sessionID,
-        listFavorProducts: listFavorProducts
+        product: product
     }
     $.ajax({
-        url: `/api/updateFavor`,
+        url: `/api/addToWishList`,
         dataType: "json",
         data: data,
         method: 'POST',
         success: function(data) {
             if (data.success) {
                 toast('Thông báo', 'Thêm thành công !', 'success');
-                $('#wish-list-length').text(listFavorProducts.length);
+                $('#wish-list-length').text(data.lengthWishList);
             } else {
-                toast('Thông báo', 'Lỗi hệ thống!', 'error');
+                toast('Thông báo', 'Sản phẩm đã tồn tại trong danh sách ưa thích', 'info');
             }
         }
     });
