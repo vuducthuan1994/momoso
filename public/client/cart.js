@@ -101,7 +101,8 @@ function removeFromCart() {
 function addToCart() {
 
     var sessionID = $('#js-cart-data').data('seasonid');
-    var product = $(this).data('product');
+    var product = $(this).attr('data-product');
+    console.log(product);
     product['quantity'] = $('.cart-plus-minus-box').val() == 0 ? 1 : $('.cart-plus-minus-box').val();
 
     let data = {

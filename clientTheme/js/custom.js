@@ -64,6 +64,7 @@ function getProductById(id) {
         method: 'GET',
         success: function(data) {
             if (data.success) {
+                $('#quick-view-add-to-cart').attr('data-product', JSON.stringify(data.data));
                 resetDataModalProduct();
                 $('#modal-product-name').text(data.data.name);
                 $('#modal-product-price').text(data.data.price);
@@ -83,7 +84,6 @@ function getProductById(id) {
                 });
                 $('.thumb-menu').trigger('replace.owl.carousel', htmlOWL).trigger('refresh.owl.carousel');
                 getPriceVND();
-                console.log(data);
                 $('#myModal').modal('show');
             } else {
                 toast('Thông báo', 'Hệ thống đang gặp sự cố, vui lòng thử lại sau', 'info')
