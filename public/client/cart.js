@@ -72,6 +72,7 @@ function removeFromCart() {
     var sessionID = $('#js-cart-data').data('seasonid');
     let productid = $(this).data('productid');
     let price = $(this).data('price');
+    let quantity = $(this).data('quantity');
     let data = {
         sessionID: sessionID,
         _id: productid
@@ -88,8 +89,8 @@ function removeFromCart() {
                 $(`.single-cart-box#${productid}`).remove();
 
                 let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
-                totalPrice = parseInt(totalPrice) - (parseInt(price));
-                $('#totalPrice').data('price', totalPrice);
+                totalPrice = parseInt(totalPrice) - (parseInt(price) * (parseInt(quantity)));
+                $('#totalPrice').data('price', parseInt(totalPrice));
                 getPriceVND();
             } else {
                 toast('Thông báo', 'Không xóa được', 'info');
@@ -101,8 +102,8 @@ function removeFromCart() {
 function addToCart() {
 
     var sessionID = $('#js-cart-data').data('seasonid');
-    var product = $(this).attr('data-product');
-    console.log(product);
+    var product = $(this).data('product');
+
     product['quantity'] = $('.cart-plus-minus-box').val() == 0 ? 1 : $('.cart-plus-minus-box').val();
 
     let data = {
@@ -135,7 +136,7 @@ function addProductToListHeader(product) {
         <h6><a href="${BASE_URL+'/'+product.urlSeo}">${product.name}</a></h6>
        <span>${product.quantity} ×</span> <span class="product-price-vnd" data-price="${product.price} ">${product.price}</span>
     </div>
-    <i data-price="${product.price}" data-productid="${product._id}" class="remove-product-from-cart pe-7s-close"></i>
+    <i data-quantity="${product.quantity}" data-price="${product.price}" data-productid="${product._id}" class="remove-product-from-cart pe-7s-close"></i>
 </div>`;
     $('#container-products').append(html);
     let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
