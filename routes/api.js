@@ -6,8 +6,8 @@ const Carts = require('../models/cartModel');
 const Reviews = require('../models/reviewModel');
 const rateLimit = require("express-rate-limit");
 const reviewLimiter = rateLimit({
-    windowMs: 5 * 60 * 1000, // 5 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
+    windowMs: 1 * 60 * 1000, // 1 minutes
+    max: 5 // limit each IP to 100 requests per windowMs
 });
 
 router.post('/subscribe', function(req, res) {
@@ -28,11 +28,14 @@ router.post('/createReview', reviewLimiter, function(req, res) {
     Reviews.create(req.body, function(err, data) {
         if (!err) {
             res.json({
-                success: true
+                success: true,
+                data: data
             });
         } else {
+            console.log(err);
             res.json({
                 success: false
+
             });
         }
     });

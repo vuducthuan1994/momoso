@@ -7,15 +7,18 @@ var ReviewSchema = new Schema({
     sessionID: {
         type: String,
         required: true,
-        unique: true,
         trim: true
     },
     public: {
         type: Boolean,
         default: false
     },
-    product: {
-        type: Object,
+    productID: {
+        type: String,
+        require: true
+    },
+    productName: {
+        type: String,
         require: true
     },
     name: {
@@ -23,12 +26,12 @@ var ReviewSchema = new Schema({
         required: true,
         trim: true
     },
-    content: {
+    comment: {
         type: String,
         required: true,
         trim: true,
     },
-    rate: {
+    rating: {
         type: Number,
         trim: true,
         required: true

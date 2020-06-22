@@ -1,3 +1,4 @@
+
 <!-- Wrapper Start -->
 <div class="wrapper">
     <!-- Preloader Start -->
@@ -269,7 +270,7 @@
                     <div class="breadcrumb-content text-center ptb-70">
                         <h1>{{product.name}}</h1>
                         <ul class="breadcrumb-list breadcrumb">
-                            <li ><a href="/">Trang chủ</a></li>
+                            <li><a href="/">Trang chủ</a></li>
                             <li class="active"><a>{{product.name}}</a></li>
                         </ul>
                     </div>
@@ -458,41 +459,61 @@
                             <!-- Reviews Start -->
                             <div class="review">
                                 <p class="mb-10">There are no reviews for this product.</p>
-                                <h2>WRITE A REVIEW</h2>
+                                <ul>
+                                    <li class="review">
+                                        <h5>Thuan</h5>
+                                        <p>Sản phẩm tốt</p>
+                                        <p class="review-date">
+                                            <span class="review-details-label">Posted on</span>
+                                            <time class="text-info" >7/21/16</time>
+                                        </p>
+                                    </li>
+                                    <br>
+                                    <li class="review mt-2">
+                                        <h5>Thuan</h5>
+                                        <p>Sản phẩm tốt</p>
+                                        <p class="review-date">
+                                       <span class="review-details-label">Posted on</span>
+                                        <time class="text-info">7/21/16</time>
+                                        </p>
+                                    </li>
+                                </ul>
+                                <h2>REVIEW SẢN PHẨM NÀY</h2>
                             </div>
                             <!-- Reviews End -->
                             <!-- Reviews Field Start -->
                             <div class="riview-field mt-30">
-                                <form autocomplete="off" action="#">
+                                <form id="formReview" autocomplete="off" >
                                     <div class="form-group">
-                                        <label class="req" for="sure-name">name</label>
-                                        <input type="text" class="form-control" id="sure-name" required="required">
+                                        <label class="req" for="sure-name">tên</label>
+                                        <input name="name" type="text" class="form-control" id="sure-name" required="">
                                     </div>
                                     <div class="form-group">
-                                        <label class="req" for="comments">your Review</label>
-                                        <textarea class="form-control" rows="5" id="comments"
-                                            required="required"></textarea>
-                                        <div class="help-block">
+                                        <label class="req" for="comments">Nội dung</label>
+                                        <textarea name="comment" class="form-control" rows="5" id="comments"
+                                            required=""></textarea>
+                                        {{!-- <div class="help-block">
                                             <span class="text-danger">Note:</span> HTML is not translated!
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div class="form-group required radio-label">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <label class="control-label req">Rating</label> &nbsp;&nbsp;&nbsp;
+                                                <label class="control-label req">Đánh giá</label> &nbsp;&nbsp;&nbsp;
                                                 Bad&nbsp;
                                                 <input type="radio" name="rating" value="1"> &nbsp;
                                                 <input type="radio" name="rating" value="2"> &nbsp;
                                                 <input type="radio" name="rating" value="3"> &nbsp;
                                                 <input type="radio" name="rating" value="4"> &nbsp;
-                                                <input type="radio" name="rating" value="5"> &nbsp;Good
+                                                <input checked type="radio" name="rating" value="5"> &nbsp;Good
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="pull-right">
-                                        <button type="submit" id="button-review">Continue</button>
+                                     <div class="pull-right">
+                                        <button form="formSettings"  id="button-review">ĐĂNG</button>
                                     </div>
                                 </form>
+                                  
                             </div>
                             <!-- Reviews Field Start -->
                         </div>
