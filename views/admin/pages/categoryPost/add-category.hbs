@@ -12,9 +12,9 @@
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                                     {{#if category._id}}
-                                    <h4>Sửa Loại SP</h4>
+                                    <h4>Sửa </h4>
                                     {{else}}
-                                    <h4>Thêm Loại SP</h4>
+                                    <h4>Thêm Mới</h4>
                                     {{/if}}
                                 </div>
                             </div>
@@ -30,7 +30,7 @@
                                         <form enctype="multipart/form-data"
                                             action="{{buildActionCategory category._id}}" method="post">
                                             <div class="form-group">
-                                                <label>Tên Loại SP </label>
+                                                <label>Tên Thể Loại Bài Viết </label>
                                                 <input id="category-name" value="{{category.name}}" type="text"
                                                     name="name" placeholder="Tên loại sản phẩm..."
                                                     class="form-control col-md-6" required="">
@@ -40,30 +40,12 @@
                                                 <input id="category-url-seo" value="{{category.urlSeo}}" type="text"
                                                     name="urlSeo" placeholder="Enter URL SEO..."
                                                     class="form-control col-md-6" required="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Loại ảnh</label>
-                                                <select name="typeImage" class="form-control col-md-3" required="">
-                                                    <option value="small">Ảnh nhỏ</option>
-                                                    <option value="big">Ảnh lớn </option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group ">
-                                                <label>Show trên trang chủ</label>
-                                                <br>
-                                                <label class="switch s-primary mr-2">
-                                                    <input {{checked category.isShow }} name="isShow" type="checkbox">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </div>
-                                            <div class="form-group ">
-                                                <label>Ảnh banner</label>
-                                                <input accept="image/jpeg,image/gif,image/png,image/x-eps"
-                                                    name="imageUrl" type="file" class="form-control-file">
-                                                <div class="row col-md-6 mt-1">
-                                                    <img src="{{category.imageUrl}}" class="imageUrl"
-                                                        alt=" Chưa có ảnh !" class="img-fluid" src="#">
-                                                </div>
+
+                                                         <small id="emailHelp" class="form-text text-warning">Hạn chế tối đa việc
+                                                    sửa URL SEO</small>
+
+                                                <small id="emailHelp" class="form-text text-success">URL SEO CŨ:
+                                                    {{category.urlSeo}}</small> </div>
                                             </div>
                                             {{#if category._id}}
                                             <input type="submit" class="mt-4 btn btn-primary" value="Update">

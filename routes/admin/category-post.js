@@ -20,7 +20,7 @@ var isAuthenticated = function(req, res, next) {
 router.get('/', isAuthenticated, function(req, res) {
     CategoryPost.find({}, function(err, categorys) {
         if (!err) {
-            res.render('admin/pages/category/index', {
+            res.render('admin/pages/categoryPost/index', {
                 errors: req.flash('errors'),
                 messages: req.flash('messages'),
                 title: "Quản Lý Thể Loại Bài Viết",
