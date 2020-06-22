@@ -177,7 +177,6 @@ router.post('/', isAuthenticated, async function(req, res) {
     form.on('end', async function() {
         content['listImages'] = newListImage;
         content['blocksColor'] = blocksColor;
-        console.log(content['blocksSize']);
         Product.create(content, function(err, product) {
             if (!err) {
                 res.json({

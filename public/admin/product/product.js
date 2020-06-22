@@ -290,7 +290,7 @@ let handlerForm = function(idProduct) {
         method: 'POST',
         type: 'POST', // For jQuery < 1.9
         success: function(data) {
-            console.log(data);
+
             if (data.success) {
                 $('.submitForm div').addClass('d-none');
                 swal({

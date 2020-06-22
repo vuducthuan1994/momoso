@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 const Storage = require('../../models/storageModel');
 const Product = require('../../models/productModel');
+const HistoryStorage = require('../../models/storageHistoryModel');
+const formidable = require('formidable');
+
 var isAuthenticated = function(req, res, next) {
     if (process.env.ENV == 'DEV') {
         return next();
@@ -136,6 +139,80 @@ router.get('/delete/:id', isAuthenticated, function(req, res) {
     });
 });
 
+
+// IMPORT EXPORT PRODUCT TO STORAGE
+let getStorage = function() {
+    return new Promise(function(resolve, reject) {
+        Storage.find({}, { note: 0, phone_number: 0, updated_date: 0, created_date: 0, __v: 0, shortcutName: 0 }, function(err, storages) {
+            if (!err) {
+                resolve(storages);
+            }
+        });
+    });
+}
+
+let getProducts = function() {
+    return new Promise(function(resolve, reject) {
+        Product.find({}, { updated_date: 0, created_date: 0, storage: 0, category: 0, note: 0, price: 0, detail: 0, urlSeo: 0, view: 0, __v: 0, type: 0, rate: 0, totalReview: 0, point: 0, quantity: 0 }, function(err, products) {
+            if (!err) {
+                resolve(products);
+            }
+        });
+    });
+}
+
+router.get('/import-product', async function(req, res) {
+    let storages = await getStorage();
+    let products = await getProducts();
+    res.render('admin/pages/storage/import-product', {
+        errors: req.flash('errors'),
+        messages: req.flash('messages'),
+        storages: JSON.stringify(storages),
+        products: JSON.stringify(products),
+        title: "Nhập / Xuất Kho",
+        layout: 'admin.hbs'
+    });
+});
+
+router.post('/import-product/:id', async function(req, res) {
+    const form = formidable({ multiples: true });
+    form.parse(req, function(err, fields) {
+        if (!err) {
+            fields.product = JSON.parse(fields.product);
+            fields.color = JSON.parse(fields.color);
+            fields.size = JSON.parse(fields.size);
+            fields.storage = JSON.parse(fields.storage);
+            HistoryStorage.create(fields, function(err, data) {
+                if (!err) {
+                    updateTotalProduct(fields.type, fields.quantity, fields.product);
+                    res.json({
+                        success: true,
+                        msg: 'Nhập/Xuất Kho Thành Công'
+                    })
+                } else {
+                    res.json({
+                        success: false,
+                        msg: 'Nhập/Xuất Kho Thất Bại'
+                    })
+                }
+            });
+        }
+
+    });
+});
+
+let updateTotalProduct = function(type, quantity, product) {
+        let count = parseInt(quantity);
+        if (type !== 'import') {
+            count = count * -1;
+        }
+        Product.findOneAndUpdate({ _id: product._id }, { $inc: { quantity: count } }, function(err, data) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    }
+    // END IMPORT EXPORT PRODUCT TO STORAGE
 
 
 

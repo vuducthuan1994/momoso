@@ -1,0 +1,87 @@
+<!--  BEGIN CONTENT AREA  -->
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="/plugins/select2/select2.min.js"></script>
+<link href="/plugins/loaders/custom-loader.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/plugins/select2/select2.min.css">
+
+<div id="content" class="main-content">
+    <div class="">
+        <div class="layout-px-spacing">
+            <div class="row layout-top-spacing">
+                <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Nhập / Xuất Sản Phẩm vào kho hàng</h4>
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area">
+                                {{#each errors}}
+                                {{>admin/flash-message/error}}
+                                {{/each}}
+                                {{#each messages}}
+                                {{>admin/flash-message/success}}
+                                {{/each}}
+                                <div class="row">
+                                    <div class="col-lg-10 col-10 col-md-10 mx-auto">
+                                        <form id="formImport" action="#" method="post">
+                                                              <div class="form-group">
+                                                <label>Số lượng sản phẩm</label>
+                                                <input class="form-control" type="number" required = "" name="quantity">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Chọn Kho Hàng </label>
+                                                <select data-selected="{{storageSelected}}" name="storage"
+                                                    data-storages="{{storages}}" id="product-storage" required=""
+                                                    class="form-control col-md-6">
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>NHẬP/XUẤT </label>
+                                                <select name="type" class="form-control">
+                                                    <option value="import">Nhập</option>
+                                                    <option value="export">Xuất</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Chọn Sản Phẩm</label>
+                                                <select data-selected="{{storageSelected}}" name="product"
+                                                    data-products="{{products}}" id="product-list" required=""
+                                                    class="form-control col-md-6">
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Chọn màu sắc</label>
+                                                <select name="color" id="color-list" required=""
+                                                    class="form-control col-md-6">
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Chọn Size</label>
+                                                <select name="size" id="size-list" required=""
+                                                    class="form-control col-md-6">
+                                                </select>
+                                            </div>
+
+                          
+                                        </form>
+                                        <input type="submit" id="submitImportProduct" class="mt-4 btn btn-primary"
+                                            value="SUBMIT">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{>admin/footer}}
+
+</div>
+<script src="/admin/storage.js"></script>
+<!--  END CONTENT AREA  -->
