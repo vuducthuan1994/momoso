@@ -157,7 +157,7 @@ function getListSize() {
     return JSON.stringify(results);
 }
 
-function initTagSelected(categoryList, storageList) {
+function initTagSelected(categoryList) {
     let optionsCategorySelected = [];
     const categorysSelected = $('#product-category').data('selected');
     if (categorysSelected) {
@@ -171,44 +171,24 @@ function initTagSelected(categoryList, storageList) {
         $('#product-category').val(optionsCategorySelected).trigger('change.select2');
     }
 
-    let optionsStorageSelected = [];
-    const storageSlected = $('#product-storage').data('selected');
-    if (storageSlected) {
-        storageSlected.forEach((selected) => {
-            storageList.forEach((storage) => {
-                if (storage._id == selected._id) {
-                    optionsStorageSelected.push(storage.id);
-                }
-            });
-        });
-        $('#product-storage').val(optionsStorageSelected).trigger('change.select2');
-
-    }
 }
 
 function initSelectTag() {
     var data_categorys = $('#product-category').data('categorys');
-    var data_storages = $('#product-storage').data('storages');
 
     // format data for selectTag
     data_categorys.forEach((element, index) => {
         element['text'] = element.name;
         element['id'] = index
     });
-    data_storages.forEach((element, index) => {
-        element['text'] = element.name;
-        element['id'] = index
-    });
+
 
     var selectagCategory = $("#product-category").select2({
         multiple: true,
         data: data_categorys
     });
-    var selectagStorage = $("#product-storage").select2({
-        multiple: true,
-        data: data_storages
-    });
-    initTagSelected(data_categorys, data_storages);
+
+    initTagSelected(data_categorys);
 }
 
 function getPriceVND() {
@@ -255,16 +235,12 @@ let handlerForm = function(idProduct) {
 
 
     let categorysSelected = $("#product-category").select2('data');
-    let storagesSelected = $("#product-storage").select2('data');
     let newcolorsName = getListColorName();
     let newcolorsCode = getListColorCode();
     let sizes = getListSize();
     for (var i in formData) {
         if (formData[i].name == 'detail') {
             formData[i].value = CKEDITOR.instances['product-detail'].getData();
-        }
-        if (formData[i].name == 'storage') {
-            formData[i].value = JSON.stringify(storagesSelected);
         }
         if (formData[i].name == 'category') {
             formData[i].value = JSON.stringify(categorysSelected);

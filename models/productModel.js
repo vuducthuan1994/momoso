@@ -70,11 +70,6 @@ var ProductSchema = new Schema({
         require: true,
         default: []
     },
-    storage: {
-        type: Array,
-        require: true,
-        default: []
-    },
     price: {
         type: Number,
         required: true,

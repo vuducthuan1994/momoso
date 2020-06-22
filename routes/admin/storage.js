@@ -153,7 +153,7 @@ let getStorage = function() {
 
 let getProducts = function() {
     return new Promise(function(resolve, reject) {
-        Product.find({}, { updated_date: 0, created_date: 0, storage: 0, category: 0, note: 0, price: 0, detail: 0, urlSeo: 0, view: 0, __v: 0, type: 0, rate: 0, totalReview: 0, point: 0, quantity: 0 }, function(err, products) {
+        Product.find({}, { updated_date: 0, created_date: 0, category: 0, note: 0, price: 0, detail: 0, urlSeo: 0, view: 0, __v: 0, type: 0, rate: 0, totalReview: 0, point: 0, quantity: 0 }, function(err, products) {
             if (!err) {
                 resolve(products);
             }
