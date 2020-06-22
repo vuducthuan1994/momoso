@@ -53,18 +53,15 @@
                             <div>
                                 <div class="seperator-header">
                                     <a href="/admin/category/add-category">
-                                        <h4 class="">Thêm Loại Sản Phẩm</h4>
+                                        <h4 class="">Thêm Thể Loại Bài Viết</h4>
                                     </a>
                                 </div>
                                 <table id="style-3" class="table style-3  table-hover">
                                     <thead>
                                         <tr>
                                             <th class="text-center">STT</th>
-                                            <th class="text-center">Trạng thái</th>
-                                            <th class="text-center">Tên Loại SP</th>
+                                            <th class="text-center">Tên Thể Loại</th>
                                             <th class="text-center">URL SEO</th>
-                                            <th class="text-center">Kích cỡ ảnh</th>
-                                            <th class="text-center">Ảnh đại diện</th>
                                             <th class="text-center">Thời gian</th>
                                             <th class="text-center">Action</th>
                                         </tr>
@@ -73,20 +70,8 @@
                                         {{#each categorys}}
                                         <tr>
                                             <td class="checkbox-column text-center"> {{@index}}</td>
-                                            <td class="text-center">
-                                                {{#if this.isShow}}
-                                                <span class="shadow-none badge badge-primary">Public</span>
-                                                {{else}}
-                                                <span class="shadow-none badge badge-warning">Ẩn</span>
-                                                {{/if}}
-                                            </td>
                                             <td class="text-center title-custom">{{this.name}}</td>
                                             <td class="text-center title-custom">{{this.urlSeo}}</td>
-                                            <td class="text-center">{{this.typeImage}}</td>
-                                            <td class="text-center">
-                                                <span><img src="{{this.imageUrl}}" class="banner-category "
-                                                        alt="chưa có ảnh !"></span>
-                                            </td>
 
                                             <td>
                                                 <div>
@@ -101,7 +86,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <ul class="table-controls">
-                                                    <li><a title="Sửa Thông Tin Loại SP"
+                                                    <li><a title="Sửa Thông Tin Loại Bài Viết"
                                                             href="/admin/category/edit-category/{{this._id}}"
                                                             class="bs-tooltip" data-toggle="tooltip"
                                                             data-placement="top" title=""

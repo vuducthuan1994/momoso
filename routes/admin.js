@@ -26,7 +26,7 @@ module.exports = function(cache) {
     const review = require('./admin/review');
     const user = require('./admin/users');
     const posts = require('./admin/posts');
-
+    const categoryPost = require('./admin/category-post');
 
 
 
@@ -40,6 +40,7 @@ module.exports = function(cache) {
     router.use('/subscribe', subscribes);
     router.use('/users', user);
     router.use('/review', review);
+    router.use('/category-post', categoryPost);
 
     router.use('/posts', posts);
     router.use('/cache', cacheController);
