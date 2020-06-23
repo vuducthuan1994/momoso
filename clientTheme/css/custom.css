@@ -27,3 +27,31 @@
 .tab-content #detail p {
     margin-bottom: 10px;
 }
+
+.container-slider {
+    display: flex;
+}
+
+.content-left {
+    width: 14%;
+    padding-right: 15px;
+}
+
+.content-right {
+    width: 86%;
+}
+
+.left-primary-menu-list>li>a {
+    font-size: 16px;
+    display: block;
+    color: #505050;
+    text-transform: capitalize;
+    margin: 0 18px;
+    padding-bottom: 37px;
+    text-align: left;
+}
+
+.left-primary-menu-list>li>a {
+    margin: 0;
+    padding: 14px 20px 14px 0px;
+}
