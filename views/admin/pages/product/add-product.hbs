@@ -187,7 +187,17 @@
                                             <p class="text-info">Sản phẩm hiện có {{product.blocksSize.length}} loại size
                                             {{/if}}
                                              <div id="container-size-blocks" class="form-group row">
+                                                     {{#each product.blocksSize}}
+            <div class="size-block  col-lg-12 col-md-12 mb-2 border mt-4 mb-4">
+                <div class="form-group">
+                    <a class="delete-block-size btn btn-danger mb-2 mt-2">Xóa</a>
+                    <input readonly required="" value="{{this.sizeCode}}" placeholder="Mã size" class="form-control col-md-6 mb-2 size-code">
+                    <input required="" value="{{this.sizeName}}" placeholder="Tên size ( hiển thị trên website )"
+                        class="form-control col-md-6 mb-2 size-name">
+                </div>
 
+            </div>
+                                                    {{/each}}
 
                                              </div>
                                                 <div class="form-group">

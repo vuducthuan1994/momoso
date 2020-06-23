@@ -90,6 +90,16 @@ router.get('/edit-product/:id', isAuthenticated, async function(req, res) {
     })
 });
 
+let updateTotalProductInCategory = function(listCategory, type = 'increment') {
+    let value = type == 'increment' ? 1 : -1;
+    for (var i in listCategory) {
+        Category.update({ urlSeo: listCategory[i].urlSeo }, { $inc: { totalProduct: value } }, function(err, data) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    }
+}
 
 let resizeImages = function(oldPath, newPath) {
         sharp(oldPath)
@@ -119,6 +129,9 @@ router.post('/', isAuthenticated, async function(req, res) {
         }
         if (fieldName == 'category' || fieldName == 'storage' || fieldName == 'blocksSize') {
             content[fieldName] = JSON.parse(fieldValue);
+            if (fieldName == 'category') {
+                updateTotalProductInCategory(JSON.parse(fieldValue));
+            }
         }
         if (fieldName == 'newcolorsName') {
             JSON.parse(fieldValue).forEach((colorName, index) => {
@@ -240,6 +253,9 @@ router.post('/edit-product/:id', async function(req, res) {
         }
         if (fieldName == 'category' || fieldName == 'storage' || fieldName == 'blocksSize') {
             content[fieldName] = JSON.parse(fieldValue);
+            if (fieldName == 'category') {
+                updateTotalProductInCategory(JSON.parse(fieldValue));
+            }
         }
         if (fieldName == 'commonImages') {
             newListImage = newListImage.concat(JSON.parse(fieldValue));
@@ -320,7 +336,8 @@ router.post('/edit-product/:id', async function(req, res) {
     form.on('end', async function() {
         content['listImages'] = newListImage;
         content['blocksColor'] = oldColorBlock.concat(blocksColor);
-        Product.findOneAndUpdate({ _id: idProduct }, content, { new: true }, function(err, product) {
+        Product.findOneAndUpdate({ _id: idProduct }, content, function(err, product) {
+            updateTotalProductInCategory(product.category, 'decrement');
             if (!err) {
                 req.res.json({
                     success: true,
