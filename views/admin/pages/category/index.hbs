@@ -74,11 +74,7 @@
                                         <tr>
                                             <td class="checkbox-column text-center"> {{@index}}</td>
                                             <td class="text-center">
-                                                {{#if this.isShow}}
-                                                <span class="shadow-none badge badge-primary">Public</span>
-                                                {{else}}
-                                                <span class="shadow-none badge badge-warning">Ẩn</span>
-                                                {{/if}}
+                                                {{this.isShow}}
                                             </td>
                                             <td class="text-center title-custom">{{this.name}}</td>
                                             <td class="text-center title-custom">{{this.urlSeo}}</td>

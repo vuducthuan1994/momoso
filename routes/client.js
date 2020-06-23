@@ -13,12 +13,14 @@ router.get('/', async function(req, res) {
     let newProducts = await getNewProducts();
     let cart = await getCart(req.sessionID);
     let banners = await getBanners();
+    let categorys = await getCategorys();
     res.render('client/index', {
         title: "Trang chu",
         layout: 'client.hbs',
         general: general,
         sessionID: req.sessionID,
         newProducts: newProducts,
+        categorys: categorys,
         cart: cart ? cart.toJSON() : null,
         banners: banners.map(banner => banner.toJSON())
     });
@@ -201,7 +203,57 @@ let getAboutUsInfo = function() {
 
 let getCategorys = function() {
     return new Promise(function(resolve, reject) {
-        Categorys.find({})
+        let categorysOnIndex = cache.get("categorysOnIndex");
+        if (categorysOnIndex == undefined) {
+            Categorys.find({ isShow: 'on' }, function(err, categorys) {
+                if (!err) {
+                    let results = [];
+                    let smallIndex = 0;
+                    let bigIndex = 1;
+                    for (var i in categorys) {
+                        if (categorys[i].typeImage == 'small') {
+                            results[smallIndex] = categorys[i].toJSON();
+                            if (smallIndex % 2 == 0) {
+                                smallIndex = smallIndex + 3;
+                            } else {
+                                smallIndex = smallIndex + 1;
+                            }
+                        }
+                        if (categorys[i].typeImage == 'big') {
+                            results[bigIndex] = categorys[i].toJSON();
+                            if (bigIndex % 2 !== 0) {
+                                bigIndex = bigIndex + 1;
+                            } else {
+                                bigIndex = bigIndex + 3;
+                            }
+                        }
+                    }
+                    resolve(results);
+                } else {
+                    resolve([]);
+                }
+            }).limit(15);
+        } else {
+            resolve(categorysOnIndex);
+        }
+    });
+}
+
+let getBestSellerProduct = function() {
+    return new Promise(function(resolve, reject) {
+        let bestSellerProduct = cache.get("bestSeller");
+        if (newProducts == undefined) {
+            Products.find({ type: 'new' }, function(err, products) {
+                if (!err) {
+                    resolve(products);
+                    cache.set("bestSeller", products);
+                } else {
+                    resolve([]);
+                }
+            }).limit(10).sort({ created_date: -1 });
+        } else {
+            resolve(bestSellerProduct)
+        }
     });
 }
 

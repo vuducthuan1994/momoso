@@ -69,7 +69,8 @@ let resizeImages = function(width, oldPath, newPath) {
     // create category
 router.post('/', async function(req, res) {
     let resizeWidth = 370;
-    let content = { imageUrl: '#' };
+    let content = { imageUrl: '#', isShow: 'off' };
+
     const form = formidable({ multiples: true });
     form.parse(req);
 
@@ -77,7 +78,7 @@ router.post('/', async function(req, res) {
         content[fieldName] = fieldValue;
         if (fieldName == 'typeImage') {
             if (fieldValue !== 'small') {
-                resizeWidth = 700;
+                resizeWidth = 770;
             }
         }
 
@@ -117,7 +118,7 @@ router.post('/', async function(req, res) {
 router.post('/edit-category/:id', function(req, res) {
 
     let resizeWidth = 370;
-    let content = {};
+    let content = { isShow: 'off' };
     const idBanner = req.params.id;
     req.body.updated_date = new Date();
     const form = formidable({ multiples: true });
@@ -127,11 +128,9 @@ router.post('/edit-category/:id', function(req, res) {
         content[fieldName] = fieldValue;
         if (fieldName == 'typeImage') {
             if (fieldValue !== 'small') {
-                resizeWidth = 700;
+                resizeWidth = 770;
             }
         }
-
-
     });
 
     form.on('file', function(fieldName, file) {

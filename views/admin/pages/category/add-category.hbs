@@ -44,8 +44,8 @@
                                             <div class="form-group">
                                                 <label>Loại ảnh</label>
                                                 <select name="typeImage" class="form-control col-md-3" required="">
-                                                    <option value="small">Ảnh nhỏ</option>
-                                                    <option value="big">Ảnh lớn </option>
+                                                    <option  {{typeImageSelected category.typeImage 'small'}} value="small">Ảnh nhỏ</option>
+                                                    <option  {{typeImageSelected category.typeImage 'big'}}  value="big">Ảnh lớn </option>
                                                 </select>
                                             </div>
                                             <div class="form-group ">

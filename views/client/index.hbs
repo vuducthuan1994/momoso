@@ -374,48 +374,17 @@
         <div class="container">
             <div class="row">
                 <!-- Single Banner Start -->
-                <div class="col-sm-4">
-                    <div class="single-banner zoom mb-30">
-                        <img src="img/products-banner/1.jpg" alt="product-banner">
+                {{#each categorys}}
+                <div class=" {{checkTypeCategory1 this.typeImage}}">
+                    <div class="{{checkTypeCategory2 @index}}">
+                        <img src="{{this.imageUrl}}" alt="product-banner">
                         <div class="banner-desc">
-                            <a href="categorie-page.html">Decorative Accessories</a>
-                            <p>25 products</p>
+                            <a href="categorie-page.html">{{this.name}}</a>
+                            <p>{{this.totalProduct}} sản phẩm</p>
                         </div>
                     </div>
                 </div>
-                <!-- Single Banner End -->
-                <!-- Single Banner Start -->
-                <div class="col-sm-8">
-                    <div class="single-banner zoom mb-30">
-                        <img src="img/products-banner/2.jpg" alt="product-banner">
-                        <div class="banner-desc">
-                            <a href="categorie-page.html">Chairs & Recliners</a>
-                            <p>25 products</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Single Banner End -->
-                <!-- Single Banner Start -->
-                <div class="col-sm-8">
-                    <div class="single-banner zoom">
-                        <img src="img/products-banner/3.jpg" alt="product-banner">
-                        <div class="banner-desc">
-                            <a href="categorie-page.html">Sofas & Loveseats</a>
-                            <p>25 products</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Single Banner End -->
-                <!-- Single Banner Start -->
-                <div class="col-sm-4">
-                    <div class="single-banner zoom">
-                        <img src="img/products-banner/4.jpg" alt="product-banner">
-                        <div class="banner-desc">
-                            <a href="categorie-page.html">Window Treatments</a>
-                            <p>25 products</p>
-                        </div>
-                    </div>
-                </div>
+                 {{/each}}
                 <!-- Single Banner End -->
             </div>
             <!-- Row End -->

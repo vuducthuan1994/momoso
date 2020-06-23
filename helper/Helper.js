@@ -179,10 +179,27 @@ module.exports = {
         return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     },
     checked(currentValue) {
-        if (currentValue == '') {
-            return ''
+        if (currentValue == 'off') {
+            return '';
+        }
+        if (currentValue == 'on') {
+            return 'checked';
         }
         return currentValue ? 'checked' : '';
+    },
+    checkTypeCategory1(type) {
+        if (type == 'small') {
+            return 'col-sm-4'
+        } else {
+            return 'col-sm-8'
+        }
+    },
+    checkTypeCategory2(type) {
+        if (type == 0 || type == 1 || type == 5 || type == 6 || type == 9 || type == 10) {
+            return 'single-banner zoom mb-30'
+        } else {
+            return 'single-banner zoom'
+        }
     },
     getAvatarImage(type, listImages) {
         if (type == 'primary') {
@@ -210,6 +227,13 @@ module.exports = {
             if (option == 'new') {
                 return 'selected';
             }
+        }
+    },
+    typeImageSelected(value, optionValue) {
+        if (value == optionValue) {
+            return 'selected';
+        } else {
+            return '';
         }
     },
     getStatusPost(isPublic) {
