@@ -16,7 +16,7 @@ router.get('/', async function(req, res) {
     let banners = await getBanners();
     let categorys = await getCategorys();
     let bestSellerProduct = await getBestSellerProduct();
-    let newPosts = await getPosts();
+    let newPosts = await getPosts(20);
     res.render('client/index', {
         title: "Trang chu",
         layout: 'client.hbs',
@@ -54,6 +54,20 @@ router.get(process.env.CHECK_OUT, async function(req, res) {
         general: general,
         seasonID: req.sessionID,
         cart: cart ? cart.toJSON() : null
+    });
+});
+
+router.get(process.env.BLOG, async function(req, res) {
+    let general = await getGeneralConfig();
+    let cart = await getCart(req.sessionID);
+    let posts = await getPosts(1000, 0);
+    res.render('client/blog', {
+        title: "Đặt hàng ngay",
+        layout: 'client.hbs',
+        general: general,
+        seasonID: req.sessionID,
+        cart: cart ? cart.toJSON() : null,
+        posts: posts.map(post => post.toJSON())
     });
 });
 
@@ -261,7 +275,7 @@ let getBestSellerProduct = function() {
         }
     });
 }
-let getPosts = function() {
+let getPosts = function(limit = 20, skip = 0) {
     return new Promise(function(resolve, reject) {
         let newPosts = cache.get("lastPosts");
         if (newPosts == undefined) {
@@ -270,7 +284,7 @@ let getPosts = function() {
                     resolve(posts);
                     cache.set("lastPosts", posts);
                 }
-            }).limit(20).sort({ updated_date: -1 });
+            }).limit(limit).skip(skip).sort({ updated_date: -1 });
         } else {
             resolve(newPosts);
         }
