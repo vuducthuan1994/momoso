@@ -1,6 +1,7 @@
 const express = require('express');
 const Settings = require('../models/settingModel');
 const Products = require('../models/productModel');
+const Posts = require('../models/postsModel');
 const Banners = require('../models/config/bannerModel');
 const Categorys = require('../models/categoryModel');
 const Carts = require('../models/cartModel');
@@ -14,6 +15,8 @@ router.get('/', async function(req, res) {
     let cart = await getCart(req.sessionID);
     let banners = await getBanners();
     let categorys = await getCategorys();
+    let bestSellerProduct = await getBestSellerProduct();
+    let newPosts = await getPosts();
     res.render('client/index', {
         title: "Trang chu",
         layout: 'client.hbs',
@@ -22,7 +25,9 @@ router.get('/', async function(req, res) {
         newProducts: newProducts,
         categorys: categorys,
         cart: cart ? cart.toJSON() : null,
-        banners: banners.map(banner => banner.toJSON())
+        bestSellerProduct: bestSellerProduct.map(product => product.toJSON()),
+        banners: banners.map(banner => banner.toJSON()),
+        newPosts: newPosts.map(post => post.toJSON())
     });
 });
 
@@ -242,7 +247,7 @@ let getCategorys = function() {
 let getBestSellerProduct = function() {
     return new Promise(function(resolve, reject) {
         let bestSellerProduct = cache.get("bestSeller");
-        if (newProducts == undefined) {
+        if (bestSellerProduct == undefined) {
             Products.find({ type: 'new' }, function(err, products) {
                 if (!err) {
                     resolve(products);
@@ -256,7 +261,21 @@ let getBestSellerProduct = function() {
         }
     });
 }
-
+let getPosts = function() {
+    return new Promise(function(resolve, reject) {
+        let newPosts = cache.get("lastPosts");
+        if (newPosts == undefined) {
+            Posts.find({ isPublic: true }, function(err, posts) {
+                if (!err) {
+                    resolve(posts);
+                    cache.set("lastPosts", posts);
+                }
+            }).limit(20).sort({ updated_date: -1 });
+        } else {
+            resolve(newPosts);
+        }
+    })
+}
 let getNewProducts = function() {
     return new Promise(function(resolve, reject) {
         let newProducts = cache.get("newProducts");

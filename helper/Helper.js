@@ -276,7 +276,7 @@ module.exports = {
         return result;
     },
     getDateArtiles(dt) {
-        return `${dt.getDate().toString().padStart(2, '0')} Tháng ${(dt.getMonth()+1).toString().padStart(1, '0')} Năm ${dt.getFullYear().toString().padStart(4, '0')}`
+        return `${dt.getDate().toString().padStart(2, '0')}-${(dt.getMonth()+1).toString().padStart(2, '0')}-${dt.getFullYear().toString().padStart(4, '0')}`
     }
 
 }
