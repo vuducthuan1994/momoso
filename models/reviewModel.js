@@ -13,6 +13,10 @@ var ReviewSchema = new Schema({
         type: Boolean,
         default: false
     },
+    URL: {
+        type: String,
+        required: true
+    },
     productID: {
         type: String,
         require: true

@@ -37,6 +37,7 @@ $('#button-review').on('click', function(event) {
         reviewData.push({ name: 'productID', value: productID });
         reviewData.push({ name: 'sessionID', value: sessionID });
         reviewData.push({ name: 'productName', value: productName });
+        reviewData.push({ name: 'URL', value: window.location.href })
         $.ajax({
             url: "/api/createReview",
             data: reviewData,
