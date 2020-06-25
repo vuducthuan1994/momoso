@@ -225,7 +225,17 @@
                             <ul class="pro-desc-list">
                                 <li>Mã Sản Phẩm: <span>{{product.code}}</span></li>
                                 <li>Reward Points: <span>{{product.point}}</span></li>
-                                <li>Trạng thái: <span>in Stock</span></li>
+                                <li>Trạng thái: 
+                                    
+                                   
+                                       {{#ifEquals product.quantity  0}}
+                                            <spanm class="text-danger"> Hàng Order</span> 
+                                             {{else}}   
+                                             
+                                                    <span> Sẵn hàng</span> 
+                                             {{/ifEquals}}
+                                    
+                                    </li>
                                 <li class="container-list-color">Màu Sắc:
                                     <ul id="small-img">
                                         {{#each product.blocksColor}}

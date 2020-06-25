@@ -221,7 +221,14 @@
                                             </td>
                                             <td class="product-name"><a href="#">{{this.name}}</a></td>
                                             <td class="product-price"><span  data-price = "{{this.price}}"class="amount product-price-vnd">{{this.price}}</span></td>
-                                            <td class="product-stock-status"><span>in stock</span></td>
+                                            <td class="product-stock-status"><span>
+                                            {{#ifEquals this.quantity  0}}
+                                            
+                                                Hàng Order
+                                             {{else}}   
+                                             Sẵn hàng
+                                             {{/ifEquals}}
+                                            </span></td>
                                             <td class="product-add-to-cart"><a class="add-product-to-cart"
                                                     data-product="{{objectToString this}}">add to cart</a></td>
                                         </tr>
