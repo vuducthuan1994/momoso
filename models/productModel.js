@@ -28,7 +28,6 @@ var ProductSchema = new Schema({
     },
     totalReview: {
         type: Number,
-        trim: true,
         default: 0
     },
     rate: {

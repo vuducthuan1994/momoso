@@ -1,7 +1,3 @@
-<!-- BEGIN PAGE LEVEL STYLES -->
-<script src="/plugins/ckeditor/ckeditor.js"></script>
-
-
 <!-- BEGIN PAGE LEVEL CUSTOM STYLES -->
 <link href="/assets/css/components/custom-modal.css" rel="stylesheet" type="text/css" />
 
@@ -41,7 +37,7 @@
                     <div class="widget-header">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>Danh sách sản phẩm</h4>
+                                <h4>Danh sách bình luận </h4>
                             </div>
                         </div>
                     </div>
@@ -63,6 +59,7 @@
                                             <th>URL</th>
                                             <th>Product Name</th>
                                             <th>Time</th>
+                                            <th>Trạng Thái</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -76,28 +73,15 @@
                                             <td>
                                                 <p class=" title-custom"> {{this.comment}}</p>
                                             </td>
-                                            <td>{{this.quantity}}</td>
+                                            <td>{{this.rating}}</td>
                                             <td>
-                                                <p>{{this.note}} </p>
+                                                <p><a target="_blank" href="{{this.URL}}">{{this.URL}}</a></p>
                                             </td>
                                             <td>
-                                                {{#each this.category}}
-                                                <p> {{this.name}}</p>
-                                                {{/each}}
+                                                <p> {{this.productName}}</p>
+
                                             </td>
                                             <td>
-                                                <p class="product-price" data-price="{{this.price}}"> {{this.price}}</p>
-                                            </td>
-                                            <td>
-                                                {{#each this.storage}}
-                                                <p> {{this.name}}</p>
-                                                {{/each}}
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <span class="badge badge-secondary">Ngày cập nhật</span> <br> <span
-                                                        class="text-muted">{{ formatDate this.updated_date}} </span>
-                                                </div>
                                                 <div class="mt-2 mb-2">
                                                     <span class="badge badge-secondary">Ngày tạo</span>
                                                     <br>
@@ -105,9 +89,16 @@
                                                 </div>
                                             </td>
                                             <td>
+                                                {{#if this.public}}
+                                                <p class="text-success">Đã hiển thị</p>
+                                                {{else}}
+                                               <p class="text-danger">Pending</p>
+                                                {{/if}}
+                                            </td>
+                                            <td>
                                                 <ul class="table-controls">
-                                                    <li><a title="Sửa Thông Tin Sản Phẩm"
-                                                            href="/admin/product/edit-product/{{this._id}}"
+                                                    <li><a title="Approve"
+                                                            href="/admin/review/updateStatus/{{this._id}}"
                                                             class="bs-tooltip" data-toggle="tooltip"
                                                             data-placement="top" title=""
                                                             data-original-title="Edit"><svg
@@ -115,14 +106,11 @@
                                                                 height="24" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="2"
                                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-edit-2 p-1 br-6 mb-1">
-                                                                <path
-                                                                    d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                                </path>
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12"></polyline>
                                                             </svg></a></li>
-                                                    <li data-toggle="modal" data-target="#modalDeleteProduct"
-                                                        data-productid="{{this._id}}" class="btn-delete-product"><a
-                                                            title="Xóa Sản Phẩm" class="bs-tooltip"
+                                                    <li><a href="/admin/review/delete/{{this._id}}"
+                                                            title="Xóa bình luận" class="bs-tooltip"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Delete"><svg
                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
@@ -147,33 +135,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="modalDeleteProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Xóa Sản Phẩm</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-text"> Vui lòng xác thực để xóa sản phẩm! </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Hủy</button>
-                        <a id="delete-modal" type="button" class="btn btn-primary">Xóa Ngay</a>
-                    </div>
-                </div>
-            </div>
-        </div>
         {{>admin/footer}}
     </div>
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -182,7 +143,7 @@
         c3 = $('#style-3').DataTable({
             "oLanguage": {
                 "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
-                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sInfo": "Xem trang _PAGE_ trên _PAGES_",
                 "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
                 "sSearchPlaceholder": "Tìm kiếm...",
                 "sLengthMenu": "Hiển thị :  _MENU_",

@@ -6,8 +6,7 @@ var mongoose = require('mongoose'),
 var ReviewSchema = new Schema({
     sessionID: {
         type: String,
-        required: true,
-        trim: true
+        required: true
     },
     public: {
         type: Boolean,
@@ -43,11 +42,7 @@ var ReviewSchema = new Schema({
     created_date: {
         type: Date,
         default: Date.now
-    },
-    updated_date: {
-        type: Date,
-        default: Date.now
-    },
+    }
 });
 
 let Review = mongoose.model('Reviews', ReviewSchema);
