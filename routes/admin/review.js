@@ -28,7 +28,13 @@ router.get('/', isAuthenticated, function(req, res) {
 });
 
 let updateTotalReviewInProduct = function(review, value) {
-    Product.findOneAndUpdate({ _id: review.productID }, { $inc: { totalReview: value } });
+    Product.findOneAndUpdate({ _id: review.productID }, { $inc: { totalReview: value } }, function(err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(data)
+        }
+    });
 }
 
 router.get('/updateStatus/:id', isAuthenticated, function(req, res) {

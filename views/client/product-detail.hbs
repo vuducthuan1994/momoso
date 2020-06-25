@@ -1,4 +1,3 @@
-
 <!-- Wrapper Start -->
 <div class="wrapper">
     <!-- Preloader Start -->
@@ -33,7 +32,7 @@
                         </li>
                     </ul>
                 </div>
-                         <!-- Primary-Menu Start -->
+                <!-- Primary-Menu Start -->
                 <div class="col-lg-7 col-md-7 col-sm-12  hidden-sm hidden-xs">
                     <div class="primary-menu">
                         <nav>
@@ -357,32 +356,29 @@
                         <div id="review" class="tab-pane fade">
                             <!-- Reviews Start -->
                             <div class="review">
-                                <p class="mb-10">There are no reviews for this product.</p>
+                                <div class="block-title">
+                                    <strong>Customer Reviews</strong>
+                                </div>
                                 <ul>
-                                    <li class="review">
-                                        <h5>Thuan</h5>
-                                        <p>Sản phẩm tốt</p>
+                                    {{#each reviews}}
+                                    <li class="review-item">
+                                        <h5>{{this.name}}</h5>
+                                        <p>{{this.comment}}</p>
                                         <p class="review-date">
-                                            <span class="review-details-label">Posted on</span>
-                                            <time class="text-info" >7/21/16</time>
+                                            <span class="review-details-label">Đăng lúc</span>
+                                            <time class="text-muted ">7/21/16</time>
                                         </p>
                                     </li>
-                                    <br>
-                                    <li class="review mt-2">
-                                        <h5>Thuan</h5>
-                                        <p>Sản phẩm tốt</p>
-                                        <p class="review-date">
-                                       <span class="review-details-label">Posted on</span>
-                                        <time class="text-info">7/21/16</time>
-                                        </p>
-                                    </li>
+                                    {{else}}
+                                    <p class="mb-10">Sản phẩm này chưa có đánh giá nào !.</p>
+                                    {{/each }}
                                 </ul>
                                 <h2>REVIEW SẢN PHẨM NÀY</h2>
                             </div>
                             <!-- Reviews End -->
                             <!-- Reviews Field Start -->
                             <div class="riview-field mt-30">
-                                <form id="formReview" autocomplete="off" >
+                                <form id="formReview" autocomplete="off">
                                     <div class="form-group">
                                         <label class="req" for="sure-name">tên</label>
                                         <input name="name" type="text" class="form-control" id="sure-name" required="">
@@ -408,11 +404,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="pull-right">
-                                        <button form="formSettings"  id="button-review">ĐĂNG</button>
+                                    <div class="pull-right">
+                                        <button form="formSettings" id="button-review">ĐĂNG</button>
                                     </div>
                                 </form>
-                                  
+
                             </div>
                             <!-- Reviews Field Start -->
                         </div>

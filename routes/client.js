@@ -5,6 +5,7 @@ const Posts = require('../models/postsModel');
 const Banners = require('../models/config/bannerModel');
 const Categorys = require('../models/categoryModel');
 const Carts = require('../models/cartModel');
+const Review = require('../models/reviewModel');
 let router = express.Router();
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
@@ -100,6 +101,7 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
 router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     const urlSeo = req.params.url;
     let product = await getProductDetail(urlSeo);
+    let reviews = await getReviews(product._id);
     let general = await getGeneralConfig();
     let productsRelated = await getRelatedProducts(product);
 
@@ -112,12 +114,29 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             general: general,
             sessionID: req.sessionID,
             productsRelated: productsRelated,
-            cart: cart ? cart.toJSON() : null
+            cart: cart ? cart.toJSON() : null,
+            reviews: reviews.map(review => review.toJSON())
         });
     } else {
         // returrn 404
     }
 });
+
+let getReviews = function(idProduct) {
+    return new Promise(function(resolve, reject) {
+        let reviews = cache.get('reviews' + idProduct);
+        if (reviews == undefined) {
+            Review.find({ productID: idProduct, public: true }, function(err, reviews) {
+                if (!err) {
+                    cache.set('reviews' + idProduct, reviews);
+                    resolve(reviews);
+                } else {
+                    resolve([]);
+                }
+            })
+        }
+    });
+}
 
 let getCart = function(sessionID) {
     return new Promise(function(resolve, reject) {

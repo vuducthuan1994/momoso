@@ -46,6 +46,8 @@ $('#button-review').on('click', function(event) {
             success: function(data) {
                 if (data.success) {
                     toast('Thông báo', 'Cám ơn bạn đã review sản phẩm này !', 'success');
+                    $('.main-thumb-desc li').removeClass('active');
+                    $('.main-thumb-desc a[href="#detail"]').tab('show');
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
