@@ -277,6 +277,26 @@ module.exports = {
     },
     getDateArtiles(dt) {
         return `${dt.getDate().toString().padStart(2, '0')}-${(dt.getMonth()+1).toString().padStart(2, '0')}-${dt.getFullYear().toString().padStart(4, '0')}`
-    }
+    },
+    getFormattedDate(date) {
+        let year = date.getFullYear().toString().padStart(2, '0');
+        let month = (1 + date.getMonth()).toString().padStart(2, '0');
+        let day = date.getDate().toString().padStart(2, '0');
 
+        return day + '/' + month + '/' + year;
+    },
+    getStar(rate) {
+        console.log(rate);
+        let result = '';
+        const rating = Math.ceil(rate);
+        console.log(rating);
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                result += `<i class="fa fa-star"></i>`;
+            } else {
+                result += `<i class="fa fa-star-o"></i>`;
+            }
+        }
+        return result;
+    }
 }

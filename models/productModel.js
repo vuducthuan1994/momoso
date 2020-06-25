@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-
 var ProductSchema = new Schema({
     name: {
         type: String,
@@ -27,6 +26,10 @@ var ProductSchema = new Schema({
         default: 0
     },
     totalReview: {
+        type: Number,
+        default: 0
+    },
+    totalOrder: {
         type: Number,
         default: 0
     },

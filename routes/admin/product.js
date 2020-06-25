@@ -64,7 +64,6 @@ let getStorage = function() {
         });
     });
 }
-const delay = ms => new Promise(res => setTimeout(res, ms));
 
 router.get('/edit-product/:id', isAuthenticated, async function(req, res) {
     const productId = req.params.id;

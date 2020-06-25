@@ -203,14 +203,11 @@
                         <!-- Product Rating Start -->
                         <div class="rating-summary fix mtb-20">
                             <div class="rating f-left mr-10">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
+                                {{{getStar product.rate}}}
                             </div>
                             <div class="rating-feedback f-left">
                                 <a href="#">{{product.totalReview}}</a> /
-                                <a href="#">Write a review</a>
+                                <a href="#review">Write a review</a>
                             </div>
                         </div>
                         <!-- Product Rating End -->
@@ -228,7 +225,7 @@
                             <ul class="pro-desc-list">
                                 <li>Mã Sản Phẩm: <span>{{product.code}}</span></li>
                                 <li>Reward Points: <span>{{product.point}}</span></li>
-                                <li>Availability: <span>in Stock</span></li>
+                                <li>Trạng thái: <span>in Stock</span></li>
                                 <li class="container-list-color">Màu Sắc:
                                     <ul id="small-img">
                                         {{#each product.blocksColor}}
@@ -366,7 +363,7 @@
                                         <p>{{this.comment}}</p>
                                         <p class="review-date">
                                             <span class="review-details-label">Đăng lúc</span>
-                                            <time class="text-muted ">7/21/16</time>
+                                            <time class="text-muted ">{{getFormattedDate this.created_date}}</time>
                                         </p>
                                     </li>
                                     {{else}}

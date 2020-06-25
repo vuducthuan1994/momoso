@@ -28,11 +28,17 @@ router.get('/', isAuthenticated, function(req, res) {
 });
 
 let updateTotalReviewInProduct = function(review, value) {
-    Product.findOneAndUpdate({ _id: review.productID }, { $inc: { totalReview: value } }, function(err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(data)
+    Product.findOneAndUpdate({ _id: review.productID }, { $inc: { totalReview: value } }, function(err, product) {
+        if (!err) {
+            if (product.rate) {
+                let point = ((product.rate * product.totalReview) + (value * (review.rating))) / (product.totalReview + value);
+                Product.findOneAndUpdate({ _id: review.productID }, { rate: point }, function(err, review) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            }
+
         }
     });
 }
