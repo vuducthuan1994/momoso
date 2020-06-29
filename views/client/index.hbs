@@ -179,15 +179,15 @@
             <div class="row">
                 <!-- Single Banner Start -->
                 {{#each categorys}}
-                <div class=" {{checkTypeCategory1 this.typeImage}}">
+                <a href="{{createURLCategory this.urlSeo}}" class=" {{checkTypeCategory1 this.typeImage}}">
                     <div class="{{checkTypeCategory2 @index}}">
                         <img src="{{this.imageUrl}}" alt="product-banner">
                         <div class="banner-desc">
-                            <a href="categorie-page.html">{{this.name}}</a>
+                            <div href="categorie-page.html">{{this.name}}</div>
                             <p>{{this.totalProduct}} sản phẩm</p>
                         </div>
                     </div>
-                </div>
+                </a>
                 {{/each}}
                 <!-- Single Banner End -->
             </div>

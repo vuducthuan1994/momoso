@@ -19,7 +19,21 @@ $(document).ready(function() {
         getProductById(productID);
     });
     getPriceVND();
+    initPageSizeForCategory();
+    document.getElementById("pageSizeCategory").addEventListener("change", function(event) {
+        location.href = event.target.value;
+    });
 });
+
+function initPageSizeForCategory() {
+    $('#pageSizeCategory option').each(function(index, element) {
+
+        const pageSize = $(this).attr('value');
+
+        let url = replaceUrlParam(window.location.href, 'pageSize', pageSize);
+        $(this).attr('value', url);
+    });
+}
 
 function getPriceVND() {
     $('.product-price-vnd').each(function(index, element) {
@@ -115,4 +129,16 @@ function submitSubscribeHandler(email) {
         });
     }
 
+}
+
+function replaceUrlParam(url, paramName, paramValue) {
+    if (paramValue == null) {
+        paramValue = '';
+    }
+    var pattern = new RegExp('\\b(' + paramName + '=).*?(&|#|$)');
+    if (url.search(pattern) >= 0) {
+        return url.replace(pattern, '$1' + paramValue + '$2');
+    }
+    url = url.replace(/[?#]$/, '');
+    return url + (url.indexOf('?') > 0 ? '&' : '?') + paramName + '=' + paramValue;
 }

@@ -301,5 +301,22 @@ module.exports = {
     },
     ifEquals(arg1, arg2, options) {
         return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+    },
+    createURLCategory(url) {
+        return process.env.R_DOMAIN + process.env.CATEGORY_PRODUCT + '/' + url;
+    },
+    getTotalPage(totalProduct, pageSize) {
+        return Math.floor(totalProduct / pageSize) + 1;
+    },
+    createNumberNextPage(currentPage, next) {
+        return currentPage + next;
+    },
+    checkNextPage(currentPage, next, pageSize, totalProduct, options) {
+        let nextStep = JSON.parse(next);
+        if (pageSize * (currentPage + nextStep) < totalProduct) {
+            return options.fn(this)
+        } else {
+            return options.inverse(this);
+        }
     }
 }

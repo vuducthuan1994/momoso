@@ -10,7 +10,7 @@ var CategorySchema = new Schema({
         unique: true,
         trim: true
     },
-    desc: {
+    note: {
         type: String,
         trim: true,
         default: ''

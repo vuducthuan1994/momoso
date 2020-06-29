@@ -47,17 +47,98 @@ router.get(process.env.ABOUT_US, async function(req, res) {
 });
 
 router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
+    const urlSeo = req.params.url;
+    const pageSize = req.query.pageSize ? JSON.parse(req.query.pageSize) : 9;
+    const sortby = req.query.sortby;
+    const currentPage = req.query.page ? JSON.parse(req.query.page) : 1;
+
+    let postsByCategory = await getPostByCategory(urlSeo, pageSize, currentPage);
+    console.log(postsByCategory[0].pageInfo[0]);
+
+    let categoryDetail = await getCategoryDetail(urlSeo);
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
     res.render('client/category-product', {
         title: "Detail the loai san pham",
         layout: 'client.hbs',
         general: general,
+        categoryDetail: categoryDetail.toJSON(),
         seasonID: req.sessionID,
-        cart: cart ? cart.toJSON() : null
+        cart: cart ? cart.toJSON() : null,
+        pageInfo: postsByCategory[0].pageInfo[0],
+        products: postsByCategory[0].edges,
+        currentPage: currentPage,
+        pageSize: pageSize
     });
 });
 
+let getPostByCategory = function(urlSeo, pageSize, currentPage) {
+        return new Promise(function(reslove, reject) {
+            let skip = (currentPage - 1) * pageSize;
+            Products.aggregate(
+                [{
+                        $match: { "category": { $elemMatch: { "urlSeo": { $in: [urlSeo] } } } }
+                    },
+                    {
+                        $facet: {
+                            edges: [
+                                { $sort: { created_date: -1 } },
+                                { $skip: skip },
+                                { $limit: pageSize }
+                            ],
+                            pageInfo: [
+                                { $group: { _id: null, count: { $sum: 1 } } },
+                            ],
+                        },
+                    }
+                ],
+                function(err, data) {
+                    if (!err) {
+                        reslove(data)
+                    } else {
+                        console.log(err);
+                    }
+                });
+        });
+    }
+    // router.post('/', function(req, res) {
+    //     LogActions.aggregate([{
+    //             $match: {
+    //                 "created_date": { $gte: new Date(req.body.gte), $lt: new Date(req.body.lte) },
+    //                 "accountSL": { $in: req.body.accounts },
+    //                 "action": { $in: req.body.actions },
+    //                 "project.projectName": { $in: req.body.projects }
+    //             }
+    //         },
+    //         {
+    //             $facet: {
+    //                 edges: [
+    //                     { $sort: { created_date: -1 } },
+    //                     { $skip: Number(req.body.skip) },
+    //                     { $limit: Number(req.body.pageSize) }
+    //                 ],
+    //                 pageInfo: [
+    //                     { $group: { _id: null, count: { $sum: 1 } } },
+    //                 ],
+    //             },
+    //         }
+
+//     ], function(err, data) {
+//         if (!err) {
+//             return res.json({
+//                 success: true,
+//                 message: 'Your data here!!!',
+//                 data: data
+//             });
+//         } else {
+//             return res.json({
+//                 success: false,
+//                 message: err,
+//                 data: null
+//             });
+//         }
+//     })
+// });
 
 
 router.get(process.env.CHECK_OUT, async function(req, res) {
@@ -136,6 +217,23 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     }
 });
 
+let getCategoryDetail = function(urlCategory) {
+    return new Promise(function(reslove, reject) {
+        let categoryDetail = cache.get('categoryDetail' + urlCategory);
+        if (categoryDetail == undefined) {
+            Categorys.findOne({ urlSeo: urlCategory }, function(err, category) {
+                if (!err) {
+                    cache.set('categoryDetail' + urlCategory, category);
+                    reslove(category);
+                }
+            })
+        } else {
+            reslove(categoryDetail);
+        }
+
+    });
+}
+
 let getReviews = function(idProduct) {
     return new Promise(function(resolve, reject) {
         let reviews = cache.get('reviews' + idProduct);
@@ -173,7 +271,7 @@ let getRelatedProducts = function(productItem) {
     return new Promise(function(resolve, reject) {
         let products = cache.get(keyCache);
         if (products == undefined) {
-            Products.aggregate([{ $match: { "category": { $elemMatch: { "urlSeo": { $in: ['chan-ga-goi-dem'] } } } } }], function(err, products) {
+            Products.aggregate([{ $match: { "category": { $elemMatch: { "urlSeo": { $in: listURLSeoRelated } } } } }], function(err, products) {
                 if (!err) {
                     resolve(products);
                     cache.set(keyCache, products);
