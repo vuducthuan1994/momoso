@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#add-wish-list').on('click', addToWishList);
+    $('.add-wish-list').on('click', addToWishList);
     $('.add-product-to-cart').on('click', addToCart);
     $('.remove-wish-list').on('click', removeFromWishList);
     // for element render from server

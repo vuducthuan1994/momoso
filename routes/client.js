@@ -147,6 +147,23 @@ let getPostByCategory = function(urlSeo, pageSize, currentPage, sortBy) {
                     $match: { "category": { $elemMatch: { "urlSeo": { $in: [urlSeo] } } } }
                 },
                 {
+                    $project: {
+                        detail: 0,
+                        storage: 0,
+                        blocksColor: 0,
+                        blocksSize: 0,
+                        created_date: 0,
+                        updated_date: 0,
+                        category: 0,
+                        code: 0,
+                        totalReview: 0,
+                        quantity: 0,
+                        point: 0,
+                        rate: 0
+                    }
+                },
+
+                {
                     $facet: {
                         edges: [
                             { $sort: sort },
@@ -161,6 +178,7 @@ let getPostByCategory = function(urlSeo, pageSize, currentPage, sortBy) {
             ],
             function(err, data) {
                 if (!err) {
+
                     reslove(data)
                 } else {
                     console.log(err);
