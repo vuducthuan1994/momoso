@@ -205,8 +205,8 @@
                             <div class="col-md-4 col-sm-5 pull-right">
                                 <select name="shorer" id="shorter" class="form-control select-varient">
                                     <option {{initSortType sortType 0}} value="0">Sắp xếp:Mặc định</option>
-                                    <option {{initSortType sortType 1}}  value="1">Sắp xếp: Tên (A - Z)</option>
-                                    <option {{initSortType sortType 2}}  value="2">Sắp xếp:Tên (Z - A)</option>
+                                    <option {{initSortType sortType 1}} value="1">Sắp xếp: Tên (A - Z)</option>
+                                    <option {{initSortType sortType 2}} value="2">Sắp xếp:Tên (Z - A)</option>
                                     <option {{initSortType sortType 3}} value="3">Sắp xếp:Giá (Thấp > Cao)</option>
                                     <option {{initSortType sortType 4}} value="4">Sắp xếp:Giá (Cao > Thấp)</option>
                                     <option {{initSortType sortType 5}} value="5">Sắp xếp:Rating (Cao Nhất)</option>
@@ -218,10 +218,24 @@
                             <div class="col-md-3 col-sm-3 pull-right">
                                 <select name="shorter" id="pageSizeCategory" class="form-control select-varient">
                                     <option {{initPageSize pageSize 9}} value='9'>Show: 9 </option>
+
+                                    {{#ifBigger pageInfo.count 21}}
                                     <option {{initPageSize pageSize 21}} value='21'>Show: 21 </option>
-                                    <option {{initPageSize pageSize 50}}  value="50">Show: 50</option>
+                                    {{else}}
+                                    {{/ifBigger}}
+
+                                    {{#ifBigger pageInfo.count 50}}
+                                    <option {{initPageSize pageSize 50}} value="50">Show: 50</option>
+                                    {{else}}
+                                    {{/ifBigger}}
+                                    {{#ifBigger pageInfo.count 75}}
                                     <option {{initPageSize pageSize 75}} value="75">Show: 75</option>
+                                    {{else}}
+                                    {{/ifBigger}}
+                                    {{#ifBigger pageInfo.count 100}}
                                     <option {{initPageSize pageSize 100}} value="100">Show: 100</option>
+                                    {{else}}
+                                    {{/ifBigger}}
                                 </select>
                             </div>
                         </div>
@@ -330,13 +344,16 @@
                                                     <!-- Product Image Start -->
                                                     <div class="pro-img">
                                                         <a href="product-page.html">
-                                                            <img class="primary-img" src="{{getAvatarImage 'primary' this.listImages}}"
+                                                            <img class="primary-img"
+                                                                src="{{getAvatarImage 'primary' this.listImages}}"
                                                                 alt="single-product">
-                                                            <img class="secondary-img" src="{{getAvatarImage 'secondary' this.listImages}}"
+                                                            <img class="secondary-img"
+                                                                src="{{getAvatarImage 'secondary' this.listImages}}"
                                                                 alt="single-product">
                                                         </a>
                                                         <div class="quick-view">
-                                                            <a href="#" data-toggle="modal" data-target="#myModal"><i
+                                                            <a class="show-quick-modal" data-idproduct="{{this._id}}"
+                                                                href="#" data-toggle="modal" data-target="#myModal"><i
                                                                     class="pe-7s-look"></i>Xem nhanh</a>
                                                         </div>
                                                         <span class="sticker-new">new</span>
@@ -345,7 +362,8 @@
                                                     <!-- Product Content Start -->
                                                     <div class="pro-content text-center">
                                                         <h4><a href="product-page.html">{{this.name}}</a></h4>
-                                                        <p data-price="{{this.price}}" class="price product-price-vnd"><span>{{this.price}}</span></p>
+                                                        <p data-price="{{this.price}}" class="price product-price-vnd">
+                                                            <span>{{this.price}}</span></p>
                                                         <div class="action-links2">
                                                             <a data-toggle="tooltip" title="Add to Cart"
                                                                 href="cart.html">thêm vào giỏ hàng</a>
@@ -360,22 +378,35 @@
                                         <!-- Row End -->
                                         <div class="row mt-40 mb-70">
                                             <div class="col-sm-6">
-                                                <ul class="blog-pagination">
-                                                    <li class="active"><a href="#">{{currentPage}}</a></li>
+                                                <ul class="blog-pagination page-container">
 
-                                                    {{#checkNextPage currentPage  '0'   pageSize  pageInfo.count  }}
-                                                    <li><a href="#">{{ createNumberNextPage currentPage  1 }}</a></li>
+                                                    {{#ifEquals currentPage 1}}
+                                                    {{else}}
+                                                    <li><a data-page={{createNumberPrevPage currentPage  1}}
+                                                            class="page-item"
+                                                            href="#">{{createNumberPrevPage currentPage  1}}</a>
+                                                    </li>
+                                                    {{/ifEquals}}
+
+
+                                                    <li class="active"><a class="page-item"
+                                                            data-page="{{ currentPage  }}"
+                                                            href="#">{{ currentPage  }}</a></li>
+
+
+                                                    {{#checkNextPage currentPage  pageSize pageInfo.count  }}
+                                                    <li><a class="page-item"
+                                                            data-page="{{createNumberNextPage currentPage  1 }}"
+                                                            href="#">{{createNumberNextPage currentPage  1 }}</a></li>
                                                     {{else}}
                                                     {{/checkNextPage}}
 
-                                                    {{#checkNextPage currentPage  '1'   pageSize pageInfo.count  }}
-                                                    <li><a href="#">{{createNumberNextPage currentPage  2}}</a></li>
-                                                    {{else}}
-                                                    {{/checkNextPage}}
-
-
-                                                    <li><a href="#"><i class="fa fa-angle-right"
+                                                    {{#checkNextPage currentPage  pageSize pageInfo.count  }}
+                                                    <li><a data-page={{createNumberNextPage currentPage  1 }}
+                                                            href="#"><i class="fa fa-angle-right"
                                                                 aria-hidden="true"></i></a></li>
+                                                    {{else}}
+                                                    {{/checkNextPage}}
                                                 </ul>
                                                 <!-- End of .blog-pagination -->
                                             </div>
@@ -460,18 +491,20 @@
                             <h3>most viewed</h3>
                             <!-- Most Viewed Product Activation Start -->
                             <div class="most-viewed-product owl-carousel">
-                              
+
                                 {{#each mostViewProducts}}
-                                  <!-- Triple Product Start -->
-                             <div class="triple-product">
+                                <!-- Triple Product Start -->
+                                <div class="triple-product">
                                     <!-- Single Product Start -->
                                     <div class="single-product mb-25">
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product-page.html">
-                                                <img class="primary-img" src="{{getAvatarImage 'primary' this.one.listImages}}"
+                                                <img class="primary-img"
+                                                    src="{{getAvatarImage 'primary' this.one.listImages}}"
                                                     alt="single-product">
-                                                <img class="secondary-img" src="{{getAvatarImage 'secondary' this.one.listImages}}"
+                                                <img class="secondary-img"
+                                                    src="{{getAvatarImage 'secondary' this.one.listImages}}"
                                                     alt="single-product">
                                             </a>
                                         </div>
@@ -479,7 +512,8 @@
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
                                             <h4><a href="product-page.html">{{this.one.name}}</a></h4>
-                                            <p data-price="{{this.one.price}}"  class="price product-price-vnd"><span>{{this.one.price}}</span></p>
+                                            <p data-price="{{this.one.price}}" class="price product-price-vnd">
+                                                <span>{{this.one.price}}</span></p>
                                         </div>
                                         <!-- Product Content End -->
                                     </div>
@@ -489,9 +523,11 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product-page.html">
-                                                <img class="primary-img" src="{{getAvatarImage 'primary' this.two.listImages}}"
+                                                <img class="primary-img"
+                                                    src="{{getAvatarImage 'primary' this.two.listImages}}"
                                                     alt="single-product">
-                                                <img class="secondary-img" src="{{getAvatarImage 'secondary' this.two.listImages}}"
+                                                <img class="secondary-img"
+                                                    src="{{getAvatarImage 'secondary' this.two.listImages}}"
                                                     alt="single-product">
                                             </a>
                                         </div>
@@ -499,7 +535,8 @@
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
                                             <h4><a href="product-page.html">{{this.two.name}}</a></h4>
-                                            <p data-price="{{this.two.price}}"  class="price product-price-vnd"><span>{{this.two.price}}</span></p>
+                                            <p data-price="{{this.two.price}}" class="price product-price-vnd">
+                                                <span>{{this.two.price}}</span></p>
                                         </div>
                                         <!-- Product Content End -->
                                     </div>
@@ -509,9 +546,11 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product-page.html">
-                                                <img class="primary-img" src="{{getAvatarImage 'primary' this.three.listImages}}"
+                                                <img class="primary-img"
+                                                    src="{{getAvatarImage 'primary' this.three.listImages}}"
                                                     alt="single-product">
-                                                <img class="secondary-img" src="{{getAvatarImage 'secondary' this.three.listImages}}"
+                                                <img class="secondary-img"
+                                                    src="{{getAvatarImage 'secondary' this.three.listImages}}"
                                                     alt="single-product">
                                             </a>
                                         </div>
@@ -519,15 +558,16 @@
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
                                             <h4><a href="product-page.html">{{this.three.name}}</a></h4>
-                                            <p data-price="{{this.three.price}}"  class="price product-price-vnd"><span>{{this.three.price}}</span></p>
+                                            <p data-price="{{this.three.price}}" class="price product-price-vnd">
+                                                <span>{{this.three.price}}</span></p>
                                         </div>
                                         <!-- Product Content End -->
                                     </div>
                                     <!-- Single Product End -->
                                 </div>
                                 <!-- Triple Product End -->
-     
-   
+
+
                                 {{/each}}
                             </div>
                             <!-- Most Viewed Product Activation End -->

@@ -302,18 +302,29 @@ module.exports = {
     ifEquals(arg1, arg2, options) {
         return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     },
+    ifBigger(arg1, arg2, options) {
+        return (arg1 >= arg2) ? ptions.fn(this) : options.inverse(this);
+    },
     createURLCategory(url) {
         return process.env.R_DOMAIN + process.env.CATEGORY_PRODUCT + '/' + url;
     },
     getTotalPage(totalProduct, pageSize) {
-        return Math.floor(totalProduct / pageSize) + 1;
+        const totalPage = totalProduct / pageSize;
+
+        if (Number(totalPage) === totalPage && totalPage % 1 === 0) {
+            return totalPage;
+        } else {
+            return Math.floor(totalPage) + 1;
+        }
     },
     createNumberNextPage(currentPage, next) {
         return currentPage + next;
     },
-    checkNextPage(currentPage, next, pageSize, totalProduct, options) {
-        let nextStep = JSON.parse(next);
-        if (pageSize * (currentPage + nextStep) < totalProduct) {
+    createNumberPrevPage(currentPage, prev) {
+        return currentPage - prev;
+    },
+    checkNextPage(currentPage, pageSize, totalProduct, options) {
+        if (pageSize * (currentPage) < totalProduct) {
             return options.fn(this)
         } else {
             return options.inverse(this);

@@ -21,6 +21,7 @@ $(document).ready(function() {
     getPriceVND();
     initPageSizeForCategory();
     initSortByForCategory();
+    initSelectPage();
 
 });
 
@@ -46,6 +47,16 @@ function initSortByForCategory() {
 
         let url = replaceUrlParam(baseUrl, 'sortType', sortType);
         $(this).attr('value', url);
+    });
+}
+
+function initSelectPage() {
+    $('.page-container li a').each(function(index, element) {
+        currentUrl = window.location.href;
+        var page = $(this).data('page');
+        var newUrl = replaceUrlParam(currentUrl, 'page', page);
+        console.log(newUrl);
+        $(this).attr('href', newUrl);
     });
 }
 
