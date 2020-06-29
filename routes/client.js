@@ -62,6 +62,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         title: "Detail the loai san pham",
         layout: 'client.hbs',
         general: general,
+        seasonID: req.sessionID,
         categoryDetail: categoryDetail.toJSON(),
         seasonID: req.sessionID,
         cart: cart ? cart.toJSON() : null,
