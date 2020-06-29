@@ -46,6 +46,20 @@ router.get(process.env.ABOUT_US, async function(req, res) {
     });
 });
 
+router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
+    let general = await getGeneralConfig();
+    let cart = await getCart(req.sessionID);
+    res.render('client/category-product', {
+        title: "Detail the loai san pham",
+        layout: 'client.hbs',
+        general: general,
+        seasonID: req.sessionID,
+        cart: cart ? cart.toJSON() : null
+    });
+});
+
+
+
 router.get(process.env.CHECK_OUT, async function(req, res) {
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
