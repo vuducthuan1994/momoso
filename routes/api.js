@@ -59,7 +59,8 @@ router.post('/addToCart', function(req, res) {
 });
 
 router.post('/removeFromCart', function(req, res) {
-    Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, { $pull: { "listCartProducts": { _id: req.body._id } } }, { upsert: true, new: true }, function(err, data) {
+    console.log(req.body);
+    Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, { $pull: { "listCartProducts": { _id: req.body._id } } }, { new: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,
@@ -95,7 +96,7 @@ router.post('/addToWishList', function(req, res) {
 
 
 router.post('/removeFromWishList', function(req, res) {
-    Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, { $pull: { "listFavorProducts": { _id: req.body._id } } }, { upsert: true, new: true }, function(err, data) {
+    Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, { $pull: { "listFavorProducts": { _id: req.body._id } } }, { new: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,

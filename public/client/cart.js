@@ -87,7 +87,7 @@ function removeFromCart() {
                 toast('Thông báo', 'Xóa sản phẩm thành công khỏi giỏ hàng', 'success');
                 $('#cart-length').text(data.lengthCart);
                 $(`.single-cart-box#${productid}`).remove();
-
+                $(`tr#${productid}`).remove();
                 let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
                 totalPrice = parseInt(totalPrice) - (parseInt(price) * (parseInt(quantity)));
                 $('#totalPrice').data('price', parseInt(totalPrice));

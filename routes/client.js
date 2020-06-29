@@ -223,7 +223,7 @@ router.get(process.env.CART, async function(req, res) {
         title: "About US",
         layout: 'client.hbs',
         general: general,
-        seasonID: req.sessionID,
+        sessionID: req.sessionID,
         about_us: about_us,
         cart: cart ? cart.toJSON() : null
     });
