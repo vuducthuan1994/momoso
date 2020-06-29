@@ -49,15 +49,15 @@ router.get(process.env.ABOUT_US, async function(req, res) {
 router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     const urlSeo = req.params.url;
     const pageSize = req.query.pageSize ? JSON.parse(req.query.pageSize) : 9;
-    const sortby = req.query.sortby;
+    const sortType = req.query.sortType ? JSON.parse(req.query.sortType) : 0;
     const currentPage = req.query.page ? JSON.parse(req.query.page) : 1;
 
-    let postsByCategory = await getPostByCategory(urlSeo, pageSize, currentPage);
-    console.log(postsByCategory[0].pageInfo[0]);
+    let postsByCategory = await getPostByCategory(urlSeo, pageSize, currentPage, sortType);
 
     let categoryDetail = await getCategoryDetail(urlSeo);
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
+    let mostViewProducts = await getMostViewProduct();
     res.render('client/category-product', {
         title: "Detail the loai san pham",
         layout: 'client.hbs',
@@ -68,77 +68,106 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         pageInfo: postsByCategory[0].pageInfo[0],
         products: postsByCategory[0].edges,
         currentPage: currentPage,
-        pageSize: pageSize
+        pageSize: pageSize,
+        sortType: sortType,
+        mostViewProducts: mostViewProducts
     });
 });
 
-let getPostByCategory = function(urlSeo, pageSize, currentPage) {
-        return new Promise(function(reslove, reject) {
-            let skip = (currentPage - 1) * pageSize;
-            Products.aggregate(
-                [{
-                        $match: { "category": { $elemMatch: { "urlSeo": { $in: [urlSeo] } } } }
-                    },
-                    {
-                        $facet: {
-                            edges: [
-                                { $sort: { created_date: -1 } },
-                                { $skip: skip },
-                                { $limit: pageSize }
-                            ],
-                            pageInfo: [
-                                { $group: { _id: null, count: { $sum: 1 } } },
-                            ],
-                        },
-                    }
-                ],
-                function(err, data) {
-                    if (!err) {
-                        reslove(data)
-                    } else {
-                        console.log(err);
-                    }
-                });
-        });
-    }
-    // router.post('/', function(req, res) {
-    //     LogActions.aggregate([{
-    //             $match: {
-    //                 "created_date": { $gte: new Date(req.body.gte), $lt: new Date(req.body.lte) },
-    //                 "accountSL": { $in: req.body.accounts },
-    //                 "action": { $in: req.body.actions },
-    //                 "project.projectName": { $in: req.body.projects }
-    //             }
-    //         },
-    //         {
-    //             $facet: {
-    //                 edges: [
-    //                     { $sort: { created_date: -1 } },
-    //                     { $skip: Number(req.body.skip) },
-    //                     { $limit: Number(req.body.pageSize) }
-    //                 ],
-    //                 pageInfo: [
-    //                     { $group: { _id: null, count: { $sum: 1 } } },
-    //                 ],
-    //             },
-    //         }
+let getMostViewProduct = function() {
+    return new Promise(function(reslove, reject) {
+        const mostViewProducts = cache.get('mostViewProduct');
+        if (mostViewProducts == undefined) {
+            let results = [];
+            Products.find({}, function(err, products) {
 
-//     ], function(err, data) {
-//         if (!err) {
-//             return res.json({
-//                 success: true,
-//                 message: 'Your data here!!!',
-//                 data: data
-//             });
-//         } else {
-//             return res.json({
-//                 success: false,
-//                 message: err,
-//                 data: null
-//             });
-//         }
-//     })
-// });
+                var totalProduct = Math.floor(products.length / 3) * 3;
+                console.log(totalProduct);
+                for (let index = 0; index < totalProduct; index = index + 3) {
+                    results.push({
+                        one: products[index].toJSON(),
+                        two: products[index + 1].toJSON(),
+                        three: products[index + 2].toJSON(),
+                    });
+                }
+
+                if (!err) {
+                    reslove(results);
+                    cache.set('mostViewProduct', results);
+                } else {
+                    reslove([]);
+                }
+            }).sort({ view: -1 }).limit(18);
+        } else {
+            reslove(mostViewProducts);
+        }
+    });
+}
+
+let getPostByCategory = function(urlSeo, pageSize, currentPage, sortBy) {
+
+    let sort = {};
+    switch (sortBy) {
+        case 0:
+            sort = { created_date: -1 };
+            break;
+        case 1:
+            sort = { urlSeo: 1 };
+            break;
+        case 2:
+            sort = { urlSeo: -1 };
+            break;
+        case 3:
+            sort = { price: 1 };
+            break;
+        case 4:
+            sort = { price: -1 };
+            break;
+        case 5:
+            sort = { rate: -1 };
+            break;
+        case 6:
+            sort = { rate: 1 };
+            break;
+        case 7:
+            sort = { code: -1 };
+            break;
+        case 8:
+            sort = { code: 1 };
+            break;
+        default:
+            sort = { created_date: -1 };
+            break;
+    }
+
+    return new Promise(function(reslove, reject) {
+        let skip = (currentPage - 1) * pageSize;
+        Products.aggregate(
+            [{
+                    $match: { "category": { $elemMatch: { "urlSeo": { $in: [urlSeo] } } } }
+                },
+                {
+                    $facet: {
+                        edges: [
+                            { $sort: sort },
+                            { $skip: skip },
+                            { $limit: pageSize }
+                        ],
+                        pageInfo: [
+                            { $group: { _id: null, count: { $sum: 1 } } },
+                        ],
+                    },
+                }
+            ],
+            function(err, data) {
+                if (!err) {
+                    reslove(data)
+                } else {
+                    console.log(err);
+                }
+            });
+    });
+}
 
 
 router.get(process.env.CHECK_OUT, async function(req, res) {

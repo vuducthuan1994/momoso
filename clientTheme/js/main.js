@@ -243,6 +243,8 @@ NOTE: main.js, All custom script and plugin activation script in this file.
         smartSpeed: 1000,
         nav: false,
         dots: false,
+        autoplay: 2000,
+        stopOnHover: true,
         responsive: {
             0: {
                 items: 1

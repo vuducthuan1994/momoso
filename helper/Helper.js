@@ -318,5 +318,18 @@ module.exports = {
         } else {
             return options.inverse(this);
         }
+    },
+    initPageSize(pageSize, value) {
+        if (pageSize == value) {
+            return 'selected';
+        }
+        return '';
+    },
+    initSortType(sortType, value) {
+        if (sortType == value) {
+            return 'selected';
+        }
+        return '';
     }
+
 }

@@ -204,24 +204,24 @@
                             </div>
                             <div class="col-md-4 col-sm-5 pull-right">
                                 <select name="shorer" id="shorter" class="form-control select-varient">
-                                    <option value="#">Sort By:Default</option>
-                                    <option value="#">Sort By:Name (A - Z)</option>
-                                    <option value="#">Sort By:Name (Z - A)</option>
-                                    <option value="#">Sort By:Price (Low > High)</option>
-                                    <option value="#">Sort By:Price (High > Low)</option>
-                                    <option value="#">Sort By:Rating (Highest)</option>
-                                    <option value="#">Sort By:Rating (Lowest)</option>
-                                    <option value="#">Sort By:Model (A - Z)</option>
-                                    <option value="#">Sort By:Model (Z - A)</option>
+                                    <option {{initSortType sortType 0}} value="0">Sắp xếp:Mặc định</option>
+                                    <option {{initSortType sortType 1}}  value="1">Sắp xếp: Tên (A - Z)</option>
+                                    <option {{initSortType sortType 2}}  value="2">Sắp xếp:Tên (Z - A)</option>
+                                    <option {{initSortType sortType 3}} value="3">Sắp xếp:Giá (Thấp > Cao)</option>
+                                    <option {{initSortType sortType 4}} value="4">Sắp xếp:Giá (Cao > Thấp)</option>
+                                    <option {{initSortType sortType 5}} value="5">Sắp xếp:Rating (Cao Nhất)</option>
+                                    <option {{initSortType sortType 6}} value="6">Sắp xếp:Rating (Thấp Nhất)</option>
+                                    <option {{initSortType sortType 7}} value="7">Sắp xếp:Model (A - Z)</option>
+                                    <option {{initSortType sortType 8}} value="8">Sắp xếp:Model (Z - A)</option>
                                 </select>
                             </div>
                             <div class="col-md-3 col-sm-3 pull-right">
                                 <select name="shorter" id="pageSizeCategory" class="form-control select-varient">
-                                    <option value='10'>Show: 10 </option>
-                                    <option value='20'>Show: 20 </option>
-                                    <option value="50">Show: 50</option>
-                                    <option value="75">Show: 75</option>
-                                    <option value="100">Show: 100</option>
+                                    <option {{initPageSize pageSize 9}} value='9'>Show: 9 </option>
+                                    <option {{initPageSize pageSize 21}} value='21'>Show: 21 </option>
+                                    <option {{initPageSize pageSize 50}}  value="50">Show: 50</option>
+                                    <option {{initPageSize pageSize 75}} value="75">Show: 75</option>
+                                    <option {{initPageSize pageSize 100}} value="100">Show: 100</option>
                                 </select>
                             </div>
                         </div>
@@ -330,25 +330,25 @@
                                                     <!-- Product Image Start -->
                                                     <div class="pro-img">
                                                         <a href="product-page.html">
-                                                            <img class="primary-img" src="img/new-products/1_1.jpg"
+                                                            <img class="primary-img" src="{{getAvatarImage 'primary' this.listImages}}"
                                                                 alt="single-product">
-                                                            <img class="secondary-img" src="img/new-products/1_2.jpg"
+                                                            <img class="secondary-img" src="{{getAvatarImage 'secondary' this.listImages}}"
                                                                 alt="single-product">
                                                         </a>
                                                         <div class="quick-view">
                                                             <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                                    class="pe-7s-look"></i>quick view</a>
+                                                                    class="pe-7s-look"></i>Xem nhanh</a>
                                                         </div>
                                                         <span class="sticker-new">new</span>
                                                     </div>
                                                     <!-- Product Image End -->
                                                     <!-- Product Content Start -->
                                                     <div class="pro-content text-center">
-                                                        <h4><a href="product-page.html">Sheepskin Pillow2</a></h4>
-                                                        <p class="price"><span>$241.99</span></p>
+                                                        <h4><a href="product-page.html">{{this.name}}</a></h4>
+                                                        <p data-price="{{this.price}}" class="price product-price-vnd"><span>{{this.price}}</span></p>
                                                         <div class="action-links2">
                                                             <a data-toggle="tooltip" title="Add to Cart"
-                                                                href="cart.html">add to cart</a>
+                                                                href="cart.html">thêm vào giỏ hàng</a>
                                                         </div>
                                                     </div>
                                                     <!-- Product Content End -->
@@ -460,24 +460,26 @@
                             <h3>most viewed</h3>
                             <!-- Most Viewed Product Activation Start -->
                             <div class="most-viewed-product owl-carousel">
-                                <!-- Triple Product Start -->
-                                <div class="triple-product">
+                              
+                                {{#each mostViewProducts}}
+                                  <!-- Triple Product Start -->
+                             <div class="triple-product">
                                     <!-- Single Product Start -->
                                     <div class="single-product mb-25">
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product-page.html">
-                                                <img class="primary-img" src="img/new-products/2_1.jpg"
+                                                <img class="primary-img" src="{{getAvatarImage 'primary' this.one.listImages}}"
                                                     alt="single-product">
-                                                <img class="secondary-img" src="img/new-products/2_2.jpg"
+                                                <img class="secondary-img" src="{{getAvatarImage 'secondary' this.one.listImages}}"
                                                     alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
-                                            <h4><a href="product-page.html">Carte Postal Clock</a></h4>
-                                            <p class="price"><span>$122.00</span></p>
+                                            <h4><a href="product-page.html">{{this.one.name}}</a></h4>
+                                            <p data-price="{{this.one.price}}"  class="price product-price-vnd"><span>{{this.one.price}}</span></p>
                                         </div>
                                         <!-- Product Content End -->
                                     </div>
@@ -487,17 +489,17 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product-page.html">
-                                                <img class="primary-img" src="img/new-products/3_1.jpg"
+                                                <img class="primary-img" src="{{getAvatarImage 'primary' this.two.listImages}}"
                                                     alt="single-product">
-                                                <img class="secondary-img" src="img/new-products/3_2.jpg"
+                                                <img class="secondary-img" src="{{getAvatarImage 'secondary' this.two.listImages}}"
                                                     alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
-                                            <h4><a href="product-page.html">congue sitamet</a></h4>
-                                            <p class="price"><span>$2000.00</span></p>
+                                            <h4><a href="product-page.html">{{this.two.name}}</a></h4>
+                                            <p data-price="{{this.two.price}}"  class="price product-price-vnd"><span>{{this.two.price}}</span></p>
                                         </div>
                                         <!-- Product Content End -->
                                     </div>
@@ -507,151 +509,26 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product-page.html">
-                                                <img class="primary-img" src="img/new-products/4_1.jpg"
+                                                <img class="primary-img" src="{{getAvatarImage 'primary' this.three.listImages}}"
                                                     alt="single-product">
-                                                <img class="secondary-img" src="img/new-products/2_2.jpg"
-                                                    alt="single-product">
-                                            </a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <h4><a href="product-page.html">dictum idrisus</a></h4>
-                                            <p class="price"><span>$602.00</span></p>
-                                        </div>
-                                        <!-- Product Content End -->
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Triple Product End -->
-                                <!-- Triple Product Start -->
-                                <div class="triple-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product mb-25">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product-page.html">
-                                                <img class="primary-img" src="img/new-products/4_1.jpg"
-                                                    alt="single-product">
-                                                <img class="secondary-img" src="img/new-products/2_2.jpg"
+                                                <img class="secondary-img" src="{{getAvatarImage 'secondary' this.three.listImages}}"
                                                     alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
-                                            <h4><a href="product-page.html">Carte Postal Clock</a></h4>
-                                            <p class="price"><span>$122.00</span></p>
-                                        </div>
-                                        <!-- Product Content End -->
-                                    </div>
-                                    <!-- Single Product End -->
-                                    <!-- Single Product Start -->
-                                    <div class="single-product mb-25">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product-page.html">
-                                                <img class="primary-img" src="img/new-products/2_1.jpg"
-                                                    alt="single-product">
-                                                <img class="secondary-img" src="img/new-products/2_2.jpg"
-                                                    alt="single-product">
-                                            </a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <h4><a href="product-page.html">congue sitamet</a></h4>
-                                            <p class="price"><span>$2000.00</span></p>
-                                        </div>
-                                        <!-- Product Content End -->
-                                    </div>
-                                    <!-- Single Product End -->
-                                    <!-- Single Product Start -->
-                                    <div class="single-product mb-25">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product-page.html">
-                                                <img class="primary-img" src="img/new-products/3_1.jpg"
-                                                    alt="single-product">
-                                                <img class="secondary-img" src="img/new-products/3_2.jpg"
-                                                    alt="single-product">
-                                            </a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <h4><a href="product-page.html">dictum idrisus</a></h4>
-                                            <p class="price"><span>$602.00</span></p>
+                                            <h4><a href="product-page.html">{{this.three.name}}</a></h4>
+                                            <p data-price="{{this.three.price}}"  class="price product-price-vnd"><span>{{this.three.price}}</span></p>
                                         </div>
                                         <!-- Product Content End -->
                                     </div>
                                     <!-- Single Product End -->
                                 </div>
                                 <!-- Triple Product End -->
-                                <!-- Triple Product Start -->
-                                <div class="triple-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product mb-25">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product-page.html">
-                                                <img class="primary-img" src="img/new-products/2_1.jpg"
-                                                    alt="single-product">
-                                                <img class="secondary-img" src="img/new-products/2_2.jpg"
-                                                    alt="single-product">
-                                            </a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <h4><a href="product-page.html">Carte Postal Clock</a></h4>
-                                            <p class="price"><span>$122.00</span></p>
-                                        </div>
-                                        <!-- Product Content End -->
-                                    </div>
-                                    <!-- Single Product End -->
-                                    <!-- Single Product Start -->
-                                    <div class="single-product mb-25">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product-page.html">
-                                                <img class="primary-img" src="img/new-products/3_1.jpg"
-                                                    alt="single-product">
-                                                <img class="secondary-img" src="img/new-products/3_2.jpg"
-                                                    alt="single-product">
-                                            </a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <h4><a href="product-page.html">congue sitamet</a></h4>
-                                            <p class="price"><span>$2000.00</span></p>
-                                        </div>
-                                        <!-- Product Content End -->
-                                    </div>
-                                    <!-- Single Product End -->
-                                    <!-- Single Product Start -->
-                                    <div class="single-product mb-25">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product-page.html">
-                                                <img class="primary-img" src="img/new-products/4_1.jpg"
-                                                    alt="single-product">
-                                                <img class="secondary-img" src="img/new-products/2_2.jpg"
-                                                    alt="single-product">
-                                            </a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <h4><a href="#">dictum idrisus</a></h4>
-                                            <p class="price"><span>$602.00</span></p>
-                                        </div>
-                                        <!-- Product Content End -->
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Triple Product End -->
+     
+   
+                                {{/each}}
                             </div>
                             <!-- Most Viewed Product Activation End -->
                         </div>

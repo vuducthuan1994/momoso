@@ -20,20 +20,36 @@ $(document).ready(function() {
     });
     getPriceVND();
     initPageSizeForCategory();
-    document.getElementById("pageSizeCategory").addEventListener("change", function(event) {
-        location.href = event.target.value;
-    });
+    initSortByForCategory();
+
 });
 
 function initPageSizeForCategory() {
+    document.getElementById("pageSizeCategory").addEventListener("change", function(event) {
+        location.href = event.target.value;
+    });
     $('#pageSizeCategory option').each(function(index, element) {
-
         const pageSize = $(this).attr('value');
-
         let url = replaceUrlParam(window.location.href, 'pageSize', pageSize);
         $(this).attr('value', url);
     });
 }
+
+function initSortByForCategory() {
+    document.getElementById("shorter").addEventListener("change", function(event) {
+        location.href = event.target.value;
+    });
+    $('#shorter option').each(function(index, element) {
+
+        const sortType = $(this).attr('value');
+        var baseUrl = window.location.href.substring(0, window.location.href.indexOf('?'));
+
+        let url = replaceUrlParam(baseUrl, 'sortType', sortType);
+        $(this).attr('value', url);
+    });
+}
+
+
 
 function getPriceVND() {
     $('.product-price-vnd').each(function(index, element) {
