@@ -316,12 +316,36 @@
                                         <!-- Row End -->
                                         <div class="row mt-40 mb-70">
                                             <div class="col-sm-6">
-                                                <ul class="blog-pagination">
-                                                    <li class="active"><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li><a href="#"><i class="fa fa-angle-right"
+                                                <!-- start of .blog-pagination -->
+                                                    <ul class="blog-pagination page-container">
+
+                                                    {{#ifEquals currentPage 1}}
+                                                    {{else}}
+                                                    <li><a data-page={{createNumberPrevPage currentPage  1}}
+                                                            class="page-item"
+                                                            href="#">{{createNumberPrevPage currentPage  1}}</a>
+                                                    </li>
+                                                    {{/ifEquals}}
+
+
+                                                    <li class="active"><a class="page-item"
+                                                            data-page="{{ currentPage  }}"
+                                                            href="#">{{ currentPage  }}</a></li>
+
+
+                                                    {{#checkNextPage currentPage  pageSize pageInfo.count  }}
+                                                    <li><a class="page-item"
+                                                            data-page="{{createNumberNextPage currentPage  1 }}"
+                                                            href="#">{{createNumberNextPage currentPage  1 }}</a></li>
+                                                    {{else}}
+                                                    {{/checkNextPage}}
+
+                                                    {{#checkNextPage currentPage  pageSize pageInfo.count  }}
+                                                    <li><a data-page={{createNumberNextPage currentPage  1 }}
+                                                            href="#"><i class="fa fa-angle-right"
                                                                 aria-hidden="true"></i></a></li>
+                                                    {{else}}
+                                                    {{/checkNextPage}}
                                                 </ul>
                                                 <!-- End of .blog-pagination -->
                                             </div>
