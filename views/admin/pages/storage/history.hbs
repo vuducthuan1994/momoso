@@ -1,0 +1,152 @@
+<!-- BEGIN PAGE LEVEL CUSTOM STYLES -->
+<link href="/assets/css/components/custom-modal.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="/plugins/table/datatable/datatables.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/forms/theme-checkbox-radio.css">
+<link rel="stylesheet" type="text/css" href="/plugins/table/datatable/dt-global_style.css">
+<link rel="stylesheet" type="text/css" href="/plugins/table/datatable/custom_dt_custom.css">
+
+<!-- END PAGE LEVEL CUSTOM STYLES -->
+
+<style>
+    table tbody p.title-custom {
+        font-size: 15px;
+        font-weight: 600;
+        color: #e2a03f;
+    }
+
+    td p {
+        max-width: 150px;
+        word-break: break-all;
+        text-align: left;
+    }
+</style>
+<!--  BEGIN CONTENT AREA  -->
+<div id="content" class="main-content">
+
+    <div class="layout-px-spacing">
+        {{#each errors}}
+        {{>admin/flash-message/error}}
+        {{/each}}
+        {{#each messages}}
+        {{>admin/flash-message/success}}
+        {{/each}}
+        <div class="row layout-top-spacing layout-spacing">
+            <div class="col-lg-12">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>Lịch sử xuất nhập kho </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area">
+                        <div class="table-responsive mb-4">
+                            <div>
+                                <table id="style-3" class="table style-3  table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên</th>
+                                            <th>Nội Dung</th>
+                                            <th>Rating</th>
+                                            <th>URL</th>
+                                            <th>Product Name</th>
+                                            <th>Time</th>
+                                            <th>Trạng Thái</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each historys}}
+                                        <tr>
+                                            <td class="checkbox-column"> {{@index}}</td>
+                                            <td>
+                                                <p> {{this.name}}</p>
+                                            </td>
+                                            <td>
+                                                <p class=" title-custom"> {{this.comment}}</p>
+                                            </td>
+                                            <td>{{this.rating}}</td>
+                                            <td>
+                                                <p><a target="_blank" href="{{this.URL}}">{{this.URL}}</a></p>
+                                            </td>
+                                            <td>
+                                                <p> {{this.productName}}</p>
+
+                                            </td>
+                                            <td>
+                                                <div class="mt-2 mb-2">
+                                                    <span class="badge badge-secondary">Ngày tạo</span>
+                                                    <br>
+                                                    <span class="text-muted">{{ formatDate this.created_date}} </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{#if this.public}}
+                                                <p class="text-success">Đã hiển thị</p>
+                                                {{else}}
+                                                <p class="text-danger">Pending</p>
+                                                {{/if}}
+                                            </td>
+                                            <td>
+                                                <ul class="table-controls">
+                                                    <li><a title="Approve"
+                                                            href="/admin/review/updateStatus/{{this._id}}"
+                                                            class="bs-tooltip" data-toggle="tooltip"
+                                                            data-placement="top" title=""
+                                                            data-original-title="Edit"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                                            </svg></a></li>
+                                                    <li><a href="/admin/review/delete/{{this._id}}"
+                                                            title="Xóa bình luận" class="bs-tooltip"
+                                                            data-toggle="tooltip" data-placement="top" title=""
+                                                            data-original-title="Delete"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-trash p-1 br-6 mb-1">
+                                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                                <path
+                                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                </path>
+                                                            </svg></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{>admin/footer}}
+    </div>
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="/plugins/table/datatable/datatables.js"></script>
+    <script>
+        c3 = $('#style-3').DataTable({
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Xem trang _PAGE_ trên _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Tìm kiếm...",
+                "sLengthMenu": "Hiển thị :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [5, 10, 20, 50],
+            "pageLength": 10
+        });
+        multiCheck(c3);
+    </script>
+    <!-- END PAGE LEVEL SCRIPTS -->

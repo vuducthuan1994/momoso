@@ -174,6 +174,20 @@ router.get('/import-product', async function(req, res) {
     });
 });
 
+router.get('/history', function(req, res) {
+    HistoryStorage.find({}, function(err, historys) {
+        if (!err) {
+            res.render('admin/pages/storage/import-product', {
+                errors: req.flash('errors'),
+                messages: req.flash('messages'),
+                historys: historys.map(history => history.toJSON()),
+                title: "Lịch Sử Xuất Nhập Kho",
+                layout: 'admin.hbs'
+            });
+        }
+    })
+});
+
 router.post('/import-product/:id', async function(req, res) {
     const form = formidable({ multiples: true });
     form.parse(req, function(err, fields) {
