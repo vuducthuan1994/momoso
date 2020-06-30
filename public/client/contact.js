@@ -46,7 +46,7 @@ function createMessageListener() {
                 if (data.success) {
                     toast('Thông báo', 'Cám ơn bạn đã liên hệ với chúng tôi !', 'success');
                 }
-                // window.location.href = "/";
+                setTimeout(function() { window.location.href = "/"; }, 2000);
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 toast('Thông báo', 'Vui lòng thử lại sau 1 phút nữa', 'info');
