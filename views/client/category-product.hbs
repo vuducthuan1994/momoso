@@ -31,20 +31,11 @@
                         </li>
                     </ul>
                 </div>
+
                 <!-- Primary-Menu Start -->
-                <div class="col-lg-7 col-md-7 col-sm-12  hidden-sm hidden-xs">
-                    <div class="primary-menu">
-                        <nav>
-                            <ul class="primary-menu-list text-center">
-                                <li><a href="/">Trang chủ</a></li>
-                                <li><a href="/about-us">About Us</a></li>
-                                <li><a href="/blog">Blogs</a></li>
-                                <li><a href="/about-us">Liên hệ</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+                {{>client/header/primary-menu}}
                 <!-- Primary-Menu End -->
+
                 <!-- Header All Shopping Selection Start -->
                 {{>client/header/header-all}}
                 <!-- Header All Shopping Selection End -->
@@ -298,8 +289,9 @@
                                                             <button class="add-to-cart" data-toggle="tooltip"
                                                                 title="Add to Cart">add to cart</button>
 
-                                                            <a  data-product="{{objectToString this}}"   data-toggle="tooltip"
-                                                                title="Add to Wishlist" class="add-wish-list same-btn mr-15"><i
+                                                            <a data-product="{{objectToString this}}"
+                                                                data-toggle="tooltip" title="Add to Wishlist"
+                                                                class="add-wish-list same-btn mr-15"><i
                                                                     class="pe-7s-like"></i></a>
 
                                                             <button data-toggle="tooltip" title="Compare this Product"
@@ -317,7 +309,7 @@
                                         <div class="row mt-40 mb-70">
                                             <div class="col-sm-6">
                                                 <!-- start of .blog-pagination -->
-                                                    <ul class="blog-pagination page-container">
+                                                <ul class="blog-pagination page-container">
 
                                                     {{#ifEquals currentPage 1}}
                                                     {{else}}
@@ -538,8 +530,8 @@
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
                                             <h4><a href="{{createURLProduct this.one.urlSeo}}">
-                                                
-                                                {{this.one.name}}</a></h4>
+
+                                                    {{this.one.name}}</a></h4>
                                             <p data-price="{{this.one.price}}" class="price product-price-vnd">
                                                 <span>{{this.one.price}}</span></p>
                                         </div>
@@ -562,7 +554,8 @@
                                         <!-- Product Image End -->
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
-                                            <h4><a href="{{createURLProduct this.two.urlSeo}}">{{this.two.name}}</a></h4>
+                                            <h4><a href="{{createURLProduct this.two.urlSeo}}">{{this.two.name}}</a>
+                                            </h4>
                                             <p data-price="{{this.two.price}}" class="price product-price-vnd">
                                                 <span>{{this.two.price}}</span></p>
                                         </div>
@@ -585,7 +578,8 @@
                                         <!-- Product Image End -->
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
-                                            <h4><a href="{{createURLProduct this.three.urlSeo}}">{{this.three.name}}</a></h4>
+                                            <h4><a href="{{createURLProduct this.three.urlSeo}}">{{this.three.name}}</a>
+                                            </h4>
                                             <p data-price="{{this.three.price}}" class="price product-price-vnd">
                                                 <span>{{this.three.price}}</span></p>
                                         </div>

@@ -32,20 +32,11 @@
                         </li>
                     </ul>
                 </div>
+
                 <!-- Primary-Menu Start -->
-                <div class="col-lg-7 col-md-7 col-sm-12  hidden-sm hidden-xs">
-                    <div class="primary-menu">
-                        <nav>
-                            <ul class="primary-menu-list text-center">
-                                <li><a href="/">Trang chủ</a></li>
-                                <li><a href="/about-us">About Us</a></li>
-                                <li><a href="/blog">Blogs</a></li>
-                                <li><a href="/about-us">Liên hệ</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+                {{>client/header/primary-menu}}
                 <!-- Primary-Menu End -->
+
                 <!-- Header All Shopping Selection Start -->
                 {{>client/header/header-all}}
                 <!-- Header All Shopping Selection End -->
@@ -225,17 +216,17 @@
                             <ul class="pro-desc-list">
                                 <li>Mã Sản Phẩm: <span>{{product.code}}</span></li>
                                 <li>Reward Points: <span>{{product.point}}</span></li>
-                                <li>Trạng thái: 
-                                    
-                                   
-                                       {{#ifEquals product.quantity  0}}
-                                            <spanm class="text-danger"> Hàng Order</span> 
-                                             {{else}}   
-                                             
-                                                    <span> Sẵn hàng</span> 
-                                             {{/ifEquals}}
-                                    
-                                    </li>
+                                <li>Trạng thái:
+
+
+                                    {{#ifEquals product.quantity  0}}
+                                    <spanm class="text-danger"> Hàng Order</span>
+                                        {{else}}
+
+                                        <span> Sẵn hàng</span>
+                                        {{/ifEquals}}
+
+                                </li>
                                 <li class="container-list-color">Màu Sắc:
                                     <ul id="small-img">
                                         {{#each product.blocksColor}}
@@ -265,8 +256,8 @@
                         <div class="product-button-actions">
                             <button data-product="{{objectToString product}}"
                                 class="add-to-cart add-product-to-cart">add to cart</button>
-                            <a  data-product="{{objectToString product}}" data-toggle="tooltip"
-                                title="Add to Wishlist" class="add-wish-list same-btn mr-15"><i class="pe-7s-like"></i></a>
+                            <a data-product="{{objectToString product}}" data-toggle="tooltip" title="Add to Wishlist"
+                                class="add-wish-list same-btn mr-15"><i class="pe-7s-like"></i></a>
                             <button data-toggle="tooltip" title="Compare this Product" class="same-btn"><i
                                     class="pe-7s-repeat"></i></button>
                         </div>
