@@ -1,5 +1,6 @@
 $(document).ready(function() {
     console.log("contact");
+    $('#subMitFormContact').on('click', createMessageListener);
 });
 
 
@@ -14,21 +15,19 @@ function toast(title, msg, type = 'info') {
 }
 
 function createMessageListener() {
-    var formStatus = $('#formReview').validate({
-        errorClass: "text-danger",
-        messages: {
-            name: {
-                required: "Hãy điền tên của bạn nhé !"
-            },
-            comment: {
-                required: "Hãy điền nội dung bạn muốn bình luận nhé !"
-            }
-        }
+    var formStatus = $('#contact-form').validate({
+        errorClass: "text-danger"
+            // messages: {
+            //     name: {
+            //         required: "Hãy điền tên của bạn nhé !"
+            //     },
+            //     comment: {
+            //         required: "Hãy điền nội dung bạn muốn bình luận nhé !"
+            //     }
+            // }
     }).form();
     if (formStatus) {
         var reviewData = $('#formReview').serializeArray();
-        const productID = $('.add-product-to-cart').data('product')._id;
-        const productName = $('.add-product-to-cart').data('product').name;
         const sessionID = $('#js-cart-data').data('seasonid');
         reviewData.push({ name: 'productID', value: productID });
         reviewData.push({ name: 'sessionID', value: sessionID });
@@ -41,7 +40,7 @@ function createMessageListener() {
             method: 'POST',
             success: function(data) {
                 if (data.success) {
-                    toast('Thông báo', 'Cám ơn bạn đã review sản phẩm này !', 'success');
+                    toast('Thông báo', 'Cám ơn bạn đã liên hệ với chúng tôi !', 'success');
                     $('.main-thumb-desc li').removeClass('active');
                     $('.main-thumb-desc a[href="#detail"]').tab('show');
                 }
