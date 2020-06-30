@@ -2,8 +2,16 @@ $(document).ready(function() {
     initSelectTag();
 
     $('#submitImportProduct').on('click', importProduct)
-
+    $('#product-price').on('input', function() {
+        getPriceVND();
+    });
 });
+
+function getPriceVND() {
+    var price = parseInt($('#product-price').val());
+    price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+    $('#show-price').text(price);
+}
 
 
 function importProduct() {
@@ -29,12 +37,6 @@ function importProduct() {
     let colorSelected = $("#color-list").select2('data')[0];
     let sizeSelected = $("#size-list").select2('data')[0];
 
-
-    let data = {
-        product: productSelected,
-        type: 'import',
-        quantity: 0
-    }
     for (var i in formData) {
 
         if (formData[i].name == 'product') {

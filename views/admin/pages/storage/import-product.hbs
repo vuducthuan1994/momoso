@@ -26,9 +26,14 @@
                                 <div class="row">
                                     <div class="col-lg-10 col-10 col-md-10 mx-auto">
                                         <form id="formImport" action="#" method="post">
-                                                              <div class="form-group">
+                                            <div class="form-group">
                                                 <label>Số lượng sản phẩm</label>
                                                 <input class="form-control" type="number" required = "" name="quantity">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Đơn giá / 1 Sản Phẩm</label>
+                                                <input id="product-price" placeholder="Enter price of product (VNĐ)..."  class="form-control" type="number" required = "" name="price">
+                                                <p id="show-price" class="text-success">0</p>
                                             </div>
                                             <div class="form-group">
                                                 <label>Chọn Kho Hàng </label>
