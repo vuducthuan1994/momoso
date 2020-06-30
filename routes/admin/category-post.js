@@ -1,10 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const CategoryPost = require('../../models/categoryPostModel');
-var path = require('path');
-const fs = require('fs');
-const formidable = require('formidable');
-var uslug = require('uslug');
+const Posts = require('../../models/postsModel');;
 
 var isAuthenticated = function(req, res, next) {
     if (process.env.ENV == 'DEV') {
@@ -50,7 +47,7 @@ router.get('/edit-category/:id', isAuthenticated, function(req, res) {
             res.render('admin/pages/category/add-category', {
                 errors: req.flash('errors'),
                 messages: req.flash('messages'),
-                title: "Sửa Thông Tin Kho Hàng",
+                title: "Sửa Thông Tin Category Post",
                 layout: 'admin.hbs',
                 category: category ? category.toJSON() : null
             });
@@ -59,8 +56,8 @@ router.get('/edit-category/:id', isAuthenticated, function(req, res) {
 });
 
 
-// create category
-router.post('/', function(req, res) {
+// create category post
+router.post('/', isAuthenticated, function(req, res) {
     console.log(req.body);
     CategoryPost.create(req.body, function(err, data) {
         if (!err) {
@@ -75,21 +72,25 @@ router.post('/', function(req, res) {
 
 //edit category
 router.post('/edit-category-post/:id', function(req, res) {
-
-
-
+    const idCategory = req.params.id;
+    CategoryPost.findOneAndUpdate({ _id: idCategory }, req.body, { new: true }, function(err, category) {
+        if (!err) {
+            req.flash("messages", 'Update thành công ! ');
+            res.redirect('back');
+            updateCategoryInPosts(category);
+        } else {
+            req.flash("errors", 'Không update được bài viết! ');
+            res.redirect('back');
+        }
+    });
 });
 
-let updateCategoryInProduct = function(category) {
+let updateCategoryInPosts = function(category) {
     let id = category._id.toString();
-    Product.updateMany({ "category._id": id }, {
+    Posts.updateMany({ "category._id": id }, {
             $set: {
                 "category.$.name": category.name,
                 "category.$.urlSeo": category.urlSeo,
-                "category.$.imageUrl": category.imageUrl,
-                "category.$.text": category.name,
-                "category.$.isShow": category.isShow,
-                "category.$.typeImage": category.typeImage
             }
         }, { new: true },
         function(err, data) {
