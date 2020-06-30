@@ -54,7 +54,7 @@ router.post('/createReview', reviewLimiter, function(req, res) {
 });
 
 router.post('/createMessage', reviewLimiter, function(req, res) {
-    console.log(req.body);
+    req.body['sessionID'] = req.sessionID;
     Contacts.create(req.body, function(err, data) {
         if (!err) {
             res.json({

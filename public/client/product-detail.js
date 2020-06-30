@@ -33,9 +33,7 @@ $('#button-review').on('click', function(event) {
         var reviewData = $('#formReview').serializeArray();
         const productID = $('.add-product-to-cart').data('product')._id;
         const productName = $('.add-product-to-cart').data('product').name;
-        const sessionID = $('#js-cart-data').data('seasonid');
         reviewData.push({ name: 'productID', value: productID });
-        reviewData.push({ name: 'sessionID', value: sessionID });
         reviewData.push({ name: 'productName', value: productName });
         reviewData.push({ name: 'URL', value: window.location.href })
         $.ajax({
