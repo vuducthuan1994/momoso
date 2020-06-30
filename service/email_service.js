@@ -12,7 +12,7 @@ class EmailService {
             }
         });
     }
-    sendEmail(options) {
+    sendEmail(mailOptions) {
         transporter.sendMail(mailOptions, function(err, info) {
             if (err)
                 console.log(err)

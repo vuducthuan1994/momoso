@@ -57,7 +57,7 @@ router.post('/createMessage', reviewLimiter, function(req, res) {
                 from: process.env.EMAIL_ACCOUNT, // sender address
                 to: process.env.EMAIL_SHOP, // list of receivers
                 subject: `MOMOSO - BẠN CÓ LỜI NHẮN TỪ KHÁCH HÀNG ${data.name}`, // Subject line
-                html: `<h1>${data.subject}</h1> <br>  <p> ${data.message} </p> <br> <p> Đăng nhập hệ thống để xem chi tiết </p>` // plain text body
+                html: `<h5>${data.subject}</h5> <br>  <p> <strong>Nội dung lời nhắn:</strong> ${data.message} </p> <br> <p><i>Vui lòng đăng nhập hệ thống MoMo để biết thêm chi tiết !</i></p>` // plain text body
             };
             emailHelper.sendEmail(mailOptions);
         } else {
