@@ -101,3 +101,7 @@
 .review .review-item {
     padding: 30px 0;
 }
+
+.show-quick-modal {
+    cursor: pointer;
+}

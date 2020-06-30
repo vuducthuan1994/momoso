@@ -27,13 +27,25 @@
                                     <div class="col-lg-10 col-10 col-md-10 mx-auto">
                                         <form id="formImport" action="#" method="post">
                                             <div class="form-group">
+                                                <label>NHẬP/XUẤT </label>
+                                                <select name="type" class="form-control">
+                                                    <option value="import">Nhập</option>
+                                                    <option value="export">Xuất</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>Số lượng sản phẩm</label>
-                                                <input class="form-control" type="number" required = "" name="quantity">
+                                                <input id="total-products" class="form-control" value="1" type="number"
+                                                    required="" name="quantity">
                                             </div>
                                             <div class="form-group">
                                                 <label>Đơn giá / 1 Sản Phẩm</label>
-                                                <input id="product-price" placeholder="Enter price of product (VNĐ)..."  class="form-control" type="number" required = "" name="price">
+                                                <input id="product-price" placeholder="Enter price of product (VNĐ)..."
+                                                    class="form-control" type="number" required="" name="price">
                                                 <p id="show-price" class="text-success">0</p>
+                                                <br>
+                                                <span>Tổng tiền</span>
+                                                <p id="show-total-price" class="text-success">0</p>
                                             </div>
                                             <div class="form-group">
                                                 <label>Chọn Kho Hàng </label>
@@ -42,13 +54,7 @@
                                                     class="form-control col-md-6">
                                                 </select>
                                             </div>
-                                            <div class="form-group">
-                                                <label>NHẬP/XUẤT </label>
-                                                <select name="type" class="form-control">
-                                                    <option value="import">Nhập</option>
-                                                    <option value="export">Xuất</option>
-                                                </select>
-                                            </div>
+
                                             <div class="form-group">
                                                 <label>Chọn Sản Phẩm</label>
                                                 <select data-selected="{{storageSelected}}" name="product"
@@ -71,7 +77,7 @@
                                                 </select>
                                             </div>
 
-                          
+
                                         </form>
                                         <input type="submit" id="submitImportProduct" class="mt-4 btn btn-primary"
                                             value="SUBMIT">

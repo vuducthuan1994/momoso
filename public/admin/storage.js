@@ -2,15 +2,18 @@ $(document).ready(function() {
     initSelectTag();
 
     $('#submitImportProduct').on('click', importProduct)
-    $('#product-price').on('input', function() {
-        getPriceVND();
-    });
+    $('#product-price').on('input', getPriceVND);
+    $('#total-products').on('input', getPriceVND)
 });
 
 function getPriceVND() {
-    var price = parseInt($('#product-price').val());
-    price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
-    $('#show-price').text(price);
+    var pricePerItem = parseInt($('#product-price').val()) ? parseInt($('#product-price').val()) : 0;
+    var totalProducts = parseInt($('#total-products').val()) ? parseInt($('#total-products').val()) : 0;
+    var totalMoney = totalProducts * pricePerItem;
+    pricePerItem = pricePerItem.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+    totalMoney = totalMoney.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+    $('#show-price').text(pricePerItem);
+    $('#show-total-price').text(totalMoney);
 }
 
 
@@ -32,6 +35,7 @@ function importProduct() {
     var formData = $('#formImport').serializeArray();
     var newFormData = new FormData();
     console.log(formData);
+    const TYPE = formData[0].value == 'import' ? 'NHẬP' : 'XUẤT';
     let productSelected = $("#product-list").select2('data')[0];
     let storagesSelected = $("#product-storage").select2('data')[0];
     let colorSelected = $("#color-list").select2('data')[0];
@@ -64,8 +68,8 @@ function importProduct() {
         success: function(data) {
             if (data.success) {
                 swal({
-                    title: 'Thành công',
-                    text: 'Nhập/ Xuất Kho Thành Công !',
+                    title: 'THÀNH CÔNG',
+                    text: `${TYPE} KHO THÀNH CÔNG !`,
                     type: 'success',
                     padding: '2em'
                 });

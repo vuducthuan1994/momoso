@@ -20,6 +20,10 @@ var HistoryStorageSchema = new Schema({
         type: Number,
         required: true
     },
+    price: {
+        type: Number,
+        required: true
+    },
     size: {
         type: Object,
         required: true
