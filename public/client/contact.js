@@ -16,37 +16,40 @@ function toast(title, msg, type = 'info') {
 
 function createMessageListener() {
     var formStatus = $('#contact-form').validate({
-        errorClass: "text-danger"
-            // messages: {
-            //     name: {
-            //         required: "Hãy điền tên của bạn nhé !"
-            //     },
-            //     comment: {
-            //         required: "Hãy điền nội dung bạn muốn bình luận nhé !"
-            //     }
-            // }
+        errorClass: "text-danger",
+        messages: {
+            name: {
+                required: "Bạn chưa nhập tên"
+            },
+            email: {
+                required: "Bạn chưa nhập email"
+            },
+            message: {
+                required: "Bạn chưa nhập nội dung"
+            },
+            subject: {
+                required: "Bạn chưa nhập tiêu đề"
+            }
+        }
     }).form();
+
     if (formStatus) {
-        var reviewData = $('#formReview').serializeArray();
+        var reviewData = $('#contact-form').serializeArray();
         const sessionID = $('#js-cart-data').data('seasonid');
-        reviewData.push({ name: 'productID', value: productID });
         reviewData.push({ name: 'sessionID', value: sessionID });
-        reviewData.push({ name: 'productName', value: productName });
-        reviewData.push({ name: 'URL', value: window.location.href })
         $.ajax({
-            url: "/api/createReview",
+            url: "/api/createMessage",
             data: reviewData,
             dataType: "json",
             method: 'POST',
             success: function(data) {
                 if (data.success) {
                     toast('Thông báo', 'Cám ơn bạn đã liên hệ với chúng tôi !', 'success');
-                    $('.main-thumb-desc li').removeClass('active');
-                    $('.main-thumb-desc a[href="#detail"]').tab('show');
                 }
+                // window.location.href = "/";
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                toast('Thông báo', 'Bình luận cách nhau 1 phút !', 'info');
+                toast('Thông báo', 'Vui lòng thử lại sau 1 phút nữa', 'info');
             }
         });
     }

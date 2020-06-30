@@ -3,12 +3,16 @@ let router = express.Router();
 const Subscribe = require('../models/subscribeModel');
 const Products = require('../models/productModel');
 const Carts = require('../models/cartModel');
+const Contacts = require('../models/contactModel');
 const Reviews = require('../models/reviewModel');
 const rateLimit = require("express-rate-limit");
 const reviewLimiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minutes
     max: 5 // limit each IP to 100 requests per windowMs
 });
+require('dotenv').config();
+const EmailService = require('../service/email_service');
+const emailHelper = new EmailService();
 
 router.post('/subscribe', function(req, res) {
     Subscribe.create(req.body, function(err, data) {
@@ -36,6 +40,30 @@ router.post('/createReview', reviewLimiter, function(req, res) {
             res.json({
                 success: false
 
+            });
+        }
+    });
+});
+
+router.post('/createMessage', reviewLimiter, function(req, res) {
+    console.log(req.body);
+    Contacts.create(req.body, function(err, data) {
+        if (!err) {
+            res.json({
+                success: true,
+                data: data
+            });
+            const mailOptions = {
+                from: process.env.EMAIL_ACCOUNT, // sender address
+                to: process.env.EMAIL_SHOP, // list of receivers
+                subject: `MOMOSO - BẠN CÓ LỜI NHẮN TỪ KHÁCH HÀNG ${data.name}`, // Subject line
+                html: `<h1>${data.subject}</h1> <br>  <p> ${data.message} </p> <br> <p> Đăng nhập hệ thống để xem chi tiết </p>` // plain text body
+            };
+            emailHelper.sendEmail(mailOptions);
+        } else {
+            console.log(err);
+            res.json({
+                success: false
             });
         }
     });

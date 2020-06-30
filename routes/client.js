@@ -196,7 +196,7 @@ router.get(process.env.CHECK_OUT, async function(req, res) {
         title: "Đặt hàng ngay",
         layout: 'client.hbs',
         general: general,
-        seasonID: req.sessionID,
+        sessionID: req.sessionID,
         cart: cart ? cart.toJSON() : null
     });
 });
@@ -209,7 +209,7 @@ router.get(process.env.BLOG, async function(req, res) {
         title: "Đặt hàng ngay",
         layout: 'client.hbs',
         general: general,
-        seasonID: req.sessionID,
+        sessionID: req.sessionID,
         cart: cart ? cart.toJSON() : null,
         posts: posts.map(post => post.toJSON())
     });
@@ -222,7 +222,7 @@ router.get(process.env.CONTACT, async function(req, res) {
         title: "Liên hệ ngay ",
         layout: 'client.hbs',
         general: general,
-        seasonID: req.sessionID,
+        sessionID: req.sessionID,
         cart: cart ? cart.toJSON() : null
     });
 });
