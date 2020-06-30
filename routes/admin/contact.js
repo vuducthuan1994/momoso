@@ -15,7 +15,7 @@ var isAuthenticated = function(req, res, next) {
 router.get('/', isAuthenticated, function(req, res) {
     Contacts.find({}, function(err, contacts) {
         if (!err) {
-            res.render('admin/pages/review/index', {
+            res.render('admin/pages/contact/index', {
                 errors: req.flash('errors'),
                 messages: req.flash('messages'),
                 title: "Quản Lý Lời Nhắn Từ Khách hàng",
@@ -35,7 +35,6 @@ router.get('/delete/:id', isAuthenticated, function(req, res) {
     }, function(err, review) {
         if (!err) {
             messages.push('Xóa thư liên hệ thành công !')
-            updateTotalReviewInProduct(review, -1);
             req.flash('messages', messages)
             res.redirect('back');
         } else {
