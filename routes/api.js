@@ -29,6 +29,7 @@ router.post('/subscribe', function(req, res) {
 });
 
 router.post('/createReview', reviewLimiter, function(req, res) {
+    req.body['sessionID'] = req.sessionID;
     Reviews.create(req.body, function(err, data) {
         if (!err) {
             res.json({

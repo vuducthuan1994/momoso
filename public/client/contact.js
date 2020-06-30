@@ -35,8 +35,6 @@ function createMessageListener() {
 
     if (formStatus) {
         var contactData = $('#contact-form').serializeArray();
-        const sessionID = $('#js-cart-data').data('seasonid');
-        contactData.push({ name: 'sessionID', value: sessionID });
         $.ajax({
             url: "/api/createMessage",
             data: contactData,
