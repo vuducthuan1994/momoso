@@ -19,51 +19,7 @@
     {{>client/modal/subscribe}}
     <!-- Newsletter Popup End -->
 
-    <!-- Header Area Start -->
-    <header>
-        <div class="container-fluid header-top-area header-sticky">
-            <div class="row">
-                <!-- Logo Start -->
-                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-5 full-col pl-0">
-                    <div class="logo">
-                        <a href="/"><img src="img/logo/logo.png" alt="brand-image"></a>
-                    </div>
-                </div>
-                <!-- Logo End -->
-                <div class="col-xs-12 visible-xs visible-control">
-                    <ul class="search-form mobile-form">
-                        <li>
-                            <form action="#">
-                                <input type="text" class="search" name="search" placeholder="Search for products...">
-                            </form>
-                            <i class="pe-7s-search"></i>
-                        </li>
-                    </ul>
-                </div>
-             
-                             <!-- Primary-Menu Start -->
-                  {{>client/header/primary-menu}}   
-                <!-- Primary-Menu End -->
-                
-                <!-- Header All Shopping Selection Start -->
-                {{>client/header/header-all}}
-                <!-- Header All Shopping Selection End -->
-                <!-- Mobile Menu  Start -->
-                <div class="mobile-menu visible-sm visible-xs">
-                    <nav>
-                        <ul>
-                                      <li><a href="/">Trang chủ</a></li>
-                                <li><a href="/about-us">About Us</a></li>
-                                <li><a href="/blog">Blogs</a></li>
-                                <li><a href="/about-us">Liên hệ</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <!-- Mobile Menu  End -->
-            </div>
-        </div>
-    </header>
-    <!-- Header Area End -->
+    {{>client/main-header}}
 
     <!-- Slider Area Start -->
     {{>client/slider-home}}
@@ -133,7 +89,8 @@
                                     </a>
                                     <div class="quick-view">
                                         <a class="show-quick-modal" data-idproduct="{{this.two._id}}" href="#"
-                                            data-toggle="modal" data-target="#myModal"><i class="pe-7s-look"></i>xem nhanh</a>
+                                            data-toggle="modal" data-target="#myModal"><i class="pe-7s-look"></i>xem
+                                            nhanh</a>
                                     </div>
                                     <span class="sticker-new">{{this.two.type}}</span>
                                 </div>
@@ -226,7 +183,7 @@
                             <!-- Product Content Start -->
                             <div class="pro-content text-center">
                                 <h4><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h4>
-                                <p  data-price="{{this.price}}" class="price product-price-vnd">
+                                <p data-price="{{this.price}}" class="price product-price-vnd">
                                     <span>{{this.price}}</span></p>
                                 <div class="action-links2">
                                     <a data-toggle="tooltip" title="Add to Cart" href="cart.html">add to cart</a>
@@ -289,7 +246,7 @@
                                     <p>{{getDescriptionArtiles this.short_desc}}</p>
                                 </div>
                                 <div class="blog-content-lower">
-                                    <a >MOMO</a>
+                                    <a>MOMO</a>
                                     <span class="f-right">{{getDateArtiles this.created_date}}</span>
                                 </div>
                             </div>

@@ -48,14 +48,15 @@
                                     <thead>
                                         <tr>
                                             <th>STT</th>
-                                            <th>Tên</th>
-                                            <th>Nội Dung</th>
-                                            <th>Rating</th>
-                                            <th>URL</th>
-                                            <th>Product Name</th>
-                                            <th>Time</th>
-                                            <th>Trạng Thái</th>
-                                            <th>Action</th>
+                                            <th>NHẬP/XUẤT</th>
+                                            <th>SẢN PHẨM</th>
+                                            <th>ĐƠN GIÁ</th>
+                                            <th>SỐ LƯỢNG</th>
+                                            <th>KHO</th>
+                                            <th>Màu</th>
+                                            <th>Size</th>
+                                            <th>TIME</th>
+                                            <th>TỔNG TIỀN</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -63,63 +64,33 @@
                                         <tr>
                                             <td class="checkbox-column"> {{@index}}</td>
                                             <td>
-                                                <p> {{this.name}}</p>
+                                                <p> {{this.type}}</p>
                                             </td>
                                             <td>
-                                                <p class=" title-custom"> {{this.comment}}</p>
+                                                <p class="title-custom"> {{this.product.name}}</p>
                                             </td>
-                                            <td>{{this.rating}}</td>
+                                            <td > <p data-price="{{this.price}}" class="product-price-vnd"> {{this.price}}</p></td>
                                             <td>
-                                                <p><a target="_blank" href="{{this.URL}}">{{this.URL}}</a></p>
+                                                <p>{{this.quantity}}</p>
                                             </td>
                                             <td>
-                                                <p> {{this.productName}}</p>
+                                                <p>{{this.storage.name}}</p>
+                                            </td>
+                                            <td>
+                                                <p> {{this.color.colorName}}</p>
+
+                                            </td>
+                                             <td>
+                                                <p> {{this.size.sizeName}}</p>
 
                                             </td>
                                             <td>
                                                 <div class="mt-2 mb-2">
-                                                    <span class="badge badge-secondary">Ngày tạo</span>
-                                                    <br>
                                                     <span class="text-muted">{{ formatDate this.created_date}} </span>
                                                 </div>
                                             </td>
-                                            <td>
-                                                {{#if this.public}}
-                                                <p class="text-success">Đã hiển thị</p>
-                                                {{else}}
-                                                <p class="text-danger">Pending</p>
-                                                {{/if}}
-                                            </td>
-                                            <td>
-                                                <ul class="table-controls">
-                                                    <li><a title="Approve"
-                                                            href="/admin/review/updateStatus/{{this._id}}"
-                                                            class="bs-tooltip" data-toggle="tooltip"
-                                                            data-placement="top" title=""
-                                                            data-original-title="Edit"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-check">
-                                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                                            </svg></a></li>
-                                                    <li><a href="/admin/review/delete/{{this._id}}"
-                                                            title="Xóa bình luận" class="bs-tooltip"
-                                                            data-toggle="tooltip" data-placement="top" title=""
-                                                            data-original-title="Delete"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-trash p-1 br-6 mb-1">
-                                                                <polyline points="3 6 5 6 21 6"></polyline>
-                                                                <path
-                                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                                                </path>
-                                                            </svg></a></li>
-                                                </ul>
-                                            </td>
+                                            <td > <p data-price="{{getMoney this.price this.quantity}}" class="product-price-vnd"> {{getMoney this.price this.quantity}}</p></td>
+
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -145,8 +116,10 @@
             },
             "stripeClasses": [],
             "lengthMenu": [5, 10, 20, 50],
-            "pageLength": 10
+            "pageLength": 50
         });
         multiCheck(c3);
     </script>
+    <script src="/admin/storage.js"></script>
+
     <!-- END PAGE LEVEL SCRIPTS -->

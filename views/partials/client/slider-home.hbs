@@ -3,11 +3,10 @@
         <div class="hidden-sm hidden-xs">
             <nav>
                 <ul class="left-primary-menu-list text-center">
+                    {{#each allCategory}}
+                    <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a></li>
+                    {{/each}}
 
-                    <li><a href="#">Sectionals</a></li>
-                    <li><a href="about-us.html">about us</a></li>
-                    <li><a href="privacy.html">privacy policy</a></li>
-                    <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
                 </ul>
             </nav>
         </div>
@@ -40,16 +39,7 @@
 
             </div>
             <!-- Main Slider Area End -->
-
-
-
-
-
-
         </div>
         <!-- Slider Area End -->
     </div>
-
-
-
 </div>

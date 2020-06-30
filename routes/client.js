@@ -18,17 +18,18 @@ router.get('/', async function(req, res) {
     let categorys = await getCategorys();
     let bestSellerProduct = await getBestSellerProduct();
     let newPosts = await getPosts(20);
+    let allCategory = await getAllCategory();
     res.render('client/index', {
         title: "Trang chu",
         layout: 'client.hbs',
         general: general,
-        sessionID: req.sessionID,
         newProducts: newProducts,
         categorys: categorys,
         cart: cart ? cart.toJSON() : null,
         bestSellerProduct: bestSellerProduct.map(product => product.toJSON()),
         banners: banners.map(banner => banner.toJSON()),
-        newPosts: newPosts.map(post => post.toJSON())
+        newPosts: newPosts.map(post => post.toJSON()),
+        allCategory: allCategory.map(item => item.toJSON())
     });
 });
 
@@ -57,6 +58,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
     let mostViewProducts = await getMostViewProduct();
+    let allCategory = await getAllCategory();
     res.render('client/category-product', {
         title: "Detail the loai san pham",
         layout: 'client.hbs',
@@ -68,7 +70,8 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         currentPage: currentPage,
         pageSize: pageSize,
         sortType: sortType,
-        mostViewProducts: mostViewProducts
+        mostViewProducts: mostViewProducts,
+        allCategory: allCategory.map(item => item.toJSON())
     });
 });
 
@@ -398,6 +401,22 @@ let getAboutUsInfo = function() {
             });
         } else {
             resolve(about_us)
+        }
+    });
+}
+
+let getAllCategory = function() {
+    return new Promise(function(reslove, reject) {
+        let categorys = cache.get('allCategorys');
+        if (categorys == undefined) {
+            Categorys.find({}, { imageUrl: 0, isShow: 0, created_date: 0 }, function(err, categorys) {
+                if (!err) {
+                    cache.set('allCategorys', categorys);
+                    reslove(categorys)
+                }
+            })
+        } else {
+            reslove(categorys)
         }
     });
 }

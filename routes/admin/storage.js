@@ -177,7 +177,7 @@ router.get('/import-product', async function(req, res) {
 router.get('/history', function(req, res) {
     HistoryStorage.find({}, function(err, historys) {
         if (!err) {
-            res.render('admin/pages/storage/import-product', {
+            res.render('admin/pages/storage/history', {
                 errors: req.flash('errors'),
                 messages: req.flash('messages'),
                 historys: historys.map(history => history.toJSON()),

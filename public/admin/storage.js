@@ -4,6 +4,11 @@ $(document).ready(function() {
     $('#submitImportProduct').on('click', importProduct)
     $('#product-price').on('input', getPriceVND);
     $('#total-products').on('input', getPriceVND)
+    $('.product-price-vnd').each(function(index, element) {
+        var price = parseInt($(this).data('price'));
+        price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+        $(this).text(price);
+    });
 });
 
 function getPriceVND() {
@@ -15,6 +20,7 @@ function getPriceVND() {
     $('#show-price').text(pricePerItem);
     $('#show-total-price').text(totalMoney);
 }
+
 
 
 function importProduct() {
@@ -89,66 +95,67 @@ function initSelectTag() {
     var data_storages = $('#product-storage').data('storages');
     var data_products = $('#product-list').data('products');
     // format data for selectTag
-    data_storages.forEach((element, index) => {
-        element['text'] = element.name;
-        element['id'] = index
-    });
-    data_products.forEach((element, index) => {
-        element['text'] = element.name;
-        element['id'] = index
-    });
-
-    var selectagStorage = $("#product-storage").select2({
-        multiple: false,
-        data: data_storages
-    });
-    var selectagProduct = $("#product-list").select2({
-        multiple: false,
-        data: data_products
-    });
-    $("#product-list").on("select2:select", function(e) {
-        var data_colors = [];
-        var data_sizes = [];
-        var product = e.params.data;
-
-        if (product.blocksColor !== null && product.blocksColor !== undefined && product.blocksSize !== null && product.blocksSize !== undefined) {
-            data_colors = product.blocksColor;
-            data_sizes = product.blocksSize;
-        }
-        data_colors.forEach((element, index) => {
-            element['text'] = element.colorName;
+    if (data_storages && data_products) {
+        data_storages.forEach((element, index) => {
+            element['text'] = element.name;
             element['id'] = index
         });
-        data_sizes.forEach((element, index) => {
-            element['text'] = element.sizeName;
+        data_products.forEach((element, index) => {
+            element['text'] = element.name;
             element['id'] = index
         });
-        if (data_colors.length == 0) {
-            data_colors.push({
-                text: 'FREE COLOR',
-                colorName: 'FREE COLOR',
-                colorCode: 'FREE-COLOR',
-                id: 0
-            });
-        };
-        if (data_sizes.length == 0) {
-            data_sizes.push({
-                text: 'FREE SIZE',
-                sizeCode: 'FREE-SIZE',
-                sizeName: 'FREE SIZE',
-                id: 0
-            });
-        };
-        $("#color-list").empty();
-        $("#size-list").empty();
-        var selectagColor = $("#color-list").select2({
+        var selectagStorage = $("#product-storage").select2({
             multiple: false,
-            data: data_colors
+            data: data_storages
         });
-        var selectagSize = $("#size-list").select2({
+        var selectagProduct = $("#product-list").select2({
             multiple: false,
-            data: data_sizes
+            data: data_products
         });
+        $("#product-list").on("select2:select", function(e) {
+            var data_colors = [];
+            var data_sizes = [];
+            var product = e.params.data;
 
-    });
+            if (product.blocksColor !== null && product.blocksColor !== undefined && product.blocksSize !== null && product.blocksSize !== undefined) {
+                data_colors = product.blocksColor;
+                data_sizes = product.blocksSize;
+            }
+            data_colors.forEach((element, index) => {
+                element['text'] = element.colorName;
+                element['id'] = index
+            });
+            data_sizes.forEach((element, index) => {
+                element['text'] = element.sizeName;
+                element['id'] = index
+            });
+            if (data_colors.length == 0) {
+                data_colors.push({
+                    text: 'FREE COLOR',
+                    colorName: 'FREE COLOR',
+                    colorCode: 'FREE-COLOR',
+                    id: 0
+                });
+            };
+            if (data_sizes.length == 0) {
+                data_sizes.push({
+                    text: 'FREE SIZE',
+                    sizeCode: 'FREE-SIZE',
+                    sizeName: 'FREE SIZE',
+                    id: 0
+                });
+            };
+            $("#color-list").empty();
+            $("#size-list").empty();
+            var selectagColor = $("#color-list").select2({
+                multiple: false,
+                data: data_colors
+            });
+            var selectagSize = $("#size-list").select2({
+                multiple: false,
+                data: data_sizes
+            });
+
+        });
+    }
 }
