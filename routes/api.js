@@ -35,6 +35,13 @@ router.post('/createReview', reviewLimiter, function(req, res) {
                 success: true,
                 data: data
             });
+            const mailOptions = {
+                from: process.env.EMAIL_ACCOUNT, // sender address
+                to: process.env.EMAIL_SHOP, // list of receivers
+                subject: `MOMOSO - BẠN CÓ BÌNH LUẬN MỚI TỪ KHÁCH HÀNG ${data.name}`, // Subject line
+                html: `<h5>Sản phẩm : ${data.productName}</h5> <br>  <p> <strong>Nội dung  bình luận:</strong> ${data.comment} </p> <br> <p><i>Vui lòng đăng nhập hệ thống MoMo để biết thêm chi tiết !</i></p>` // plain text body
+            };
+            emailHelper.sendEmail(mailOptions);
         } else {
             console.log(err);
             res.json({
@@ -60,6 +67,7 @@ router.post('/createMessage', reviewLimiter, function(req, res) {
                 html: `<h5>${data.subject}</h5> <br>  <p> <strong>Nội dung lời nhắn:</strong> ${data.message} </p> <br> <p><i>Vui lòng đăng nhập hệ thống MoMo để biết thêm chi tiết !</i></p>` // plain text body
             };
             emailHelper.sendEmail(mailOptions);
+
         } else {
             console.log(err);
             res.json({
