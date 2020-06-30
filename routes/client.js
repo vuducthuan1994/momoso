@@ -40,7 +40,6 @@ router.get(process.env.ABOUT_US, async function(req, res) {
         title: "About US",
         layout: 'client.hbs',
         general: general,
-        seasonID: req.sessionID,
         about_us: about_us,
         cart: cart ? cart.toJSON() : null
     });
@@ -62,9 +61,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         title: "Detail the loai san pham",
         layout: 'client.hbs',
         general: general,
-        seasonID: req.sessionID,
         categoryDetail: categoryDetail.toJSON(),
-        seasonID: req.sessionID,
         cart: cart ? cart.toJSON() : null,
         pageInfo: postsByCategory[0].pageInfo[0],
         products: postsByCategory[0].edges,
@@ -196,7 +193,6 @@ router.get(process.env.CHECK_OUT, async function(req, res) {
         title: "Đặt hàng ngay",
         layout: 'client.hbs',
         general: general,
-        sessionID: req.sessionID,
         cart: cart ? cart.toJSON() : null
     });
 });
@@ -209,7 +205,6 @@ router.get(process.env.BLOG, async function(req, res) {
         title: "Đặt hàng ngay",
         layout: 'client.hbs',
         general: general,
-        sessionID: req.sessionID,
         cart: cart ? cart.toJSON() : null,
         posts: posts.map(post => post.toJSON())
     });
@@ -222,7 +217,6 @@ router.get(process.env.CONTACT, async function(req, res) {
         title: "Liên hệ ngay ",
         layout: 'client.hbs',
         general: general,
-        sessionID: req.sessionID,
         cart: cart ? cart.toJSON() : null
     });
 });
@@ -235,7 +229,6 @@ router.get(process.env.CART, async function(req, res) {
         title: "About US",
         layout: 'client.hbs',
         general: general,
-        sessionID: req.sessionID,
         about_us: about_us,
         cart: cart ? cart.toJSON() : null
     });
@@ -248,7 +241,6 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
         title: "favor-list",
         layout: 'client.hbs',
         general: general,
-        sessionID: req.sessionID,
         cart: cart ? cart.toJSON() : null
     });
 });
@@ -267,7 +259,6 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             layout: 'client.hbs',
             product: product.toJSON(),
             general: general,
-            sessionID: req.sessionID,
             productsRelated: productsRelated,
             cart: cart ? cart.toJSON() : null,
             reviews: reviews.map(review => review.toJSON())

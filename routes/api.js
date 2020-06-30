@@ -79,7 +79,7 @@ router.post('/createMessage', reviewLimiter, function(req, res) {
 });
 
 router.post('/addToCart', function(req, res) {
-    Carts.findOneAndUpdate({ sessionID: req.body.sessionID, "listCartProducts._id": { $ne: req.body.product._id } }, { $push: { "listCartProducts": req.body.product } }, { upsert: true, new: true }, function(err, data) {
+    Carts.findOneAndUpdate({ sessionID: req.sessionID, "listCartProducts._id": { $ne: req.body.product._id } }, { $push: { "listCartProducts": req.body.product } }, { upsert: true, new: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,
@@ -97,7 +97,7 @@ router.post('/addToCart', function(req, res) {
 
 router.post('/removeFromCart', function(req, res) {
     console.log(req.body);
-    Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, { $pull: { "listCartProducts": { _id: req.body._id } } }, { new: true }, function(err, data) {
+    Carts.findOneAndUpdate({ sessionID: req.sessionID }, { $pull: { "listCartProducts": { _id: req.body._id } } }, { new: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,
@@ -114,7 +114,7 @@ router.post('/removeFromCart', function(req, res) {
 });
 
 router.post('/addToWishList', function(req, res) {
-    Carts.findOneAndUpdate({ sessionID: req.body.sessionID, "listFavorProducts._id": { $ne: req.body.product._id } }, { $push: { "listFavorProducts": req.body.product } }, { upsert: true, new: true }, function(err, data) {
+    Carts.findOneAndUpdate({ sessionID: req.sessionID, "listFavorProducts._id": { $ne: req.body.product._id } }, { $push: { "listFavorProducts": req.body.product } }, { upsert: true, new: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,
@@ -133,7 +133,7 @@ router.post('/addToWishList', function(req, res) {
 
 
 router.post('/removeFromWishList', function(req, res) {
-    Carts.findOneAndUpdate({ sessionID: req.body.sessionID }, { $pull: { "listFavorProducts": { _id: req.body._id } } }, { new: true }, function(err, data) {
+    Carts.findOneAndUpdate({ sessionID: req.sessionID }, { $pull: { "listFavorProducts": { _id: req.body._id } } }, { new: true }, function(err, data) {
         if (!err) {
             res.json({
                 success: true,

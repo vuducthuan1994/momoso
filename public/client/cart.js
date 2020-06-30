@@ -36,11 +36,8 @@ function initCart() {
 }
 
 function removeFromWishList() {
-    var sessionID = $('#js-cart-data').data('seasonid');
     var productid = $(this).data('productid');
-
     let data = {
-        sessionID: sessionID,
         _id: productid
     }
     $.ajax({
@@ -68,13 +65,10 @@ function removeFromWishList() {
 
 
 function removeFromCart() {
-    console.log("hahahaha");
-    var sessionID = $('#js-cart-data').data('seasonid');
     let productid = $(this).data('productid');
     let price = $(this).data('price');
     let quantity = $(this).data('quantity');
     let data = {
-        sessionID: sessionID,
         _id: productid
     }
     $.ajax({
@@ -100,14 +94,10 @@ function removeFromCart() {
 }
 
 function addToCart() {
-
-    var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
-
     product['quantity'] = $('.cart-plus-minus-box').val() == 0 ? 1 : $('.cart-plus-minus-box').val();
 
     let data = {
-        sessionID: sessionID,
         product: product
     }
     $.ajax({
@@ -156,10 +146,9 @@ function getPriceVND() {
 }
 
 function addToWishList() {
-    var sessionID = $('#js-cart-data').data('seasonid');
+    // var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
     let data = {
-        sessionID: sessionID,
         product: product
     }
     $.ajax({
