@@ -215,6 +215,18 @@ router.get(process.env.BLOG, async function(req, res) {
     });
 });
 
+router.get(process.env.CONTACT, async function(req, res) {
+    let general = await getGeneralConfig();
+    let cart = await getCart(req.sessionID);
+    res.render('client/contact', {
+        title: "Liên hệ ngay ",
+        layout: 'client.hbs',
+        general: general,
+        seasonID: req.sessionID,
+        cart: cart ? cart.toJSON() : null
+    });
+});
+
 router.get(process.env.CART, async function(req, res) {
     let general = await getGeneralConfig();
     let about_us = await getAboutUsInfo();
