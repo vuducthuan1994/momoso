@@ -34,12 +34,12 @@ function createMessageListener() {
     }).form();
 
     if (formStatus) {
-        var reviewData = $('#contact-form').serializeArray();
+        var contactData = $('#contact-form').serializeArray();
         const sessionID = $('#js-cart-data').data('seasonid');
-        reviewData.push({ name: 'sessionID', value: sessionID });
+        contactData.push({ name: 'sessionID', value: sessionID });
         $.ajax({
             url: "/api/createMessage",
-            data: reviewData,
+            data: contactData,
             dataType: "json",
             method: 'POST',
             success: function(data) {
