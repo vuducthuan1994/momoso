@@ -30,6 +30,7 @@ router.get('/', isAuthenticated, function(req, res) {
         }
     });
 });
+
 router.get('/add-category', isAuthenticated, function(req, res) {
     res.render('admin/pages/categoryPost/add-category', {
         errors: req.flash('errors'),
@@ -57,109 +58,25 @@ router.get('/edit-category/:id', isAuthenticated, function(req, res) {
     })
 });
 
-let resizeImages = function(width, oldPath, newPath) {
-        sharp(oldPath)
-            .resize(width, 400, {
-                fit: "cover"
-            }).toFile(newPath, function(err) {
 
-            });
-    }
-    // create category
+// create category
 router.post('/', function(req, res) {
-    let resizeWidth = 370;
-    let content = { imageUrl: '#' };
-    const form = formidable({ multiples: true });
-    form.parse(req);
-
-    form.on('field', function(fieldName, fieldValue) {
-        content[fieldName] = fieldValue;
-        if (fieldName == 'typeImage') {
-            if (fieldValue !== 'small') {
-                resizeWidth = 700;
-            }
-        }
-
-    });
-
-    form.on('file', function(fieldName, file) {
-        if (fieldName == 'imageUrl' && file.name !== '') {
-            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            var dir = __basedir + '/public/img/category';
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, 0744);
-            }
-            const img_path = path.join(__basedir, `public/img/category/${imgName}`);
-            content.imageUrl = `/img/category/${imgName}`;
-            resizeImages(resizeWidth, file.path, img_path);
+    console.log(req.body);
+    CategoryPost.create(req.body, function(err, data) {
+        if (!err) {
+            req.flash('messages', 'Thêm thể loại bài viết thành công !')
+            res.redirect('back');
+        } else {
+            req.flash('errors', 'Không thêm được thể loại bài viết!, vui lòng kiểm tra lại các trường !')
+            res.redirect('back');
         }
     });
-
-    form.on('end', function() {
-        Category.create(content, function(err, data) {
-            if (!err) {
-                req.flash('messages', 'Thêm loại SP thành công !')
-                res.redirect('/admin/category');
-            } else {
-                if (err.code = 11000) {
-                    req.flash('errors', err._message);
-                } else {
-                    req.flash('errors', 'Không thêm được loại sản phẩm')
-                }
-                res.redirect('back');
-            }
-        });
-    })
 });
 
 //edit category
-router.post('/edit-category/:id', function(req, res) {
-
-    let resizeWidth = 370;
-    let content = {};
-    const idBanner = req.params.id;
-    req.body.updated_date = new Date();
-    const form = formidable({ multiples: true });
-    form.parse(req);
-
-    form.on('field', function(fieldName, fieldValue) {
-        content[fieldName] = fieldValue;
-        if (fieldName == 'typeImage') {
-            if (fieldValue !== 'small') {
-                resizeWidth = 700;
-            }
-        }
+router.post('/edit-category-post/:id', function(req, res) {
 
 
-    });
-
-    form.on('file', function(fieldName, file) {
-        if (fieldName == 'imageUrl' && file.name !== '') {
-            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            var dir = __basedir + '/public/img/category';
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, 0744);
-            }
-            const img_path = path.join(__basedir, `public/img/category/${imgName}`);
-            content['imageUrl'] = `/img/category/${imgName}`;
-            resizeImages(resizeWidth, file.path, img_path);
-        }
-    });
-
-    form.on('end', function() {
-
-        Category.findOneAndUpdate({ _id: idBanner }, content, { new: true }, function(err, category) {
-            updateCategoryInProduct(category);
-            if (!err) {
-                req.flash('messages', 'Sửa kho hàng thành công !');
-                res.redirect('back');
-            } else {
-                req.flash('errors', 'Không sửa được Kho hàng');
-                res.redirect('back');
-            }
-        });
-
-    });
 
 });
 
