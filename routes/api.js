@@ -10,11 +10,16 @@ const reviewLimiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minutes
     max: 5 // limit each IP to 100 requests per windowMs
 });
+
+const commonLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hours
+    max: 200 // limit each IP to 100 requests per windowMs
+});
 require('dotenv').config();
 const EmailService = require('../service/email_service');
 const emailHelper = new EmailService();
 
-router.post('/subscribe', function(req, res) {
+router.post('/subscribe', commonLimiter, function(req, res) {
     Subscribe.create(req.body, function(err, data) {
         if (!err) {
             res.json({
@@ -78,7 +83,7 @@ router.post('/createMessage', reviewLimiter, function(req, res) {
     });
 });
 
-router.post('/addToCart', function(req, res) {
+router.post('/addToCart', commonLimiter, function(req, res) {
     Carts.findOneAndUpdate({ sessionID: req.sessionID, "listCartProducts._id": { $ne: req.body.product._id } }, { $push: { "listCartProducts": req.body.product } }, { upsert: true, new: true }, function(err, data) {
         if (!err) {
             res.json({
@@ -95,7 +100,7 @@ router.post('/addToCart', function(req, res) {
     });
 });
 
-router.post('/removeFromCart', function(req, res) {
+router.post('/removeFromCart', commonLimiter, function(req, res) {
     console.log(req.body);
     Carts.findOneAndUpdate({ sessionID: req.sessionID }, { $pull: { "listCartProducts": { _id: req.body._id } } }, { new: true }, function(err, data) {
         if (!err) {
@@ -113,7 +118,7 @@ router.post('/removeFromCart', function(req, res) {
     });
 });
 
-router.post('/addToWishList', function(req, res) {
+router.post('/addToWishList', commonLimiter, function(req, res) {
     Carts.findOneAndUpdate({ sessionID: req.sessionID, "listFavorProducts._id": { $ne: req.body.product._id } }, { $push: { "listFavorProducts": req.body.product } }, { upsert: true, new: true }, function(err, data) {
         if (!err) {
             res.json({
@@ -132,7 +137,7 @@ router.post('/addToWishList', function(req, res) {
 });
 
 
-router.post('/removeFromWishList', function(req, res) {
+router.post('/removeFromWishList', commonLimiter, function(req, res) {
     Carts.findOneAndUpdate({ sessionID: req.sessionID }, { $pull: { "listFavorProducts": { _id: req.body._id } } }, { new: true }, function(err, data) {
         if (!err) {
             res.json({
