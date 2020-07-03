@@ -56,7 +56,7 @@ router.post('/', function(req, res) {
             newpath = path.join(dir, `/${imageUrl}`);
 
             sharp(file.path)
-                .resize(1770, 700, {
+                .resize(1510, 700, {
                     fit: "cover"
                 }).toFile(newpath, function(err) {
                     if (!err) {
