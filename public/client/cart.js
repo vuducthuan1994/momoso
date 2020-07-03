@@ -82,9 +82,12 @@ function removeFromCart() {
                 $('#cart-length').text(data.lengthCart);
                 $(`.single-cart-box#${productid}`).remove();
                 $(`tr#${productid}`).remove();
+
                 let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
-                totalPrice = parseInt(totalPrice) - (parseInt(price) * (parseInt(quantity)));
+                totalPrice = parseInt(totalPrice) - (parseInt(price) * parseInt(quantity));
+                console.log(totalPrice);
                 $('#totalPrice').data('price', parseInt(totalPrice));
+                $('.amount').data('price', parseInt(totalPrice));
                 getPriceVND();
             } else {
                 toast('Thông báo', 'Không xóa được', 'info');

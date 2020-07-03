@@ -55,7 +55,7 @@
                                         <th class="product-price">Giá</th>
                                         <th class="product-quantity">Số lượng</th>
                                         <th class="product-subtotal">Total</th>
-                                        <th class="product-remove">Remove</th>
+                                        <th class="product-remove">Xóa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,9 +71,12 @@
                                         <td class="product-quantity"><input type="number" value="{{this.quantity}}" />
                                         </td>
                                         <td class="product-subtotal ">ds</td>
-                                        <td class="product-remove"> <a href="#"><i data-productid="{{this._id}}"
+                                        <td class="product-remove"> <a href="#">
+                                            <i data-quantity="{{this.quantity}}" data-price="{{this.price}}" data-productid="{{this._id}}"
                                                     class="fa fa-times remove-product-from-cart"
-                                                    aria-hidden="true"></i></a></td>
+                                                    aria-hidden="true"></i>
+                                                    
+                                                    </a></td>
                                     </tr>
                                     {{else}}
                                         <tr>
@@ -105,12 +108,12 @@
                                         <tbody>
                                             <tr class="cart-subtotal">
                                                 <th>Subtotal</th>
-                                                <td><span data-price="{{getTotalPrice cart.listCartProducts}}" class="amount product-price-vnd">{{getTotalPrice cart.listCartProducts}}</span></td>
+                                                <td><span data-price="{{getTotalPrice cart.listCartProducts}}" class=" amount product-price-vnd">{{getTotalPrice cart.listCartProducts}}</span></td>
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Total</th>
                                                 <td>
-                                                    <strong><span data-price="{{getTotalPrice cart.listCartProducts}}"  class="amount product-price-vnd">{{getTotalPrice cart.listCartProducts}}</span></strong>
+                                                    <strong><span data-price="{{getTotalPrice cart.listCartProducts}}"  class=" amount product-price-vnd">{{getTotalPrice cart.listCartProducts}}</span></strong>
                                                 </td>
                                             </tr>
                                         </tbody>

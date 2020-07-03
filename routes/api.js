@@ -102,7 +102,7 @@ router.post('/removeFromCart', function(req, res) {
             res.json({
                 success: true,
                 msg: 'Xóa sản phẩm khỏi giỏ hàng thành công',
-                lengthCart: data.listCartProducts.length
+                lengthCart: data ? data.listCartProducts.length : 0
             });
         } else {
             res.json({
