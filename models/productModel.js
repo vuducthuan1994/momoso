@@ -67,6 +67,10 @@ var ProductSchema = new Schema({
         type: Array,
         default: []
     },
+    thumb_cart: {
+        type: String,
+        default: '#'
+    },
     category: {
         type: Array,
         require: true,

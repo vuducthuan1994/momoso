@@ -351,6 +351,13 @@ module.exports = {
     },
     getMoney(price, count) {
         return JSON.parse(price) * JSON.parse(count);
+    },
+    createThumbCartImage(url) {
+        if (url) {
+            return url;
+        } else {
+            return '/img/menu/1.jpg'
+        }
     }
 
 }

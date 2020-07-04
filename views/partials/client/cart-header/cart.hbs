@@ -17,7 +17,7 @@
                 {{#each cart.listCartProducts }}
                 <div id="{{this._id}}" class="single-cart-box">
                     <div class="cart-img">
-                        <a href="{{createURLProduct this.urlSeo}}"><img src="/img/menu/1.jpg" alt="cart-image"></a>
+                        <a href="{{createURLProduct this.urlSeo}}"><img src="{{createThumbCartImage this.thumb_cart}}" alt="cart-image"></a>
                     </div>
                     <div class="cart-content">
                         <h6><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h6>

@@ -100,9 +100,16 @@ let updateTotalProductInCategory = function(listCategory, type = 'increment') {
     }
 }
 
-let resizeImages = function(oldPath, newPath) {
+let resizeImages = function(oldPath, newPath, type = 'default') {
+        let width = 600;
+        let height = 756;
+
+        if (type == 'thumb_cart') {
+            width = 70;
+            height = 95;
+        }
         sharp(oldPath)
-            .resize(600, 756, {
+            .resize(width, height, {
                 fit: "cover"
             }).toFile(newPath, function(err) {
 
@@ -113,7 +120,6 @@ router.post('/', isAuthenticated, async function(req, res) {
     let newListImage = [];
     let content = {};
     let blocksColor = [];
-    let blocksSize = [];
     const form = formidable({ multiples: true });
 
     var dir = __basedir + '/public/img/product';
@@ -168,6 +174,13 @@ router.post('/', isAuthenticated, async function(req, res) {
 
             newListImage.push(`/img/product/${imgName}`);
             resizeImages(file.path, new_path);
+
+            if (content['thumb_cart'] == undefined) {
+                const thumb_cart_path = path.join(__basedir, `public/img/product/thumb_cart_${imgName}`)
+                content['thumb_cart'] = `/img/product/thumb_cart_${imgName}`;
+                resizeImages(file.path, thumb_cart_path, type = 'thumb_cart');
+            }
+
         }
         if (file.name !== '' && fieldName.includes('color_image_block_')) {
             const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
@@ -313,6 +326,13 @@ router.post('/edit-product/:id', async function(req, res) {
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
             newListImage.push(`/img/product/${imgName}`);
             resizeImages(file.path, new_path);
+
+            if (content['thumb_cart'] == undefined) {
+                console.log("hahahahahahahahha");
+                const thumb_cart_path = path.join(__basedir, `public/img/product/thumb_cart_${imgName}`)
+                content['thumb_cart'] = `/img/product/thumb_cart_${imgName}`;
+                resizeImages(file.path, thumb_cart_path, type = 'thumb_cart');
+            }
         }
 
         if (file.name !== '' && fieldName.includes('color_image_block_')) {
