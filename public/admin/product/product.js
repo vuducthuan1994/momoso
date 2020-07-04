@@ -18,6 +18,11 @@ $(document).ready(function() {
     $('#product-price').on('input', function() {
         getPriceVND();
     });
+
+    $('.form-group input').change(function() {
+        readURL(this);
+        console.log("on change")
+    });
 });
 const ENV = 'DEV';
 
@@ -286,6 +291,18 @@ let handlerForm = function(idProduct) {
             }
         }
     });
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            $(input).parent().find('img').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 function getListColorName() {
