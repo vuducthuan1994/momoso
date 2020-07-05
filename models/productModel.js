@@ -38,12 +38,6 @@ var ProductSchema = new Schema({
         trim: true,
         default: 5
     },
-    point: {
-        type: Number,
-        required: true,
-        trim: true,
-        default: 100
-    },
     code: {
         type: String,
         required: true,
