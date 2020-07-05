@@ -31,7 +31,7 @@ router.get('/', isAuthenticated, function(req, res) {
                 layout: 'admin.hbs'
             });
         }
-    }).sort({ created_date: -1 });
+    }).sort({ updated_date: -1 });
 });
 router.get('/add-product', isAuthenticated, async function(req, res) {
     let categorys = await getCategory();
@@ -275,13 +275,16 @@ router.post('/edit-product/:id', async function(req, res) {
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
 
             const indexColor = parseInt(fieldName.slice(fieldName.length - 1));
+
             if (blocksColor[indexColor] == undefined) {
                 blocksColor[indexColor] = {
                     listImages: [],
-                    colorName: null
+                    colorName: null,
+                    colorCode: null
                 }
                 blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
             } else {
+                blocksColor[indexColor].listImages = [];
                 blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
             }
             resizeImages(file.path, new_path);
@@ -289,6 +292,7 @@ router.post('/edit-product/:id', async function(req, res) {
     });
     form.on('end', async function() {
         content['listImages'] = newListImage;
+        content['updated_date'] = new Date();
         content['blocksColor'] = blocksColor;
         Product.findOneAndUpdate({ _id: idProduct }, content, function(err, product) {
             updateTotalProductInCategory(product.category, 'decrement');

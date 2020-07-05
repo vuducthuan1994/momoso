@@ -125,8 +125,8 @@ function getListCurrentImages() {
 function getColorBlocks() {
     let results = [];
     $('.color-block').each(function(idx) {
-        const colorName = $(this).find('input.color-name').val();
-        const colorCode = $(this).find('input.color-code').val();
+        const colorName = $(this).find('input.color-name').val().trim();
+        const colorCode = $(this).find('input.color-code').val().trim();
         const colorImage = $(this).find('img.color-image').data('image') ? [$(this).find('img.color-image').data('image')] : [];
         if (colorName && colorCode) {
             results[idx] = {
