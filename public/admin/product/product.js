@@ -10,8 +10,8 @@ $(document).ready(function() {
 
     $('#add-block-color').on('click', addColorBlock);
     $('#add-block-size').on('click', addSizeBlock);
-    $('.add-color-to-block').on('click', addImageToBlock)
-    $('.delete-image-color').on('click', deleteImageOfColor)
+
+
     $('.delete-block-color ').on('click', deleteBlockColor)
     $('.delete-block-size ').on('click', deleteBlockSize)
 
@@ -21,14 +21,13 @@ $(document).ready(function() {
 
     $('.form-group input').change(function() {
         readURL(this);
-        console.log("on change")
     });
 });
 const ENV = 'DEV';
 
 function addImageProduct() {
     const imageProduct = $('#base-image-product').clone(true);
-    $('#container-images-product').prepend(imageProduct.children().clone(true));
+    $('#container-images-product').append(imageProduct.children().clone(true));
 }
 
 function addColorBlock() {
@@ -41,7 +40,7 @@ function addColorBlock() {
         const colorCode = productCode + '-C' + index;
         $('#base-block-color').find('.new-color-code').val(colorCode);
         const colorBlock = $('#base-block-color').clone(true);
-        $('#container-color-blocks').prepend(colorBlock.children().clone(true));
+        $('#container-color-blocks').append(colorBlock.children().clone(true));
     }
 }
 
@@ -54,19 +53,10 @@ function addSizeBlock() {
         const sizeCode = productCode + '-S' + index;
         $('#base-block-size').find('.size-code').val(sizeCode);
         const sizeBlock = $('#base-block-size').clone(true);
-        $('#container-size-blocks').prepend(sizeBlock.children().clone(true));
+        $('#container-size-blocks').append(sizeBlock.children().clone(true));
     }
 }
 
-function addImageToBlock() {
-    const colorItem = $('#base-image-color').clone(true);
-    $(this).next().prepend(colorItem.children().clone(true));
-    // $('#container-images-color').prepend(colorItem.children().clone(true));
-}
-
-function deleteImageOfColor() {
-    $(this).parent().parent().remove();
-}
 
 function deleteBlockColor() {
     $(this).parent().parent().remove();

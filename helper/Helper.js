@@ -203,7 +203,7 @@ module.exports = {
     },
     getAvatarImage(type, listImages) {
         if (type == 'primary') {
-            return listImages.length > 0 ? process.env.R_DOMAIN + listImages[0] : `${process.env.R_DOMAIN}/img/new-products/1_2.jpg`;
+            return listImages.length > 0 ? process.env.R_DOMAIN + listImages[0] : `/img/new-products/1_2.jpg`;
         } else {
             return listImages.length > 1 ? process.env.R_DOMAIN + listImages[1] : '/img/new-products/1_2.jpg';
         }
