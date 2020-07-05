@@ -117,7 +117,8 @@ let resizeImages = function(oldPath, newPath, type = 'default') {
     }
     // create product
 router.post('/', isAuthenticated, async function(req, res) {
-    let newListImage = [];
+    let listCommonImage = [];
+    let listColorImage = [];
     let content = {};
     let blocksColor = [];
     const form = formidable({ multiples: true });
@@ -138,6 +139,11 @@ router.post('/', isAuthenticated, async function(req, res) {
                 updateTotalProductInCategory(JSON.parse(fieldValue));
             }
         }
+
+        if (fieldName == 'colorBlocks') {
+            blocksColor = JSON.parse(fieldValue);
+            console.log(blocksColor);
+        }
     });
 
     form.on('file', async function(fieldName, file) {
@@ -146,7 +152,7 @@ router.post('/', isAuthenticated, async function(req, res) {
             const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
 
-            newListImage.push(`/img/product/${imgName}`);
+            listCommonImage.push(`/img/product/${imgName}`);
             resizeImages(file.path, new_path);
 
             if (content['thumb_cart'] == undefined) {
@@ -161,21 +167,18 @@ router.post('/', isAuthenticated, async function(req, res) {
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
 
             const indexColor = parseInt(fieldName.slice(fieldName.length - 1));
-            if (blocksColor[indexColor] == undefined) {
-                blocksColor[indexColor] = {
-                    listImages: [],
-                    colorName: null
-                }
-                blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
-            } else {
-                blocksColor[indexColor].listImages.push(`/img/product/${imgName}`);
-            }
+            listColorImage[indexColor] = `/img/product/${imgName}`;
             resizeImages(file.path, new_path);
         }
     });
     form.on('end', async function() {
-        content['listImages'] = newListImage;
+        content['listImages'] = listCommonImage;
+        blocksColor.forEach(function(value, index) {
+            blocksColor[index].listImages.push(listColorImage[index]);
+        });
+
         content['blocksColor'] = blocksColor;
+        console.log(content);
         Product.create(content, function(err, product) {
             if (!err) {
                 res.json({
@@ -226,7 +229,7 @@ router.post('/deleteImage', function(req, res) {
 router.post('/edit-product/:id', async function(req, res) {
 
     const idProduct = req.params.id;
-    let newListImage = [];
+    let listCommonImage = [];
     let blocksColor = []
     let content = {};
     const form = formidable({ multiples: true });
@@ -243,7 +246,7 @@ router.post('/edit-product/:id', async function(req, res) {
             }
         }
         if (fieldName == 'commonImages') {
-            newListImage = newListImage.concat(JSON.parse(fieldValue));
+            listCommonImage = listCommonImage.concat(JSON.parse(fieldValue));
         }
         if (fieldName == 'colorBlocks') {
             blocksColor = JSON.parse(fieldValue);
@@ -260,7 +263,7 @@ router.post('/edit-product/:id', async function(req, res) {
                 fs.mkdirSync(dir, 0744);
             }
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
-            newListImage.push(`/img/product/${imgName}`);
+            listCommonImage.push(`/img/product/${imgName}`);
             resizeImages(file.path, new_path);
 
             if (content['thumb_cart'] == undefined) {
@@ -291,7 +294,7 @@ router.post('/edit-product/:id', async function(req, res) {
         }
     });
     form.on('end', async function() {
-        content['listImages'] = newListImage;
+        content['listImages'] = listCommonImage;
         content['updated_date'] = new Date();
         content['blocksColor'] = blocksColor;
         Product.findOneAndUpdate({ _id: idProduct }, content, function(err, product) {

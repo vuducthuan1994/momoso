@@ -222,7 +222,7 @@ let handlerForm = function(idProduct) {
     getFileColorProduct(newFormData);
 
 
-    // lấy tất cả file từ form 
+    // lấy tất cả file từ form  commom image
     $.each($("#container-images-product input[type='file']"), function(index, file) {
         newFormData.append('commonImageFile', $('input[type=file]')[index].files[0]);
     });
