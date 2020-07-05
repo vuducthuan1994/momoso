@@ -325,8 +325,9 @@ router.get('/delete/:id', isAuthenticated, function(req, res) {
     const messages = [];
     Product.findOneAndDelete({
         _id: id,
-    }, function(err, storage) {
+    }, function(err, product) {
         if (!err) {
+            updateTotalProductInCategory(product.category, 'decrement');
             messages.push('Xóa sản phẩm công !')
             req.flash('messages', messages)
             res.redirect('back');
