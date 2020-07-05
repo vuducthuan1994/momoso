@@ -11,7 +11,7 @@
     }
 
     #container-images-product img,
-    .container-images-color img {
+    #container-color-blocks img {
         max-width: 150px;
         height: auto;
         object-fit: cover;
@@ -148,31 +148,27 @@
                                             <div id="container-color-blocks" class="form-group row">
 
                                                 {{#each product.blocksColor}}
-                                                <div
-                                                    class="color-block col-lg-3 col-md-3  mb-2 border old-color-block">
+                                                <div class="color-block col-lg-3 col-md-3  mb-2 border ">
+
                                                     <div class="form-group">
                                                         <a class="delete-block-color btn btn-danger mb-2 mt-2">Xóa</a>
-                                                        <input readonly value="{{this.colorCode}}" required=""
-                                                            placeholder="Mã màu sắc...."
-                                                            class=" colorCode form-control  mb-2 ">
-                                                        <input value="{{this.colorName}}" required=""
-                                                            placeholder="Tên màu sắc...(hiển thị trên website)"
-                                                            class="colorName form-control mb-2 ">
-
+                                                        <input readonly value="{{this.colorCode}}" required="" placeholder="Mã màu sắc...." class="color-code form-control  mb-2 ">
+                                                        <input value="{{this.colorName}}" required="" placeholder="Tên màu sắc...(hiển thị trên website)" class="color-name form-control mb-2 ">
                                                     </div>
 
-
-                                                    <div class="container-images-color form-group row">
+                                                    <div class="form-group row">
                                                         {{#each this.listImages}}
-                                                        <div class="col-lg-2 col-md-2 mb-2 ">
+                                                        <div class="mb-2">
                                                             <div class="form-group">
-                                                                <br>
-                                                                <img data-image="{{this}}" src="{{this}}">
+                                                                <input required="" accept="image/jpeg,image/gif,image/png,image/x-eps" type="file" class="form-control-file">
+                                                                <img class="color-image" data-image="{{this}}" src="{{this}}">
                                                             </div>
                                                         </div>
                                                         {{/each}}
                                                     </div>
+
                                                 </div>
+
                                                 {{/each}}
                                             </div>
                                             <br>
@@ -199,7 +195,6 @@
 
                                                     </div>
                                                     {{/each}}
-
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Mô tả sản phẩm</label>
@@ -208,10 +203,8 @@
                                                  {{{product.detail}}}
                                                 </textarea>
                                                 </div>
-
                                         </form>
                                         {{#if product._id}}
-
                                         <button data-productid="{{product._id}}"
                                             class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
                                             <div
@@ -252,17 +245,15 @@
             <div class="color-block  col-lg-3 col-md-3   mb-2 border mt-4 mb-4">
                 <div class="form-group">
                     <a class="delete-block-color btn btn-danger mb-2 mt-2">Xóa</a>
-                    <input readonly required="" placeholder="Mã màu" class="form-control mb-2 new-color-code">
-                    <input required="" placeholder="Tên màu ( hiển thị trên website )"
-                        class="form-control mb-2 new-color-name">
+                    <input readonly required="" placeholder="Mã màu" class="form-control mb-2 color-code">
+                    <input required="" placeholder="Tên màu ( hiển thị trên website )" class="form-control mb-2 color-name">
                 </div>
 
-                <div class="container-images-color form-group row">
+                <div class="form-group row">
                     <div class="mb-2 ">
                         <div class="form-group">
-                            <input required="" accept="image/jpeg,image/gif,image/png,image/x-eps" type="file"
-                                class="form-control-file">
-                            <img alt="Chưa chọn ảnh" src="#">
+                            <input required="" accept="image/jpeg,image/gif,image/png,image/x-eps" type="file" class="form-control-file">
+                            <img  class="color-image"  alt="Chưa chọn ảnh !" src="#">
                         </div>
                     </div>
                 </div>

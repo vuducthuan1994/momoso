@@ -129,7 +129,7 @@ router.post('/', isAuthenticated, async function(req, res) {
 
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
-        if (fieldName !== 'files[]' && fieldName !== 'newcolorsName' && fieldName !== 'newcolorsCode' && fieldName !== 'blocksSize') {
+        if (fieldName !== 'commonImageFile' && fieldName !== 'colorBlocks' && fieldName !== 'blocksSize') {
             content[fieldName] = fieldValue;
         }
         if (fieldName == 'category' || fieldName == 'storage' || fieldName == 'blocksSize') {
@@ -138,36 +138,10 @@ router.post('/', isAuthenticated, async function(req, res) {
                 updateTotalProductInCategory(JSON.parse(fieldValue));
             }
         }
-        if (fieldName == 'newcolorsName') {
-            JSON.parse(fieldValue).forEach((colorName, index) => {
-                if (blocksColor[index] == undefined) {
-                    blocksColor[index] = {
-                        listImages: [],
-                        colorName: colorName,
-                        colorCode: null
-                    }
-                } else {
-                    blocksColor[index].colorName = colorName;
-                }
-            });
-        }
-        if (fieldName == 'newcolorsCode') {
-            JSON.parse(fieldValue).forEach((colorCode, index) => {
-                if (blocksColor[index] == undefined) {
-                    blocksColor[index] = {
-                        listImages: [],
-                        colorName: null,
-                        colorCode: colorCode
-                    }
-                } else {
-                    blocksColor[index].colorCode = colorCode;
-                }
-            });
-        }
     });
 
     form.on('file', async function(fieldName, file) {
-        if (fieldName == 'files[]' && file.name !== '') {
+        if (fieldName == 'commonImageFile' && file.name !== '') {
 
             const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
@@ -253,14 +227,13 @@ router.post('/edit-product/:id', async function(req, res) {
 
     const idProduct = req.params.id;
     let newListImage = [];
-    let oldColorBlock = [];
     let blocksColor = []
     let content = {};
     const form = formidable({ multiples: true });
 
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
-        if (fieldName !== 'files[]' && fieldName !== 'oldColorBlock' && fieldName !== 'commonImages' && fieldName !== 'newcolorsName' && fieldName !== 'newcolorsCode' && fieldName !== 'blocksSize') {
+        if (fieldName !== 'commonImageFile' && fieldName !== 'colorBlocks' && fieldName !== 'commonImages' && fieldName !== 'blocksSize') {
             content[fieldName] = fieldValue;
         }
         if (fieldName == 'category' || fieldName == 'storage' || fieldName == 'blocksSize') {
@@ -272,51 +245,14 @@ router.post('/edit-product/:id', async function(req, res) {
         if (fieldName == 'commonImages') {
             newListImage = newListImage.concat(JSON.parse(fieldValue));
         }
-        if (fieldName == 'oldColorBlocks') {
-            oldColorBlock = JSON.parse(fieldValue);
-        }
-        if (fieldName == 'newcolorsName') {
-            JSON.parse(fieldValue).forEach((colorName, index) => {
-                if (blocksColor[index] == undefined) {
-                    blocksColor[index] = {
-                        listImages: [],
-                        colorName: colorName
-                    }
-                } else {
-                    blocksColor[index].colorName = colorName;
-                }
-            });
-        }
-        if (fieldName == 'newcolorsName') {
-            JSON.parse(fieldValue).forEach((colorName, index) => {
-                if (blocksColor[index] == undefined) {
-                    blocksColor[index] = {
-                        listImages: [],
-                        colorName: colorName,
-                        colorCode: null
-                    }
-                } else {
-                    blocksColor[index].colorName = colorName;
-                }
-            });
-        }
-        if (fieldName == 'newcolorsCode') {
-            JSON.parse(fieldValue).forEach((colorCode, index) => {
-                if (blocksColor[index] == undefined) {
-                    blocksColor[index] = {
-                        listImages: [],
-                        colorName: null,
-                        colorCode: colorCode
-                    }
-                } else {
-                    blocksColor[index].colorCode = colorCode;
-                }
-            });
+        if (fieldName == 'colorBlocks') {
+            blocksColor = JSON.parse(fieldValue);
+            console.log(blocksColor);
         }
     });
 
     form.on('file', async function(fieldName, file) {
-        if (fieldName == 'files[]' && file.name !== '') {
+        if (fieldName == 'commonImageFile' && file.name !== '') {
             const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
 
             var dir = __basedir + '/public/img/product';
@@ -328,7 +264,6 @@ router.post('/edit-product/:id', async function(req, res) {
             resizeImages(file.path, new_path);
 
             if (content['thumb_cart'] == undefined) {
-                console.log("hahahahahahahahha");
                 const thumb_cart_path = path.join(__basedir, `public/img/product/thumb_cart_${imgName}`)
                 content['thumb_cart'] = `/img/product/thumb_cart_${imgName}`;
                 resizeImages(file.path, thumb_cart_path, type = 'thumb_cart');
@@ -354,7 +289,7 @@ router.post('/edit-product/:id', async function(req, res) {
     });
     form.on('end', async function() {
         content['listImages'] = newListImage;
-        content['blocksColor'] = oldColorBlock.concat(blocksColor);
+        content['blocksColor'] = blocksColor;
         Product.findOneAndUpdate({ _id: idProduct }, content, function(err, product) {
             updateTotalProductInCategory(product.category, 'decrement');
             if (!err) {

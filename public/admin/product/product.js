@@ -23,7 +23,7 @@ $(document).ready(function() {
         readURL(this);
     });
 });
-const ENV = 'DEV';
+const ENV = 'PRODUCT';
 
 function addImageProduct() {
     const imageProduct = $('#base-image-product').clone(true);
@@ -36,9 +36,9 @@ function addColorBlock() {
     if (productCode == undefined || productCode == null || productCode == "") {
         toast('Thông báo', 'Bạn chưa thêm mã sản phẩm', 'error')
     } else {
-        var index = $('#container-color-blocks .color-block ').length;
+        var index = $('#container-color-blocks .color-block').length + 1;
         const colorCode = productCode + '-C' + index;
-        $('#base-block-color').find('.new-color-code').val(colorCode);
+        $('#base-block-color').find('.color-code').val(colorCode);
         const colorBlock = $('#base-block-color').clone(true);
         $('#container-color-blocks').append(colorBlock.children().clone(true));
     }
@@ -122,19 +122,20 @@ function getListCurrentImages() {
     return JSON.stringify(results);
 };
 
-function getListCurrentBlockColor() {
+function getColorBlocks() {
     let results = [];
-    $('.old-color-block').each(function(idx) {
-        const colorName = $(this).find('input.colorName').val();
-        const colorCode = $(this).find('input.colorCode').val();
-        results[idx] = {
-            colorName: colorName,
-            colorCode: colorCode,
-            listImages: []
+    $('.color-block').each(function(idx) {
+        const colorName = $(this).find('input.color-name').val();
+        const colorCode = $(this).find('input.color-code').val();
+        const colorImage = $(this).find('img.color-image').data('image') ? [$(this).find('img.color-image').data('image')] : [];
+        if (colorName && colorCode) {
+            results[idx] = {
+                colorName: colorName,
+                colorCode: colorCode,
+                listImages: colorImage
+            }
         }
-        $(this).find('.container-images-color img').each(function(index) {
-            results[idx].listImages.push($(this).data('image'));
-        });
+
     });
     return JSON.stringify(results);
 }
@@ -216,23 +217,21 @@ $('#product-name').on('input', function() {
 
 let handlerForm = function(idProduct) {
     var formData = $('#formProduct').serializeArray();
-
     var newFormData = new FormData();
 
-    getFormColor(newFormData);
+    getFileColorProduct(newFormData);
 
 
     // lấy tất cả file từ form 
     $.each($("#container-images-product input[type='file']"), function(index, file) {
-        newFormData.append('files[]', $('input[type=file]')[index].files[0]);
+        newFormData.append('commonImageFile', $('input[type=file]')[index].files[0]);
     });
     // lấy tất cả file từ form 
 
 
     let categorysSelected = $("#product-category").select2('data');
-    let newcolorsName = getListColorName();
-    let newcolorsCode = getListColorCode();
     let sizes = getListSize();
+
     for (var i in formData) {
         if (formData[i].name == 'detail') {
             formData[i].value = CKEDITOR.instances['product-detail'].getData();
@@ -242,15 +241,16 @@ let handlerForm = function(idProduct) {
         }
         newFormData.append(formData[i].name, formData[i].value);
     }
-    newFormData.append('newcolorsName', newcolorsName);
-    newFormData.append('newcolorsCode', newcolorsCode);
     newFormData.append('blocksSize', sizes);
+
+    const colorBlocks = getColorBlocks();
+    newFormData.append('colorBlocks', colorBlocks);
+
     if (idProduct) {
         const commonImages = getListCurrentImages();
         newFormData.append('commonImages', commonImages);
-        const oldColorBlocks = getListCurrentBlockColor();
-        newFormData.append('oldColorBlocks', oldColorBlocks);
     }
+
     $('.submitForm div').removeClass('d-none');
     $.ajax({
         url: !idProduct ? '/admin/product' : `/admin/product/edit-product/${idProduct}`,
@@ -295,24 +295,11 @@ function readURL(input) {
     }
 }
 
-function getListColorName() {
-    let results = [];
-    $('#container-color-blocks .new-color-name').each(function() {
-        results.push($(this).val());
-    });
-    return JSON.stringify(results);
-}
 
-function getListColorCode() {
-    let results = [];
-    $('#container-color-blocks .new-color-code').each(function() {
-        results.push($(this).val());
-    });
-    return JSON.stringify(results);
-}
 
-function getFormColor(formData) {
-    $('#container-color-blocks .container-images-color').each(function(idx) {
+function getFileColorProduct(formData) {
+    $('.color-block').each(function(idx) {
+        console.log(idx);
         $(this).find("input[type='file']").each(function(index, file) {
             formData.append(`color_image_block_${idx}`, $(this)[0].files[0]);
         });
