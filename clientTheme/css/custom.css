@@ -49,6 +49,7 @@
     margin: 0 18px;
     padding-bottom: 37px;
     text-align: left;
+    cursor: pointer;
 }
 
 .left-primary-menu-list>li>a {
@@ -104,4 +105,43 @@
 
 .show-quick-modal {
     cursor: pointer;
+}
+
+.title-instagram a::after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: "FontAwesome";
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    content: "\f054";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    text-decoration: none;
+    text-transform: none;
+    text-rendering: auto;
+    line-height: 1;
+    color: inherit;
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 5px;
+    vertical-align: middle;
+    transition: margin-left 0.3s ease-out;
+}
+
+.title-instagram a:hover::after {
+    margin-left: 10px;
+}
+
+.title-instagram {
+    font-size: 24px;
+    line-height: 30px;
+    margin-bottom: 25px;
+    letter-spacing: 0.026em;
+    text-transform: lowercase;
 }
