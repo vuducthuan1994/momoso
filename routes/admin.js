@@ -28,7 +28,7 @@ module.exports = function(cache) {
     const posts = require('./admin/posts');
     const categoryPost = require('./admin/category-post');
     const contact = require('./admin/contact');
-
+    const instagram = require('./admin/instagram');
 
     //new 
     router.use('/config/general', configGeneral);
@@ -42,7 +42,7 @@ module.exports = function(cache) {
     router.use('/review', review);
     router.use('/contact', contact);
     router.use('/category-post', categoryPost);
-
+    router.use('/instagram', instagram);
     router.use('/posts', posts);
     router.use('/cache', cacheController);
     router.get('/', isAuthenticated, function(req, res) {

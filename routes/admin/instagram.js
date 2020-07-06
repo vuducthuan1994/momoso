@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const sharp = require('sharp');
-const Category = require('../../models/categoryModel');
+const Instagram = require('../../models/instagramModel');
 var path = require('path');
 const fs = require('fs');
 const formidable = require('formidable');
 var uslug = require('uslug');
-const Product = require('../../models/productModel');
+
 var isAuthenticated = function(req, res, next) {
     if (process.env.ENV == 'DEV') {
         return next();
@@ -19,30 +19,31 @@ var isAuthenticated = function(req, res, next) {
 
 //get all posts
 router.get('/', isAuthenticated, function(req, res) {
-    Category.find({}, function(err, categorys) {
+    Instagram.find({}, function(err, instagrams) {
         if (!err) {
-            res.render('admin/pages/category/index', {
+            res.render('admin/pages/instagram/index', {
                 errors: req.flash('errors'),
                 messages: req.flash('messages'),
-                title: "Quản Lý Loại SP",
-                categorys: categorys.map(category => category.toJSON()),
+                title: "Quản Lý Instaram Post",
+                instagrams: instagrams.map(instagram => instagram.toJSON()),
                 layout: 'admin.hbs'
             });
         }
     }).sort({ updated_date: -1 });
 });
-router.get('/add-category', isAuthenticated, function(req, res) {
-    res.render('admin/pages/category/add-category', {
+
+router.get('/add-instagram', isAuthenticated, function(req, res) {
+    res.render('admin/pages/instagram/add-instagram', {
         errors: req.flash('errors'),
         messages: req.flash('messages'),
-        title: "Thêm Loại SP",
+        title: "Thêm Instagram Post",
         layout: 'admin.hbs'
     });
 });
 
-router.get('/edit-category/:id', isAuthenticated, function(req, res) {
-    const categoryID = req.params.id;
-    Category.findOne({ _id: categoryID }, function(err, category) {
+router.get('/edit-instagram/:id', isAuthenticated, function(req, res) {
+    const instagramID = req.params.id;
+    Category.findOne({ _id: instagramID }, function(err, category) {
         if (err) {
             req.flash('messages', 'Lỗi hệ thống, không sửa được Loại SP !')
             res.redirect('back');
@@ -58,9 +59,9 @@ router.get('/edit-category/:id', isAuthenticated, function(req, res) {
     })
 });
 
-let resizeImages = function(width, oldPath, newPath) {
+let resizeImages = function(oldPath, newPath) {
         sharp(oldPath)
-            .resize(width, 400, {
+            .resize(400, 400, {
                 fit: "cover"
             }).toFile(newPath, function(err) {
 
@@ -68,7 +69,6 @@ let resizeImages = function(width, oldPath, newPath) {
     }
     // create category
 router.post('/', async function(req, res) {
-    let resizeWidth = 370;
     let content = { imageUrl: '#', isShow: 'off' };
 
     const form = formidable({ multiples: true });
@@ -87,12 +87,12 @@ router.post('/', async function(req, res) {
     form.on('file', function(fieldName, file) {
         if (fieldName == 'imageUrl' && file.name !== '') {
             const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            var dir = __basedir + '/public/img/category';
+            var dir = __basedir + '/public/img/instagram';
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, 0744);
             }
-            const img_path = path.join(__basedir, `public/img/category/${imgName}`);
-            content.imageUrl = `/img/category/${imgName}`;
+            const img_path = path.join(__basedir, `public/img/instagram/${imgName}`);
+            content.imageUrl = `/img/instagram/${imgName}`;
             resizeImages(resizeWidth, file.path, img_path);
         }
     });
@@ -101,7 +101,7 @@ router.post('/', async function(req, res) {
         Category.create(content, function(err, data) {
             if (!err) {
                 req.flash('messages', 'Thêm loại SP thành công !')
-                res.redirect('/admin/category');
+                res.redirect('/admin/instagram');
             } else {
                 if (err.code = 11000) {
                     req.flash('errors', err._message);
@@ -115,7 +115,7 @@ router.post('/', async function(req, res) {
 });
 
 //edit category
-router.post('/edit-category/:id', function(req, res) {
+router.post('/edit-instagram/:id', function(req, res) {
 
     let resizeWidth = 370;
     let content = { isShow: 'off' };
@@ -163,33 +163,7 @@ router.post('/edit-category/:id', function(req, res) {
 
 });
 
-let updateCategoryInProduct = function(category) {
-    let id = category._id.toString();
-    Product.updateMany({ "category._id": id }, {
-            $set: {
-                "category.$.name": category.name,
-                "category.$.urlSeo": category.urlSeo,
-                "category.$.imageUrl": category.imageUrl,
-                "category.$.text": category.name,
-                "category.$.isShow": category.isShow,
-                "category.$.typeImage": category.typeImage
-            }
-        }, { new: true },
-        function(err, data) {
-            if (err) {
-                console.log(err);
 
-            } else {
-                console.log("update thành công")
-            }
-        }
-    );
-}
-
-let deleteCategoryInProduct = function(category) {
-    let _id = category._id.toString();
-    Product.updateMany({ "category._id": _id }, { $pull: { 'category': { '_id': _id } } });
-}
 
 router.get('/delete/:id', isAuthenticated, function(req, res) {
     const id = req.params.id;
