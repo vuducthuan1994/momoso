@@ -21,7 +21,7 @@ router.get('/', async function(req, res) {
     let newPosts = await getPosts(20);
     let allCategory = await getAllCategory();
     let instagrams = await getInstagram();
-    console.log(instagrams);
+    console.log(general);
     res.render('client/index', {
         title: "Trang chu",
         layout: 'client.hbs',
