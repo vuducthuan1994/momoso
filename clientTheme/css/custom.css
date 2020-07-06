@@ -143,5 +143,5 @@
     line-height: 30px;
     margin-bottom: 25px;
     letter-spacing: 0.026em;
-    text-transform: lowercase;
+    text-transform: capitalize;
 }

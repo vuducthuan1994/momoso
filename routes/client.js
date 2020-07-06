@@ -6,6 +6,7 @@ const Banners = require('../models/config/bannerModel');
 const Categorys = require('../models/categoryModel');
 const Carts = require('../models/cartModel');
 const Review = require('../models/reviewModel');
+const Instagram = require('../models/instagramModel');
 let router = express.Router();
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
@@ -19,6 +20,8 @@ router.get('/', async function(req, res) {
     let bestSellerProduct = await getBestSellerProduct();
     let newPosts = await getPosts(20);
     let allCategory = await getAllCategory();
+    let instagrams = await getInstagram();
+    console.log(instagrams);
     res.render('client/index', {
         title: "Trang chu",
         layout: 'client.hbs',
@@ -29,7 +32,8 @@ router.get('/', async function(req, res) {
         bestSellerProduct: bestSellerProduct.map(product => product.toJSON()),
         banners: banners.map(banner => banner.toJSON()),
         newPosts: newPosts.map(post => post.toJSON()),
-        allCategory: allCategory.map(item => item.toJSON())
+        allCategory: allCategory.map(item => item.toJSON()),
+        instagrams: instagrams.map(item => item.toJSON())
     });
 });
 
@@ -74,6 +78,27 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         allCategory: allCategory.map(item => item.toJSON())
     });
 });
+
+
+let getInstagram = function() {
+    return new Promise(function(reslove, reject) {
+        const instagrams = cache.get('instagrams');
+        if (instagrams == undefined) {
+            Instagram.find({}, function(err, instagrams) {
+
+                if (!err) {
+                    reslove(instagrams);
+                    cache.set('instagrams', instagrams);
+                } else {
+                    reslove([]);
+                }
+            }).sort({ updated_date: -1 }).limit(20);
+        } else {
+            reslove(instagrams);
+        }
+    });
+}
+
 
 let getMostViewProduct = function() {
     return new Promise(function(reslove, reject) {
