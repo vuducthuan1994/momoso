@@ -164,9 +164,6 @@ router.post('/', isAuthenticated, async function(req, res) {
         }
         if (fieldName == 'category' || fieldName == 'storage' || fieldName == 'blocksSize') {
             content[fieldName] = JSON.parse(fieldValue);
-            if (fieldName == 'category') {
-                updateTotalProductInCategory(JSON.parse(fieldValue));
-            }
         }
 
         if (fieldName == 'colorBlocks') {
@@ -207,9 +204,11 @@ router.post('/', isAuthenticated, async function(req, res) {
         });
 
         content['blocksColor'] = blocksColor;
-        console.log(content);
         Product.create(content, function(err, product) {
             if (!err) {
+                console.log(product.category);
+                updateTotalProductInCategory(product.category);
+
                 res.json({
                     success: true,
                     msg: 'Sản phẩm đã được thêm vào hệ thống !',
@@ -263,6 +262,8 @@ router.post('/edit-product/:id', async function(req, res) {
     let content = {};
     const form = formidable({ multiples: true });
 
+    let newCategorys = [];
+
     form.parse(req);
     form.on('field', function(fieldName, fieldValue) {
         if (fieldName !== 'commonImageFile' && fieldName !== 'colorBlocks' && fieldName !== 'commonImages' && fieldName !== 'blocksSize') {
@@ -271,7 +272,7 @@ router.post('/edit-product/:id', async function(req, res) {
         if (fieldName == 'category' || fieldName == 'storage' || fieldName == 'blocksSize') {
             content[fieldName] = JSON.parse(fieldValue);
             if (fieldName == 'category') {
-                updateTotalProductInCategory(JSON.parse(fieldValue));
+                newCategorys = JSON.parse(fieldValue);
             }
         }
         if (fieldName == 'commonImages') {
@@ -279,7 +280,6 @@ router.post('/edit-product/:id', async function(req, res) {
         }
         if (fieldName == 'colorBlocks') {
             blocksColor = JSON.parse(fieldValue);
-            console.log(blocksColor);
         }
     });
 
@@ -325,6 +325,7 @@ router.post('/edit-product/:id', async function(req, res) {
         content['updated_date'] = new Date();
         content['blocksColor'] = blocksColor;
         Product.findOneAndUpdate({ _id: idProduct }, content, function(err, product) {
+            updateTotalProductInCategory(newCategorys);
             updateTotalProductInCategory(product.category, 'decrement');
             if (!err) {
                 req.res.json({
