@@ -90,7 +90,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
         nav: false,
         dots: false,
         smartSpeed: 1000,
-        margin: 10,
+        margin: 15,
         responsive: {
             0: {
                 items: 2

@@ -145,3 +145,17 @@
     letter-spacing: 0.026em;
     text-transform: capitalize;
 }
+
+.single-banner .instagram-name {
+    line-height: 2.5;
+    cursor: pointer;
+}
+
+.single-banner .instagram-name:hover {
+    color: #1a1a1a;
+}
+
+.categorie-list .active a {
+    color: #1a1a1a;
+    font-weight: bold;
+}

@@ -129,26 +129,22 @@
                                                     <!-- Product Content Start -->
                                                     <div class="thubnail-desc fix">
                                                         <h4 class="product-header"><a
-                                                                href="product-page.html">{{this.name}}</a></h4>
+                                                                href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h4>
                                                         <!-- Product Price Start -->
                                                         <div class="pro-price mb-15">
                                                             <ul class="pro-price-list">
                                                                 <li data-price="{{this.price}}"
                                                                     class="price product-price-vnd">{{this.price}}</li>
                                                                 <li class="mtb-50">
-                                                                    <p>Stop your co-workers in their tracks with the
-                                                                        stunning new 30-inch diagonal HP LP3065 Flat
-                                                                        Panel Monitor. This flagship monitor features
-                                                                        best-in-class performance and presentation
-                                                                        features on a huge w..</p>
+                                                                    <p>{{this.note}}</p>
                                                                 </li>
                                                             </ul>
                                                         </div>
                                                         <!-- Product Price End -->
                                                         <!-- Product Button Actions Start -->
                                                         <div class="product-button-actions">
-                                                            <button class="add-to-cart" data-toggle="tooltip"
-                                                                title="Add to Cart">add to cart</button>
+                                                            <button class="add-to-cart add-product-to-cart " data-toggle="tooltip" data-product="{{objectToString this}}"
+                                                                title="Add to Cart">Thêm vào giỏ hàng</button>
 
                                                             <a data-product="{{objectToString this}}"
                                                                 data-toggle="tooltip" title="Add to Wishlist"
@@ -316,9 +312,10 @@
                         <!-- Categories Module Start -->
                         <div class="categorie-module mb-80">
                             <h3>Thể LOẠI</h3>
+                            
                             <ul class="categorie-list">
                                 {{#each allCategory}}
-                                <li ><a href="{{createURLCategory this.urlSeo}}">{{this.name}} ({{this.totalProduct}})</a></li>
+                                <li class="{{getActiveCategory ../currentURlSeo this.urlSeo}}" ><a href="{{createURLCategory this.urlSeo}}">{{this.name}} ({{this.totalProduct}})</a></li>
                                 {{/each}}
 
                             </ul>

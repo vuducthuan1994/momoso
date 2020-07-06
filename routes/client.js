@@ -75,7 +75,8 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         pageSize: pageSize,
         sortType: sortType,
         mostViewProducts: mostViewProducts,
-        allCategory: allCategory.map(item => item.toJSON())
+        allCategory: allCategory.map(item => item.toJSON()),
+        currentURlSeo: urlSeo
     });
 });
 

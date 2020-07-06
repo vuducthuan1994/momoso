@@ -208,6 +208,13 @@ module.exports = {
             return listImages.length > 1 ? process.env.R_BASE_IMAGE + listImages[1] : listImages.length > 0 ? process.env.R_BASE_IMAGE + listImages[0] : '/img/new-products/1_2.jpg';
         }
     },
+    getActiveCategory(value1, value2) {
+        if (value1 == value2) {
+            return 'active'
+        }
+        return '';
+
+    },
     fullPathImage(url) {
         return process.env.R_BASE_IMAGE + url;
     },
