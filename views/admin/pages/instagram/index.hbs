@@ -69,11 +69,11 @@
                                         {{#each instagrams}}
                                         <tr>
                                             <td class="checkbox-column text-center"> {{@index}}</td>
-                                            <td class="text-center">
+                                            <td class="text-center title-custom">
                                                 {{this.name}}
                                             </td>
                                             <td class="text-center"> {{this.url}} </td>
-                                            <td class="text-center title-custom">{{this.image}}</td>
+                                            <td class="text-center "><img src="{{this.image}}"> </td>
                                             <td>
                                                 <div>
                                                     <span class="badge badge-secondary">Ngày cập nhật</span> <br> <span
@@ -177,7 +177,7 @@
 
         $('#style-3 tbody').on('click', '.btn-delete-instagram', function () {
             var id = $(this).data("instagramid");
-            $('#delete-modal').attr('href', `/admin/category/delete/${id}`);
+            $('#delete-modal').attr('href', `/admin/instagram/delete/${id}`);
         });
 
     </script>

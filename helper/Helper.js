@@ -281,6 +281,13 @@ module.exports = {
             return (`/admin/category-post/edit-category/${id}`)
         }
     },
+    buildActionInstagram(id) {
+        if (id == null || id == undefined) {
+            return '/admin/instagram';
+        } else {
+            return (`/admin/instagram/edit-instagram/${id}`)
+        }
+    },
     getDescriptionArtiles(description) {
         var result = description.substring(0, 85) + '...';
         return result;

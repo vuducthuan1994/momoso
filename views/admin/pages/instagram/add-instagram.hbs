@@ -26,29 +26,29 @@
                                 {{>admin/flash-message/success}}
                                 {{/each}}
                                 <div class="row">
-                                    <div class="col-lg-10 col-10 col-md-10 mx-auto">
+                                    <div class="col-lg-12 col-12 col-md-12 mx-auto">
                                         <form enctype="multipart/form-data"
-                                            action="{{buildActionCategory category._id}}" method="post">
+                                            action="{{buildActionInstagram instagram._id}}" method="post">
                                             <div class="form-group">
                                                 <label>Tên sản phẩm (dưới ảnh Instagram)</label>
-                                                <input id="category-name" value="{{category.name}}" type="text"
-                                                    name="name" placeholder="Enter unique name of product..."
+                                                <input value="{{instagram.name}}" type="text" name="name"
+                                                    placeholder="Enter unique name of product..."
                                                     class="form-control col-md-6" required="">
                                             </div>
                                             <div class="form-group">
                                                 <label>URL</label>
-                                                <input id="category-url-seo" value="{{category.urlSeo}}" type="text"
-                                                    name="urlSeo" placeholder="Enter  url Instagram...."
-                                                    class="form-control col-md-6" required="">
+                                                <input value="{{instagram.url}}" type="text" name="url"
+                                                    placeholder="Enter  url Instagram...." class="form-control col-md-6"
+                                                    required="">
                                             </div>
 
                                             <div class="form-group ">
                                                 <label>Ảnh banner</label>
-                                                <input accept="image/jpeg,image/gif,image/png,image/x-eps"
-                                                    name="imageUrl" type="file" class="form-control-file">
+                                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" name="image"
+                                                    type="file" class="form-control-file">
                                                 <div class="row col-md-6 mt-1">
-                                                    <img src="{{category.imageUrl}}" class="imageUrl"
-                                                        alt=" Chưa có ảnh !" class="img-fluid" src="#">
+                                                    <img src="{{instagram.image}}" class="imageUrl" alt=" Chưa có ảnh !"
+                                                        class="img-fluid" src="#">
                                                 </div>
                                             </div>
                                             {{#if instagram._id}}

@@ -43,17 +43,17 @@ router.get('/add-instagram', isAuthenticated, function(req, res) {
 
 router.get('/edit-instagram/:id', isAuthenticated, function(req, res) {
     const instagramID = req.params.id;
-    Category.findOne({ _id: instagramID }, function(err, category) {
+    Instagram.findOne({ _id: instagramID }, function(err, instagram) {
         if (err) {
-            req.flash('messages', 'Lỗi hệ thống, không sửa được Loại SP !')
+            req.flash('messages', 'Lỗi hệ thống, không sửa được instagram post!')
             res.redirect('back');
         } else {
-            res.render('admin/pages/category/add-category', {
+            res.render('admin/pages/instagram/add-instagram', {
                 errors: req.flash('errors'),
                 messages: req.flash('messages'),
-                title: "Sửa Thông Tin Kho Hàng",
+                title: "Sửa Instagram Post",
                 layout: 'admin.hbs',
-                category: category ? category.toJSON() : null
+                instagram: instagram ? instagram.toJSON() : null
             });
         }
     })
@@ -67,46 +67,40 @@ let resizeImages = function(oldPath, newPath) {
 
             });
     }
-    // create category
+    // create instagram
 router.post('/', async function(req, res) {
-    let content = { imageUrl: '#', isShow: 'off' };
+    let content = {};
 
     const form = formidable({ multiples: true });
     form.parse(req);
 
     form.on('field', function(fieldName, fieldValue) {
         content[fieldName] = fieldValue;
-        if (fieldName == 'typeImage') {
-            if (fieldValue !== 'small') {
-                resizeWidth = 770;
-            }
-        }
-
     });
 
     form.on('file', function(fieldName, file) {
-        if (fieldName == 'imageUrl' && file.name !== '') {
-            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
+        if (fieldName == 'image' && file.name !== '') {
+            const imgName = uslug((new Date().getTime() + '-' + (content['name'] ? (slugFromTitle(content['name']) + '.jpg') : file.name)), { allowedChars: '.-', lower: true });
             var dir = __basedir + '/public/img/instagram';
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, 0744);
             }
             const img_path = path.join(__basedir, `public/img/instagram/${imgName}`);
-            content.imageUrl = `/img/instagram/${imgName}`;
-            resizeImages(resizeWidth, file.path, img_path);
+            content.image = `/img/instagram/${imgName}`;
+            resizeImages(file.path, img_path);
         }
     });
 
     form.on('end', function() {
-        Category.create(content, function(err, data) {
+        Instagram.create(content, function(err, data) {
             if (!err) {
-                req.flash('messages', 'Thêm loại SP thành công !')
+                req.flash('messages', 'Thêm instagram post thành công  !')
                 res.redirect('/admin/instagram');
             } else {
                 if (err.code = 11000) {
                     req.flash('errors', err._message);
                 } else {
-                    req.flash('errors', 'Không thêm được loại sản phẩm')
+                    req.flash('errors', 'Không thêm được post instagram !')
                 }
                 res.redirect('back');
             }
@@ -117,44 +111,36 @@ router.post('/', async function(req, res) {
 //edit category
 router.post('/edit-instagram/:id', function(req, res) {
 
-    let resizeWidth = 370;
-    let content = { isShow: 'off' };
-    const idBanner = req.params.id;
+    let content = {};
+    const idInstagram = req.params.id;
     req.body.updated_date = new Date();
     const form = formidable({ multiples: true });
     form.parse(req);
 
     form.on('field', function(fieldName, fieldValue) {
         content[fieldName] = fieldValue;
-        if (fieldName == 'typeImage') {
-            if (fieldValue !== 'small') {
-                resizeWidth = 770;
-            }
-        }
     });
 
     form.on('file', function(fieldName, file) {
-        if (fieldName == 'imageUrl' && file.name !== '') {
-            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
-            var dir = __basedir + '/public/img/category';
+        if (fieldName == 'image' && file.name !== '') {
+            const imgName = uslug((new Date().getTime() + '-' + (content['name'] ? (slugFromTitle(content['name']) + '.jpg') : file.name)), { allowedChars: '.', lower: true });
+            var dir = __basedir + '/public/img/instagram';
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, 0744);
             }
-            const img_path = path.join(__basedir, `public/img/category/${imgName}`);
-            content['imageUrl'] = `/img/category/${imgName}`;
-            resizeImages(resizeWidth, file.path, img_path);
+            const img_path = path.join(__basedir, `public/img/instagram/${imgName}`);
+            content['image'] = `/img/instagram/${imgName}`;
+            resizeImages(file.path, img_path);
         }
     });
 
     form.on('end', function() {
-
-        Category.findOneAndUpdate({ _id: idBanner }, content, { new: true }, function(err, category) {
-            updateCategoryInProduct(category);
+        Instagram.findOneAndUpdate({ _id: idInstagram }, content, function(err, instagram) {
             if (!err) {
-                req.flash('messages', 'Sửa kho hàng thành công !');
+                req.flash('messages', 'Sửa Instagram Post thành công !');
                 res.redirect('back');
             } else {
-                req.flash('errors', 'Không sửa được Kho hàng');
+                req.flash('errors', 'Không sửa được Instagram Post !');
                 res.redirect('back');
             }
         });
@@ -163,21 +149,48 @@ router.post('/edit-instagram/:id', function(req, res) {
 
 });
 
+var slugFromTitle = function(str) {
 
+    // Chuyển hết sang chữ thường
+    str = str.toLowerCase();
+
+    // xóa dấu
+    str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+    str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+    str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+    str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+    str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+    str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+    str = str.replace(/(đ)/g, 'd');
+
+    // Xóa ký tự đặc biệt
+    str = str.replace(/([^0-9a-z-\s])/g, '');
+
+    // Xóa khoảng trắng thay bằng ký tự -
+    str = str.replace(/(\s+)/g, '-');
+
+    // xóa phần dự - ở đầu
+    str = str.replace(/^-+/g, '');
+
+    // xóa phần dư - ở cuối
+    str = str.replace(/-+$/g, '');
+
+    // return
+    return str;
+};
 
 router.get('/delete/:id', isAuthenticated, function(req, res) {
     const id = req.params.id;
     const messages = [];
-    Category.findOneAndDelete({
+    Instagram.findOneAndDelete({
         _id: id,
-    }, function(err, category) {
+    }, function(err, instagram) {
         if (!err) {
-            deleteCategoryInProduct(category);
-            messages.push('Xóa Thể loại SP thành công')
+            messages.push(`Xóa Instagram post ${instagram.name} thành công`)
             req.flash('messages', messages)
             res.redirect('back');
         } else {
-            messages.push('Không xóa được thể loại sản phẩm')
+            messages.push('Lỗi hệ thống , không xóa được Instagram Post')
             req.flash('messages', messages)
             res.redirect('back');
         }
