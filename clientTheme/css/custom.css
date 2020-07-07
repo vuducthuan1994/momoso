@@ -155,7 +155,15 @@
     color: #1a1a1a;
 }
 
-.categorie-list .active a {
+.categorie-list a {
+    cursor: pointer;
+}
+
+.categorie-list.left li.active a {
     color: #1a1a1a;
     font-weight: bold;
+}
+
+#grid-view .product-item {
+    max-height: 448px;
 }

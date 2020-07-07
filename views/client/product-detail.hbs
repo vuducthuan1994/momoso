@@ -45,8 +45,8 @@
 
                         <div class="thumb-menu owl-carousel">
                             {{#each product.listImages}}
-                            <a href="#" data-image="{{this}}" data-zoom-image={{this}}>
-                                <img src={{this}} alt="product-image" />
+                            <a href="#" data-image="{{fullPathImage this}}" data-zoom-image={{fullPathImage this}}>
+                                <img src={{fullPathImage this}} alt="product-image" />
                             </a>
                             {{/each}}
                         </div>

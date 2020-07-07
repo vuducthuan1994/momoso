@@ -120,6 +120,7 @@ function getProductById(id) {
                 $('#modal-product-point').text(data.data.point);
                 let htmlOWL = '';
                 data.data.listImages.forEach((value, index) => {
+                    value = 'https://momostudio.vn' + value;
                     let imageItem = `<div id="thumb${index+1}" class="tab-pane ${index == 0 ? 'fade in active' : 'fade'}">
                 <img src="${value}" alt="product-thumbnail" /> </div>`
 
@@ -128,7 +129,28 @@ function getProductById(id) {
                     $('#modal-product-images').append(imageItem);
                     htmlOWL += owl_item;
                 });
-                $('.thumb-menu').trigger('replace.owl.carousel', htmlOWL).trigger('refresh.owl.carousel');
+
+                $('#thumb-menu-owl').owlCarousel({
+                    loop: false,
+                    navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+                    margin: 15,
+                    smartSpeed: 1000,
+                    nav: true,
+                    dots: false,
+                    responsive: {
+                        0: {
+                            items: 4
+                        },
+                        600: {
+                            items: 4
+                        },
+                        1000: {
+                            items: 4
+                        }
+                    }
+                })
+
+                $('#thumb-menu-owl').trigger('replace.owl.carousel', htmlOWL).trigger('refresh.owl.carousel');
                 getPriceVND();
                 $('#myModal').modal('show');
             } else {

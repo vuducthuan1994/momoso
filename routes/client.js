@@ -57,7 +57,6 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     const currentPage = req.query.page ? JSON.parse(req.query.page) : 1;
 
     let postsByCategory = await getPostByCategory(urlSeo, pageSize, currentPage, sortType);
-
     let categoryDetail = await getCategoryDetail(urlSeo);
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
@@ -67,7 +66,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         title: "Detail the loai san pham",
         layout: 'client.hbs',
         general: general,
-        categoryDetail: categoryDetail.toJSON(),
+        categoryDetail: categoryDetail,
         cart: cart ? cart.toJSON() : null,
         pageInfo: postsByCategory[0].pageInfo[0],
         products: postsByCategory[0].edges,
@@ -169,9 +168,13 @@ let getPostByCategory = function(urlSeo, pageSize, currentPage, sortBy) {
 
     return new Promise(function(reslove, reject) {
         let skip = (currentPage - 1) * pageSize;
+        let query = { $in: [urlSeo] };
+        if (urlSeo == 'all') {
+            query = { $ne: null };
+        }
         Products.aggregate(
             [{
-                    $match: { "category": { $elemMatch: { "urlSeo": { $in: [urlSeo] } } } }
+                    $match: { "category": { $elemMatch: { "urlSeo": query } } }
                 },
                 {
                     $project: {
@@ -298,13 +301,19 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
 });
 
 let getCategoryDetail = function(urlCategory) {
+    if (urlCategory == 'all') {
+        return {
+            name: 'Tất cả sản phẩm',
+            note: ''
+        }
+    }
     return new Promise(function(reslove, reject) {
         let categoryDetail = cache.get('categoryDetail' + urlCategory);
         if (categoryDetail == undefined) {
             Categorys.findOne({ urlSeo: urlCategory }, function(err, category) {
-                if (!err) {
-                    cache.set('categoryDetail' + urlCategory, category);
-                    reslove(category);
+                if (!err && category) {
+                    cache.set('categoryDetail' + urlCategory, category.toJSON());
+                    reslove(category.toJSON());
                 }
             })
         } else {
