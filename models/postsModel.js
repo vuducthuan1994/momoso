@@ -32,6 +32,10 @@ var PostsSchema = new Schema({
         trim: true,
         default: null
     },
+    category: {
+        type: Array,
+        default: []
+    },
     user: {
         type: Object
     },

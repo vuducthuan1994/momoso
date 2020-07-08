@@ -39,12 +39,12 @@ router.get('/add-category', isAuthenticated, function(req, res) {
 
 router.get('/edit-category/:id', isAuthenticated, function(req, res) {
     const categoryID = req.params.id;
-    Category.findOne({ _id: categoryID }, function(err, category) {
+    CategoryPost.findOne({ _id: categoryID }, function(err, category) {
         if (err) {
             req.flash('messages', 'Lỗi hệ thống, không sửa được Loại SP !')
             res.redirect('back');
         } else {
-            res.render('admin/pages/category/add-category', {
+            res.render('admin/pages/categoryPost/add-category', {
                 errors: req.flash('errors'),
                 messages: req.flash('messages'),
                 title: "Sửa Thông Tin Category Post",
@@ -71,7 +71,7 @@ router.post('/', isAuthenticated, function(req, res) {
 });
 
 //edit category
-router.post('/edit-category-post/:id', function(req, res) {
+router.post('/edit-category/:id', function(req, res) {
     const idCategory = req.params.id;
     CategoryPost.findOneAndUpdate({ _id: idCategory }, req.body, { new: true }, function(err, category) {
         if (!err) {
@@ -91,6 +91,7 @@ let updateCategoryInPosts = function(category) {
             $set: {
                 "category.$.name": category.name,
                 "category.$.urlSeo": category.urlSeo,
+                "category.$.text": category.name
             }
         }, { new: true },
         function(err, data) {

@@ -1,8 +1,10 @@
 <!--  BEGIN CONTENT AREA  -->
 
 <script src="/plugins/ckeditor/ckeditor.js"></script>
-
-{{!-- <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script> --}}
+<script src="/plugins/validate/jquery.validate.min.js"></script>
+<script src="/plugins/select2/select2.min.js"></script>
+<link href="/plugins/loaders/custom-loader.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/plugins/select2/select2.min.css">
 <style>
     .banner-post,
     .image-upload {
@@ -37,8 +39,7 @@
                                 {{/each}}
                                 <div class="row">
                                     <div class="col-lg-10 col-10 col-md-10 mx-auto">
-                                        <form enctype="multipart/form-data" action="{{buildActionPosts post._id}}"
-                                            method="post">
+                                        <form id="formPost" enctype="multipart/form-data" method="post">
                                             <div class="form-group">
                                                 <label>Tiêu đề bài viết</label>
                                                 <input value="{{post.title}}" type="text" name="title"
@@ -59,10 +60,10 @@
                                                 </div>
                                             </div>
 
-                                            <div id="app1">
+                                            {{!-- <div id="app1">
                                                 <test :myprop="text"></test>
                                                 <button @click="text = 'Another text'">Change text</button>
-                                            </div>
+                                            </div> --}}
 
 
                                             <div class="form-group ">
@@ -75,30 +76,51 @@
                                             </div>
 
                                             <div class="form-group ">
+                                                <label> LOẠI BÀI VIẾT</label>
+                                                <select id="post-category" data-selected="{{categorySelected}}"
+                                                    required="" data-categorys="{{categorys}}" name="category"
+                                                    class="form-control col-md-6">
+                                                </select>
+
+                                            </div>
+
+                                            <div class="form-group ">
                                                 <label>Ảnh đại diện</label>
                                                 <input accept="image/jpeg,image/gif,image/png,image/x-eps"
-                                                    name="banner_image" type="file" class="form-control-file">
+                                                    name="banner_image" type="file" class="form-control-file col-md-3">
                                                 <div class="row col-md-6 mt-1">
-                                                    <img src="{{post.banner_image}}" class="banner-post"
-                                                        alt=" Chưa có ảnh !" class="img-fluid" src="#">
+                                                    <img data-thumb = "{{post.thumb_image}}" data-banner="{{post.banner_image}}" src="{{post.thumb_image}}"
+                                                        class="banner-post" alt=" Chưa có ảnh !" class="img-fluid"
+                                                        src="#">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Nội dung </label>
-                                                <textarea name="body" id="editor1" class="ckeditor" required=""
+                                                <textarea name="body" id="post-content" class="ckeditor" required=""
                                                     value="hahaha" placeholder="Enter short description of post ...">
                                             {{{post.body}}}
                                         </textarea>
                                             </div>
-                                            {{#if post._id}}
-                                            <input type="submit" class="mt-4 btn btn-primary" value="Sửa bài">
 
-                                            {{else}}
-                                            <input type="submit" class="mt-4 btn btn-primary" value="Đăng bài">
-
-                                            {{/if}}
                                         </form>
+
+                                        {{#if post._id}}
+                                        <button data-postid="{{post._id}}"
+                                            class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
+                                            <div
+                                                class=" d-none spinner-grow text-white mr-2 align-self-center loader-sm">
+                                            </div>
+                                            Update
+                                        </button>
+                                        {{else}}
+                                        <button class="submitForm btn btn-secondary btn-lg mb-3 mr-3">
+                                            <div
+                                                class="d-none spinner-grow text-white mr-2 align-self-center loader-sm">
+                                            </div>
+                                            Create
+                                        </button>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +137,7 @@
 
 </div>
 
-<script type="text/javascript">
+{{!-- <script type="text/javascript">
     $(document).ready(function () {
 
         new Vue({
@@ -129,9 +151,9 @@
         });
 
     });
-</script>
+</script> --}}
 
-
+<script src="/admin/post.js"></script>
 
 
 <!--  END CONTENT AREA  -->

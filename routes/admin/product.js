@@ -206,7 +206,6 @@ router.post('/', isAuthenticated, async function(req, res) {
         content['blocksColor'] = blocksColor;
         Product.create(content, function(err, product) {
             if (!err) {
-                console.log(product.category);
                 updateTotalProductInCategory(product.category);
 
                 res.json({
@@ -367,4 +366,4 @@ router.get('/delete/:id', isAuthenticated, function(req, res) {
     });
 });
 
-module.exports = router;
+module.exports = router;;
