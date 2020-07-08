@@ -157,7 +157,7 @@ router.post('/removeFromWishList', commonLimiter, function(req, res) {
 
 router.get('/product/:id', function(req, res) {
     const idProduct = req.params.id;
-    Products.findOne({ _id: idProduct }, { category: 0, note: 0, detail: 0, created_date: 0, updated_date: 0, type: 0 }, function(err, product) {
+    Products.findOne({ _id: idProduct }, { view: 0, category: 0, note: 0, detail: 0, created_date: 0, updated_date: 0, type: 0 }, function(err, product) {
         if (!err) {
             console.log(product);
             res.json({

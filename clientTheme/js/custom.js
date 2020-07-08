@@ -117,7 +117,8 @@ function getProductById(id) {
                 $('#modal-product-total-review').text(data.data.totalReview);
                 $('#modal-product-price').attr('data-price', data.data.price);
                 $('#modal-product-code').text(data.data.code);
-                $('#modal-product-point').text(data.data.point);
+                // $('#modal-product-point').text(data.data.point);
+                $('#modal-product-status').text(data.data.quantity > 0 ? 'Sẵn hàng' : 'Hàng Order');
                 let htmlOWL = '';
                 data.data.listImages.forEach((value, index) => {
                     value = 'https://momostudio.vn' + value;
