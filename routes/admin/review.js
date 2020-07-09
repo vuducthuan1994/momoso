@@ -29,7 +29,7 @@ router.get('/', isAuthenticated, function(req, res) {
 
 let updateTotalReviewInProduct = function(review, value) {
     Product.findOneAndUpdate({ _id: review.productID }, { $inc: { totalReview: value } }, function(err, product) {
-        if (!err) {
+        if (!err && product) {
             if (product.rate) {
                 let point = ((product.rate * product.totalReview) + (value * (review.rating))) / (product.totalReview + value);
                 Product.findOneAndUpdate({ _id: review.productID }, { rate: point }, function(err, review) {
@@ -38,7 +38,6 @@ let updateTotalReviewInProduct = function(review, value) {
                     }
                 });
             }
-
         }
     });
 }
