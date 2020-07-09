@@ -168,14 +168,12 @@ router.post('/', isAuthenticated, async function(req, res) {
 
         if (fieldName == 'colorBlocks') {
             blocksColor = JSON.parse(fieldValue);
-            console.log(blocksColor);
         }
     });
 
     form.on('file', async function(fieldName, file) {
         if (fieldName == 'commonImageFile' && file.name !== '') {
-
-            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
+            const imgName = uslug((new Date().getTime() + '-' + (content['name'] ? (slugFromTitle(content['name']) + '.jpg') : file.name)), { allowedChars: '.-', lower: true });
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
 
             listCommonImage.push(`/img/product/${imgName}`);
@@ -189,7 +187,7 @@ router.post('/', isAuthenticated, async function(req, res) {
 
         }
         if (file.name !== '' && fieldName.includes('color_image_block_')) {
-            const imgName = uslug((new Date().getTime() + '-' + file.name), { allowedChars: '.', lower: true });
+            const imgName = uslug((new Date().getTime() + '-' + (content['name'] ? (slugFromTitle(content['name']) + '.jpg') : file.name)), { allowedChars: '.-', lower: true });
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
 
             const indexColor = parseInt(fieldName.slice(fieldName.length - 1));
@@ -217,11 +215,13 @@ router.post('/', isAuthenticated, async function(req, res) {
                 let msg = null;
                 if (err.code = 11000) {
                     msg = err.errmsg;
-                } else {}
+                } else {
+                    msg = JSON.stringify(err);
+                }
                 res.json({
                     success: false,
                     msg: msg,
-                    data: product
+                    data: JSON.stringify(err)
                 });
             }
         });
@@ -335,11 +335,13 @@ router.post('/edit-product/:id', async function(req, res) {
                 let msg = null;
                 if (err.code = 11000) {
                     msg = err.errmsg;
-                } else {}
+                } else {
+                    msg = JSON.stringify(err);
+                }
                 res.json({
                     success: false,
                     msg: msg,
-                    data: product
+                    data: JSON.stringify(err)
                 });
             }
         });

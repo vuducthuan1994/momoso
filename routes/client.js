@@ -21,9 +21,9 @@ router.get('/', async function(req, res) {
     let newPosts = await getPosts(20);
     let allCategory = await getAllCategory();
     let instagrams = await getInstagram();
-    console.log(general);
     res.render('client/index', {
-        title: "Trang chu",
+        title: general.title_home,
+        imagePreview: "https://momostudio.vn/img/home_image.png",
         layout: 'client.hbs',
         general: general,
         newProducts: newProducts,
@@ -65,7 +65,8 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     let mostViewProducts = await getMostViewProduct();
     let allCategory = await getAllCategory();
     res.render('client/category-product', {
-        title: "Detail the loai san pham",
+        title: general.title_home + ' - ' + categoryDetail.name,
+        imagePreview: process.env.R_BASE_IMAGE + categoryDetail.imageUrl,
         layout: 'client.hbs',
         general: general,
         categoryDetail: categoryDetail,
@@ -242,7 +243,7 @@ router.get(process.env.BLOG, async function(req, res) {
     let cart = await getCart(req.sessionID);
     let posts = await getPosts(1000, 0);
     res.render('client/blog', {
-        title: "Đặt hàng ngay",
+        title: general.title_home + " - Đặt hàng ngay",
         layout: 'client.hbs',
         general: general,
         cart: cart ? cart.toJSON() : null,
@@ -254,7 +255,7 @@ router.get(process.env.CONTACT, async function(req, res) {
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
     res.render('client/contact', {
-        title: "Liên hệ ngay ",
+        title: general.title_home + " - Liên hệ ngay ",
         layout: 'client.hbs',
         general: general,
         cart: cart ? cart.toJSON() : null
@@ -270,6 +271,7 @@ router.get(process.env.CART, async function(req, res) {
         layout: 'client.hbs',
         general: general,
         about_us: about_us,
+        imagePreview: process.env.R_BASE_IMAGE + '/img/about-us.jpg',
         cart: cart ? cart.toJSON() : null
     });
 });
@@ -278,7 +280,7 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
     res.render('client/favor-list', {
-        title: "favor-list",
+        title: general.title_home + " - Danh sách ưa thích ",
         layout: 'client.hbs',
         general: general,
         cart: cart ? cart.toJSON() : null
@@ -295,8 +297,9 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     let cart = await getCart(req.sessionID);
     if (product !== null) {
         res.render('client/product-detail', {
-            title: "PRODUCT",
+            title: general.title_home + ' - ' + product.name,
             layout: 'client.hbs',
+            imagePreview: process.env.R_BASE_IMAGE + product.listImages[0],
             product: product.toJSON(),
             general: general,
             productsRelated: productsRelated,
