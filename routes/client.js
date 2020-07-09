@@ -55,8 +55,10 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     const pageSize = req.query.pageSize ? JSON.parse(req.query.pageSize) : 9;
     const sortType = req.query.sortType ? JSON.parse(req.query.sortType) : 0;
     const currentPage = req.query.page ? JSON.parse(req.query.page) : 1;
+    const minPrice = req.query.minPrice ? JSON.parse(req.query.minPrice) : 100000;
+    const maxPrice = req.query.maxPrice ? JSON.parse(req.query.maxPrice) : 3000000;
 
-    let postsByCategory = await getPostByCategory(urlSeo, pageSize, currentPage, sortType);
+    let postsByCategory = await getPostByCategory(urlSeo, pageSize, currentPage, sortType, minPrice, maxPrice, );
     let categoryDetail = await getCategoryDetail(urlSeo);
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
@@ -75,7 +77,9 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         sortType: sortType,
         mostViewProducts: mostViewProducts,
         allCategory: allCategory.map(item => item.toJSON()),
-        currentURlSeo: urlSeo
+        currentURlSeo: urlSeo,
+        minPrice: minPrice,
+        maxPrice: maxPrice
     });
 });
 
@@ -106,9 +110,7 @@ let getMostViewProduct = function() {
         if (mostViewProducts == undefined) {
             let results = [];
             Products.find({}, function(err, products) {
-
                 var totalProduct = Math.floor(products.length / 3) * 3;
-                console.log(totalProduct);
                 for (let index = 0; index < totalProduct; index = index + 3) {
                     results.push({
                         one: products[index].toJSON(),
@@ -130,7 +132,7 @@ let getMostViewProduct = function() {
     });
 }
 
-let getPostByCategory = function(urlSeo, pageSize, currentPage, sortBy) {
+let getPostByCategory = function(urlSeo, pageSize, currentPage, sortBy, minPrice, maxPrice) {
 
     let sort = {};
     switch (sortBy) {
@@ -174,7 +176,13 @@ let getPostByCategory = function(urlSeo, pageSize, currentPage, sortBy) {
         }
         Products.aggregate(
             [{
-                    $match: { "category": { $elemMatch: { "urlSeo": query } } }
+                    $match: {
+                        "category": { $elemMatch: { urlSeo: query } },
+                        "price": {
+                            $gte: minPrice,
+                            $lte: maxPrice
+                        }
+                    }
                 },
                 {
                     $project: {

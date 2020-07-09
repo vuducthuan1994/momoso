@@ -1,169 +1,181 @@
-.col-xs-12 .about-us p:not(:last-child) {
-    margin-bottom: 20px;
-}
-
-.container-list-color ul {
-    display: flex;
-}
-
-.container-list-color ul li {
-    margin-right: 10px;
-    transition: all .5s cubic-bezier(.59, .08, .385, 1);
-    -webkit-transition: all .5s cubic-bezier(.59, .08, .385, 1);
-    -ms-transition: all .5s cubic-bezier(.59, .08, .385, 1);
-}
-
-.container-list-color ul li.active {
-    border: 2px solid #1b95e0;
-}
-
-.container-list-color ul li img {
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
-    padding: 1px;
-}
-
-.tab-content #detail p {
-    margin-bottom: 10px;
-}
-
-.container-slider {
-    display: flex;
-}
-
-.content-left {
-    width: 14%;
-    padding-right: 15px;
-}
-
-.content-right {
-    width: 86%;
-}
-
-.left-primary-menu-list>li>a {
-    font-size: 16px;
-    display: block;
-    color: #505050;
-    text-transform: capitalize;
-    margin: 0 18px;
-    padding-bottom: 37px;
-    text-align: left;
-    cursor: pointer;
-}
-
-.left-primary-menu-list>li>a {
-    margin: 0;
-    padding: 14px 20px 14px 0px;
-}
-
-#review .review .block-title {
-    font-size: 18px;
-    text-transform: capitalize;
-    font-weight: 700;
-    text-align: center;
-    margin-top: 0;
-    color: #fff;
-    background: 0 0;
-    padding: 0;
-    padding-bottom: 0px;
-    position: relative;
-    height: 43px;
-    border: none;
-    line-height: 43px;
-}
-
-#review .review .block-title strong {
-    position: relative;
-    display: inline-block;
-    margin: 0;
-    font-size: 20px !important;
-    background: #fff;
-    padding: 0 20px;
-    z-index: 2;
-    color: #252531;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-#review .review .block-title:after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 410px;
-    background: #1a1a1a;
-    height: 2px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    bottom: 23px;
-}
-
-.review .review-item {
-    padding: 30px 0;
-}
-
-.show-quick-modal {
-    cursor: pointer;
-}
-
-.title-instagram a::after {
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    font-family: "FontAwesome";
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    content: "\f054";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    text-decoration: none;
-    text-transform: none;
-    text-rendering: auto;
-    line-height: 1;
-    color: inherit;
-    display: inline-block;
-    font-size: 12px;
-    margin-left: 5px;
-    vertical-align: middle;
-    transition: margin-left 0.3s ease-out;
-}
-
-.title-instagram a:hover::after {
-    margin-left: 10px;
-}
-
-.title-instagram {
-    font-size: 24px;
-    line-height: 30px;
-    margin-bottom: 25px;
-    letter-spacing: 0.026em;
-    text-transform: capitalize;
-}
-
-.single-banner .instagram-name {
-    line-height: 2.5;
-    cursor: pointer;
-}
-
-.single-banner .instagram-name:hover {
-    color: #1a1a1a;
-}
-
-.categorie-list a {
-    cursor: pointer;
-}
-
-.categorie-list.left li.active a {
-    color: #1a1a1a;
-    font-weight: bold;
-}
-
-#grid-view .product-item {
-    max-height: 448px;
-}
+    .col-xs-12 .about-us p:not(:last-child) {
+        margin-bottom: 20px;
+    }
+    
+    .container-list-color ul {
+        display: flex;
+    }
+    
+    .container-list-color ul li {
+        margin-right: 10px;
+        transition: all .5s cubic-bezier(.59, .08, .385, 1);
+        -webkit-transition: all .5s cubic-bezier(.59, .08, .385, 1);
+        -ms-transition: all .5s cubic-bezier(.59, .08, .385, 1);
+    }
+    
+    .container-list-color ul li.active {
+        border: 2px solid #1b95e0;
+    }
+    
+    .container-list-color ul li img {
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        padding: 1px;
+    }
+    
+    .tab-content #detail p {
+        margin-bottom: 10px;
+    }
+    
+    .container-slider {
+        display: flex;
+    }
+    
+    .content-left {
+        width: 14%;
+        padding-right: 15px;
+    }
+    
+    .content-right {
+        width: 86%;
+    }
+    
+    .left-primary-menu-list>li>a {
+        font-size: 16px;
+        display: block;
+        color: #505050;
+        text-transform: capitalize;
+        margin: 0 18px;
+        padding-bottom: 37px;
+        text-align: left;
+        cursor: pointer;
+    }
+    
+    .left-primary-menu-list>li>a {
+        margin: 0;
+        padding: 14px 20px 14px 0px;
+    }
+    
+    #review .review .block-title {
+        font-size: 18px;
+        text-transform: capitalize;
+        font-weight: 700;
+        text-align: center;
+        margin-top: 0;
+        color: #fff;
+        background: 0 0;
+        padding: 0;
+        padding-bottom: 0px;
+        position: relative;
+        height: 43px;
+        border: none;
+        line-height: 43px;
+    }
+    
+    #review .review .block-title strong {
+        position: relative;
+        display: inline-block;
+        margin: 0;
+        font-size: 20px !important;
+        background: #fff;
+        padding: 0 20px;
+        z-index: 2;
+        color: #252531;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    #review .review .block-title:after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 410px;
+        background: #1a1a1a;
+        height: 2px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        bottom: 23px;
+    }
+    
+    .review .review-item {
+        padding: 30px 0;
+    }
+    
+    .show-quick-modal {
+        cursor: pointer;
+    }
+    
+    .title-instagram a::after {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        font-family: "FontAwesome";
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        content: "\f054";
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        text-decoration: none;
+        text-transform: none;
+        text-rendering: auto;
+        line-height: 1;
+        color: inherit;
+        display: inline-block;
+        font-size: 12px;
+        margin-left: 5px;
+        vertical-align: middle;
+        transition: margin-left 0.3s ease-out;
+    }
+    
+    .title-instagram a:hover::after {
+        margin-left: 10px;
+    }
+    
+    .title-instagram {
+        font-size: 24px;
+        line-height: 30px;
+        margin-bottom: 25px;
+        letter-spacing: 0.026em;
+        text-transform: capitalize;
+    }
+    
+    .single-banner .instagram-name {
+        line-height: 2.5;
+        cursor: pointer;
+    }
+    
+    .single-banner .instagram-name:hover {
+        color: #1a1a1a;
+    }
+    
+    .categorie-list a {
+        cursor: pointer;
+    }
+    
+    .categorie-list.left li.active a {
+        color: #1a1a1a;
+        font-weight: bold;
+    }
+    
+    #grid-view .product-item {
+        max-height: 448px;
+    }
+    
+    .container-price-filter {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 3rem;
+        font-size: 15px;
+        margin-top: 8px;
+        color: #505050;
+        width: 100%;
+        background: transparent;
+        border: none;
+    }
