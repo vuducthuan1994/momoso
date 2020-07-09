@@ -31,26 +31,29 @@ $(document).ready(function() {
 function initFilterPrice() {
     initMinValue = $("#minPrice").data('price');
     initMaxValue = $("#maxPrice").data('price');
-    $("#minPrice").text(initMinValue.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
-    $("#maxPrice").text(initMaxValue.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
-    $("#slider-range").slider({
-        range: true,
-        min: 100000,
-        max: 3000000,
-        step: 10000,
-        values: [initMinValue, initMaxValue],
-        slide: function(event, ui) {
-            var minPrice = parseInt(ui.values[0]);
-            var maxPrice = parseInt(ui.values[1]);
-            $("#minPrice").attr('data-price', minPrice);
-            $("#maxPrice").attr('data-price', maxPrice);
-            let url = replaceUrlParam(window.location.href, 'minPrice', minPrice);
-            url = replaceUrlParam(url, 'maxPrice', maxPrice);
-            $('#submitPrice').attr('href', url);
-            $("#minPrice").text(minPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
-            $("#maxPrice").text(maxPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
-        }
-    });
+    if (initMinValue !== undefined && initMaxValue !== undefined) {
+        $("#minPrice").text(initMinValue.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+        $("#maxPrice").text(initMaxValue.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+        $("#slider-range").slider({
+            range: true,
+            min: 100000,
+            max: 3000000,
+            step: 10000,
+            values: [initMinValue, initMaxValue],
+            slide: function(event, ui) {
+                var minPrice = parseInt(ui.values[0]);
+                var maxPrice = parseInt(ui.values[1]);
+                $("#minPrice").attr('data-price', minPrice);
+                $("#maxPrice").attr('data-price', maxPrice);
+                let url = replaceUrlParam(window.location.href, 'minPrice', minPrice);
+                url = replaceUrlParam(url, 'maxPrice', maxPrice);
+                $('#submitPrice').attr('href', url);
+                $("#minPrice").text(minPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+                $("#maxPrice").text(maxPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+            }
+        });
+    }
+
 }
 
 function initPageSizeForCategory() {
