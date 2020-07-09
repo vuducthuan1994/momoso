@@ -1,10 +1,10 @@
 $(document).ready(function() {
-    $('.product-price-desc #small-img li').on('click', selectProductColor)
+    $('.container-list-color a').on('click', selectProductColor)
 });
 
 function selectProductColor() {
     $('#small-img li').removeClass('active');
-    $(this).addClass('active');
+    $(this).parent().addClass('active');
 }
 
 function toast(title, msg, type = 'info') {

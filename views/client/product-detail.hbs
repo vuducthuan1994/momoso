@@ -11,7 +11,7 @@
         </div>
     </div>
     <!-- Preloader End -->
-    
+
     <!-- Header Area Start -->
     {{>client/main-header}}
     <!-- Header Area End -->
@@ -80,17 +80,19 @@
                         <div class="product-price-desc">
                             <ul class="pro-desc-list">
                                 <li>Mã Sản Phẩm: <span>{{product.code}}</span></li>
+                                
                                 <li>Trạng thái:
 
-
-                                    {{#ifEquals product.quantity  0}}
-                                    <spanm class="text-danger"> Hàng Order</span>
+                                        {{#ifEquals product.quantity  0}}
+                                        <span class="text-danger"> Hàng Order</span>
                                         {{else}}
-
                                         <span> Sẵn hàng</span>
                                         {{/ifEquals}}
-
                                 </li>
+
+                                {{#ifEquals product.blocksColor.length  0}}
+
+                                {{else}}
                                 <li class="container-list-color">Màu Sắc:
                                     <ul id="small-img">
                                         {{#each product.blocksColor}}
@@ -103,6 +105,9 @@
                                         {{/each}}
                                     </ul>
                                 </li>
+                                {{/ifEquals}}
+
+
                             </ul>
                         </div>
                         <!-- Product Price Description End -->
