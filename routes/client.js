@@ -33,7 +33,8 @@ router.get('/', async function(req, res) {
         banners: banners.map(banner => banner.toJSON()),
         newPosts: newPosts.map(post => post.toJSON()),
         allCategory: allCategory.map(item => item.toJSON()),
-        instagrams: instagrams.map(item => item.toJSON())
+        instagrams: instagrams.map(item => item.toJSON()),
+        currentUrl: process.env.R_BASE_IMAGE
     });
 });
 
@@ -51,6 +52,7 @@ router.get(process.env.ABOUT_US, async function(req, res) {
 });
 
 router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
+
     const urlSeo = req.params.url;
     const pageSize = req.query.pageSize ? JSON.parse(req.query.pageSize) : 9;
     const sortType = req.query.sortType ? JSON.parse(req.query.sortType) : 0;
@@ -80,7 +82,8 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         allCategory: allCategory.map(item => item.toJSON()),
         currentURlSeo: urlSeo,
         minPrice: minPrice,
-        maxPrice: maxPrice
+        maxPrice: maxPrice,
+        currentUrl: process.env.R_BASE_IMAGE + req.url
     });
 });
 
@@ -234,7 +237,8 @@ router.get(process.env.CHECK_OUT, async function(req, res) {
         title: "Đặt hàng ngay",
         layout: 'client.hbs',
         general: general,
-        cart: cart ? cart.toJSON() : null
+        cart: cart ? cart.toJSON() : null,
+        currentUrl: process.env.R_BASE_IMAGE + req.url
     });
 });
 
@@ -247,7 +251,8 @@ router.get(process.env.BLOG, async function(req, res) {
         layout: 'client.hbs',
         general: general,
         cart: cart ? cart.toJSON() : null,
-        posts: posts.map(post => post.toJSON())
+        posts: posts.map(post => post.toJSON()),
+        currentUrl: process.env.R_BASE_IMAGE + req.url
     });
 });
 
@@ -258,32 +263,37 @@ router.get(process.env.CONTACT, async function(req, res) {
         title: general.title_home + " - Liên hệ ngay ",
         layout: 'client.hbs',
         general: general,
-        cart: cart ? cart.toJSON() : null
+        cart: cart ? cart.toJSON() : null,
+        currentUrl: process.env.R_BASE_IMAGE + req.url
     });
 });
 
 router.get(process.env.CART, async function(req, res) {
+
     let general = await getGeneralConfig();
     let about_us = await getAboutUsInfo();
     let cart = await getCart(req.sessionID);
     res.render('client/cart', {
-        title: "About US",
+        title: general.title_home + " - Giỏ hàng",
         layout: 'client.hbs',
         general: general,
         about_us: about_us,
         imagePreview: process.env.R_BASE_IMAGE + '/img/about-us.jpg',
-        cart: cart ? cart.toJSON() : null
+        cart: cart ? cart.toJSON() : null,
+        currentUrl: process.env.R_BASE_IMAGE + req.url
     });
 });
 
 router.get(process.env.FAVOR_LIST, async function(req, res) {
+
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
     res.render('client/favor-list', {
         title: general.title_home + " - Danh sách ưa thích ",
         layout: 'client.hbs',
         general: general,
-        cart: cart ? cart.toJSON() : null
+        cart: cart ? cart.toJSON() : null,
+        currentUrl: process.env.R_BASE_IMAGE + req.url
     });
 });
 
@@ -304,7 +314,8 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             general: general,
             productsRelated: productsRelated,
             cart: cart ? cart.toJSON() : null,
-            reviews: reviews.map(review => review.toJSON())
+            reviews: reviews.map(review => review.toJSON()),
+            currentUrl: process.env.R_BASE_IMAGE + req.url
         });
     } else {
         // returrn 404
