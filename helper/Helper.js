@@ -310,10 +310,8 @@ module.exports = {
         return day + '/' + month + '/' + year;
     },
     getStar(rate) {
-        console.log(rate);
         let result = '';
         const rating = Math.ceil(rate);
-        console.log(rating);
         for (let i = 1; i <= 5; i++) {
             if (i <= rating) {
                 result += `<i class="fa fa-star"></i>`;
@@ -371,7 +369,7 @@ module.exports = {
     },
     createThumbCartImage(url) {
         if (url) {
-            return url;
+            return process.env.R_BASE_IMAGE + url;
         } else {
             return '/img/menu/1.jpg'
         }

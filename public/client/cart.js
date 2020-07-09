@@ -12,6 +12,7 @@ $(document).ready(function() {
 var listFavorProducts = [];
 var listCartProducts = [];
 const BASE_URL = 'product';
+const R_BASE_IMAGE = 'https://momostudio.vn'
 
 
 
@@ -123,7 +124,7 @@ function addToCart() {
 function addProductToListHeader(product) {
     let html = `  <div id="${product._id}" class="single-cart-box">
     <div class="cart-img">
-        <a href="${BASE_URL+'/'+product.urlSeo}"><img src="${product.thumb_cart ? product.thumb_cart : "/img/menu/1.jpg" }" alt="cart-image"></a>
+        <a href="${BASE_URL+'/'+product.urlSeo}"><img src="${product.thumb_cart ? R_BASE_IMAGE +product.thumb_cart : "/img/menu/1.jpg" }" alt="cart-image"></a>
     </div>
     <div class="cart-content">
         <h6><a href="${BASE_URL+'/'+product.urlSeo}">${product.name}</a></h6>
