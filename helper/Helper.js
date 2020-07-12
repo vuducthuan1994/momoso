@@ -325,7 +325,7 @@ module.exports = {
         return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     },
     ifBigger(arg1, arg2, options) {
-        return (arg1 >= arg2) ? ptions.fn(this) : options.inverse(this);
+        return (arg1 >= arg2) ? options.fn(this) : options.inverse(this);
     },
     createURLCategory(url) {
         return process.env.R_DOMAIN + process.env.CATEGORY_PRODUCT + '/' + url;

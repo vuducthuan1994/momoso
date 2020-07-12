@@ -13,6 +13,7 @@ const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
 
 router.get('/', async function(req, res) {
     let general = await getGeneralConfig();
+    console.log(general);
     let newProducts = await getNewProducts();
     let cart = await getCart(req.sessionID);
     let banners = await getBanners();
@@ -60,7 +61,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     const minPrice = req.query.minPrice ? JSON.parse(req.query.minPrice) : 100000;
     const maxPrice = req.query.maxPrice ? JSON.parse(req.query.maxPrice) : 3000000;
 
-    let postsByCategory = await getPostByCategory(urlSeo, pageSize, currentPage, sortType, minPrice, maxPrice, );
+    let postsByCategory = await getPostByCategory(urlSeo, pageSize, currentPage, sortType, minPrice, maxPrice);
     let categoryDetail = await getCategoryDetail(urlSeo);
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
