@@ -3,15 +3,26 @@
 <div class="col-lg-7 col-md-7 col-sm-12  hidden-sm hidden-xs">
 
     <div class="primary-menu">
+        <ul class="pull-left home-4-search">
+            <li>
+                <form action="#">
+                    <input type="text" class="search" name="search" placeholder="Search for products...">
+                </form>
+                <i class="pe-7s-search"></i>
+            </li>
+        </ul>
         <nav>
             <ul class="primary-menu-list text-center">
-                <li class="static-menu"><a href="#"> <strong>Tất cả sản phẩm</strong><i class="pe-7s-angle-down"></i></a>
+                <li class="static-menu"><a href="#"> <strong>Tất cả sản phẩm</strong><i
+                            class="pe-7s-angle-down"></i></a>
                     <!-- Mega Menu Start -->
                     <ul class="ht-dropdown mega-menu-2">
                         {{#each treeMenu}}
                         <!-- Single Mega Sub Menu Start -->
                         <li>
-                            <a href="{{createURLCategory this.urlSeo}}" ><h3>{{this.name}}</h3> </a>
+                            <a href="{{createURLCategory this.urlSeo}}">
+                                <h3>{{this.name}}</h3>
+                            </a>
                             <ul>
                                 {{#each this.children}}
                                 <li><a href="categorie-page.html">{{this.name}}</a></li>
