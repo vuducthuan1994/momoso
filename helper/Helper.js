@@ -246,6 +246,13 @@ module.exports = {
             return '';
         }
     },
+    typeParentSelected(value, optionValue) {
+        if (optionValue && value == optionValue.toString()) {
+            return 'selected';
+        } else {
+            return '';
+        }
+    },
     getStatusPost(isPublic) {
         if (isPublic) {
             return 'Đã xuất bản';

@@ -50,6 +50,15 @@
                                                         Ảnh lớn </option>
                                                 </select>
                                             </div>
+                                            <div class="form-group">
+                                                <label>Menu Cha</label>
+                                                <select class="form-control col-md-3" name="parent">
+                                                    <option value="null">Menu chính</option>
+                                                    {{#each allCategory}}
+                                                    <option {{typeParentSelected this._id ../category.parent}} value="{{this._id}}">{{this.name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
                                             <div class="form-group ">
                                                 <label>Show trên trang chủ</label>
                                                 <br>

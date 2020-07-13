@@ -46,6 +46,19 @@ var slugFromTitle = function(str) {
     return str;
 };
 
+let getAllCategory = function() {
+    return new Promise(function(reslove, reject) {
+
+        Category.find({}, function(err, categorys) {
+            if (!err) {
+
+                reslove(categorys)
+            }
+        })
+
+    });
+}
+
 
 //get all posts
 router.get('/', isAuthenticated, function(req, res) {
@@ -61,16 +74,19 @@ router.get('/', isAuthenticated, function(req, res) {
         }
     }).sort({ updated_date: -1 });
 });
-router.get('/add-category', isAuthenticated, function(req, res) {
+router.get('/add-category', isAuthenticated, async function(req, res) {
+    let allCategory = await getAllCategory();
     res.render('admin/pages/category/add-category', {
         errors: req.flash('errors'),
         messages: req.flash('messages'),
         title: "Thêm Loại SP",
-        layout: 'admin.hbs'
+        layout: 'admin.hbs',
+        allCategory: allCategory.map(item => item.toJSON())
     });
 });
 
-router.get('/edit-category/:id', isAuthenticated, function(req, res) {
+router.get('/edit-category/:id', isAuthenticated, async function(req, res) {
+    let allCategory = await getAllCategory();
     const categoryID = req.params.id;
     Category.findOne({ _id: categoryID }, function(err, category) {
         if (err) {
@@ -82,7 +98,8 @@ router.get('/edit-category/:id', isAuthenticated, function(req, res) {
                 messages: req.flash('messages'),
                 title: "Sửa Thông Tin Kho Hàng",
                 layout: 'admin.hbs',
-                category: category ? category.toJSON() : null
+                category: category ? category.toJSON() : null,
+                allCategory: allCategory.map(item => item.toJSON())
             });
         }
     })
@@ -105,7 +122,11 @@ router.post('/', async function(req, res) {
     form.parse(req);
 
     form.on('field', function(fieldName, fieldValue) {
-        content[fieldName] = fieldValue;
+        if (fieldName == 'parent' && fieldValue !== 'null') {
+            content[fieldName] = fieldValue;
+        } else if (fieldName !== 'parent') {
+            content[fieldName] = fieldValue;
+        }
         if (fieldName == 'typeImage') {
             if (fieldValue !== 'small') {
                 resizeWidth = 770;
@@ -155,7 +176,15 @@ router.post('/edit-category/:id', function(req, res) {
     form.parse(req);
 
     form.on('field', function(fieldName, fieldValue) {
-        content[fieldName] = fieldValue;
+        if (fieldName !== 'parent') {
+            content[fieldName] = fieldValue;
+        }
+        if (fieldName == 'parent' && fieldValue !== 'null') {
+            content[fieldName] = fieldValue;
+        }
+        if (fieldName == 'parent' && fieldValue == 'null') {
+            content[fieldName] = null;
+        }
         if (fieldName == 'typeImage') {
             if (fieldValue !== 'small') {
                 resizeWidth = 770;
@@ -177,7 +206,6 @@ router.post('/edit-category/:id', function(req, res) {
     });
 
     form.on('end', function() {
-
         Category.findOneAndUpdate({ _id: idBanner }, content, { new: true }, function(err, category) {
             updateCategoryInProduct(category);
             if (!err) {

@@ -44,7 +44,7 @@ router.get(process.env.ABOUT_US, async function(req, res) {
     let about_us = await getAboutUsInfo();
     let cart = await getCart(req.sessionID);
     res.render('client/about-us', {
-        title: "About US",
+        title: general.title_home + ' - ' + "About US",
         layout: 'client.hbs',
         general: general,
         about_us: about_us,

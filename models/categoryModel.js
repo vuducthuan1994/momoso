@@ -10,6 +10,10 @@ var CategorySchema = new Schema({
         unique: true,
         trim: true
     },
+    parent: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: null
+    },
     note: {
         type: String,
         trim: true,
