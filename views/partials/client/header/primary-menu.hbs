@@ -1,12 +1,33 @@
 <!-- Primary-Menu Start -->
+
 <div class="col-lg-7 col-md-7 col-sm-12  hidden-sm hidden-xs">
+
     <div class="primary-menu">
         <nav>
             <ul class="primary-menu-list text-center">
+                <li class="static-menu"><a href="#"> <strong>Tất cả sản phẩm</strong><i class="pe-7s-angle-down"></i></a>
+                    <!-- Mega Menu Start -->
+                    <ul class="ht-dropdown mega-menu-2">
+                        {{#each treeMenu}}
+                        <!-- Single Mega Sub Menu Start -->
+                        <li>
+                            <a href="{{createURLCategory this.urlSeo}}" ><h3>{{this.name}}</h3> </a>
+                            <ul>
+                                {{#each this.children}}
+                                <li><a href="categorie-page.html">{{this.name}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </li>
+                        {{/each}}
+                        <!-- Single Mega Sub Menu Start -->
+                    </ul>
+                    <!-- Mega Menu End -->
+                </li>
                 <li><a href="/">Trang chủ</a></li>
                 <li><a href="/about-us">About Us</a></li>
                 <li><a href="/blogs">Blogs</a></li>
                 <li><a href="/contact">Liên hệ</a></li>
+
             </ul>
         </nav>
     </div>

@@ -13,7 +13,7 @@ const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
 
 router.get('/', async function(req, res) {
     let general = await getGeneralConfig();
-    console.log(general);
+    let treeMenu = await getTreeMenu();
     let newProducts = await getNewProducts();
     let cart = await getCart(req.sessionID);
     let banners = await getBanners();
@@ -35,7 +35,10 @@ router.get('/', async function(req, res) {
         newPosts: newPosts.map(post => post.toJSON()),
         allCategory: allCategory.map(item => item.toJSON()),
         instagrams: instagrams.map(item => item.toJSON()),
-        currentUrl: process.env.R_BASE_IMAGE
+        currentUrl: process.env.R_BASE_IMAGE,
+        treeMenu: treeMenu
+
+
     });
 });
 
@@ -43,12 +46,14 @@ router.get(process.env.ABOUT_US, async function(req, res) {
     let general = await getGeneralConfig();
     let about_us = await getAboutUsInfo();
     let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
     res.render('client/about-us', {
         title: general.title_home + ' - ' + "About US",
         layout: 'client.hbs',
         general: general,
         about_us: about_us,
-        cart: cart ? cart.toJSON() : null
+        cart: cart ? cart.toJSON() : null,
+        treeMenu: treeMenu
     });
 });
 
@@ -476,6 +481,32 @@ let getAllCategory = function() {
         } else {
             reslove(categorys)
         }
+    });
+}
+
+let getTreeMenu = function() {
+    return new Promise(function(reslove, reject) {
+
+        Categorys.aggregate([
+            { $match: { parent: null } },
+            {
+                $graphLookup: {
+                    from: "categorys",
+                    startWith: "$_id",
+                    connectFromField: "_id",
+                    connectToField: "parent",
+                    as: "children"
+                }
+            },
+            { $sort: { name: 1 } }
+        ], function(err, menuTree) {
+            if (!err) {
+                console.log(menuTree);
+                reslove(menuTree);
+            } else {
+                reslove([]);
+            }
+        })
     });
 }
 
