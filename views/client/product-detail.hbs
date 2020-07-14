@@ -80,14 +80,14 @@
                         <div class="product-price-desc">
                             <ul class="pro-desc-list">
                                 <li>Mã Sản Phẩm: <span>{{product.code}}</span></li>
-                                
+
                                 <li>Trạng thái:
 
-                                        {{#ifEquals product.quantity  0}}
-                                        <span class="text-danger"> Hàng Order</span>
-                                        {{else}}
-                                        <span> Sẵn hàng</span>
-                                        {{/ifEquals}}
+                                    {{#ifEquals product.quantity  0}}
+                                    <span class="text-danger"> Hàng Order</span>
+                                    {{else}}
+                                    <span> Sẵn hàng</span>
+                                    {{/ifEquals}}
                                 </li>
 
                                 {{#ifEquals product.blocksColor.length  0}}
@@ -96,7 +96,7 @@
                                 <li class="container-list-color">Màu Sắc:
                                     <ul id="small-img">
                                         {{#each product.blocksColor}}
-                                        <li data-code="{{this.colorName}}">
+                                        <li title="{{this.colorName}}" data-code="{{this.colorCode}}">
                                             <a href="#" data-image="{{getActiveProductImage this.listImages}}"
                                                 data-zoom-image={{getActiveProductImage this.listImages}}>
                                                 <img src="{{ getActiveProductImage this.listImages}}">
@@ -107,7 +107,19 @@
                                 </li>
                                 {{/ifEquals}}
 
+                                {{#ifEquals product.blocksSize.length  0}}
 
+                                {{else}}
+                                <li class="container-list-size">Kích cỡ :
+                                    <ul>
+                                        {{#each product.blocksSize}}
+                                        <li data-code="{{this.sizeCode}}">
+                                            <button class="btn">{{this.sizeName}}</button>
+                                        </li>
+                                        {{/each}}
+                                    </ul>
+                                </li>
+                                {{/ifEquals}}
                             </ul>
                         </div>
                         <!-- Product Price Description End -->
@@ -133,9 +145,10 @@
                         <!-- Product Button Actions End -->
                         <!-- Product Social Link Share Start -->
 
-<!-- Go to www.addthis.com/dashboard to customize your tools --> <div class="addthis_inline_share_toolbox"></div>
+                        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                        <div class="addthis_inline_share_toolbox"></div>
 
-{{!-- 
+                        {{!-- 
                         <div class="social-shared">
                             <ul>
                                 <li class="f-book">

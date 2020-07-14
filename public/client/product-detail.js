@@ -1,9 +1,15 @@
 $(document).ready(function() {
-    $('.container-list-color a').on('click', selectProductColor)
+    $('.container-list-color a').on('click', selectProductColor);
+    $('.container-list-size button').on('click', selectProductSize);
 });
 
 function selectProductColor() {
     $('#small-img li').removeClass('active');
+    $(this).parent().addClass('active');
+}
+
+function selectProductSize() {
+    $('.container-list-size li').removeClass('active');
     $(this).parent().addClass('active');
 }
 
