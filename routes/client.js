@@ -58,6 +58,7 @@ router.get(process.env.ABOUT_US, async function(req, res) {
 });
 
 router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
+    let treeMenu = await getTreeMenu();
 
     const urlSeo = req.params.url;
     const pageSize = req.query.pageSize ? JSON.parse(req.query.pageSize) : 9;
@@ -89,7 +90,8 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         currentURlSeo: urlSeo,
         minPrice: minPrice,
         maxPrice: maxPrice,
-        currentUrl: process.env.R_BASE_IMAGE + req.url
+        currentUrl: process.env.R_BASE_IMAGE + req.url,
+        treeMenu: treeMenu
     });
 });
 
@@ -265,6 +267,7 @@ router.get(process.env.BLOG, async function(req, res) {
 router.get(process.env.CONTACT, async function(req, res) {
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
+
     res.render('client/contact', {
         title: general.title_home + " - Liên hệ ngay ",
         layout: 'client.hbs',
@@ -279,6 +282,7 @@ router.get(process.env.CART, async function(req, res) {
     let general = await getGeneralConfig();
     let about_us = await getAboutUsInfo();
     let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
     res.render('client/cart', {
         title: general.title_home + " - Giỏ hàng",
         layout: 'client.hbs',
@@ -286,7 +290,8 @@ router.get(process.env.CART, async function(req, res) {
         about_us: about_us,
         imagePreview: process.env.R_BASE_IMAGE + '/img/about-us.jpg',
         cart: cart ? cart.toJSON() : null,
-        currentUrl: process.env.R_BASE_IMAGE + req.url
+        currentUrl: process.env.R_BASE_IMAGE + req.url,
+        treeMenu: treeMenu
     });
 });
 
@@ -294,12 +299,14 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
 
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
     res.render('client/favor-list', {
         title: general.title_home + " - Danh sách ưa thích ",
         layout: 'client.hbs',
         general: general,
         cart: cart ? cart.toJSON() : null,
-        currentUrl: process.env.R_BASE_IMAGE + req.url
+        currentUrl: process.env.R_BASE_IMAGE + req.url,
+        treeMenu: treeMenu
     });
 });
 
@@ -309,7 +316,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     let reviews = await getReviews(product._id);
     let general = await getGeneralConfig();
     let productsRelated = await getRelatedProducts(product);
-
+    let treeMenu = await getTreeMenu();
     let cart = await getCart(req.sessionID);
     if (product !== null) {
         res.render('client/product-detail', {
@@ -321,7 +328,8 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             productsRelated: productsRelated,
             cart: cart ? cart.toJSON() : null,
             reviews: reviews.map(review => review.toJSON()),
-            currentUrl: process.env.R_BASE_IMAGE + req.url
+            currentUrl: process.env.R_BASE_IMAGE + req.url,
+            treeMenu: treeMenu
         });
     } else {
         // returrn 404
@@ -486,27 +494,31 @@ let getAllCategory = function() {
 
 let getTreeMenu = function() {
     return new Promise(function(reslove, reject) {
-
-        Categorys.aggregate([
-            { $match: { parent: null } },
-            {
-                $graphLookup: {
-                    from: "categorys",
-                    startWith: "$_id",
-                    connectFromField: "_id",
-                    connectToField: "parent",
-                    as: "children"
+        let treeMenu = cache.get("treeMenu");
+        if (treeMenu == undefined) {
+            Categorys.aggregate([
+                { $match: { parent: null } },
+                {
+                    $graphLookup: {
+                        from: "categorys",
+                        startWith: "$_id",
+                        connectFromField: "_id",
+                        connectToField: "parent",
+                        as: "children"
+                    }
+                },
+                { $sort: { name: 1 } }
+            ], function(err, menuTree) {
+                if (!err) {
+                    console.log(menuTree);
+                    cache.set("treeMenu", menuTree);
+                    reslove(menuTree);
+                } else {
+                    reslove([]);
                 }
-            },
-            { $sort: { name: 1 } }
-        ], function(err, menuTree) {
-            if (!err) {
-                console.log(menuTree);
-                reslove(menuTree);
-            } else {
-                reslove([]);
-            }
-        })
+            });
+        }
+
     });
 }
 
@@ -552,7 +564,7 @@ let getBestSellerProduct = function() {
     return new Promise(function(resolve, reject) {
         let bestSellerProduct = cache.get("bestSeller");
         if (bestSellerProduct == undefined) {
-            Products.find({ type: 'new' }, { quantity: 0, totalOrder: 0, category: 0, note: 0, detail: 0, created_date: 0, updated_date: 0, view: 0, blocksSize: 0, blocksColor: 0, point: 0, __v: 0, totalReview: 0, rate: 0, code: 0 }, function(err, products) {
+            Products.find({ type: 'new' }, { quantity: 0, totalOrder: 0, category: 0, note: 0, detail: 0, created_date: 0, updated_date: 0, view: 0, point: 0, __v: 0, totalReview: 0, rate: 0, code: 0 }, function(err, products) {
                 if (!err) {
                     resolve(products);
                     cache.set("bestSeller", products);
@@ -585,7 +597,7 @@ let getNewProducts = function() {
         let newProducts = cache.get("newProducts");
         if (newProducts == undefined) {
             let results = [];
-            Products.find({ type: 'new' }, { quantity: 0, totalOrder: 0, category: 0, note: 0, detail: 0, created_date: 0, updated_date: 0, view: 0, blocksSize: 0, blocksColor: 0, point: 0, __v: 0, totalReview: 0, rate: 0, code: 0 }, function(err, products) {
+            Products.find({ type: 'new' }, { quantity: 0, totalOrder: 0, category: 0, note: 0, detail: 0, created_date: 0, updated_date: 0, view: 0, point: 0, __v: 0, totalReview: 0, rate: 0, code: 0 }, function(err, products) {
                 if (!err) {
                     var totalProduct = products.length;
                     if (products.length % 2 !== 0) {

@@ -2723,7 +2723,7 @@ ul.pull-left.home-4-search i {
 .table-content table td.product-subtotal {
     font-size: 14px;
     font-weight: bold;
-    width: 120px;
+    width: 110px;
 }
 
 .table-content table td.product-name a,
@@ -2741,7 +2741,7 @@ ul.pull-left.home-4-search i {
 }
 
 .table-content table td.product-name {
-    width: 270px;
+    width: 240px;
 }
 
 .table-content table td.product-thumbnail {
@@ -2768,7 +2768,15 @@ ul.pull-left.home-4-search i {
 }
 
 .table-content table td.product-quantity {
-    width: 180px;
+    width: 150px;
+}
+
+.table-content table td.product-colorS {
+    width: 160px;
+}
+
+.table-content table td.product-sizeS {
+    width: 160px;
 }
 
 .table-content table td.product-remove {

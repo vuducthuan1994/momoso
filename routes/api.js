@@ -83,6 +83,23 @@ router.post('/createMessage', reviewLimiter, function(req, res) {
     });
 });
 
+router.post('/updateCart', commonLimiter, function(req, res) {
+    Carts.findOneAndUpdate({ sessionID: req.sessionID }, { listCartProducts: req.body.listCartProducts }, function(err, data) {
+        if (!err) {
+            res.json({
+                success: true,
+                msg: 'Cập nhật giỏ hàng thành công !',
+                lengthCart: data.listCartProducts.length
+            });
+        } else {
+            res.json({
+                success: false,
+                msg: 'Không cập nhật được giỏ hàng !'
+            });
+        }
+    });
+})
+
 router.post('/addToCart', commonLimiter, function(req, res) {
     Carts.findOneAndUpdate({ sessionID: req.sessionID, "listCartProducts._id": { $ne: req.body.product._id } }, { $push: { "listCartProducts": req.body.product } }, { upsert: true, new: true }, function(err, data) {
         if (!err) {
@@ -101,7 +118,6 @@ router.post('/addToCart', commonLimiter, function(req, res) {
 });
 
 router.post('/removeFromCart', commonLimiter, function(req, res) {
-    console.log(req.body);
     Carts.findOneAndUpdate({ sessionID: req.sessionID }, { $pull: { "listCartProducts": { _id: req.body._id } } }, { new: true }, function(err, data) {
         if (!err) {
             res.json({

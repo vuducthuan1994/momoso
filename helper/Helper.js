@@ -239,6 +239,7 @@ module.exports = {
             }
         }
     },
+
     typeImageSelected(value, optionValue) {
         if (value == optionValue) {
             return 'selected';
@@ -287,6 +288,9 @@ module.exports = {
         } else {
             return (`/admin/category/edit-category/${id}`)
         }
+    },
+    productTotalSub(quantity, price) {
+        return quantity * price;
     },
     buildActionCategoryPost(id) {
         if (id == null || id == undefined) {

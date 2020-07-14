@@ -6,6 +6,8 @@ $(document).ready(function() {
     $('.remove-product-from-cart').on('click', removeFromCart);
     // for element after append
     $('#container-products').on('click', '.remove-product-from-cart', removeFromCart);
+    $('#updateCartButton').on('click', updateCart);
+    $('.product-color select').on('change', changeImageProduct);
     initCart();
 });
 
@@ -15,6 +17,21 @@ const BASE_URL = 'product';
 const R_BASE_IMAGE = 'https://momostudio.vn'
 
 
+function changeImageProduct() {
+    const newColorCode = $(this).val();
+    let newColorImage = null;
+    var product = $(this).parent().parent().data('product');
+    for (var index in product.blocksColor) {
+        if (product.blocksColor[index].colorCode == newColorCode) {
+            if (product.blocksColor[index].listImages && product.blocksColor[index].listImages.length > 0) {
+                newColorImage = product.blocksColor[index].listImages[0];
+            }
+        }
+    }
+    if (newColorImage) {
+        $('.product-thumbnail img').attr('src', R_BASE_IMAGE + newColorImage);
+    }
+}
 
 function toast(title, msg, type = 'info') {
     $.toast({
@@ -86,7 +103,6 @@ function removeFromCart() {
 
                 let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
                 totalPrice = parseInt(totalPrice) - (parseInt(price) * parseInt(quantity));
-                console.log(totalPrice);
                 $('#totalPrice').data('price', parseInt(totalPrice));
                 $('.amount').data('price', parseInt(totalPrice));
                 getPriceVND();
@@ -97,10 +113,54 @@ function removeFromCart() {
     });
 }
 
+function updateCart() {
+    var totalProduct = 0;
+    var listCartProducts = [];
+    var totalPrice = 0;
+    $('.product-item').each(function(index) {
+        let product = $(this).data('product');
+        totalProduct++;
+        product.quantity = parseInt($(this).find('.product-quantity input').val());
+        product.color = $(this).find('.product-color select').val();
+        product.size = $(this).find('.product-size select').val();
+        listCartProducts.push(product);
+        totalPrice += product.price * product.quantity;
+    });
+
+    if (totalProduct == 0) {
+        toast('Thông báo', 'Không có sản phẩm nào để cập nhật, vui lòng thêm sản phẩm vào giỏ hàng !', 'info');
+    } else {
+        let data = {
+            listCartProducts: listCartProducts
+        }
+        $.ajax({
+            url: `/api/updateCart`,
+            dataType: "json",
+            data: data,
+            method: 'POST',
+            success: function(data) {
+                if (data.success) {
+                    toast('Thông báo', 'Cập nhật giỏ hàng thành công !', 'success');
+                    $('#totalPrice').data('price', parseInt(totalPrice));
+                    $('.amount').data('price', parseInt(totalPrice));
+                    getPriceVND();
+                    $('#container-products .cart-content').each(function(index) {
+                        $(this).find('span').first().text(listCartProducts[index].quantity + ' ×');
+                    })
+                } else {
+                    toast('Thông báo', 'Hệ thống đang lỗi!', 'error');
+                }
+            }
+        });
+    }
+}
+
 function addToCart() {
     var product = $(this).data('product');
-    product['quantity'] = $('.cart-plus-minus-box').val() == 0 ? 1 : $('.cart-plus-minus-box').val();
 
+    product['quantity'] = $('.cart-plus-minus-box').val() == 0 ? 1 : $('.cart-plus-minus-box').val();
+    product['color'] = $('.container-list-color li.active').data('code') ? $('.container-list-color li.active').data('code') : (product.blocksColor && product.blocksColor.length > 0) ? product.blocksColor[0].colorCode : 'FREE-COLOR';
+    product['size'] = $('.container-list-size li.active').data('code') ? $('.container-list-size li.active').data('code') : (product.blocksSize && product.blocksSize.length > 0) ? product.blocksSize[0].sizeCode : 'FREE-SIZE';
     let data = {
         product: product
     }
@@ -169,5 +229,4 @@ function addToWishList() {
             }
         }
     });
-
 }
