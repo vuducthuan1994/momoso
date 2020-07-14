@@ -21,12 +21,23 @@ $(document).ready(function() {
         const productID = $(this).data('idproduct');
         getProductById(productID);
     });
+    $('.pro-desc-list').on('click', '.button-color', setActiveColor);
     getPriceVND();
     initPageSizeForCategory();
     initSortByForCategory();
     initSelectPage();
 
 });
+var R_BASE_IMAGE_QUICK_VIEW = 'https://momostudio.vn';
+
+function setActiveColor() {
+    $(this).parent().find('li').removeClass('active');
+    $(this).addClass('active');
+    const idActive = $(this).find('a').attr('href');
+    $(idActive).parent().find('div').removeClass('active in');
+    $(idActive).addClass('active in');
+
+}
 
 function initFilterPrice() {
     initMinValue = $("#minPrice").data('price');
@@ -150,16 +161,32 @@ function getProductById(id) {
                 // $('#modal-product-point').text(data.data.point);
                 $('#modal-product-status').text(data.data.quantity > 0 ? 'Sẵn hàng' : 'Hàng Order');
                 let htmlOWL = '';
-                data.data.listImages.forEach((value, index) => {
-                    value = 'https://momostudio.vn' + value;
+                data.data.listImages.forEach((imageURL, index) => {
+                    imageURL = R_BASE_IMAGE_QUICK_VIEW + imageURL;
                     let imageItem = `<div id="thumb${index+1}" class="tab-pane ${index == 0 ? 'fade in active' : 'fade'}">
-                <img src="${value}" alt="product-thumbnail" /> </div>`
+                    <img src="${imageURL}" alt="product-thumbnail" /> </div>`
 
-                    let owl_item = `<div  ${index == 0 ? 'class="active"' : ''}> <a data-toggle="tab" href="#thumb${index+1}"> <img src="${value}"
+                    let owl_item = `<div  ${index == 0 ? 'class="active"' : ''}> <a data-toggle="tab" href="#thumb${index+1}"> <img src="${imageURL}"
                     alt="product-thumbnail"></a> </div>`
                     $('#modal-product-images').append(imageItem);
                     htmlOWL += owl_item;
                 });
+                let listImageHTML = '';
+                data.data.blocksColor.forEach((colorItem, index) => {
+                    if (colorItem.listImages && colorItem.listImages.length > 0) {
+
+                        const imageColorUrl = R_BASE_IMAGE_QUICK_VIEW + colorItem.listImages[0];
+                        listImageHTML += ` <li data-code = "${colorItem.colorCode}" class = 'button-color'><a  data-toggle="tab" href="#thumb${data.data.listImages.length +  index + 1}">  <img alt="product-thumbnail" src ="${imageColorUrl}"> </a></li>`
+
+
+
+                        let imageItem = `<div id="thumb${data.data.listImages.length + index + 1 }" class="tab-pane fade">
+                        <img src="${imageColorUrl}" alt="product-thumbnail" /> </div>`
+                        $('#modal-product-images').append(imageItem);
+                    }
+                });
+
+                $('#quick-view-listColor ul').html(listImageHTML);
 
                 $('#thumb-menu-owl').owlCarousel({
                     loop: false,
