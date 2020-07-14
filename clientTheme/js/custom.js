@@ -22,6 +22,7 @@ $(document).ready(function() {
         getProductById(productID);
     });
     $('.pro-desc-list').on('click', '.button-color', setActiveColor);
+    $('.pro-desc-list').on('click', '.button-size', setActiveSize);
     getPriceVND();
     initPageSizeForCategory();
     initSortByForCategory();
@@ -37,6 +38,11 @@ function setActiveColor() {
     $(idActive).parent().find('div').removeClass('active in');
     $(idActive).addClass('active in');
 
+}
+
+function setActiveSize() {
+    $(this).parent().parent().find('li').removeClass('active');
+    $(this).parent().addClass('active');
 }
 
 function initFilterPrice() {
@@ -185,9 +191,18 @@ function getProductById(id) {
                         $('#modal-product-images').append(imageItem);
                     }
                 });
+                let listSizeHTML = '';
+                data.data.blocksSize.forEach((sizeItem, index) => {
+
+
+                    listSizeHTML += `<li data-code = "${sizeItem.sizeCode}" >
+                        <button class="btn button-size">${sizeItem.sizeName}</button>
+                       </li>`
+
+                });
 
                 $('#quick-view-listColor ul').html(listImageHTML);
-
+                $('#quick-view-listSize ul').html(listSizeHTML);
                 $('#thumb-menu-owl').owlCarousel({
                     loop: false,
                     navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
