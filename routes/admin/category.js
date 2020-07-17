@@ -206,13 +206,14 @@ router.post('/edit-category/:id', function(req, res) {
     });
 
     form.on('end', function() {
+        content['updated_date'] = new Date();
         Category.findOneAndUpdate({ _id: idBanner }, content, { new: true }, function(err, category) {
             updateCategoryInProduct(category);
             if (!err) {
-                req.flash('messages', 'Sửa kho hàng thành công !');
-                res.redirect('back');
+                req.flash('messages', 'Sửa thẻ loại sản phẩm  thành công !');
+                res.redirect('/admin/category');
             } else {
-                req.flash('errors', 'Không sửa được Kho hàng');
+                req.flash('errors', 'Không sửa được thể loại sản phẩm');
                 res.redirect('back');
             }
         });

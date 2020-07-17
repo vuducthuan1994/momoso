@@ -250,6 +250,13 @@ module.exports = {
             return '';
         }
     },
+    checkCategoryShow(value) {
+        if (value == 'on') {
+            return ' <span class = "text-success" > Đã hiển thị trên trang chủ</span> ';
+        } else {
+            return ' <span class = "text-danger" > Đã ẩn khỏi trang chủ</span> ';
+        }
+    },
     typeParentSelected(value, optionValue) {
         if (optionValue && value == optionValue.toString()) {
             return 'selected';
