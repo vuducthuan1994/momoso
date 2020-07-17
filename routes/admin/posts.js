@@ -170,12 +170,17 @@ router.post('/edit-post/:id', function(req, res) {
         if (content['category'] == undefined) {
             content['category'] = [];
         }
-        Posts.findOneAndUpdate({ _id: idPost }, content, { new: true }, function(err, post) {
+        Posts.findOneAndUpdate({ _id: idPost }, content, function(err, post) {
             if (!err) {
                 req.res.json({
                     success: true,
                     data: post
                 });
+                for (var key in post) {
+                    if (key == 'banner_image' || key == 'thumb_image' || key == 'recent_image') {
+                        let resultDeleteImage = deleteImage('public' + post.key);
+                    }
+                }
             } else {
                 let msg = null;
                 if (err.code = 11000) {
@@ -190,6 +195,7 @@ router.post('/edit-post/:id', function(req, res) {
         });
     });
 });
+
 
 let resizeImage = function(oldPath, newPath, width, height) {
         sharp(oldPath)
@@ -292,6 +298,7 @@ let deleteImage = function(filePath) {
             if (err) {
                 resolve('Không thể xóa ảnh đại điện bài viết !')
             } else {
+                console.log("Thanhf coong")
                 resolve('Ảnh đại diện bài viết đã bị xóa!')
             }
         });

@@ -1,6 +1,5 @@
 $(document).ready(function() {
     initSelectTag();
-    console.log("init post add");
     $('.form-group input').change(function() {
         readURL(this);
     });
@@ -139,7 +138,7 @@ let handlerForm = function(idPost) {
     $('.submitForm div').removeClass('d-none');
 
     $.ajax({
-        url: !idPost ? '/admin/post' : `/admin/posts/edit-post/${idPost}`,
+        url: !idPost ? '/admin/posts' : `/admin/posts/edit-post/${idPost}`,
         data: newFormData,
         cache: false,
         contentType: false,
