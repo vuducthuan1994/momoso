@@ -33,6 +33,11 @@ var PostsSchema = new Schema({
         trim: true,
         default: null
     },
+    recent_image: {
+        type: String,
+        trim: true,
+        default: null
+    },
     thumb_image: {
         type: String,
         trim: true,

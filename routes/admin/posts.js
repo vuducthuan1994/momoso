@@ -150,10 +150,14 @@ router.post('/edit-post/:id', function(req, res) {
 
             const thumb_path = path.join(__basedir, `public/img/posts/thumb-${fileName}`);
             const banner_path = path.join(__basedir, `public/img/posts/banner-${fileName}`);
+            const recent_image = path.join(__basedir, `public/img/posts/recent-${fileName}`);
+
             content['thumb_image'] = `/img/posts/thumb-${fileName}`;
             content['banner_image'] = `/img/posts/banner-${fileName}`;
+            content['recent_image'] = `/img/posts/recent-${fileName}`;
             resizeImage(file.path, thumb_path, 370, 246);
             resizeImage(file.path, banner_path, 1770, 630);
+            resizeImage(file.path, recent_image, 600, 756);
         }
     });
 
@@ -220,10 +224,13 @@ router.post('/', function(req, res) {
 
             const thumb_path = path.join(__basedir, `public/img/posts/thumb-${fileName}`);
             const banner_path = path.join(__basedir, `public/img/posts/banner-${fileName}`);
+            const recent_image = path.join(__basedir, `public/img/posts/recent-${fileName}`);
             content['thumb_image'] = `/img/posts/thumb-${fileName}`;
             content['banner_image'] = `/img/posts/banner-${fileName}`;
+            content['recent_image'] = `/img/posts/recent-${fileName}`;
             resizeImage(file.path, thumb_path, 370, 246);
             resizeImage(file.path, banner_path, 1770, 630);
+            resizeImage(file.path, recent_image, 600, 756);
         }
     });
 

@@ -256,13 +256,15 @@ router.get(process.env.BLOG, async function(req, res) {
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
     let posts = await getPosts(1000, 0);
+    let treeMenu = await getTreeMenu();
     res.render('client/blog', {
-        title: general.title_home + " - Đặt hàng ngay",
+        title: general.title_home + " - Các bài viết",
         layout: 'client.hbs',
         general: general,
         cart: cart ? cart.toJSON() : null,
         posts: posts.map(post => post.toJSON()),
-        currentUrl: process.env.R_BASE_IMAGE + req.url
+        currentUrl: process.env.R_BASE_IMAGE + req.url,
+        treeMenu: treeMenu
     });
 });
 
@@ -319,12 +321,15 @@ router.get(`${process.env.POST}/:url`, async function(req, res) {
     let cart = await getCart(req.sessionID);
     let general = await getGeneralConfig();
     let post = await getPostDetail(urlSeo);
-    res.render('client/product-detail', {
-        title: 'Bai viet',
+    let recentPosts = await getPosts(4, 0);
+    res.render('client/post-detail', {
+        title: general.title_home + ' - ' + post.title,
         layout: 'client.hbs',
         general: general,
+        post: post ? post.toJSON() : null,
         cart: cart ? cart.toJSON() : null,
-        treeMenu: treeMenu
+        treeMenu: treeMenu,
+        recentPosts: recentPosts.map(post => post.toJSON()),
     });
 
 });
@@ -361,6 +366,7 @@ let getPostDetail = function(urlSeo) {
         if (post == undefined) {
             Posts.findOneAndUpdate({ urlSeo: urlSeo }, { $inc: { view: 1 } }, function(err, post) {
                 if (!err) {
+
                     resolve(post)
                     cache.set('post' + urlSeo, post);
                 } else {
