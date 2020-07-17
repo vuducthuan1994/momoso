@@ -89,8 +89,8 @@ router.get('/edit-post/:id', async function(req, res) {
                 title: "Sửa bài viết",
                 categorys: JSON.stringify(categorys),
                 layout: 'admin.hbs',
-                post: post.toJSON(),
-                categorySelected: JSON.stringify(post.category)
+                post: post ? post.toJSON() : null,
+                categorySelected: post ? JSON.stringify(post.category) : null
             });
         }
     })
@@ -273,13 +273,13 @@ router.get('/delete/:id', isAuthenticated, function(req, res) {
     const messages = [];
     Posts.findOneAndDelete({
         _id: id,
-    }, async function(err, post) {
-        if (post && post.banner_image) {
-            filePath = 'public' + post.banner_image;
-            let resultDeleteImage = await deleteImage(filePath);
-            messages.push(resultDeleteImage);
-        }
+    }, function(err, post) {
 
+        for (var key in post) {
+            if (key == 'banner_image' || key == 'thumb_image' || key == 'recent_image') {
+                let resultDeleteImage = deleteImage('public' + post.key);
+            }
+        }
         if (!err) {
             messages.push('Xóa bài viết thành công')
             req.flash('messages', messages)
