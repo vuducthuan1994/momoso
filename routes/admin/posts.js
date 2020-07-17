@@ -162,6 +162,9 @@ router.post('/edit-post/:id', function(req, res) {
     });
 
     form.on('end', function() {
+        if (req.user) {
+            content['edit_by'] = req.user;
+        }
         if (content.isPublic) {
             content.isPublic = true;
         } else {
@@ -170,6 +173,7 @@ router.post('/edit-post/:id', function(req, res) {
         if (content['category'] == undefined) {
             content['category'] = [];
         }
+        content['updated_date'] = new Date();
         Posts.findOneAndUpdate({ _id: idPost }, content, function(err, post) {
             if (!err) {
                 req.res.json({
@@ -241,6 +245,9 @@ router.post('/', function(req, res) {
     });
 
     form.on('end', function() {
+        if (req.account) {
+            content['user'] = req.account;
+        }
         if (content.isPublic) {
             content.isPublic = true;
         } else {

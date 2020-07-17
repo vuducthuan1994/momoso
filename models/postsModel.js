@@ -38,6 +38,10 @@ var PostsSchema = new Schema({
         trim: true,
         default: null
     },
+    user: {
+        type: Object,
+        default: null
+    },
     thumb_image: {
         type: String,
         trim: true,
@@ -46,9 +50,6 @@ var PostsSchema = new Schema({
     category: {
         type: Array,
         default: []
-    },
-    user: {
-        type: Object
     },
     edit_by: {
         type: Object

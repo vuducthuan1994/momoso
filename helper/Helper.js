@@ -320,6 +320,9 @@ module.exports = {
         var result = description.substring(0, 85) + '...';
         return result;
     },
+    getPostDetailDate(dt) {
+        return `<span>${dt.getDate().toString().padStart(2, '0')}</span> Tháng ${(dt.getMonth()+1).toString().padStart(2, '0')}`;
+    },
     getDateArtiles(dt) {
         return `${dt.getDate().toString().padStart(2, '0')}-${(dt.getMonth()+1).toString().padStart(2, '0')}-${dt.getFullYear().toString().padStart(4, '0')}`
     },
