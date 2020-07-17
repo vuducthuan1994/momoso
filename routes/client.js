@@ -241,12 +241,14 @@ let getPostByCategory = function(urlSeo, pageSize, currentPage, sortBy, minPrice
 router.get(process.env.CHECK_OUT, async function(req, res) {
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
     res.render('client/check-out', {
         title: "Đặt hàng ngay",
         layout: 'client.hbs',
         general: general,
         cart: cart ? cart.toJSON() : null,
-        currentUrl: process.env.R_BASE_IMAGE + req.url
+        currentUrl: process.env.R_BASE_IMAGE + req.url,
+        treeMenu: treeMenu
     });
 });
 
@@ -267,13 +269,14 @@ router.get(process.env.BLOG, async function(req, res) {
 router.get(process.env.CONTACT, async function(req, res) {
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
-
+    let treeMenu = await getTreeMenu();
     res.render('client/contact', {
         title: general.title_home + " - Liên hệ ngay ",
         layout: 'client.hbs',
         general: general,
         cart: cart ? cart.toJSON() : null,
-        currentUrl: process.env.R_BASE_IMAGE + req.url
+        currentUrl: process.env.R_BASE_IMAGE + req.url,
+        treeMenu: treeMenu
     });
 });
 
@@ -310,6 +313,22 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
     });
 });
 
+router.get(`${process.env.POST}/:url`, async function(req, res) {
+    const urlSeo = req.params.url;
+    let treeMenu = await getTreeMenu();
+    let cart = await getCart(req.sessionID);
+    let general = await getGeneralConfig();
+    let post = await getPostDetail(urlSeo);
+    res.render('client/product-detail', {
+        title: 'Bai viet',
+        layout: 'client.hbs',
+        general: general,
+        cart: cart ? cart.toJSON() : null,
+        treeMenu: treeMenu
+    });
+
+});
+
 router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     const urlSeo = req.params.url;
     let product = await getProductDetail(urlSeo);
@@ -335,6 +354,25 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
         // returrn 404
     }
 });
+
+let getPostDetail = function(urlSeo) {
+    return new Promise(function(resolve, reject) {
+        let post = cache.get('post' + urlSeo);
+        if (post == undefined) {
+            Posts.findOneAndUpdate({ urlSeo: urlSeo }, { $inc: { view: 1 } }, function(err, post) {
+                if (!err) {
+                    resolve(post)
+                    cache.set('post' + urlSeo, post);
+                } else {
+                    resolve(null)
+                }
+            });
+        } else {
+            resolve(post)
+        }
+    });
+}
+
 
 let getCategoryDetail = function(urlCategory) {
     if (urlCategory == 'all') {
@@ -378,8 +416,6 @@ let getReviews = function(idProduct) {
 let getCart = function(sessionID) {
     return new Promise(function(resolve, reject) {
         Carts.findOne({ sessionID: sessionID }, function(err, cart) {
-            console.log(cart);
-
             resolve(cart);
 
         });
@@ -510,7 +546,7 @@ let getTreeMenu = function() {
                 { $sort: { name: 1 } }
             ], function(err, menuTree) {
                 if (!err) {
-                    console.log(menuTree);
+                    //  console.log(menuTree);
                     cache.set("treeMenu", menuTree);
                     reslove(menuTree);
                 } else {

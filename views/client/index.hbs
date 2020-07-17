@@ -237,11 +237,11 @@
                         <!-- Single Blog Start -->
                         <div class="single-blog">
                             <div class="blog-img">
-                                <a href="blog-details.html"><img src="{{fullPathImage this.thumb_image}}" alt="blog-image"></a>
+                                <a href="{{createPostDetailURL this.urlSeo}}"><img src="{{fullPathImage this.thumb_image}}" alt="blog-image"></a>
                             </div>
                             <div class="blog-content">
                                 <div class="blog-content-upper">
-                                    <h6 class="blog-title"><a href="blog-details.html">{{this.title}}</a></h6>
+                                    <h6 class="blog-title"><a href="{{createPostDetailURL this.urlSeo}}">{{this.title}}</a></h6>
                                     <p>{{getDescriptionArtiles this.short_desc}}</p>
                                 </div>
                                 <div class="blog-content-lower">

@@ -9,6 +9,12 @@ var PostsSchema = new Schema({
         required: true,
         trim: true
     },
+    urlSeo: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+    },
     view: {
         type: Number,
         default: 0

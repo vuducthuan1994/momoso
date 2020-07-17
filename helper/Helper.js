@@ -239,6 +239,9 @@ module.exports = {
             }
         }
     },
+    createPostDetailURL(urlSeo) {
+        return process.env.R_DOMAIN + process.env.POST + '/' + urlSeo;
+    },
 
     typeImageSelected(value, optionValue) {
         if (value == optionValue) {

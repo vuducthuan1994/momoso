@@ -42,10 +42,22 @@
                                         <form id="formPost" enctype="multipart/form-data" method="post">
                                             <div class="form-group">
                                                 <label>Tiêu đề bài viết</label>
-                                                <input value="{{post.title}}" type="text" name="title"
+                                                <input  id="post-name" value="{{post.title}}" type="text" name="title"
                                                     placeholder="Enter title of post ..." class="form-control"
                                                     required="">
                                             </div>
+                                                <div class=" form-group">
+                                                <label>URL SEO</label>
+                                                <input id="post-url-seo" value="{{post.urlSeo}}" type="text"
+                                                    minlength="5" name="urlSeo"
+                                                    placeholder="Enter unique URL SEO of post..."
+                                                    class="form-control" required="">
+                                                <small id="emailHelp" class="form-text text-warning">Hạn chế tối đa việc
+                                                    sửa URL SEO</small>
+
+                                                <small id="emailHelp" class="form-text text-success">URL SEO CŨ:
+                                                    {{post.urlSeo}}</small> 
+                                                    </div>
 
                                             <div class="form-group">
                                                 <div class="input-group mb-4">
