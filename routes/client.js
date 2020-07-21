@@ -228,7 +228,6 @@ let getPostByCategory = function(urlSeo, pageSize, currentPage, sortBy, minPrice
             ],
             function(err, data) {
                 if (!err) {
-
                     reslove(data)
                 } else {
                     console.log(err);
@@ -253,20 +252,47 @@ router.get(process.env.CHECK_OUT, async function(req, res) {
 });
 
 router.get(process.env.BLOG, async function(req, res) {
+    const currentPage = req.params.page ? req.params.page : 1;
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
-    let posts = await getPosts(1000, 0);
+    let posts = await getBlogsWithPagination(currentPage);
     let treeMenu = await getTreeMenu();
     res.render('client/blog', {
         title: general.title_home + " - Các bài viết",
         layout: 'client.hbs',
         general: general,
         cart: cart ? cart.toJSON() : null,
-        posts: posts.map(post => post.toJSON()),
+        posts: posts ? posts[0].edges : [],
         currentUrl: process.env.R_BASE_IMAGE + req.url,
-        treeMenu: treeMenu
+        treeMenu: treeMenu,
+        currentPage: currentPage
     });
 });
+
+let getBlogsWithPagination = function(page) {
+    return new Promise(function(reslove, reject) {
+        Posts.aggregate(
+            [{
+                $facet: {
+                    edges: [
+                        { $sort: { updated_date: -1 } },
+                        { $skip: (page - 1) * 9 },
+                        { $limit: 9 }
+                    ],
+                    pageInfo: [
+                        { $group: { _id: null, count: { $sum: 1 } } },
+                    ],
+                },
+            }],
+            function(err, data) {
+                if (!err) {
+                    reslove(data)
+                } else {
+                    reject(null)
+                }
+            });
+    });
+}
 
 router.get(process.env.CONTACT, async function(req, res) {
     let general = await getGeneralConfig();

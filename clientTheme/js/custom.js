@@ -158,6 +158,7 @@ function getProductById(id) {
         success: function(data) {
             if (data.success) {
                 $('#quick-view-add-to-cart').attr('data-product', JSON.stringify(data.data));
+                $('#quick-view-add-to-wishlish').attr('data-product', JSON.stringify(data.data));
                 resetDataModalProduct();
                 $('#modal-product-name').text(data.data.name);
                 $('#modal-product-price').text(data.data.price);

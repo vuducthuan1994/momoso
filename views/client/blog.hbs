@@ -22,8 +22,8 @@
                 <div class="col-sm-12">
                     <div class="breadcrumb-content text-center ptb-70">
                         <ul class="breadcrumb-list breadcrumb">
-                            <li><a href="/">home</a></li>
-                            <li><a href="#">blog</a></li>
+                            <li><a href="/">Trang Chủ</a></li>
+                            <li class="active"><a>blog</a></li>
                         </ul>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                 <!-- Section Title Start -->
                 <div class="col-xs-12">
                     <div class="section-title text-center ptb-50">
-                        <h3 class="section-info">ALL LATEST BLOGS</h3>
+                        <h3 class="section-info">DANH SÁCH TIN TỨC MỚI NHẤT CỦA MOMO</h3>
                     </div>
                 </div>
                 <!-- Section Title End -->
@@ -53,11 +53,11 @@
                     <!-- Single Blog Start -->
                     <div class="single-blog">
                           <div class="blog-img">
-                                <a href="blog-details.html"><img src="{{this.thumb_image}}" alt="blog-image"></a>
+                                <a href="{{createPostDetailURL this.urlSeo}}"><img src="{{fullPathImage this.thumb_image}}" alt="blog-image"></a>
                             </div>
                          <div class="blog-content">
                                 <div class="blog-content-upper">
-                                    <h6 class="blog-title"><a href="blog-details.html">{{this.title}}</a></h6>
+                                    <h6 class="blog-title"><a href="{{createPostDetailURL this.urlSeo}}">{{this.title}}</a></h6>
                                     <p>{{getDescriptionArtiles this.short_desc}}</p>
                                 </div>
                                 <div class="blog-content-lower">
@@ -75,11 +75,34 @@
             <!-- Row End -->
             <div class="row">
                 <div class="col-sm-12">
-                    <ul class="blog-pagination ptb-20">
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                    <ul class="blog-pagination page-container ptb-20">
+                           {{#ifEquals currentPage 1}}
+                                                    {{else}}
+                                                    <li><a data-page={{createNumberPrevPage currentPage  1}}
+                                                            class="page-item"
+                                                            href="#">{{createNumberPrevPage currentPage  1}}</a>
+                                                    </li>
+                                                    {{/ifEquals}}
+
+
+                                                    <li class="active"><a class="page-item"
+                                                            data-page="{{ currentPage  }}"
+                                                            href="#">{{ currentPage  }}</a></li>
+
+
+                                                    {{#checkNextPage currentPage  pageSize pageInfo.count  }}
+                                                    <li><a class="page-item"
+                                                            data-page="{{createNumberNextPage currentPage  1 }}"
+                                                            href="#">{{createNumberNextPage currentPage  1 }}</a></li>
+                                                    {{else}}
+                                                    {{/checkNextPage}}
+
+                                                    {{#checkNextPage currentPage  pageSize pageInfo.count  }}
+                                                    <li><a data-page={{createNumberNextPage currentPage  1 }}
+                                                            href="#"><i class="fa fa-angle-right"
+                                                                aria-hidden="true"></i></a></li>
+                                                    {{else}}
+                                                    {{/checkNextPage}}
                     </ul>
                     <!-- End of .blog-pagination -->
                 </div>
