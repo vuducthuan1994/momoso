@@ -216,3 +216,7 @@
     .btn-all-product {
         background-color: #d7ac87;
     }
+    
+    .header-top-area .logo img {
+        max-width: 127px;
+    }
