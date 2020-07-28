@@ -11,6 +11,41 @@ let router = express.Router();
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
 
+const fullTextSearch = require('fulltextsearch');
+var fullTextSearchVi = fullTextSearch.vi;
+
+router.post(process.env.SEARCH, async function(req, res) {
+
+    if (req.body.search) {
+        let keyword = new RegExp(fullTextSearchVi(req.body.search), "i");
+        Products.find({ $or: [{ name: keyword }, { code: keyword }] }, async function(err, products) {
+            // console.log(products);
+            // console.log(err);
+            if (!err) {
+                let mostViewProducts = await getMostViewProduct();
+                let allCategory = await getAllCategory();
+                let treeMenu = await getTreeMenu();
+                let general = await getGeneralConfig();
+                let cart = await getCart(req.sessionID);
+                res.render('client/search', {
+                    keyword: req.body.search,
+                    title: `${general.title_home} - Tìm Kiếm ${req.body.search}`,
+                    imagePreview: "https://momostudio.vn/img/home_image.png",
+                    layout: 'client.hbs',
+                    general: general,
+                    cart: cart ? cart.toJSON() : null,
+                    allCategory: allCategory.map(item => item.toJSON()),
+                    products: products.map(item => item.toJSON()),
+                    currentUrl: process.env.R_BASE_IMAGE,
+                    treeMenu: treeMenu,
+                    mostViewProducts: mostViewProducts,
+                });
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+});
 router.get('/', async function(req, res) {
     let general = await getGeneralConfig();
     let treeMenu = await getTreeMenu();
@@ -37,8 +72,6 @@ router.get('/', async function(req, res) {
         instagrams: instagrams.map(item => item.toJSON()),
         currentUrl: process.env.R_BASE_IMAGE,
         treeMenu: treeMenu
-
-
     });
 });
 

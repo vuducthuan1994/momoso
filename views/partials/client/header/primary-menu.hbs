@@ -5,10 +5,10 @@
     <div class="primary-menu">
         <ul class="pull-left home-4-search">
             <li>
-                <form action="#">
-                    <input type="text" class="search" name="search" placeholder="Tìm kiếm sản phẩm ...">
+                <form id="formSearchProduct" action="{{createRouteSearch}}" method="POST">
+                    <input required="" type="text" class="search" name="search" placeholder="Tìm kiếm sản phẩm ...">
                 </form>
-                <i class="pe-7s-search"></i>
+                <i id="btn-search-product-desktop" class="pe-7s-search "></i>
             </li>
         </ul>
         <nav>

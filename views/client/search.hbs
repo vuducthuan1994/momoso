@@ -1,0 +1,231 @@
+<div class="wrapper">
+    <!-- Preloader Start -->
+    <div class="preloader">
+        <div class="loading-center">
+            <div class="loading-center-absolute">
+                <div class="object object_one"></div>
+                <div class="object object_two"></div>
+                <div class="object object_three"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Preloader End -->
+    {{>client/main-header}}
+    <!-- Page Breadcrumb Start -->
+    <div class="main-breadcrumb mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="breadcrumb-content text-center ptb-70">
+                        <h1>Tìm Kiếm {{keyword}}</h1>
+                        <ul class="breadcrumb-list breadcrumb">
+                            <li><a href="/">Trang chủ</a></li>
+                            <li><a href="#">Tìm Kiếm {{keyword}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Breadcrumb End -->
+    <!-- Categories Product Start -->
+    <div class="all-categories pb-100">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Content Start -->
+                <div class="col-md-9 col-md-push-3">
+                    <!-- Sidebar Right Top Content Start -->
+                    <div class="sidebar-desc-content">
+                        <p >Tìm thấy <span class="text-danger">{{products.length}} </span>sản phẩm có từ khóa <span class="text-danger">{{keyword}} </span></p>
+                    </div>
+                    <!-- Sidebar Right Top Content Start -->
+                    <!-- Best Seller Product Start -->
+                    <div class="best-seller">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="categorie-list "> 
+                                    <!-- #list-view End -->
+                                    <div class="mt-40">
+                                        <div class="row">
+                                            {{#each products}}
+                                            <div class="product-item col-md-4 col-sm-6">
+                                                <!-- Single Product Start -->
+                                                <div class="single-product">
+                                                    <!-- Product Image Start -->
+                                                    <div class="pro-img">
+                                                        <a href="{{createURLProduct this.urlSeo}}">
+                                                            <img class="primary-img"
+                                                                src="{{getAvatarImage 'primary' this.listImages}}"
+                                                                alt="single-product">
+                                                            <img class="secondary-img"
+                                                                src="{{getAvatarImage 'secondary' this.listImages}}"
+                                                                alt="single-product">
+                                                        </a>
+                                                        <div class="quick-view">
+                                                            <a class="show-quick-modal" data-idproduct="{{this._id}}"
+                                                                href="#" data-toggle="modal" data-target="#myModal"><i
+                                                                    class="pe-7s-look"></i>Xem nhanh</a>
+                                                        </div>
+                                                        <span class="sticker-new">new</span>
+                                                    </div>
+                                                    <!-- Product Image End -->
+                                                    <!-- Product Content Start -->
+                                                    <div class="pro-content text-center">
+                                                        <h4><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h4>
+                                                        <p data-price="{{this.price}}" class="price product-price-vnd">
+                                                            <span>{{this.price}}</span></p>
+                                                        <div class="action-links2">
+                                                            <a data-toggle="tooltip" title="thêm vào giỏ hàng" data-product="{{objectToString this}}"
+                                                                >thêm vào giỏ hàng</a>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Product Content End -->
+                                                </div>
+                                                <!-- Single Product End -->
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                    <!-- #Grid-view End -->
+                                </div>
+                                <!-- .Tab Content End -->
+                            </div>
+                        </div>
+                        <!-- Row End -->
+                    </div>
+                    <!-- Best Seller Product End -->
+                </div>
+                <!-- Sidebar Content End -->
+                <!-- Sidebar Start -->
+                <div class="col-md-3 col-md-pull-9">
+                    <aside class="categorie-sidebar mb-100">
+                        <!-- Categories Module Start -->
+                        <div class="categorie-module mb-80">
+                            <h3>Thể LOẠI</h3>
+                            
+                            <ul class="categorie-list left">
+                                <li class="{{getActiveCategory currentURlSeo 'all'}}" ><a href="{{createURLCategory 'all'}}">Tất cả</a></li>
+                                {{#each allCategory}}
+                                <li class="{{getActiveCategory ../currentURlSeo this.urlSeo}}" ><a href="{{createURLCategory this.urlSeo}}">{{this.name}} ({{this.totalProduct}})</a></li>
+                                {{/each}}
+
+                            </ul>
+                        </div>
+                        <!-- Categories Module End -->
+                        <!-- Most Viewed Product Start -->
+                        <div class="most-viewed">
+                            <h3>most viewed</h3>
+                            <!-- Most Viewed Product Activation Start -->
+                            <div class="most-viewed-product owl-carousel">
+
+                                {{#each mostViewProducts}}
+                                <!-- Triple Product Start -->
+                                <div class="triple-product">
+                                    <!-- Single Product Start -->
+                                    <div class="single-product mb-25">
+                                        <!-- Product Image Start -->
+                                        <div class="pro-img">
+                                            <a href="{{createURLProduct this.one.urlSeo}}">
+                                                <img class="primary-img"
+                                                    src="{{getAvatarImage 'primary' this.one.listImages}}"
+                                                    alt="single-product">
+                                                <img class="secondary-img"
+                                                    src="{{getAvatarImage 'secondary' this.one.listImages}}"
+                                                    alt="single-product">
+                                            </a>
+                                        </div>
+                                        <!-- Product Image End -->
+                                        <!-- Product Content Start -->
+                                        <div class="pro-content">
+                                            <h4><a href="{{createURLProduct this.one.urlSeo}}">
+
+                                                    {{this.one.name}}</a></h4>
+                                            <p data-price="{{this.one.price}}" class="price product-price-vnd">
+                                                <span>{{this.one.price}}</span></p>
+                                        </div>
+                                        <!-- Product Content End -->
+                                    </div>
+                                    <!-- Single Product End -->
+                                    <!-- Single Product Start -->
+                                    <div class="single-product mb-25">
+                                        <!-- Product Image Start -->
+                                        <div class="pro-img">
+                                            <a href="{{createURLProduct this.two.urlSeo}}">
+                                                <img class="primary-img"
+                                                    src="{{getAvatarImage 'primary' this.two.listImages}}"
+                                                    alt="single-product">
+                                                <img class="secondary-img"
+                                                    src="{{getAvatarImage 'secondary' this.two.listImages}}"
+                                                    alt="single-product">
+                                            </a>
+                                        </div>
+                                        <!-- Product Image End -->
+                                        <!-- Product Content Start -->
+                                        <div class="pro-content">
+                                            <h4><a href="{{createURLProduct this.two.urlSeo}}">{{this.two.name}}</a>
+                                            </h4>
+                                            <p data-price="{{this.two.price}}" class="price product-price-vnd">
+                                                <span>{{this.two.price}}</span></p>
+                                        </div>
+                                        <!-- Product Content End -->
+                                    </div>
+                                    <!-- Single Product End -->
+                                    <!-- Single Product Start -->
+                                    <div class="single-product mb-25">
+                                        <!-- Product Image Start -->
+                                        <div class="pro-img">
+                                            <a href="{{createURLProduct this.three.urlSeo}}">
+                                                <img class="primary-img"
+                                                    src="{{getAvatarImage 'primary' this.three.listImages}}"
+                                                    alt="single-product">
+                                                <img class="secondary-img"
+                                                    src="{{getAvatarImage 'secondary' this.three.listImages}}"
+                                                    alt="single-product">
+                                            </a>
+                                        </div>
+                                        <!-- Product Image End -->
+                                        <!-- Product Content Start -->
+                                        <div class="pro-content">
+                                            <h4><a href="{{createURLProduct this.three.urlSeo}}">{{this.three.name}}</a>
+                                            </h4>
+                                            <p data-price="{{this.three.price}}" class="price product-price-vnd">
+                                                <span>{{this.three.price}}</span></p>
+                                        </div>
+                                        <!-- Product Content End -->
+                                    </div>
+                                    <!-- Single Product End -->
+                                </div>
+                                <!-- Triple Product End -->
+
+
+                                {{/each}}
+                            </div>
+                            <!-- Most Viewed Product Activation End -->
+                        </div>
+                        <!-- Most Viewed Product End -->
+                    </aside>
+                </div>
+                <!-- Sidebar End -->
+            </div>
+            <!-- Row End -->
+        </div>
+        <!-- Container End -->
+    </div>
+    <!-- Categories Product End -->
+    <!-- Footer Start -->
+    <footer>
+
+        <!-- Footer Middle Start -->
+        {{>client/footer/footer-middle}}
+        <!-- Footer Middle End -->
+
+        <!-- Footer Bottom Start -->
+        {{>client/footer/footer-bottom}}
+        <!-- Footer Bottom End -->
+
+    </footer>
+    <!-- Footer End -->
+    <!-- Quick View Content Start -->
+    {{>client/modal/quick-view-product}}
+    <!-- Quick View Content End -->
+</div>

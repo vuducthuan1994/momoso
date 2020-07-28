@@ -152,6 +152,10 @@ module.exports = {
     createWishLishURL() {
         return process.env.FAVOR_LIST;
     },
+    createRouteSearch() {
+        return process.env.SEARCH;
+
+    },
     createCartDetailURL() {
         return process.env.CART;
     },

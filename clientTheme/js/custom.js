@@ -6,6 +6,18 @@ $(document).ready(function() {
         const email = ($('#subscribe_email').val());
         submitSubscribeHandler(email);
     });
+    $('#btn-search-product-desktop').on('click', function() {
+        if ($('#formSearchProduct input').val()) {
+            document.getElementById("formSearchProduct").submit();
+        }
+    });
+
+    $('#btn-search-product-mobile').on('click', function() {
+        if ($('#form-search-produc-mobile input').val()) {
+            document.getElementById("form-search-produc-mobile").submit();
+        }
+    });
+
     $('#submitFromModal').on('click', function() {
         const email = $('.modalSubscribe input').val();
 
