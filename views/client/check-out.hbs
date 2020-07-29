@@ -55,7 +55,7 @@
     <div class="checkout-area pt-30">
         <div class="container">
             <div class="row">
-                <form action="#">
+                <form id="order-form" action="" method="POST">
                     <div class="col-lg-6 col-md-6">
                         <div class="checkbox-form pb-50">
                             <h3>CHI TIẾT ĐƠN HÀNG</h3>
@@ -63,27 +63,26 @@
                                 <div class="col-md-12">
                                     <div class="checkout-form-list mb-30">
                                         <label>Tên Của Bạn <span class="required">*</span></label>
-                                        <input type="text" placeholder="Điền tên của bạn..." />
+                                        <input  required="" maxlength="100"  name="name" type="text" placeholder="Điền tên của bạn..." />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list mb-30">
                                         <label>Địa chỉ <span class="required">*</span></label>
-                                        <input type="text" placeholder="Địa Chỉ Nhận Hàng..." />
+                                        <input minlength="5" maxlength="100" required="" name="address" type="text" placeholder="Địa Chỉ Nhận Hàng..." />
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="checkout-form-list mb-30">
                                         <label>Số Điện Thoại<span class="required">*</span></label>
-                                        <input minlength="8" maxlength="13" type="text" placeholder="Số điện thoại nhận hàng..." />
+                                        <input required="" name="phone" minlength="6" maxlength="15" type="text" placeholder="Số điện thoại nhận hàng..." />
                                     </div>
                                 </div>
-                                            <div class="col-md-12 order-notes">
+                                <div class="col-md-12 order-notes">
                                     <div class="checkout-form-list">
                                         <label>Ghi Chú</label>
-                                        <textarea id="checkout-mess" cols="30" rows="10"
-                                            placeholder="Ghi chú cho đơn hàng của bạn..."></textarea>
+                                        <textarea maxlength="800" name="note" cols="30" rows="10" placeholder="Ghi chú cho đơn hàng của bạn..."></textarea>
                                     </div>
                                 </div>
            
@@ -123,7 +122,7 @@
                                         </tr>
                                         <tr class="order-total">
                                             <th>Tổng Đơn Hàng</th>
-                                            <td><strong><span data-price="{{getTotalPrice cart.listCartProducts 'include-fee'}}" class="amount product-price-vnd">{{getTotalPrice cart.listCartProducts 'include-fee'}}</span></strong>
+                                            <td><strong><span id="totalMoney" data-price="{{getTotalPrice cart.listCartProducts 'include-fee'}}" class="amount product-price-vnd">{{getTotalPrice cart.listCartProducts 'include-fee'}}</span></strong>
                                             </td>
                                         </tr>
                                     </tfoot>
@@ -132,7 +131,7 @@
                             <div class="payment-method">
                                 <div class="payment-accordion">
                                     <div class="order-button-payment">
-                                        <input type="submit" value="ĐẶT HÀNG NGAY" />
+                                        <input id="subMitFormOrder" form="formOrder"  type="submit" value="ĐẶT HÀNG NGAY" />
                                     </div>
                                 </div>
                             </div>
@@ -154,3 +153,4 @@
     </footer>
     <!-- Footer End -->
 </div>
+<script src="/client/order.js"></script>
