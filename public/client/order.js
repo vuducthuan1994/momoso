@@ -13,8 +13,10 @@ function toast(title, msg, type = 'info') {
 }
 
 function orderProcess() {
+
+
+
     const money = $('#totalMoney').data('price');
-    debugger;
     if (money > 0) {
         var formStatus = $('#order-form').validate({
             errorClass: "text-danger",
@@ -45,10 +47,19 @@ function orderProcess() {
                 dataType: "json",
                 method: 'POST',
                 success: function(data) {
-                    if (data.success) {
-                        toast('Thông báo', 'Cám ơn bạn đã liên hệ với chúng tôi !', 'success');
-                    }
-                    setTimeout(function() { window.location.href = "/"; }, 2000);
+                    setTimeout(function() {
+                        $('.popup_wrapper_order').css({
+                            "opacity": "1",
+                            "visibility": "visible"
+                        });
+                        $('.popup_off').on('click', function() {
+                            $(".popup_wrapper").fadeOut(500);
+                        })
+                    }, 2500);
+                    // if (data.success) {
+                    //     toast('Thông báo', 'Cám ơn bạn đã liên hệ với chúng tôi !', 'success');
+                    // }
+                    // setTimeout(function() { window.location.href = "/"; }, 2000);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     toast('Thông báo', 'Vui lòng thử lại sau 1 phút nữa', 'info');
