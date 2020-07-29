@@ -225,14 +225,19 @@ module.exports = {
     getActiveProductImage(listImages) {
         return listImages.length > 0 ? process.env.R_BASE_IMAGE + listImages[0] : '/img/new-products/1_2.jpg';
     },
-    getTotalPrice(listProducts) {
+    getTotalPrice(listProducts, type) {
+        console.log("thuan", type);
         let total = 0;
         if (listProducts !== null && listProducts !== undefined) {
             listProducts.forEach(element => {
                 total = element.quantity * (parseInt(total) + parseInt(element.price));
             });
         }
-        return total;
+        if (type && listProducts && type == 'include-fee') {
+            return total + 35000;
+        } else {
+            return total;
+        }
     },
     selected(option, value) {
         if (option && value) {
