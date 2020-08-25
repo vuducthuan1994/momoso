@@ -363,6 +363,12 @@ module.exports = {
     createURLCategory(url) {
         return process.env.R_DOMAIN + process.env.CATEGORY_PRODUCT + '/' + url;
     },
+    createURLAboutUs() {
+        return process.env.R_DOMAIN + process.env.ABOUT_US;
+    },
+    createURLBlogs() {
+        return process.env.R_DOMAIN + process.env.BLOG;
+    },
     getTotalPage(totalProduct, pageSize) {
         const totalPage = totalProduct / pageSize;
 
