@@ -36,12 +36,17 @@
     }
     
     .content-left {
-        width: 14%;
-        padding-right: 15px;
+        padding-left: 0;
+        padding-right: 0;
     }
     
-    .content-right {
-        width: 86%;
+    .content-right {}
+    
+    @media only screen and (max-width: 1366px) and (min-width: 1100px) {
+        .primary-menu .home-4-search {
+            width: 150px;
+            position: relative;
+        }
     }
     
     .left-primary-menu-list>li>a {
