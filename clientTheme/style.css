@@ -1296,10 +1296,11 @@ ul.pull-left.home-4-search i {
 /*----------------------------------------*/
 
 .big-banner-ads {
-    background: url("../img/static/5.jpg") no-repeat center center / cover;
+    /* background: url("../img/static/5.jpg") no-repeat center center / cover; */
     padding: 215px 0;
     text-align: center;
     position: relative;
+    background-color: #FFA07A;
 }
 
 .big-banner-ads:before {
