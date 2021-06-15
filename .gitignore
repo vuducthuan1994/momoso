@@ -5,7 +5,7 @@
 .pk
 .pem
 .pub
-public/img
-public/artiles
+#public/img
+#public/artiles
 node_modules
 package-lock.json
