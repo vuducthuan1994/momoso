@@ -226,7 +226,7 @@ module.exports = {
         return listImages.length > 0 ? process.env.R_BASE_IMAGE + listImages[0] : '/img/new-products/1_2.jpg';
     },
     getTotalPrice(listProducts, type) {
-        console.log("thuan", type);
+        // console.log("thuan", type);
         let total = 0;
         if (listProducts !== null && listProducts !== undefined) {
             listProducts.forEach(element => {

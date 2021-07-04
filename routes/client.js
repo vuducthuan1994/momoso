@@ -80,6 +80,7 @@ router.get(process.env.ABOUT_US, async function(req, res) {
     let about_us = await getAboutUsInfo();
     let cart = await getCart(req.sessionID);
     let treeMenu = await getTreeMenu();
+    console.log("hahaha")
     res.render('client/about-us', {
         title: general.title_home + ' - ' + "About US",
         layout: 'client.hbs',
@@ -380,11 +381,18 @@ router.get(`${process.env.POST}/:url`, async function(req, res) {
     let cart = await getCart(req.sessionID);
     let general = await getGeneralConfig();
     let post = await getPostDetail(urlSeo);
+    // console.log(post)
+    let allCategory = await getAllCategory();
+    console.log(allCategory);
     let recentPosts = await getPosts(4, 0);
+    let nextPost = await findNextPost(post._id);
+    let prevPost = await findPrevPost(post._id);
     res.render('client/post-detail', {
         title: general.title_home + ' - ' + post.title,
         layout: 'client.hbs',
         general: general,
+        nextPost : nextPost,
+        prevPost : prevPost,
         post: post ? post.toJSON() : null,
         cart: cart ? cart.toJSON() : null,
         treeMenu: treeMenu,
@@ -392,6 +400,30 @@ router.get(`${process.env.POST}/:url`, async function(req, res) {
     });
 
 });
+
+let findNextPost = function(objectId) {
+    return new Promise(function(reslove, reject) {
+        Posts.findOne({  "_id": { $gt: objectId } }, { title: 1, urlSeo: 1 }, function(err, post) {
+            if (!err && post) {
+                reslove(post);
+            } else {
+                reslove(null);
+            }
+        }).sort({ crawler_date: 1 }).lean();
+    });
+}
+
+let findPrevPost = function(objectId) {
+    return new Promise(function(reslove, reject) {
+        Posts.findOne({ "_id": { $lt: objectId } }, { title: 1, urlSeo: 1 }, function(err, post) {
+            if (!err && post) {
+                reslove(post);
+            } else {
+                reslove(null);
+            }
+        }).sort({ crawler_date: -1 }).lean();
+    });
+}
 
 router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     const urlSeo = req.params.url;

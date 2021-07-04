@@ -48,7 +48,13 @@ var PostsSchema = new Schema({
         default: null
     },
     category: {
-        type: Array,
+        type: [
+            {
+                name : String,
+                _id : String,
+                urlSeo: String
+            }
+        ],
         default: []
     },
     edit_by: {
