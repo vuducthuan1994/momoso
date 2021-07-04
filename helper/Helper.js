@@ -366,6 +366,9 @@ module.exports = {
     createURLAboutUs() {
         return process.env.R_DOMAIN + process.env.ABOUT_US;
     },
+    createURLPurchasePolicy() {
+        return process.env.R_DOMAIN + process.env.PURCHASE_POLICY;
+    },
     createURLBlogs() {
         return process.env.R_DOMAIN + process.env.BLOG;
     },

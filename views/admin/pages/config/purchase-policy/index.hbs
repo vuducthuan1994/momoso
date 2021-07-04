@@ -1,0 +1,82 @@
+<script src="/plugins/ckeditor/ckeditor.js"></script>
+<div id="content" class="main-content">
+    <div class="col-md-12 text-center">
+        <button id="submitForm" form="formSettings" type="submit"
+            class="btn btn-secondary position-relative mt-3 mb-3 ml-2">Cập nhật</button>
+
+    </div>
+    <div class="layout-px-spacing">
+        {{#each errors}}
+        {{>admin/flash-message/error}}
+        {{/each}}
+        {{#each messages}}
+        {{>admin/flash-message/success}}
+        {{/each}}
+        <div class="row layout-top-spacing">
+            <form id="formSettings" enctype="multipart/form-data" method="POST" action="/admin/config/purchase-policy">
+                <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                    <div class="statbox widget box box-shadow mb-2">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Ảnh Banner </h4>
+                                    <p class="text-success">Kích cỡ chuẩn : 1770x630</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area br-6">
+                            <div class="form-group  col-md-12">
+                                <label>Ảnh to</label>
+                                <input accept="image/jpeg,image/gif,image/png,image/x-eps" form="formSettings"
+                                    name="banner-purchase-policy" type="file" class="form-control-file">
+                                <div class="row col-md-6 mt-2">
+                                    <img alt="Chưa có ảnh " class="img-fluid" src="/img/purchase-policy.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="statbox widget box box-shadow mb-4">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Nội dung</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area br-6">
+                            <div class="form-row mb-4">
+                                <div class="form-group col-md-12">
+                                    <label>Giới thiệu</label>
+                                    <textarea value="{{purchase_policy.content.text}}" id="text" name="text"
+                                        class="editor form-control"> {{purchase_policy.content.text}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="/assets/js/clipboard/clipboard.min.js"></script>
+<script src="/assets/js/forms/custom-clipboard.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".editor").each(function () {
+            let id = $(this).attr('id');
+            let value = $(this).attr('value');
+            CKEDITOR.replace(id);
+            CKEDITOR.instances[id].setData(value);
+        });
+
+        // CKEDITOR.replace('poem');
+        //   CKEDITOR.instances['poem'].setData('dsdsds'); // where editor1 is id
+    });
+
+
+</script>

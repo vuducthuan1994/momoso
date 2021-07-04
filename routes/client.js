@@ -91,6 +91,23 @@ router.get(process.env.ABOUT_US, async function(req, res) {
     });
 });
 
+router.get(process.env.PURCHASE_POLICY, async function(req, res) {
+    let general = await getGeneralConfig();
+    let purchase_policy = await getPurchasePolicyInfo();
+    let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
+    console.log("hahaha")
+    res.render('client/purchase-policy', {
+        title: general.title_home + ' - ' + "About US",
+        layout: 'client.hbs',
+        general: general,
+        purchase_policy: purchase_policy,
+        cart: cart ? cart.toJSON() : null,
+        treeMenu: treeMenu
+    });
+});
+
+
 router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     let treeMenu = await getTreeMenu();
 
@@ -605,6 +622,22 @@ let getAboutUsInfo = function() {
             });
         } else {
             resolve(about_us)
+        }
+    });
+}
+
+let getPurchasePolicyInfo = function() {
+    return new Promise(function(resolve, reject) {
+        let purchase_policy = cache.get("purchase-policy");
+        if (purchase_policy == undefined) {
+            Settings.findOne({ type: 'purchase-policy' }, function(err, purchase_policy) {
+                if (!err) {
+                    resolve(purchase_policy.content);
+                    cache.set("purchase-policy", purchase_policy.content);
+                }
+            });
+        } else {
+            resolve(purchase_policy)
         }
     });
 }

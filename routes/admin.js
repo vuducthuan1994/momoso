@@ -19,6 +19,7 @@ module.exports = function(cache) {
     const configGeneral = require('./admin/config/general');
     const configBanner = require('./admin/config/banner');
     const about_us = require('./admin/config/about-us');
+    const purchase_policy = require('./admin/config/purchase-policy');
     const storage = require('./admin/storage');
     const category = require('./admin/category');
     const product = require('./admin/product');
@@ -34,6 +35,7 @@ module.exports = function(cache) {
     router.use('/config/general', configGeneral);
     router.use('/config/banner', configBanner);
     router.use('/config/about-us', about_us);
+    router.use('/config/purchase-policy', purchase_policy);
     router.use('/storage', storage);
     router.use('/category', category);
     router.use('/product', product);
