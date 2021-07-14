@@ -217,7 +217,29 @@ module.exports = {
             return 'active'
         }
         return '';
-
+    },
+    getSizeName(code){
+        let sizesName = {
+            M: 'Size Vừa',
+            L: 'Size Lớn'
+        }
+        return sizesName[code] || code;
+    },
+    getColorName(code) {
+        let colorsName = {
+            G: 'Màu Xám',
+            X: 'Màu Tổng Hợp',
+            I: 'Màu Hồng',
+            B: 'Màu Xanh Dương',
+            D: 'Màu Đỏ',
+            O: 'Màu Cam',
+            E: 'Màu Xanh Lá',
+            Y: 'Màu Vàng',
+            W: 'Màu Trắng',
+            P: 'Màu Tím',
+            R: 'Màu Nâu'
+        }
+        return colorsName[code] || code;
     },
     fullPathImage(url) {
         return process.env.R_BASE_IMAGE + url;

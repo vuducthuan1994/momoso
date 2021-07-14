@@ -48,77 +48,37 @@
                     <div class="widget-content widget-content-area">
                         <div class="table-responsive mb-4">
                             <div class="text-center">
-                                <div class="seperator-header">
-                                    <a href="/admin/storage/add-storage">
-                                        <h4 class="">Thêm Kho </h4>
-                                    </a>
-                                </div>
                                 <table id="style-3" class="table style-3  table-hover">
                                     <thead>
                                         <tr>
                                             <th>STT</th>
-                                            <th>Tên kho</th>
-                                            <th>Tên viết tắt</th>
+                                            <th>Tên Khách hàng</th>
                                             <th>Địa chỉ</th>
                                             <th>Phone </th>
-                                            <th>Ghi chú</th>
+                                            <th>note</th>
                                             <th>Thời gian</th>
-                                            <th class="text-center">Action</th>
+                                            <th>Sản phẩm</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each storages}}
+                                        {{#each orders}}
                                         <tr>
                                             <td class="checkbox-column text-center"> {{@index}}</td>
                                             <td class="text-center title-custom">{{this.name}}</td>
-                                            <td class="text-center">{{this.shortcutName}}</td>
                                             <td class="text-center">{{this.address}}</td>
-                                            <td class="text-center">{{this.phone_number}}</td>
+                                            <td class="text-center">{{this.phone}}</td>
                                             <td class="text-center">{{this.note}}</td>
-                                            <td>
-                                                <div>
-                                                    <span class="badge badge-secondary">Ngày cập nhật</span> <br> <span
-                                                        class="text-muted">{{ formatDate this.updated_date}} </span>
-                                                </div>
-                                                <div class="mt-2 mb-2">
-                                                    <span class="badge badge-secondary">Ngày tạo</span>
-                                                    <br>
-                                                    <span class="text-muted">{{ formatDate this.created_date}} </span>
-                                                </div>
-                                            </td>
                                             <td class="text-center">
-                                                <ul class="table-controls">
-                                                    <li><a title="Sửa Thông Tin Kho Hàng"
-                                                            href="/admin/storage/edit-storage/{{this._id}}"
-                                                            class="bs-tooltip" data-toggle="tooltip"
-                                                            data-placement="top" title=""
-                                                            data-original-title="Edit"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-edit-2 p-1 br-6 mb-1">
-                                                                <path
-                                                                    d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                                </path>
-                                                            </svg></a></li>
-                                                    {{!-- href="/admin/storage/delete/{{this._id}}"  --}}
-                                                    <li data-toggle="modal" data-target="#exampleModal"
-                                                        data-storageid="{{this._id}}" class="btn-delete-storage"><a
-                                                            title="Xóa Kho Hàng !" class="bs-tooltip"
-                                                            data-toggle="tooltip" data-placement="top" title=""
-                                                            data-original-title="Delete"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-trash p-1 br-6 mb-1">
-                                                                <polyline points="3 6 5 6 21 6"></polyline>
-                                                                <path
-                                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                                                </path>
-                                                            </svg></a></li>
-                                                </ul>
+                                              {{ formatDate this.created_date}}
+                                            </td>
+                                            <td>
+                                                {{#each this.listProducts}}
+                                                    <span class="text-danger">SKU : {{this.code}}{{this.color}}{{this.size}}</span>
+                                                    <br>
+                                                    <span class="text-danger">Số lượng: {{this.count}}</span>
+                                                    <br>
+                                                    <span class="text-danger">Giá: {{this.price}}</span>
+                                                {{/each}}
                                             </td>
                                         </tr>
                                         {{/each}}

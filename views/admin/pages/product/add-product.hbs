@@ -77,6 +77,9 @@
                                                     placeholder="Enter unique name of product..." class="form-control"
                                                     required="">
                                             </div>
+                                             {{#if product._id}}
+
+                                             {{else}}
                                              <div class=" form-group col-lg-6  col-md-12">
                                                 <label>List Prices</label>
                                                 <input id="list-price" value="{{product.list_price}}" type="text"
@@ -84,6 +87,7 @@
                                                     placeholder="Example: 450000;550000..." class="form-control"
                                                     required="">
                                             </div>
+                                            {{/if}}
                                             <br>
                                             <div class=" form-group col-lg-6  col-md-12">
                                                 <label>URL SEO</label>

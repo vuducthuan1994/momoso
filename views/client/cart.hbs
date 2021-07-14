@@ -74,7 +74,7 @@
                                         <td class="product-quantity"><input type="number" value="{{this.count}}">
                                         </td>
                                         <td class="product-color">
-                                            {{this.color}}
+                                            {{getColorName this.color}}
                                             {{!-- <select class="form-control">
                                                 {{#each this.blocksColor}}
                                                 <option value="{{this.colorCode}}" {{selected this.colorCode ../this.color}}>{{this.colorName}}</option>
@@ -82,7 +82,7 @@
                                             </select> --}}
                                         </td>
                                         <td class="product-size">
-                                            {{this.size}}
+                                            {{getSizeName this.size}}
                                             {{!-- <select class="form-control">
                                                 {{#each this.blocksSize}}
                                                 <option value="{{this.sizeCode}}" {{selected this.sizeCode ../this.size}} >{{this.sizeName}}</option>
@@ -117,7 +117,7 @@
                             <div class="col-md-8 col-sm-7 col-xs-12">
                                 <div class="buttons-cart">
                                     <input id="updateCartButton"  value="Cập Nhật Giỏ Hàng" />
-                                    <a  href="{{createURLCategory 'all'}}">Continue Shopping</a>
+                                    <a  href="{{createURLCategory 'all'}}">Tiếp tục mua hàng</a>
                                 </div>
                             </div>
                             <!-- Cart Button Start -->
@@ -128,14 +128,14 @@
                                     <br />
                                     <table>
                                         <tbody>
-                                            <tr class="cart-subtotal">
+                                            {{!-- <tr class="cart-subtotal">
                                                 <th>Subtotal</th>
                                                 <td><span data-price="{{getTotalPrice cart.listCartProducts}}"
                                                         class="amount product-price-vnd">{{getTotalPrice cart.listCartProducts}}</span>
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
                                             <tr class="order-total">
-                                                <th>Total</th>
+                                                {{!-- <th>Total</th> --}}
                                                 <td>
                                                     <strong><span data-price="{{getTotalPrice cart.listCartProducts}}"
                                                             class=" amount product-price-vnd">{{getTotalPrice cart.listCartProducts}}</span></strong>

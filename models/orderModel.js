@@ -25,7 +25,16 @@ var OrderSchema = new Schema({
         trim: true
     },
     listProducts : {
-        type: []
+        type: [
+            {
+                count: Number,
+                urlSeo: String,
+                code: String,
+                color: String,
+                size : String,
+                price: Number,
+            }
+        ]
     },
     created_date: {
         type: Date,
