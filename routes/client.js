@@ -763,7 +763,7 @@ let getNewProducts = function() {
         let newProducts = cache.get("newProducts");
         if (newProducts == undefined) {
             let results = [];
-            Products.find({ type: 'new' }, { quantity: 0, totalOrder: 0, category: 0, note: 0, detail: 0, created_date: 0, updated_date: 0, view: 0, point: 0, __v: 0, totalReview: 0, rate: 0, code: 0 }, function(err, products) {
+            Products.find({ type: 'new' }, {  totalOrder: 0, category: 0, note: 0, detail: 0, created_date: 0, updated_date: 0, view: 0, point: 0, __v: 0, totalReview: 0, rate: 0}, function(err, products) {
                 if (!err) {
                     var totalProduct = products.length;
                     if (products.length % 2 !== 0) {

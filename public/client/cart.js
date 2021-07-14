@@ -3,9 +3,13 @@ $(document).ready(function() {
     $('.add-product-to-cart').on('click', addToCart);
     $('.remove-wish-list').on('click', removeFromWishList);
     // for element render from server
-    $('.remove-product-from-cart').on('click', removeFromCart);
-    // for element after append
-    $('#container-products').on('click', '.remove-product-from-cart', removeFromCart);
+  
+    $('#container-products').on('click', '.remove-product-from-cart',removeFromCart)
+
+    $('#container-card-detail').on('click', '.remove-product-from-cart',removeFromCart)
+
+    
+
     $('#updateCartButton').on('click', updateCart);
     $('.product-color select').on('change', changeImageProduct);
     initCart();
@@ -83,9 +87,10 @@ function removeFromWishList() {
 
 
 function removeFromCart() {
+    console.log("remove from cart !");
     let productid = $(this).data('productid');
     let price = $(this).data('price');
-    let quantity = $(this).data('quantity');
+    let count = $(this).data('count');
     let data = {
         _id: productid
     }
@@ -102,7 +107,7 @@ function removeFromCart() {
                 $(`tr#${productid}`).remove();
 
                 let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
-                totalPrice = parseInt(totalPrice) - (parseInt(price) * parseInt(quantity));
+                totalPrice = parseInt(totalPrice) - (parseInt(price) * parseInt(count));
                 $('#totalPrice').data('price', parseInt(totalPrice));
                 $('.amount').data('price', parseInt(totalPrice));
                 getPriceVND();
@@ -157,28 +162,44 @@ function updateCart() {
 
 function addToCart() {
     var product = $(this).data('product');
-
-    product['quantity'] = $('.cart-plus-minus-box').val() == 0 ? 1 : $('.cart-plus-minus-box').val();
-    product['color'] = $('.container-list-color li.active').data('code') ? $('.container-list-color li.active').data('code') : (product.blocksColor && product.blocksColor.length > 0) ? product.blocksColor[0].colorCode : 'FREE-COLOR';
-    product['size'] = $('.container-list-size li.active').data('code') ? $('.container-list-size li.active').data('code') : (product.blocksSize && product.blocksSize.length > 0) ? product.blocksSize[0].sizeCode : 'FREE-SIZE';
-    let data = {
-        product: product
-    }
-    $.ajax({
-        url: `/api/addToCart`,
-        dataType: "json",
-        data: data,
-        method: 'POST',
-        success: function(data) {
-            if (data.success) {
-                toast('Thông báo', 'Thêm thành công vào giỏ hàng!', 'success');
-                $('#cart-length').text(data.lengthCart);
-                addProductToListHeader(product);
-            } else {
-                toast('Thông báo', 'Sản phẩm đã tồn tại trong giỏ hàng !', 'info');
-            }
+    const type_add = $(this).data('type');
+    console.log(type_add)
+    if(type_add) {
+        if(type_add == 'detail' ) {
+            product['count'] = $('#count_detail').val() == 0 ? 1 : $('#count_detail').val();
+            product['color'] = $('#small-img li.active').data('code'); 
+            product['size'] = $('#list-size li.active').data('code');
         }
-    });
+        if(type_add== 'quick_view') {
+            product['count'] = $('#count_quickview').val() == 0 ? 1 : $('#count_quickview').val();
+            product['color'] = $('#quick-view-listColor li.active').data('code'); 
+            product['size'] = $('#quick-view-listSize li.active').data('code');
+        }
+
+        if(!product['color'] || !product['count']) {
+            toast('Thông báo', 'Vui lòng chọn màu sắc và kích cỡ !', 'info');
+            return;
+        }
+
+        let data = {
+            product: product
+        }
+        $.ajax({
+            url: `/api/addToCart`,
+            dataType: "json",
+            data: data,
+            method: 'POST',
+            success: function(data) {
+                if (data.success) {
+                    toast('Thông báo', 'Thêm thành công vào giỏ hàng!', 'success');
+                    $('#cart-length').text(data.lengthCart);
+                    addProductToListHeader(product);
+                } else {
+                    toast('Thông báo', 'Sản phẩm đã tồn tại trong giỏ hàng !', 'info');
+                }
+            }
+        });
+    } 
 }
 
 function addProductToListHeader(product) {
@@ -188,13 +209,13 @@ function addProductToListHeader(product) {
     </div>
     <div class="cart-content">
         <h6><a href="${BASE_URL+'/'+product.urlSeo}">${product.name}</a></h6>
-       <span>${product.quantity} ×</span> <span class="product-price-vnd" data-price="${product.price} ">${product.price}</span>
+       <span>${product.count} ×</span> <span class="product-price-vnd" data-price="${product.price} ">${product.price}</span>
     </div>
-    <i data-quantity="${product.quantity}" data-price="${product.price}" data-productid="${product._id}" class="remove-product-from-cart pe-7s-close"></i>
+    <i data-count="${product.count}" data-price="${product.price}" data-productid="${product._id}" class="remove-product-from-cart pe-7s-close"></i>
 </div>`;
     $('#container-products').append(html);
     let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
-    totalPrice = parseInt(totalPrice) + (parseInt(product.quantity) * parseInt(product.price));
+    totalPrice = parseInt(totalPrice) + (parseInt(product.count) * parseInt(product.price));
     $('#totalPrice').data('price', totalPrice);
     getPriceVND();
 
@@ -222,7 +243,7 @@ function addToWishList() {
         method: 'POST',
         success: function(data) {
             if (data.success) {
-                toast('Thông báo', 'Thêm thành công !', 'success');
+                toast('Thông báo', 'Thêm vào danh sách ưa thích thành công !', 'success');
                 $('#wish-list-length').text(data.lengthWishList);
             } else {
                 toast('Thông báo', 'Sản phẩm đã tồn tại trong danh sách ưa thích', 'info');

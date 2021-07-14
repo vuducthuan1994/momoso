@@ -60,7 +60,7 @@
                                             <th class="product-name">Sản phẩm</th>
                                             <th class="product-price">Giá</th>
                                             <th class="product-quantity">Trạng thái</th>
-                                            <th class="product-subtotal">Thêm vào giỏ hàng</th>
+                                            <th class="product-subtotal">Chi tiết</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,21 +69,20 @@
                                             <td class="product-remove"> <a href="#"><i data-productid="{{this._id}}"  class="remove-wish-list fa fa-times"
                                                         aria-hidden="true"></i></a></td>
                                             <td class="product-thumbnail">
-                                                <a href="#"><img src="{{getActiveProductImage this.listImages}}"
+                                                <a href="{{ createURLProduct this.urlSeo}}"><img src="{{getActiveProductImage this.listImages}}"
                                                         alt="cart-image" /></a>
                                             </td>
-                                            <td class="product-name"><a href="#">{{this.name}}</a></td>
+                                            <td class="product-name"><a href="{{ createURLProduct this.urlSeo}}">{{this.name}}</a></td>
                                             <td class="product-price"><span  data-price = "{{this.price}}"class="amount product-price-vnd">{{this.price}}</span></td>
                                             <td class="product-stock-status"><span>
                                             {{#ifEquals this.quantity  0}}
-                                            
                                                 Hàng Order
                                              {{else}}   
                                              Sẵn hàng
                                              {{/ifEquals}}
                                             </span></td>
-                                            <td class="product-add-to-cart"><a class="add-product-to-cart"
-                                                    data-product="{{objectToString this}}">thêm ngay</a></td>
+                                            <td class="product-add-to-cart"><a 
+                                                    href="{{ createURLProduct this.urlSeo}}">Link</a></td>
                                         </tr>
                                         {{else}}
                                         <tr>

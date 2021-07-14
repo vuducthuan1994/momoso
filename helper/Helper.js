@@ -230,7 +230,7 @@ module.exports = {
         let total = 0;
         if (listProducts !== null && listProducts !== undefined) {
             listProducts.forEach(element => {
-                total = element.quantity * (parseInt(total) + parseInt(element.price));
+                total = element.count * (parseInt(total) + parseInt(element.price));
             });
         }
         if (type && listProducts && type == 'include-fee') {

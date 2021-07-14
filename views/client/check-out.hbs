@@ -107,7 +107,7 @@
                                         {{#each cart.listCartProducts}}
                                         <tr class="cart_item">
                                             <td class="product-name">
-                                                {{this.name}} <strong class="product-quantity"> × {{this.quantity}}
+                                                {{this.name}} <strong class="product-quantity"> × {{this.count}}
                                                 </strong>
                                             </td>
                                             <td class="product-total">
@@ -133,7 +133,7 @@
                             <div class="payment-method">
                                 <div class="payment-accordion">
                                     <div class="order-button-payment">
-                                        <input id="subMitFormOrder" form="formOrder"  type="submit" value="ĐẶT HÀNG NGAY" />
+                                        <input  data-product="{{objectToString cart.listCartProducts}}"  id="subMitFormOrder" form="formOrder"  type="submit" value="ĐẶT HÀNG NGAY" />
                                     </div>
                                 </div>
                             </div>

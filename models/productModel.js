@@ -53,6 +53,9 @@ var ProductSchema = new Schema({
         type: Array,
         default: []
     },
+    skus: {
+        type: Array,
+    },
     blocksColor: {
         type: Array,
         default: []
@@ -66,7 +69,13 @@ var ProductSchema = new Schema({
         default: '#'
     },
     category: {
-        type: Array,
+        type: [
+            {
+                name : String,
+                _id : String,
+                urlSeo: String
+            }
+        ],
         require: true,
         default: []
     },

@@ -189,8 +189,10 @@ router.post('/', isAuthenticated, async function(req, res) {
         if (file.name !== '' && fieldName.includes('color_image_block_')) {
             const imgName = uslug((new Date().getTime() + '-' + (content['name'] ? (slugFromTitle(content['name']) + '.jpg') : file.name)), { allowedChars: '.-', lower: true });
             const new_path = path.join(__basedir, `public/img/product/${imgName}`);
-
+            
+            // get index color
             const indexColor = parseInt(fieldName.slice(fieldName.length - 1));
+            // end get indexcolor
             listColorImage[indexColor] = `/img/product/${imgName}`;
             resizeImages(file.path, new_path);
         }
@@ -202,6 +204,9 @@ router.post('/', isAuthenticated, async function(req, res) {
         });
 
         content['blocksColor'] = blocksColor;
+    
+        let skus = getSkus(content.code,content.blocksColor,content.blocksSize,content.list_price);
+        content['skus'] = skus;
         Product.create(content, function(err, product) {
             if (!err) {
                 updateTotalProductInCategory(product.category);
@@ -227,6 +232,25 @@ router.post('/', isAuthenticated, async function(req, res) {
         });
     });
 });
+
+let getSkus = function (productCode, colors, sizes, prices) {
+    let result = [];
+ 
+    let listPrices = prices.split(";");
+    for (let i = 0; i < colors.length; i++) {
+        const color = colors[i].colorCode;
+        for (let j = 0; j < sizes.length; j++) {
+            const size = sizes[j].sizeCode;
+            result.push({
+                sku: `${productCode}${color}${size}`,
+                count: 1,
+                price: Number(listPrices[j])
+            })
+        }
+    }
+    return result;
+}
+
 
 router.post('/deleteImage', function(req, res) {
     const form = formidable({ multiples: true });

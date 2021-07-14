@@ -11,11 +11,36 @@ var CartSchema = new Schema({
         trim: true
     },
     listCartProducts: {
-        type: Array,
+        type: [ {
+
+            urlSeo : String,
+            _id: String,
+            listImages: Array,
+            thumb_cart : String,
+            price : String,
+            name : String,
+            color: String,
+            size: String,
+            code: String,
+            count: Number, // số lượng mua
+            quantity: Number // số lượng còn trong kho
+        }
+        ],
         default: []
     },
     listFavorProducts: {
-        type: Array,
+        type: [
+            {
+                urlSeo : String,
+                _id: String,
+                listImages: Array,
+                thumb_cart : String,
+                price : String,
+                name : String,
+                code: String,
+                quantity: Number // số lượng còn trong kho
+            }
+        ],
         default: []
     },
     created_date: {

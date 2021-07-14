@@ -1,40 +1,37 @@
-$(document).ready(function() {
+
+$(document).ready(function () {
 
 
     initFilterPrice();
-    $('#submitFromFooter').on('click', function() {
+    $('#submitFromFooter').on('click', function () {
         const email = ($('#subscribe_email').val());
         submitSubscribeHandler(email);
     });
-    $('#btn-search-product-desktop').on('click', function() {
+    $('#btn-search-product-desktop').on('click', function () {
         if ($('#formSearchProduct input').val()) {
             document.getElementById("formSearchProduct").submit();
         }
     });
 
-    $('#btn-search-product-mobile').on('click', function() {
+    $('#btn-search-product-mobile').on('click', function () {
         if ($('#form-search-produc-mobile input').val()) {
             document.getElementById("form-search-produc-mobile").submit();
         }
     });
 
-    $('#submitFromModal').on('click', function() {
+    $('#submitFromModal').on('click', function () {
         const email = $('.modalSubscribe input').val();
 
         submitSubscribeHandler(email)
     });
-    $('#newsletter-permission').on('input', function() {
+    $('#newsletter-permission').on('input', function () {
         const isShowPopup = $('#newsletter-permission').is(':checked');
         if (isShowPopup) {
             localStorage.setItem('isShowPopup', false);
         }
     });
-    $('.show-quick-modal').on('click', function() {
-        const productID = $(this).data('idproduct');
-        getProductById(productID);
-    });
-    $('.pro-desc-list').on('click', '.button-color', setActiveColor);
-    $('.pro-desc-list').on('click', '.button-size', setActiveSize);
+ 
+
     getPriceVND();
     initPageSizeForCategory();
     initSortByForCategory();
@@ -43,19 +40,7 @@ $(document).ready(function() {
 });
 var R_BASE_IMAGE_QUICK_VIEW = 'https://momostudio.vn';
 
-function setActiveColor() {
-    $(this).parent().find('li').removeClass('active');
-    $(this).addClass('active');
-    const idActive = $(this).find('a').attr('href');
-    $(idActive).parent().find('div').removeClass('active in');
-    $(idActive).addClass('active in');
 
-}
-
-function setActiveSize() {
-    $(this).parent().parent().find('li').removeClass('active');
-    $(this).parent().addClass('active');
-}
 
 function initFilterPrice() {
     initMinValue = $("#minPrice").data('price');
@@ -69,7 +54,7 @@ function initFilterPrice() {
             max: 3000000,
             step: 10000,
             values: [initMinValue, initMaxValue],
-            slide: function(event, ui) {
+            slide: function (event, ui) {
                 var minPrice = parseInt(ui.values[0]);
                 var maxPrice = parseInt(ui.values[1]);
                 $("#minPrice").attr('data-price', minPrice);
@@ -87,10 +72,10 @@ function initFilterPrice() {
 
 function initPageSizeForCategory() {
     if ($('#pageSizeCategory').length) {
-        document.getElementById("pageSizeCategory").addEventListener("change", function(event) {
+        document.getElementById("pageSizeCategory").addEventListener("change", function (event) {
             location.href = event.target.value;
         });
-        $('#pageSizeCategory option').each(function(index, element) {
+        $('#pageSizeCategory option').each(function (index, element) {
             const pageSize = $(this).attr('value');
             let url = replaceUrlParam(window.location.href, 'pageSize', pageSize);
             $(this).attr('value', url);
@@ -101,10 +86,10 @@ function initPageSizeForCategory() {
 
 function initSortByForCategory() {
     if ($('#shorter').length) {
-        document.getElementById("shorter").addEventListener("change", function(event) {
+        document.getElementById("shorter").addEventListener("change", function (event) {
             location.href = event.target.value;
         });
-        $('#shorter option').each(function(index, element) {
+        $('#shorter option').each(function (index, element) {
 
             const sortType = $(this).attr('value');
             var baseUrl = window.location.href.substring(0, window.location.href.indexOf('?'));
@@ -116,7 +101,7 @@ function initSortByForCategory() {
 }
 
 function initSelectPage() {
-    $('.page-container li a').each(function(index, element) {
+    $('.page-container li a').each(function (index, element) {
         currentUrl = window.location.href;
         var page = $(this).data('page');
         var newUrl = replaceUrlParam(currentUrl, 'page', page);
@@ -127,7 +112,8 @@ function initSelectPage() {
 
 
 function getPriceVND() {
-    $('.product-price-vnd').each(function(index, element) {
+    console.log("TEST 1234")
+    $('.product-price-vnd').each(function (index, element) {
         var price = parseInt($(this).data('price'));
         price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
         $(this).text(price);
@@ -158,94 +144,6 @@ function toast(title, msg, type = 'info') {
 }
 
 
-function resetDataModalProduct() {
-    const myNode = document.getElementById("modal-product-images");
-    myNode.textContent = '';
-}
-
-function getProductById(id) {
-    $.ajax({
-        url: `/api/product/${id}`,
-        method: 'GET',
-        success: function(data) {
-            if (data.success) {
-                $('#quick-view-add-to-cart').attr('data-product', JSON.stringify(data.data));
-                $('#quick-view-add-to-wishlish').attr('data-product', JSON.stringify(data.data));
-                resetDataModalProduct();
-                $('#modal-product-name').text(data.data.name);
-                $('#modal-product-price').text(data.data.price);
-                $('#modal-product-total-review').text(data.data.totalReview);
-                $('#modal-product-price').attr('data-price', data.data.price);
-                $('#modal-product-code').text(data.data.code);
-                // $('#modal-product-point').text(data.data.point);
-                $('#modal-product-status').text(data.data.quantity > 0 ? 'Sẵn hàng' : 'Hàng Order');
-                let htmlOWL = '';
-                data.data.listImages.forEach((imageURL, index) => {
-                    imageURL = R_BASE_IMAGE_QUICK_VIEW + imageURL;
-                    let imageItem = `<div id="thumb${index+1}" class="tab-pane ${index == 0 ? 'fade in active' : 'fade'}">
-                    <img src="${imageURL}" alt="product-thumbnail" /> </div>`
-
-                    let owl_item = `<div  ${index == 0 ? 'class="active"' : ''}> <a data-toggle="tab" href="#thumb${index+1}"> <img src="${imageURL}"
-                    alt="product-thumbnail"></a> </div>`
-                    $('#modal-product-images').append(imageItem);
-                    htmlOWL += owl_item;
-                });
-                let listImageHTML = '';
-                data.data.blocksColor.forEach((colorItem, index) => {
-                    if (colorItem.listImages && colorItem.listImages.length > 0) {
-
-                        const imageColorUrl = R_BASE_IMAGE_QUICK_VIEW + colorItem.listImages[0];
-                        listImageHTML += ` <li data-code = "${colorItem.colorCode}" class = 'button-color'><a  data-toggle="tab" href="#thumb${data.data.listImages.length +  index + 1}">  <img alt="product-thumbnail" src ="${imageColorUrl}"> </a></li>`
-
-
-
-                        let imageItem = `<div id="thumb${data.data.listImages.length + index + 1 }" class="tab-pane fade">
-                        <img src="${imageColorUrl}" alt="product-thumbnail" /> </div>`
-                        $('#modal-product-images').append(imageItem);
-                    }
-                });
-                let listSizeHTML = '';
-                data.data.blocksSize.forEach((sizeItem, index) => {
-
-
-                    listSizeHTML += `<li data-code = "${sizeItem.sizeCode}" >
-                        <button class="btn button-size">${sizeItem.sizeName}</button>
-                       </li>`
-
-                });
-
-                $('#quick-view-listColor ul').html(listImageHTML);
-                $('#quick-view-listSize ul').html(listSizeHTML);
-                $('#thumb-menu-owl').owlCarousel({
-                    loop: false,
-                    navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
-                    margin: 15,
-                    smartSpeed: 1000,
-                    nav: true,
-                    dots: false,
-                    responsive: {
-                        0: {
-                            items: 4
-                        },
-                        600: {
-                            items: 4
-                        },
-                        1000: {
-                            items: 4
-                        }
-                    }
-                })
-
-                $('#thumb-menu-owl').trigger('replace.owl.carousel', htmlOWL).trigger('refresh.owl.carousel');
-                getPriceVND();
-                $('#myModal').modal('show');
-            } else {
-                toast('Thông báo', 'Hệ thống đang gặp sự cố, vui lòng thử lại sau', 'info')
-            }
-        }
-    });
-}
-
 function submitSubscribeHandler(email) {
     if (!email || !(validateEmail(email))) {
         toast('Thông báo', 'Vui lòng nhập đúng địa chỉ email !', 'warning');
@@ -258,7 +156,7 @@ function submitSubscribeHandler(email) {
             dataType: "json",
             data: data,
             method: 'POST',
-            success: function(data) {
+            success: function (data) {
                 $(".popup_wrapper").fadeOut(500);
                 if (data.success) {
                     toast('Thông báo', 'Cám ơn bạn đã subscibe !', 'success');
@@ -282,3 +180,4 @@ function replaceUrlParam(url, paramName, paramValue) {
     url = url.replace(/[?#]$/, '');
     return url + (url.indexOf('?') > 0 ? '&' : '?') + paramName + '=' + paramValue;
 }
+

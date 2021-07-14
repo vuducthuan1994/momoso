@@ -19,7 +19,11 @@
     .container-list-size ul li.active {
         border: 1.5px solid #1b95e0;
     }
-    
+    .container-list-color ul li.out_of_stock ,
+    .container-list-size ul li.out_of_stock 
+    {
+        opacity: 0.5;
+    }
     .container-list-color ul li img {
         cursor: pointer;
         width: 50px;

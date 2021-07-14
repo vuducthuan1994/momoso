@@ -70,7 +70,7 @@
                         <!-- Product Price Start -->
                         <div class="pro-price mb-20">
                             <ul class="pro-price-list">
-                                <li data-price="{{product.price}}" class="price product-price-vnd">{{product.price}}
+                                <li id="current_price_product" data-price="{{product.price}}" class="price product-price-vnd">{{product.price}}
                                 </li>
                                 {{!-- <li class="tax">Ex Tax: $199.99</li> --}}
                             </ul>
@@ -111,9 +111,9 @@
 
                                 {{else}}
                                 <li class="container-list-size">Kích cỡ :
-                                    <ul>
+                                    <ul id="list-size">
                                         {{#each product.blocksSize}}
-                                        <li data-code="{{this.sizeCode}}">
+                                        <li class="out_of_stock" data-code="{{this.sizeCode}}">
                                             <button class="btn">{{this.sizeName}}</button>
                                         </li>
                                         {{/each}}
@@ -128,14 +128,14 @@
                             <div class="quantity-item">
                                 <label>Qty: </label>
                                 <div class="cart-plus-minus">
-                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="0">
+                                    <input id="count_detail" class="cart-plus-minus-box" type="text" name="qtybutton" value="0">
                                 </div>
                             </div>
                         </div>
                         <!-- Product Box Quantity End -->
                         <!-- Product Button Actions Start -->
                         <div class="product-button-actions">
-                            <button data-product="{{objectToString product}}"
+                            <button data-type="detail" data-product="{{objectToString product}}"
                                 class="add-to-cart add-product-to-cart">thêm giỏ hàng</button>
                             <a data-product="{{objectToString product}}" data-toggle="tooltip" title="Add to Wishlist"
                                 class="add-wish-list same-btn mr-15"><i class="pe-7s-like"></i></a>
@@ -336,8 +336,7 @@
                             </a>
                             <div class="quick-view">
                                 <a data-idproduct="{{this._id}}" class="show-quick-modal" data-target="#myModal"><i
-                                        class="pe-7s-look"></i>quick
-                                    view</a>
+                                        class="pe-7s-look"></i>xem nhanh</a>
                             </div>
                             <span class="sticker-new">{{this.type}}</span>
                         </div>
@@ -348,8 +347,8 @@
                             <p data-price="{{this.price}}" class="price product-price-vnd"><span>{{this.price}}</span>
                             </p>
                             <div class="action-links2">
-                                <a data-product="{{objectToString this}}" class="add-product-to-cart"
-                                    data-toggle="tooltip" title="">thêm vào giỏ hàng</a>
+                                <a data-product="{{objectToString this}}" class="add-wish-list"
+                                    data-toggle="tooltip" title="">thêm vào ds ưa thích</a>
                             </div>
                         </div>
                         <!-- Product Content End -->

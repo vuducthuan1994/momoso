@@ -60,7 +60,7 @@
                                         <th class="product-remove">Xóa</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="container-card-detail">
                                     {{#each cart.listCartProducts }}
                                     <tr data-product="{{objectToString this}}" id="{{this._id}}" class="product-item">
                                         <td class="product-thumbnail">
@@ -71,28 +71,30 @@
                                                 href="{{ createURLProduct this.urlSeo}}">{{this.name}}</a></td>
                                         <td data-price="{{this.price}}" class="product-price product-price-vnd"><span
                                                 class="amount">{{this.price}}</span></td>
-                                        <td class="product-quantity"><input type="number" value="{{this.quantity}}">
+                                        <td class="product-quantity"><input type="number" value="{{this.count}}">
                                         </td>
                                         <td class="product-color">
-                                            <select class="form-control">
+                                            {{this.color}}
+                                            {{!-- <select class="form-control">
                                                 {{#each this.blocksColor}}
                                                 <option value="{{this.colorCode}}" {{selected this.colorCode ../this.color}}>{{this.colorName}}</option>
                                                 {{/each}}
-                                            </select>
+                                            </select> --}}
                                         </td>
                                         <td class="product-size">
-                                            <select class="form-control">
+                                            {{this.size}}
+                                            {{!-- <select class="form-control">
                                                 {{#each this.blocksSize}}
                                                 <option value="{{this.sizeCode}}" {{selected this.sizeCode ../this.size}} >{{this.sizeName}}</option>
                                                 {{/each}}
-                                            </select>
+                                            </select> --}}
                                         </td>
 
-                                        <td data-price="{{productTotalSub this.quantity this.price}}"
+                                        <td data-price="{{productTotalSub this.count this.price}}"
                                             class="product-subtotal product-price-vnd">
-                                            {{productTotalSub this.quantity this.price}}</td>
-                                        <td class="product-remove"> <a href="#">
-                                                <i data-quantity="{{this.quantity}}" data-price="{{this.price}}"
+                                            {{productTotalSub this.count this.price}}</td>
+                                        <td  class="product-remove"> <a href="#">
+                                                <i data-count="{{this.count}}" data-price="{{this.price}}"
                                                     data-productid="{{this._id}}"
                                                     class="fa fa-times remove-product-from-cart" aria-hidden="true"></i>
 

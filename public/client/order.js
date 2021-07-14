@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('#subMitFormOrder').on('click', orderProcess);
 });
 
@@ -14,7 +14,15 @@ function toast(title, msg, type = 'info') {
 
 function orderProcess() {
 
-
+    // setTimeout(function() {
+    //                     $('.popup_wrapper_order').css({
+    //                         "opacity": "1",
+    //                         "visibility": "visible"
+    //                     });
+    //                     $('.popup_off').on('click', function() {
+    //                         $(".popup_order").fadeOut(500);
+    //                     })
+    //                 }, 1000);
 
     const money = $('#totalMoney').data('price');
     if (money > 0) {
@@ -41,27 +49,39 @@ function orderProcess() {
 
         if (formStatus) {
             var orderData = $('#order-form').serializeArray();
+            const listProducts = $('#subMitFormOrder').data('product');
+            orderData.push({ name: 'listProducts', value : JSON.stringify(listProducts) });
             $.ajax({
                 url: "/api/createOrder",
                 data: orderData,
                 dataType: "json",
                 method: 'POST',
-                success: function(data) {
-                    setTimeout(function() {
+                success: function (data) {
+                    // setTimeout(function() {
+                    //     $('.popup_wrapper_order').css({
+                    //         "opacity": "1",
+                    //         "visibility": "visible"
+                    //     });
+                    //     $('.popup_off').on('click', function() {
+                    //         $(".popup_wrapper").fadeOut(500);
+                    //     })
+                    // }, 2500);
+                    if (data.success) {
                         $('.popup_wrapper_order').css({
                             "opacity": "1",
                             "visibility": "visible"
                         });
-                        $('.popup_off').on('click', function() {
-                            $(".popup_wrapper").fadeOut(500);
+                        $('.popup_off').on('click', function () {
+
+                            $('.popup_wrapper_order').css({
+                                "opacity": "0",
+                                "visibility": "hidden"
+                            });
                         })
-                    }, 2500);
-                    // if (data.success) {
-                    //     toast('Thông báo', 'Cám ơn bạn đã liên hệ với chúng tôi !', 'success');
-                    // }
-                    // setTimeout(function() { window.location.href = "/"; }, 2000);
+                    }
+                    setTimeout(function() { window.location.href = "/"; }, 2000);
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     toast('Thông báo', 'Vui lòng thử lại sau 1 phút nữa', 'info');
                 }
             });

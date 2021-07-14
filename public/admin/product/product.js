@@ -1,3 +1,6 @@
+let size_example_code = ['M','L','S','XL','XXL'];
+let color_example_code = ['G','X','I','B','D','O','E','Y','W','P','R']
+
 $(document).ready(function() {
     initSelectTag();
     getPriceVND();
@@ -31,30 +34,19 @@ function addImageProduct() {
 }
 
 function addColorBlock() {
-
-    var productCode = $(".form-group  input[name='code']").val()
-    if (productCode == undefined || productCode == null || productCode == "") {
-        toast('Thông báo', 'Bạn chưa thêm mã sản phẩm', 'error')
-    } else {
         var index = $('#container-color-blocks .color-block').length + 1;
-        const colorCode = productCode + '-C' + index;
+        const colorCode = color_example_code[index] || 'FREE_COLOR';
         $('#base-block-color').find('.color-code').val(colorCode);
         const colorBlock = $('#base-block-color').clone(true);
         $('#container-color-blocks').append(colorBlock.children().clone(true));
-    }
 }
 
 function addSizeBlock() {
-    var productCode = $(".form-group  input[name='code']").val()
-    if (productCode == undefined || productCode == null || productCode == "") {
-        toast('Thông báo', 'Bạn chưa thêm mã sản phẩm', 'error')
-    } else {
         var index = $('#container-size-blocks .size-block ').length;
-        const sizeCode = productCode + '-S' + index;
+        const sizeCode = size_example_code[index] || 'FREE-SIZE' ;
         $('#base-block-size').find('.size-code').val(sizeCode);
         const sizeBlock = $('#base-block-size').clone(true);
-        $('#container-size-blocks').append(sizeBlock.children().clone(true));
-    }
+        $('#container-size-blocks').append(sizeBlock.children().clone(true)); 
 }
 
 
@@ -142,6 +134,7 @@ function getColorBlocks() {
 
 function getListSize() {
     let results = [];
+    let validate = true;
     $('#container-size-blocks .size-block').each(function(idx) {
         const sizeCode = $(this).find('input.size-code').val();
         const sizeName = $(this).find('input.size-name').val();
@@ -149,8 +142,16 @@ function getListSize() {
             sizeCode: sizeCode,
             sizeName: sizeName
         }
+        if(!sizeCode || !sizeName) {
+            validate = false;
+   
+        }
     });
-    return JSON.stringify(results);
+    if(validate) {
+        return JSON.stringify(results);
+    } else{
+        return null;
+    }
 }
 
 function initTagSelected(categoryList) {
@@ -231,6 +232,18 @@ let handlerForm = function(idProduct) {
 
     let categorysSelected = $("#product-category").select2('data');
     let sizes = getListSize();
+ 
+    if(!sizes) {
+        swal({
+            title: 'Validate Error',
+            text: `Vui lòng kiểm tra lại các sizes đã chọn`,
+            type: 'error',
+            padding: '2em'
+        });
+        return false;
+    }
+
+ 
 
     for (var i in formData) {
         if (formData[i].name == 'detail') {
@@ -313,10 +326,13 @@ $('.submitForm').on('click', function(event) {
                 required: "Vui lòng điền tên sản phẩm !"
             },
             price: {
-                required: "bạn chưa chọn giá sản phẩm"
+                required: "Bạn chưa chọn giá sản phẩm"
             },
             urlSeo: {
                 required: "URL Sản phẩm không được để trống"
+            },
+            list_price : {
+                required: "Bạn chưa chọn danh sách giá sản phẩm tương ứng với size"
             }
         }
     }).form();
