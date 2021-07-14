@@ -163,7 +163,6 @@ function updateCart() {
 function addToCart() {
     var product = $(this).data('product');
     const type_add = $(this).data('type');
-    console.log(type_add)
     if(type_add) {
         if(type_add == 'detail' ) {
             product['count'] = $('#count_detail').val() == 0 ? 1 : $('#count_detail').val();
@@ -176,7 +175,7 @@ function addToCart() {
             product['size'] = $('#quick-view-listSize li.active').data('code');
         }
 
-        if(!product['color'] || !product['count']) {
+        if(!product['color'] || !product['size']) {
             toast('Thông báo', 'Vui lòng chọn màu sắc và kích cỡ !', 'info');
             return;
         }
