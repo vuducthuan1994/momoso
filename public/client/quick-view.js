@@ -83,7 +83,7 @@ function getProductById(id) {
             if (data.success) {
                 $('#quick-view-add-to-cart').attr('data-product', JSON.stringify(data.data));
                 $('#quick-view-add-to-cart').data('product', data.data);
-                $('#quick-view-add-to-wishlish').attr('data-product', JSON.stringify(data.data));
+                $('#quick-view-add-to-wishlish').attr('data-id', data.data._id);
                 sku_quick_view = data.data.skus;
 
                 ResetDataModalProduct();
@@ -162,7 +162,6 @@ function getProductById(id) {
 }
 
 function GetPriceVND() {
-    console.log("TEST 1234")
     $('.product-price-vnd').each(function (index, element) {
         var price = parseInt($(this).data('price'));
         price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });

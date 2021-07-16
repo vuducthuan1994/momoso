@@ -8,14 +8,12 @@ $(document).ready(function() {
 });
 
 function selectProductColor() {
-    console.log("hahaha")
     if( !$(this).parent().hasClass('out_of_stock')) {
-        console.log("hahaha")
         $('#list-size li').removeClass('out_of_stock');
         $('#list-size li').removeClass('active');
         $('#small-img li').removeClass('active');
         $(this).parent().addClass('active');
-        checkSizesStock();
+        CheckSizeStock();
     }
 }
 
@@ -47,17 +45,16 @@ function checkColorsStock() {
             $(this).find('a').attr('data-zoom-image', '');
             $(this).find('a').attr('data-image', '');
             initElevatezoom();
-        }
-        
+        } 
     });
 }
 
-function checkSizesStock() {
-
+function CheckSizeStock() {
    $('.container-list-size li').each(function(i,obj){
     const sizeCode = $(this).data('code');
     const currentColorCode =$('#small-img li.active').data('code');
-     let check_product_size = checkSizeColorsOnSkus(sizeCode , currentColorCode);
+     let check_product_size = CheckSizeColorsOnSkus(sizeCode , currentColorCode);
+     console.log(check_product_size,"Vu DUC THUANNNNNNNNN")
      if(!check_product_size) { 
         $(this).addClass('out_of_stock');
      }
@@ -80,9 +77,10 @@ function checkColorOnSkus(color_code){
     }
 }
 
-function checkSizeColorsOnSkus(size_code, color_code) {
+function CheckSizeColorsOnSkus(size_code, color_code) {
     const productCode = $('.add-product-to-cart').data('product').code;
     let product_join_size_color = productCode + color_code + size_code;
+    console.log(product_join_size_color)
     if(!skus || skus.length ==0){
         return false;
     } else {

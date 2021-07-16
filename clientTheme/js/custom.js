@@ -112,7 +112,6 @@ function initSelectPage() {
 
 
 function getPriceVND() {
-    console.log("TEST 1234")
     $('.product-price-vnd').each(function (index, element) {
         var price = parseInt($(this).data('price'));
         price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });

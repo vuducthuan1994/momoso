@@ -201,15 +201,25 @@ router.post('/removeFromCart', commonLimiter, function (req, res) {
 });
 
 router.post('/addToWishList', commonLimiter, function (req, res) {
-    Carts.findOneAndUpdate({ sessionID: req.sessionID, "listFavorProducts._id": { $ne: req.body.product._id } }, { $push: { "listFavorProducts": req.body.product } }, { upsert: true, new: true }, function (err, data) {
-        if (!err) {
-            res.json({
-                success: true,
-                msg: 'thêm sản phẩm thành công vào danh sách ưa thích !',
-                lengthWishList: data.listFavorProducts.length
+    const productId =  req.body.productId;
+    Products.findOne({ _id: productId }, function (err, product) { 
+        if(!err && product) {
+            Carts.findOneAndUpdate({ sessionID: req.sessionID, "listFavorProducts._id": { $ne: productId} }, { $push: { "listFavorProducts": product } }, { upsert: true, new: true }, function (err, data) {
+                if (!err) {
+                    res.json({
+                        success: true,
+                        msg: 'thêm sản phẩm thành công vào danh sách ưa thích !',
+                        lengthWishList: data.listFavorProducts.length
+                    });
+                } else {
+                    res.json({
+                        success: false,
+                        msg: 'Không thêm được sản phẩm vào danh sách ưa thích!'
+                    });
+                }
             });
+
         } else {
-            console.log(err);
             res.json({
                 success: false,
                 msg: 'Không thêm được sản phẩm vào danh sách ưa thích!'
@@ -241,7 +251,6 @@ router.get('/product/:id', function (req, res) {
     const idProduct = req.params.id;
     Products.findOne({ _id: idProduct }, function (err, product) {
         if (!err) {
-            console.log(product);
             res.json({
                 success: true,
                 data: product

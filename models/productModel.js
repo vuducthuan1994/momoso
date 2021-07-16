@@ -9,6 +9,11 @@ var ProductSchema = new Schema({
         unique: true,
         trim: true
     },
+    name_xoa_dau : {
+        type: String,
+        required: true,
+        trim: true
+    },
     view: {
         type: Number,
         default: 0

@@ -69,7 +69,7 @@
                                     <p data-price="{{this.one.price}}" class="product-price-vnd price">
                                         <span>{{this.one.price}}</span></p>
                                     <div class="action-links2">
-                                        <a class="add-wish-list" data-product="{{objectToString this.one}}"
+                                        <a class="add-wish-list" data-id="{{this.one._id}}"
                                             data-toggle="tooltip" title="Thêm vào giỏ hàng">Thêm vào ds ưa thích</a>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                     <p data-price="{{this.two.price}}" class="price product-price-vnd">
                                         <span>{{this.two.price}}</span></p>
                                     <div class="action-links2">
-                                        <a class="add-wish-list" data-product="{{objectToString this.two}}"
+                                        <a class="add-wish-list" data-id="{{this.two._id}}"
                                             data-toggle="tooltip" title="Thêm vào giỏ hàng">Thêm vào ds ưa thích</a>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@
                                 <p data-price="{{this.price}}" class="price product-price-vnd">
                                     <span>{{this.price}}</span></p>
                                 <div class="action-links2">
-                                    <a class="add-wish-list" data-product="{{objectToString this}}"  data-toggle="tooltip" title="Thêm vào danh sách ưa thích" >thêm vào ds ưa thích</a>
+                                    <a class="add-wish-list" data-id="{{this._id}}"   data-toggle="tooltip" title="Thêm vào danh sách ưa thích" >thêm vào ds ưa thích</a>
                                 </div>
                             </div>
                             <!-- Product Content End -->

@@ -232,8 +232,10 @@ function getPriceVND() {
 function addToWishList() {
     // var sessionID = $('#js-cart-data').data('seasonid');
     var product = $(this).data('product');
+    const productId =$(this).data('id');
     let data = {
-        product: product
+        product: product,
+        productId : productId
     }
     $.ajax({
         url: `/api/addToWishList`,
