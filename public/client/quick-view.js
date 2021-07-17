@@ -65,9 +65,9 @@ function setActiveSize() {
         const productCodeAfterJoin= `${productCode}${currentColorCode}${currentSizeCode}`;
         if(sku_quick_view && sku_quick_view.length > 0) {
             let newPrice = sku_quick_view.find(o => o.sku === productCodeAfterJoin).price;
-            console.log(newPrice);
-            $('#modal-product-price').data('price',newPrice);
-            GetPriceVND();
+            $('#modal-product-price').attr('data-price',newPrice);
+            const price = newPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+            $('#modal-product-price').text(price)
         }
     }
 }
@@ -163,7 +163,7 @@ function getProductById(id) {
 
 function GetPriceVND() {
     $('.product-price-vnd').each(function (index, element) {
-        var price = parseInt($(this).data('price'));
+        var price = parseInt($(this).attr('data-price'));
         price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
         $(this).text(price);
     });

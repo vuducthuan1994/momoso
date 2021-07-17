@@ -457,7 +457,6 @@ let findPrevPost = function(objectId) {
 router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     const urlSeo = req.params.url;
     let product = await getProductDetail(urlSeo);
-  
     if (product !== null) {
         let reviews = await getReviews(product._id);
         let general = await getGeneralConfig();

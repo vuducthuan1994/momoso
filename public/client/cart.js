@@ -106,10 +106,10 @@ function removeFromCart() {
                 $(`.single-cart-box#${productid}`).remove();
                 $(`tr#${productid}`).remove();
 
-                let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
+                let totalPrice = $('#totalPrice').attr('data-price') ? $('#totalPrice').attr('data-price') : 0;
                 totalPrice = parseInt(totalPrice) - (parseInt(price) * parseInt(count));
-                $('#totalPrice').data('price', parseInt(totalPrice));
-                $('.amount').data('price', parseInt(totalPrice));
+                $('#totalPrice').attr('data-price', parseInt(totalPrice));
+                $('.amount').attr('data-price', parseInt(totalPrice));
                 getPriceVND();
             } else {
                 toast('Thông báo', 'Không xóa được', 'info');
@@ -168,11 +168,15 @@ function addToCart() {
             product['count'] = $('#count_detail').val() == 0 ? 1 : $('#count_detail').val();
             product['color'] = $('#small-img li.active').data('code'); 
             product['size'] = $('#list-size li.active').data('code');
+            product['price'] = $('#current_price_product').attr('data-price');
+            console.log(product)
         }
         if(type_add== 'quick_view') {
             product['count'] = $('#count_quickview').val() == 0 ? 1 : $('#count_quickview').val();
             product['color'] = $('#quick-view-listColor li.active').data('code'); 
             product['size'] = $('#quick-view-listSize li.active').data('code');
+            product['price'] = $('#modal-product-price').attr('data-price');
+
         }
 
         if(!product['color'] || !product['size']) {
@@ -213,9 +217,9 @@ function addProductToListHeader(product) {
     <i data-count="${product.count}" data-price="${product.price}" data-productid="${product._id}" class="remove-product-from-cart pe-7s-close"></i>
 </div>`;
     $('#container-products').append(html);
-    let totalPrice = $('#totalPrice').data('price') ? $('#totalPrice').data('price') : 0;
+    let totalPrice = $('#totalPrice').attr('data-price') ? $('#totalPrice').attr('data-price') : 0;
     totalPrice = parseInt(totalPrice) + (parseInt(product.count) * parseInt(product.price));
-    $('#totalPrice').data('price', totalPrice);
+    $('#totalPrice').attr('data-price', totalPrice);
     getPriceVND();
 
 
@@ -223,7 +227,7 @@ function addProductToListHeader(product) {
 
 function getPriceVND() {
     $('.product-price-vnd').each(function(index, element) {
-        var price = parseInt($(this).data('price'));
+        var price = parseInt($(this).attr('data-price'));
         price = price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
         $(this).text(price);
     });

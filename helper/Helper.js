@@ -250,9 +250,9 @@ module.exports = {
     getTotalPrice(listProducts, type) {
         // console.log("thuan", type);
         let total = 0;
-        if (listProducts !== null && listProducts !== undefined) {
+        if (listProducts) {
             listProducts.forEach(element => {
-                total = element.count * (parseInt(total) + parseInt(element.price));
+                total = total + element.count * Number(element.price);
             });
         }
         if (type && listProducts && type == 'include-fee') {
