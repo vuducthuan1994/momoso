@@ -1,29 +1,70 @@
 <!-- Header All Shopping Selection Start -->
-<div class="col-lg-2 col-md-2 col-sm-6 col-xs-7 full-col pr-0">
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-7 full-col pr-0">
     <div class="main-selection">
         <ul class="selection-list text-right">
             <!-- Searcch Box Start -->
-            {{!-- <li class="hidden-control"><i class="pe-7s-search"></i>
+            <li class="hidden-control"><i class="pe-7s-search"></i>
                 <ul class="search-form ht-dropdown">
                     <li>
-                        <form action="#">
-                            <input type="text" class="search" name="search" placeholder="Search for products...">
+                        <form id="formSearchProduct" action="{{createRouteSearch}}" method="POST">
+                            <input type="text" class="search" name="search" placeholder="Tìm kiếm sản phẩm ...">
                         </form>
-                        <i class="pe-7s-search"></i>
+                        <i id="btn-search-product-desktop" class="pe-7s-search"></i>
                     </li>
                 </ul>
-            </li> --}}
+            </li>
             <!-- Search Box End -->
+            <li>
+                <a href="{{createWishLishURL}}">
+                    <i class="pe-7s-like"></i>
+                    <span id="wish-list-length">0</span>
+                </a>
+            </li>
+            <li data-cart="{{ objectToString cart}}" id="js-cart-data">
+                <a href="{{createCartDetailURL}}">
+                    <i class="pe-7s-shopbag"></i>
+                    <span id="cart-length">0</span>
+                </a>
+                <ul class="ht-dropdown main-cart-box">
+                    <li>
+                        <!-- Cart Box Start -->
+                        <div id="container-products">
+                            {{#each cart.listCartProducts }}
+                            <div id="{{this._id}}" class="single-cart-box">
+                                <div class="cart-img">
+                                    <a href="{{createURLProduct this.urlSeo}}"><img
+                                            src="{{createThumbCartImage this.thumb_cart}}" alt="cart-image"></a>
+                                </div>
+                                <div class="cart-content">
+                                    <h6><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h6>
+                                    <span>{{this.count}} ×</span> <span class="product-price-vnd"
+                                        data-price="{{this.price}}">100.000</span>
+                                </div>
+                                <i data-count="{{this.count}}" data-price="{{this.price}}" data-productid="{{this._id}}"
+                                    class="remove-product-from-cart pe-7s-close"></i>
+                            </div>
+                            {{/each }}
+                            <!-- Cart Box End -->
+                        </div>
 
-            <!-- Cart and wishlist icon -->
-            {{>client/cart-header/cart}}
-            <!--End Cart and wishlist icon -->
-
+                        <!-- Cart Footer Inner Start -->
+                        <div class="cart-footer fix">
+                            <h5>total :<span id="totalPrice" data-price="{{getTotalPrice cart.listCartProducts}}"
+                                    class="f-right product-price-vnd"> {{getTotalPrice
+                                    cart.listCartProducts}}</span></h5>
+                            <div class="cart-actions">
+                                <a class="checkout" href="/check-out">Thanh Toán</a>
+                            </div>
+                        </div>
+                        <!-- Cart Footer Inner End -->
+                    </li>
+                </ul>
+            </li>
             <!-- Dropdown Currency Selection Start -->
             <li><i class="pe-7s-config"></i>
                 <ul class="ht-dropdown currrency">
                     <li>
-                        <h3>currency</h3>
+                        <h3>Tiền tệ</h3>
                         <ul class="mb-15">
                             <li>€ euro</li>
                             <li>£ pound sterling</li>
@@ -33,16 +74,16 @@
                     <li>
                         <h3>Ngôn Ngữ</h3>
                         <ul class="mb-15">
-                            <li><img src="img/menu/2.png" alt="menu-icon">english</li>
-                            <li><img src="img/menu/1.png" alt="menu-icon">french</li>
+                            <li><img src="img/menu/2.png" alt="menu-icon">English</li>
+                            <li><img src="img/menu/1.png" alt="menu-icon">Việt Nam</li>
                         </ul>
                     </li>
                     <li>
-                        <h3>my account</h3>
+                        <h3>Tài khoản của tôi</h3>
                         <ul>
-                            <li><a href="register.html">Đăng ký</a></li>
-                            <li><a href="account.html">Tài khoản của tôi</a></li>
-                            <li><a href="log-in.html">Đăng nhập</a></li>
+                            <li><a href="register.html">register</a></li>
+                            <li><a href="account.html">My Account</a></li>
+                            <li><a href="log-in.html">log in</a></li>
                         </ul>
                     </li>
                 </ul>

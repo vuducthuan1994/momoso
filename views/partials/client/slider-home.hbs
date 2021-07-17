@@ -1,44 +1,39 @@
-<div class="container-slider">
-    <div class="content-left col-md-2">
-        <div class="hidden-sm hidden-xs">
-            <nav>
-                <ul class="left-primary-menu-list text-center">
-                    {{#each allCategory}}
-                    <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a></li>
-                    {{/each}}
-                </ul>
-            </nav>
-        </div>
-    </div>
-
-    <div class="content-right col-md-10">
-        <!-- Slider Area Start -->
-        <div class="slider-area pb-100">
-            <!-- Main Slider Area Start -->
-            <div class="slider-wrapper theme-default">
-                <!-- Slider Background  Image Start-->
-                <div id="slider" class="nivoSlider">
-                    {{#each banners}}
+<div class="slider-area pb-100">
+    <!-- Main Slider Area Start -->
+    <div class="slider-wrapper theme-default">
+        <!-- Slider Background  Image Start-->
+        <div id="slider" class="nivoSlider">
+               {{#each banners}}
                     <img src="{{fullPathImage this.imageUrl}}" data-thumb="{{fullPathImage this.imageUrl}}"
                         title="#htmlcaption{{@index}}" />
                     {{/each}}
-                </div>
-                <!-- Slider Background  Image Start-->
-
-                {{#each banners}}
-                <div id="htmlcaption{{@index}}" class="nivo-html-caption slider-caption">
-                    <!-- Slider Text Start -->
-                    <div class="slider-text">
+           
+        </div>
+        <!-- Slider Background  Image Start-->
+        <!-- Slider htmlcaption Start-->
+          {{#each banners}}
+        <div id="htmlcaption{{@index}}" class="nivo-html-caption slider-caption">
+            <!-- Slider Text Start -->
+            <div class="slider-text">
                         <h2 class="wow zoomInUp" data-wow-delay="1s">{{{this.title}}}</h2>
                         <p class="wow zoomInUp" data-wow-delay="1s">{{{this.desc}}}</p>
                         <a class="wow zoomInUp" data-wow-delay="0.8s" href="{{createURLCategory 'all'}}">shop now</a>
-                    </div>
-                    <!-- Slider Text End -->
-                </div>
-                {{/each}}
-            </div>
-            <!-- Main Slider Area End -->
+           </div>
+            <!-- Slider Text End -->
         </div>
-        <!-- Slider Area End -->
+            {{/each}}
+        <!-- Slider htmlcaption End -->
+        <!-- Slider htmlcaption Start -->
+        {{!-- <div id="htmlcaption2" class="nivo-html-caption slider-caption">
+            <!-- Slider Text Start -->
+            <div class="slider-text">
+                <h2 class="wow zoomInUp" data-wow-delay="0.5s">IF YOUR PURCHASE<br>IS OVER $350</h2>
+                <p class="wow zoomInUp" data-wow-delay="0.6s">We’ll give you a FREE delivery!</p>
+                <a class="wow zoomInUp" data-wow-delay="1s" href="categorie-page.html">shop now</a>
+            </div>
+            <!-- Slider Text End -->
+        </div> --}}
+        <!-- Slider htmlcaption End -->
     </div>
+    <!-- Main Slider Area End -->
 </div>

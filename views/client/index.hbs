@@ -66,9 +66,9 @@
                                 <!-- Product Content Start -->
                                 <div class="pro-content text-center">
                                     <h4><a href="{{ createURLProduct this.one.urlSeo}}">{{this.one.name}}</a></h4>
-                                    <p data-price="{{this.one.price}}" class="product-price-vnd price">
-                                        <span>{{this.one.price}}</span></p>
-                                    <div class="action-links2">
+                                    {{!-- <p data-price="{{this.one.price}}" class="product-price-vnd price">
+                                        <span>{{this.one.price}}</span></p> --}}
+                                    <div style="margin-top: 1.5rem;" class="action-links2">
                                         <a class="add-wish-list" data-id="{{this.one._id}}"
                                             data-toggle="tooltip" title="Thêm vào giỏ hàng">Thêm vào ds ưa thích</a>
                                     </div>
@@ -182,8 +182,8 @@
                             <!-- Product Content Start -->
                             <div class="pro-content text-center">
                                 <h4><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h4>
-                                <p data-price="{{this.price}}" class="price product-price-vnd">
-                                    <span>{{this.price}}</span></p>
+                                {{!-- <p data-price="{{this.price}}" class="price product-price-vnd">
+                                    <span>{{this.price}}</span></p> --}}
                                 <div class="action-links2">
                                     <a class="add-wish-list" data-id="{{this._id}}"   data-toggle="tooltip" title="Thêm vào danh sách ưa thích" >thêm vào ds ưa thích</a>
                                 </div>

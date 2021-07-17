@@ -457,12 +457,13 @@ let findPrevPost = function(objectId) {
 router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
     const urlSeo = req.params.url;
     let product = await getProductDetail(urlSeo);
-    let reviews = await getReviews(product._id);
-    let general = await getGeneralConfig();
-    let productsRelated = await getRelatedProducts(product);
-    let treeMenu = await getTreeMenu();
-    let cart = await getCart(req.sessionID);
+  
     if (product !== null) {
+        let reviews = await getReviews(product._id);
+        let general = await getGeneralConfig();
+        let productsRelated = await getRelatedProducts(product);
+        let treeMenu = await getTreeMenu();
+        let cart = await getCart(req.sessionID);
         res.render('client/product-detail', {
             title: general.title_home + ' - ' + product.name,
             layout: 'client.hbs',
@@ -476,7 +477,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             treeMenu: treeMenu
         });
     } else {
-        // returrn 404
+        res.redirect('/')
     }
 });
 

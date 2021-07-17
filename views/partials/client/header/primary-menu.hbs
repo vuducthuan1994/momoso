@@ -1,33 +1,27 @@
 <!-- Primary-Menu Start -->
-
-<div class="col-lg-8 col-md-8 col-sm-12  hidden-sm hidden-xs">
-
+<div class="col-lg-7 col-md-7 col-sm-12  hidden-sm hidden-xs">
     <div class="primary-menu">
-        <ul class="pull-left home-4-search">
-            <li>
-                <form id="formSearchProduct" action="{{createRouteSearch}}" method="POST">
-                    <input required="" type="text" class="search" name="search" placeholder="Tìm kiếm sản phẩm ...">
-                </form>
-                <i id="btn-search-product-desktop" class="pe-7s-search "></i>
-            </li>
-        </ul>
-        <nav class="pull-right">
+        <nav>
             <ul class="primary-menu-list text-center">
-                <li class="static-menu">
-                    <button class="btn btn-default btn-all-product">          
-                         <a href="#"> <strong>Tất cả sản phẩm</strong><i
-                            class="pe-7s-angle-down"></i>
-                            
-                            </a></button>
-         
+                <li><a href="/">Trang chủ</a></li>
+                {{!-- <li><a href="index.html">home<i class="pe-7s-angle-down"></i></a>
+                    <!-- Home Version Dropdown Start -->
+                    <ul class="ht-dropdown">
+                        <li><a href="index.html">Home Version 1</a></li>
+                        <li><a href="home-2.html">Home Version 2</a></li>
+                        <li><a href="home-3.html">Home Version 3</a></li>
+                        <li><a href="home-4.html">Home Version 4</a></li>
+                    </ul>
+                    <!-- Home Version Dropdown End -->
+                </li> --}}
+
+                <li class="static-menu"><a href="#">Tất cả sản phẩm<i class="pe-7s-angle-down"></i></a>
                     <!-- Mega Menu Start -->
                     <ul class="ht-dropdown mega-menu-2">
+
                         {{#each treeMenu}}
-                        <!-- Single Mega Sub Menu Start -->
                         <li>
-                            <a href="{{createURLCategory this.urlSeo}}">
-                                <h3>{{this.name}}</h3>
-                            </a>
+                            <h3>{{this.name}}</h3>
                             <ul>
                                 {{#each this.children}}
                                 <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a></li>
@@ -35,15 +29,13 @@
                             </ul>
                         </li>
                         {{/each}}
-                        <!-- Single Mega Sub Menu Start -->
                     </ul>
                     <!-- Mega Menu End -->
                 </li>
-                <li><a href="/">Trang chủ</a></li>
-                <li><a href="/about-us">About Us</a></li>
+
+                <li><a href="/about-us">about us</a></li>
                 <li><a href="/blogs">Blogs</a></li>
                 <li><a href="/contact">Liên hệ</a></li>
-
             </ul>
         </nav>
     </div>
