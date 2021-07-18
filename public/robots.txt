@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+Disallow: /login
+Disallow: /check-out
+Sitemap: https://momostudio.vn/sitemap-0.xml

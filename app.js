@@ -21,7 +21,7 @@ global.__basedir = __dirname;
 
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
-
+const SiteMapService = require('./service/sitemap');
 mongoose.connect(process.env.DB_URL, {
     user: process.env.DB_USER,
     pass: process.env.DB_PASSWORD,
@@ -74,6 +74,12 @@ app.use(expressSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+if (process.env.SITEMAP == '1') {
+    console.log("create sitemap");
+    const crawler = new SiteMapService();
+    crawler.createSiteMap()
+}
 
 // Using the flash middleware provided by connect-flash to store messages in session
 // and displaying in templates

@@ -9,3 +9,4 @@
 #public/artiles
 node_modules
 package-lock.json
+public/sitemap-*.xml
