@@ -406,28 +406,34 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
 
 router.get(`${process.env.POST}/:url`, async function(req, res) {
     const urlSeo = req.params.url;
-    let treeMenu = await getTreeMenu();
-    let cart = await getCart(req.sessionID);
-    let general = await getGeneralConfig();
     let post = await getPostDetail(urlSeo);
-    // console.log(post)
-    let allCategory = await getAllCategory();
-    console.log(allCategory);
-    let recentPosts = await getPosts(4, 0);
-    let nextPost = await findNextPost(post._id);
-    let prevPost = await findPrevPost(post._id);
-    res.render('client/post-detail', {
-        title: general.title_home + ' - ' + post.title,
-        layout: 'client.hbs',
-        general: general,
-        nextPost : nextPost,
-        prevPost : prevPost,
-        post: post ? post.toJSON() : null,
-        cart: cart ? cart.toJSON() : null,
-        treeMenu: treeMenu,
-        recentPosts: recentPosts.map(post => post.toJSON()),
-    });
 
+    if(post && post._id) {
+        let treeMenu = await getTreeMenu();
+        let relatedPosts = await getRelatedPosts(post);
+        let cart = await getCart(req.sessionID);
+        let general = await getGeneralConfig();
+        // console.log(post)
+        let allCategory = await getAllCategory();
+        let recentPosts = await getPosts(4, 0);
+        let nextPost = await findNextPost(post._id);
+        let prevPost = await findPrevPost(post._id);
+        res.render('client/post-detail', {
+            title: general.title_home + ' - ' + post.title,
+            layout: 'client.hbs',
+            general: general,
+            imagePreview: process.env.R_BASE_IMAGE + post.thumb_image,
+            nextPost : nextPost,
+            prevPost : prevPost,
+            relatedPosts : relatedPosts,
+            post: post ? post.toJSON() : null,
+            cart: cart ? cart.toJSON() : null,
+            treeMenu: treeMenu,
+            recentPosts: recentPosts.map(post => post.toJSON()),
+        });
+    } else {
+        res.redirect('/');
+    }
 });
 
 let findNextPost = function(objectId) {
@@ -547,6 +553,29 @@ let getCart = function(sessionID) {
         });
     });
 
+}
+
+let getRelatedPosts = function(postItem) {
+    const keyCache = 'related' + postItem._id;
+    let listURLSeoRelated = [];
+    postItem.category.forEach((item) => {
+        listURLSeoRelated.push(item.urlSeo);
+    });
+    return new Promise(function(resolve, reject) {
+        let posts = cache.get(keyCache);
+        if (posts == undefined) {
+            Posts.aggregate([{ $match: { "category": { $elemMatch: { "urlSeo": { $in: listURLSeoRelated } } } } }], function(err, posts) {
+                if (!err) {
+                    resolve(posts);
+                    cache.set(keyCache, posts);
+                } else {
+                    resolve([]);
+                }
+            }).limit(3);
+        } else {
+            resolve(posts)
+        }
+    });
 }
 
 let getRelatedProducts = function(productItem) {
