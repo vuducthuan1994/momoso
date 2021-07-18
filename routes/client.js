@@ -4,11 +4,13 @@ const Products = require('../models/productModel');
 const Posts = require('../models/postsModel');
 const Banners = require('../models/config/bannerModel');
 const Categorys = require('../models/categoryModel');
+const CategorysPosts = require('../models/categoryPostModel');
 const Carts = require('../models/cartModel');
 const Review = require('../models/reviewModel');
 const Instagram = require('../models/instagramModel');
 let router = express.Router();
 const NodeCache = require("node-cache");
+const CategoryPost = require('../models/categoryPostModel');
 const cache = new NodeCache({ stdTTL: process.env.CACHE_TIME });
 
 router.post(process.env.SEARCH, async function(req, res) {
@@ -314,13 +316,55 @@ router.get(process.env.CHECK_OUT, async function(req, res) {
     });
 });
 
+let getDetailCategoryPost = function(urlSeo) {
+    return new Promise(function(reslove, reject) {
+        CategoryPost.findOne({urlSeo : urlSeo}, function(err, detail) {
+            if(!err) {
+                reslove(detail)
+            } else {
+                reslove(null);
+            }
+        }).lean()
+    })
+}
+
+router.get(`${process.env.BLOG}/:category_url`, async function(req, res) {
+
+
+    const currentPage = req.query.page ? req.query.page : 1;
+    const category_urlSeo =req.params.category_url.trim();
+    const detailCategofy = await getDetailCategoryPost(category_urlSeo);
+    console.log(detailCategofy);
+    if(detailCategofy) {
+        let general = await getGeneralConfig();
+        let cart = await getCart(req.sessionID);
+        let posts = await getBlogsWithPagination(currentPage,category_urlSeo);
+        let treeMenu = await getTreeMenu();
+        res.render('client/blog', {
+            header : detailCategofy.name,
+            title: general.title_home + "-" + detailCategofy.name,
+            layout: 'client.hbs',
+            general: general,
+            cart: cart ? cart.toJSON() : null,
+            posts: posts ? posts[0].edges : [],
+            currentUrl: process.env.R_BASE_IMAGE + req.url,
+            treeMenu: treeMenu,
+            currentPage: currentPage
+        });
+    } else {
+        res.redirect("/");
+    }
+ 
+});
+
 router.get(process.env.BLOG, async function(req, res) {
-    const currentPage = req.params.page ? req.params.page : 1;
+    const currentPage = req.query.page ? req.query.page : 1;
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
     let posts = await getBlogsWithPagination(currentPage);
     let treeMenu = await getTreeMenu();
     res.render('client/blog', {
+        header : "DANH SÁCH TIN TỨC MỚI NHẤT CỦA MOMO",
         title: general.title_home + " - Các bài viết",
         layout: 'client.hbs',
         general: general,
@@ -332,10 +376,19 @@ router.get(process.env.BLOG, async function(req, res) {
     });
 });
 
-let getBlogsWithPagination = function(page) {
+let getBlogsWithPagination = function(page , category_urlSeo = null) {
+
+    let match = {};
+    if(category_urlSeo) {
+        match = {"category.urlSeo":category_urlSeo}
+    }
     return new Promise(function(reslove, reject) {
         Posts.aggregate(
-            [{
+            [
+                {
+                    $match: match
+                },
+                {
                 $facet: {
                     edges: [
                         { $sort: { updated_date: -1 } },
@@ -404,6 +457,20 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
     });
 });
 
+let getCategoryPost = function() {
+
+    return new Promise(function(reslove,reject) {
+        CategorysPosts.find({}, function(err, data) {
+          if(!err) {
+            reslove(data)
+          } else {
+            reslove([]);
+          }
+        }).lean();
+    })
+    
+}
+
 router.get(`${process.env.POST}/:url`, async function(req, res) {
     const urlSeo = req.params.url;
     let post = await getPostDetail(urlSeo);
@@ -414,7 +481,7 @@ router.get(`${process.env.POST}/:url`, async function(req, res) {
         let cart = await getCart(req.sessionID);
         let general = await getGeneralConfig();
         // console.log(post)
-        let allCategory = await getAllCategory();
+        let allCategory = await getCategoryPost();
         let recentPosts = await getPosts(4, 0);
         let nextPost = await findNextPost(post._id);
         let prevPost = await findPrevPost(post._id);
@@ -422,6 +489,7 @@ router.get(`${process.env.POST}/:url`, async function(req, res) {
             title: general.title_home + ' - ' + post.title,
             layout: 'client.hbs',
             general: general,
+            allCategory : allCategory,
             imagePreview: process.env.R_BASE_IMAGE + post.thumb_image,
             nextPost : nextPost,
             prevPost : prevPost,
@@ -683,6 +751,8 @@ let getPurchasePolicyInfo = function() {
     });
 }
 
+
+
 let getAllCategory = function() {
     return new Promise(function(reslove, reject) {
         let categorys = cache.get('allCategorys');
@@ -692,7 +762,7 @@ let getAllCategory = function() {
                     cache.set('allCategorys', categorys);
                     reslove(categorys)
                 }
-            })
+            });
         } else {
             reslove(categorys)
         }

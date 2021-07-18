@@ -385,6 +385,9 @@ module.exports = {
     createURLCategory(url) {
         return process.env.R_DOMAIN + process.env.CATEGORY_PRODUCT + '/' + url;
     },
+    createURLCategoryPost(url) {
+        return process.env.R_DOMAIN + process.env.BLOG + '/' + url;
+    },
     createURLAboutUs() {
         return process.env.R_DOMAIN + process.env.ABOUT_US;
     },

@@ -304,14 +304,11 @@
                     <!-- Recent Post End -->
                     <!-- Category Post Start -->
                     <div class="categorie recent-post">
-                        <h3 class="sidebar-title mt-40">categories</h3>
+                        <h3 class="sidebar-title mt-40">Thể loại bài viết</h3>
                         <ul class="categorie-list">
-                            <li><a href="#">Corporate</a></li>
-                            <li><a href="#">Creative</a></li>
-                            <li><a href="#">Design</a></li>
-                            <li><a href="#">News</a></li>
-                            <li><a href="#">Photography</a></li>
-                            <li><a href="#">Technology</a></li>
+                            {{#each allCategory}}
+                            <li><a href="{{createURLCategoryPost this.urlSeo}}">{{this.name}}</a></li>
+                            {{/each}}
                         </ul>
                     </div>
                     <!-- Category Post End -->
