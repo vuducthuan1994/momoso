@@ -17,13 +17,13 @@
             <li>
                 <a href="{{createWishLishURL}}">
                     <i class="pe-7s-like"></i>
-                    <span id="wish-list-length">0</span>
+                    <span id="wish-list-length">{{getLengthArray cart.listFavorProducts}}</span>
                 </a>
             </li>
-            <li data-cart="{{ objectToString cart}}" id="js-cart-data">
+            <li data-length ="{{getLengthArray cart.listCartProducts}}" id="js-cart-data">
                 <a href="{{createCartDetailURL}}">
                     <i class="pe-7s-shopbag"></i>
-                    <span id="cart-length">0</span>
+                    <span id="cart-length">{{getLengthArray cart.listCartProducts}}</span>
                 </a>
                 <ul class="ht-dropdown main-cart-box">
                     <li>

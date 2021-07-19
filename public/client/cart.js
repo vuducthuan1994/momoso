@@ -49,13 +49,9 @@ function toast(title, msg, type = 'info') {
 
 
 function initCart() {
-    var cart = $('#js-cart-data').data('cart');
-    if (cart) {
-        $('#cart-length').text(cart.listCartProducts.length);
-        if(cart.listCartProducts.length > 0) {
-            $('.ht-dropdown.main-cart-box').addClass('open');
-        }
-        $('#wish-list-length').text(cart.listFavorProducts.length);
+    var cartLength = Number($('#js-cart-data').attr('data-length'));
+    if(cartLength > 0) {
+        $('.ht-dropdown.main-cart-box').addClass('open');
     }
 }
 
@@ -242,11 +238,8 @@ function getPriceVND() {
 }
 
 function addToWishList() {
-    // var sessionID = $('#js-cart-data').data('seasonid');
-    // var product = $(this).data('product');
     const productId =$(this).data('id');
     let data = {
-        // product: product,
         productId : productId
     }
     $.ajax({

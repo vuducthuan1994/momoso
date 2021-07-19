@@ -382,6 +382,13 @@ module.exports = {
     ifBigger(arg1, arg2, options) {
         return (arg1 >= arg2) ? options.fn(this) : options.inverse(this);
     },
+    getLengthArray(arr) {
+        if(arr && arr.length > 0) {
+            return arr.length;
+        } else{
+            return 0;
+        }
+    },
     createURLCategory(url) {
         return process.env.R_DOMAIN + process.env.CATEGORY_PRODUCT + '/' + url;
     },
