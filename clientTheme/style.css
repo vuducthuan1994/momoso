@@ -481,7 +481,7 @@ input#newsletter-permission {
 }
 
 .primary-menu-list>li:hover>ul.ht-dropdown,
-.selection-list li:hover ul.ht-dropdown {
+.selection-list li:hover .ht-dropdown.open {
     opacity: 1;
     visibility: visible;
 }

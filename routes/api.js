@@ -167,20 +167,43 @@ router.post('/updateCart', commonLimiter, function (req, res) {
 })
 
 router.post('/addToCart', commonLimiter, function (req, res) {
-    Carts.findOneAndUpdate({ sessionID: req.sessionID, "listCartProducts._id": { $ne: req.body.product._id } }, { $push: { "listCartProducts": req.body.product } }, { upsert: true, new: true }, function (err, data) {
-        if (!err) {
-            res.json({
-                success: true,
-                msg: 'Cập nhật giỏ hàng thành công !',
-                lengthCart: data.listCartProducts.length
-            });
-        } else {
-            res.json({
-                success: false,
-                msg: 'Không cập nhật được giỏ hàng !'
-            });
-        }
-    });
+    const productId =  req.body.productId;
+    if(productId && req.body.selection) {
+        Products.findOne({ _id: productId }, function (err, product) {  
+            if(!err && product) {
+                copy_product =JSON.parse(JSON.stringify(product));
+                let mergedProduct ={...copy_product , ...req.body.selection}
+                Carts.findOneAndUpdate({ sessionID: req.sessionID, "listCartProducts._id": { $ne: productId } }, { $push: { "listCartProducts": mergedProduct } }, { upsert: true, new: true }, function (err, data) {
+                    if (!err) {
+                        res.json({
+                            success: true,
+                            msg: 'Cập nhật giỏ hàng thành công !',
+                            product : mergedProduct,
+                            lengthCart: data.listCartProducts.length
+                        });
+                    } else {
+                        console.log(err);
+                        res.json({
+                            success: false,
+                            msg: 'Không cập nhật được giỏ hàng !'
+                        });
+                    }
+                });
+    
+            } else {
+                res.json({
+                    success: false,
+                    msg: 'Sản phẩm không tồn tại !'
+                });
+            }
+        });   
+    } else{
+        res.json({
+            success: false,
+            msg: 'Truyền thiếu tham số !'
+        });
+    }
+   
 });
 
 router.post('/removeFromCart', commonLimiter, function (req, res) {

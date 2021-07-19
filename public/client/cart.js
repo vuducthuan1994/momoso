@@ -50,11 +50,13 @@ function toast(title, msg, type = 'info') {
 
 function initCart() {
     var cart = $('#js-cart-data').data('cart');
-    if (cart && cart !== null && cart !== undefined) {
+    if (cart) {
         $('#cart-length').text(cart.listCartProducts.length);
+        if(cart.listCartProducts.length > 0) {
+            $('.ht-dropdown.main-cart-box').addClass('open');
+        }
         $('#wish-list-length').text(cart.listFavorProducts.length);
     }
-
 }
 
 function removeFromWishList() {
@@ -103,6 +105,9 @@ function removeFromCart() {
             if (data.success) {
                 toast('Thông báo', 'Xóa sản phẩm thành công khỏi giỏ hàng', 'success');
                 $('#cart-length').text(data.lengthCart);
+                if(data.lengthCart  == 0) {
+                    $('.ht-dropdown.main-cart-box').removeClass('open');
+                }
                 $(`.single-cart-box#${productid}`).remove();
                 $(`tr#${productid}`).remove();
 
@@ -161,31 +166,31 @@ function updateCart() {
 }
 
 function addToCart() {
-    var product = $(this).data('product');
-    const type_add = $(this).data('type');
+    var selection = {};
+    const productId = $(this).attr('data-id');
+    const type_add = $(this).attr('data-type');
     if(type_add) {
         if(type_add == 'detail' ) {
-            product['count'] = $('#count_detail').val() == 0 ? 1 : $('#count_detail').val();
-            product['color'] = $('#small-img li.active').data('code'); 
-            product['size'] = $('#list-size li.active').data('code');
-            product['price'] = $('#current_price_product').attr('data-price');
-            console.log(product)
+            selection['count'] = $('#count_detail').val() == 0 ? 1 : $('#count_detail').val();
+            selection['color'] = $('#small-img li.active').attr('data-code'); 
+            selection['size'] = $('#list-size li.active').attr('data-code');
+            selection['price'] = $('#current_price_product').attr('data-price');
+            console.log(selection)
         }
         if(type_add== 'quick_view') {
-            product['count'] = $('#count_quickview').val() == 0 ? 1 : $('#count_quickview').val();
-            product['color'] = $('#quick-view-listColor li.active').data('code'); 
-            product['size'] = $('#quick-view-listSize li.active').data('code');
-            product['price'] = $('#modal-product-price').attr('data-price');
+            selection['count'] = $('#count_quickview').val() == 0 ? 1 : $('#count_quickview').val();
+            selection['color'] = $('#quick-view-listColor li.active').attr('data-code'); 
+            selection['size'] = $('#quick-view-listSize li.active').attr('data-code');
+            selection['price'] = $('#modal-product-price').attr('data-price');
 
         }
-
-        if(!product['color'] || !product['size']) {
+        if(!selection['color'] || !selection['size']) {
             toast('Thông báo', 'Vui lòng chọn màu sắc và kích cỡ !', 'info');
             return;
         }
-
         let data = {
-            product: product
+            selection: selection,
+            productId : productId
         }
         $.ajax({
             url: `/api/addToCart`,
@@ -196,7 +201,10 @@ function addToCart() {
                 if (data.success) {
                     toast('Thông báo', 'Thêm thành công vào giỏ hàng!', 'success');
                     $('#cart-length').text(data.lengthCart);
-                    addProductToListHeader(product);
+                    if(data.lengthCart > 0) {
+                        $('.ht-dropdown.main-cart-box').addClass('open');
+                    }
+                    addProductToListHeader(data.product);
                 } else {
                     toast('Thông báo', 'Sản phẩm đã tồn tại trong giỏ hàng !', 'info');
                 }
@@ -235,10 +243,10 @@ function getPriceVND() {
 
 function addToWishList() {
     // var sessionID = $('#js-cart-data').data('seasonid');
-    var product = $(this).data('product');
+    // var product = $(this).data('product');
     const productId =$(this).data('id');
     let data = {
-        product: product,
+        // product: product,
         productId : productId
     }
     $.ajax({

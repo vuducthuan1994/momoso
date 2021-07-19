@@ -37,7 +37,7 @@ function checkSizesStock() {
  }
 
  function checkSizeColorsOnSkus(size_code, color_code) {
-    const productCode = $('#quick-view-add-to-cart').data('product').code;
+    const productCode = $('#quick-view-add-to-cart').attr('data-code');
     let product_join_size_color = productCode + color_code + size_code;
     if(!sku_quick_view || sku_quick_view.length ==0){
         return false;
@@ -57,7 +57,7 @@ function setActiveSize() {
     if( !$(this).parent().hasClass('out_of_stock')) { 
         $('#quick-view-listSize li').removeClass('active');
         $(this).parent().addClass('active');
-        const productCode = $('#quick-view-add-to-cart').data('product').code;
+        const productCode = $('#quick-view-add-to-cart').attr('data-code');
 
         const currentColorCode =$('#quick-view-listColor li.active').data('code');
         const currentSizeCode =$('#quick-view-listSize li.active').data('code');
@@ -81,8 +81,8 @@ function getProductById(id) {
         success: function (data) {
 
             if (data.success) {
-                $('#quick-view-add-to-cart').attr('data-product', JSON.stringify(data.data));
-                $('#quick-view-add-to-cart').data('product', data.data);
+                $('#quick-view-add-to-cart').attr('data-id', data.data._id);
+                $('#quick-view-add-to-cart').attr('data-code', data.data.code);
                 $('#quick-view-add-to-wishlish').attr('data-id', data.data._id);
                 sku_quick_view = data.data.skus;
 
@@ -189,9 +189,8 @@ function CheckColorsStock() {
 }
 
 function CheckColorOnSkus(color_code) {
-    const productCode = $('#quick-view-add-to-cart').data('product');
-    console.log(productCode);
-    let product_join_color = productCode.code + color_code;
+    const productCode = $('#quick-view-add-to-cart').attr('data-code');
+    let product_join_color = productCode + color_code;
     if (!sku_quick_view || sku_quick_view.length == 0) {
         return false;
     } else {
