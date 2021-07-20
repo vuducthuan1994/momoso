@@ -39,9 +39,9 @@ NOTE: main.js, All custom script and plugin activation script in this file.
     /*----------------------------
     1. preloader Activation
     -----------------------------*/
-    $(window).load(function() {
-        $(".preloader").fadeOut("slow");
-    });
+    // $(window).load(function() {
+    //     $(".preloader").fadeOut("slow");
+    // });
 
     /*--------------------------
     2. Newsletter Popup
