@@ -41,6 +41,28 @@ if (process.env.ENV == 'DEV') {
             console.log('sync 2', value);
         }
     });
+        compressor.minify({
+        compressor: 'sqwish',
+        input: [
+            'clientTheme/css/meanmenu.min.css',
+            "clientTheme/css/animate.css",
+            "clientTheme/css/nivo-slider.css",
+            "clientTheme/css/owl.carousel.min.css",
+            "clientTheme/css/jquery-ui.min.css",
+            "clientTheme/css/font-awesome.min.css",
+            "clientTheme/css/pe-icon-7-stroke.css",
+            "clientTheme/css/bootstrap.min.css",
+            "clientTheme/css/default.css"
+        
+        ],
+        output: 'public/css-dist/app.css',
+        type: 'css',
+        sync: true,
+        callback: function(err, value) {
+            console.log(err);
+            console.log('sync 2', value);
+        }
+    });
 
 }
 
