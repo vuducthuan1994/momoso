@@ -71,10 +71,11 @@ NOTE: main.js, All custom script and plugin activation script in this file.
     -----------------------------*/
     $('#slider').nivoSlider({
         effect: 'random',
+        manualAdvance:false,
         animSpeed: 300,
         pauseTime: 5000,
         directionNav: true,
-        manualAdvance: true,
+        manualAdvance: false,
         controlNavThumbs: false,
         pauseOnHover: true,
         controlNav: true,
@@ -113,6 +114,7 @@ NOTE: main.js, All custom script and plugin activation script in this file.
     $('.new-products').owlCarousel({
         loop: false,
         nav: true,
+        autoplay:true,
         dots: false,
         margin: 30,
         navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
@@ -146,11 +148,11 @@ NOTE: main.js, All custom script and plugin activation script in this file.
     8. New Products Activation
     -----------------------------*/
     $('.blog').owlCarousel({
-        loop: false,
+        loop: true,
         dots: false,
         autoplay: true,
         margin: 30,
-        smartSpeed: 1000,
+        smartSpeed: 500,
         responsive: {
             0: {
                 items: 1

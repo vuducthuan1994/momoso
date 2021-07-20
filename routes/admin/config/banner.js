@@ -70,11 +70,9 @@ router.post('/', function(req, res) {
         if (imageUrl !== null) {
             fields.imageUrl = `/img/banner/${imageUrl}`;
         }
-        if (fields.isShow) {
-            fields.isShow = true;
-        } else {
-            fields.isShow = false;
-        }
+        fields.isShow = fields.isShow ? true : false;
+        fields.showText = fields.showText ? true : false;
+        fields.showShopNow = fields.showShopNow ? true : false;
         if (err) {
             req.flash('messages', "Không thêm được Banner!");
             res.redirect('back');
@@ -122,13 +120,12 @@ router.post('/edit-banner/:id', function(req, res) {
         if (imageUrl !== null) {
             fields.imageUrl = `/img/banner/${imageUrl}`;
         }
-        if (fields.isShow) {
-            fields.isShow = true;
-        } else {
-            fields.isShow = false;
-        }
-        if (err) {
 
+        fields.isShow = fields.isShow ? true : false;
+        fields.showText = fields.showText ? true : false;
+        fields.showShopNow = fields.showShopNow ? true : false;
+
+        if (err) {
             req.flash('errors', "Không sửa được banner!");
         } else {
             fields.updated_date = new Date();

@@ -15,9 +15,14 @@
         <div id="htmlcaption{{@index}}" class="nivo-html-caption slider-caption">
             <!-- Slider Text Start -->
             <div class="slider-text">
+                       {{#ifEquals this.showText  true}}
                         <h2 class="wow zoomInUp" data-wow-delay="1s">{{{this.title}}}</h2>
                         <p class="wow zoomInUp" data-wow-delay="1s">{{{this.desc}}}</p>
+                         {{/ifEquals}}
+
+                           {{#ifEquals this.showShopNow  true}}
                         <a class="wow zoomInUp" data-wow-delay="0.8s" href="{{createURLCategory 'all'}}">shop now</a>
+                        {{/ifEquals}}
            </div>
             <!-- Slider Text End -->
         </div>

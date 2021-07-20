@@ -24,6 +24,14 @@ var BannersSchema = new Schema({
         trim: true,
         default: true
     },
+    showText : {
+        type: Boolean,
+        default: true
+    },
+    showShopNow:{
+        type: Boolean,
+        default: true
+    },
     created_date: {
         type: Date,
         default: Date.now
