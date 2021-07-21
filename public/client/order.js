@@ -56,6 +56,7 @@ function orderProcess() {
                 method: 'POST',
                 success: function (data) {
                     if (data.success) {
+                        toast('Thông báo', 'Đặt hàng thành công, chúng tôi sẽ liên lạc lại với bạn !', 'info');
                         $('.popup_wrapper_order').css({
                             "opacity": "1",
                             "visibility": "visible"
