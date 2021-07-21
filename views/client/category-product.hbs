@@ -142,12 +142,13 @@
                                                         </div>
                                                         <!-- Product Price End -->
                                                         <!-- Product Button Actions Start -->
+                                                      
                                                         <div class="product-button-actions">
-                                                            <button class="add-to-cart add-product-to-cart" data-toggle="tooltip" data-product="{{objectToString this}}"
-                                                                title="Thêm vào giỏ hàng">Thêm vào giỏ hàng</button>
+                                                            {{!-- <button class="add-to-cart add-wish-list" data-toggle="tooltip" data-id="{{this._id}}" 
+                                                                title="Thêm vào danh sách ưa thích">Thêm DS Ưa Thích</button> --}}
 
-                                                            <a data-product="{{objectToString this}}"
-                                                                data-toggle="tooltip" title="Add to Wishlist"
+                                                            <a data-id="{{this._id}}" 
+                                                                data-toggle="tooltip" title="Thêm vào danh sách ưa thích"
                                                                 class="add-wish-list same-btn mr-15"><i
                                                                     class="pe-7s-like"></i></a>
 
@@ -240,8 +241,8 @@
                                                         <p data-price="{{this.price}}" class="price product-price-vnd">
                                                             <span>{{this.price}}</span></p>
                                                         <div class="action-links2">
-                                                            <a class="add-to-cart add-product-to-cart" data-toggle="tooltip" title="thêm vào giỏ hàng" data-product="{{objectToString this}}"
-                                                                >thêm vào giỏ hàng</a>
+                                                            <a class="add-to-cart add-wish-list" data-toggle="tooltip" title="thêm vào danh sách ưa thích" data-id="{{ this._id}}"
+                                                                >thêm vào danh sách ưa thích</a>
                                                         </div>
                                                     </div>
                                                     <!-- Product Content End -->
