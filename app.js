@@ -14,57 +14,57 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-if (process.env.ENV == 'DEV') { 
- compressor.minify({
-        compressor: 'gcc',
-        input: [
-            'clientTheme/js/vendor/jquery-1.12.4.min.js', 
-            'clientTheme/js/jquery.meanmenu.min.js', 
-            'clientTheme/js/jquery.scrollUp.js',
-            'clientTheme/js/owl.carousel.min.js',
-            'clientTheme/js/wow.min.js',
-            "clientTheme/js/jquery-ui.min.js",
-            "clientTheme/js/jquery.elevateZoom-3.0.8.min.js",
-            "clientTheme/js/jquery.nivo.slider.js",
-            "clientTheme/js/bootstrap.min.js",
-            "clientTheme/js/plugins.js",
-            "clientTheme/js/main.js",
-            "clientTheme/js/vendor/jquery-toast-plugin-master/dist/jquery.toast.min.js",
-            "clientTheme/js/vendor/validate/jquery.validate.min.js"
+// if (process.env.ENV == 'DEV') { 
+//  compressor.minify({
+//         compressor: 'gcc',
+//         input: [
+//             'clientTheme/js/vendor/jquery-1.12.4.min.js', 
+//             'clientTheme/js/jquery.meanmenu.min.js', 
+//             'clientTheme/js/jquery.scrollUp.js',
+//             'clientTheme/js/owl.carousel.min.js',
+//             'clientTheme/js/wow.min.js',
+//             "clientTheme/js/jquery-ui.min.js",
+//             "clientTheme/js/jquery.elevateZoom-3.0.8.min.js",
+//             "clientTheme/js/jquery.nivo.slider.js",
+//             "clientTheme/js/bootstrap.min.js",
+//             "clientTheme/js/plugins.js",
+//             "clientTheme/js/main.js",
+//             "clientTheme/js/vendor/jquery-toast-plugin-master/dist/jquery.toast.min.js",
+//             "clientTheme/js/vendor/validate/jquery.validate.min.js"
 
-        ],
-        output: 'public/js-dist/app1.js',
-        type: 'js',
-        sync: true,
-        callback: function(err, value) {
-            console.log(err);
-            console.log('sync 2', value);
-        }
-    });
-        compressor.minify({
-        compressor: 'sqwish',
-        input: [
-            'clientTheme/css/meanmenu.min.css',
-            "clientTheme/css/animate.css",
-            "clientTheme/css/nivo-slider.css",
-            "clientTheme/css/owl.carousel.min.css",
-            "clientTheme/css/jquery-ui.min.css",
-            "clientTheme/css/font-awesome.min.css",
-            "clientTheme/css/pe-icon-7-stroke.css",
-            "clientTheme/css/bootstrap.min.css",
-            "clientTheme/css/default.css"
+//         ],
+//         output: 'public/js-dist/app1.js',
+//         type: 'js',
+//         sync: true,
+//         callback: function(err, value) {
+//             console.log(err);
+//             console.log('sync 2', value);
+//         }
+//     });
+//         compressor.minify({
+//         compressor: 'sqwish',
+//         input: [
+//             'clientTheme/css/meanmenu.min.css',
+//             "clientTheme/css/animate.css",
+//             "clientTheme/css/nivo-slider.css",
+//             "clientTheme/css/owl.carousel.min.css",
+//             "clientTheme/css/jquery-ui.min.css",
+//             "clientTheme/css/font-awesome.min.css",
+//             "clientTheme/css/pe-icon-7-stroke.css",
+//             "clientTheme/css/bootstrap.min.css",
+//             "clientTheme/css/default.css"
         
-        ],
-        output: 'public/css-dist/app.css',
-        type: 'css',
-        sync: true,
-        callback: function(err, value) {
-            console.log(err);
-            console.log('sync 2', value);
-        }
-    });
+//         ],
+//         output: 'public/css-dist/app.css',
+//         type: 'css',
+//         sync: true,
+//         callback: function(err, value) {
+//             console.log(err);
+//             console.log('sync 2', value);
+//         }
+//     });
 
-}
+// }
 
 app.use(cookieParser());
 global.__basedir = __dirname;

@@ -35,34 +35,41 @@ router.post('/subscribe', commonLimiter, function (req, res) {
 });
 
 router.post('/createOrder', function(req,res) {
-    req.body['listProducts'] = JSON.parse(req.body['listProducts']);
-    Orders.create(req.body, function (err, data) {
-        if (!err) {
-            res.json({
-                success: true,
-                data: data
-            });
-            Carts.updateOne({sessionID : req.sessionID}, {listCartProducts : []}, function(err, data) {
-                if(!err) {
-                    console.log("xóa cart thành công !")
+ 
+    Carts.findOne({sessionID : req.sessionID}, function(err, cart) {
+        if(!err && cart) {
+            req.body['listProducts'] =  cart.listCartProducts;
+            Orders.create(req.body, function (err, data) {
+                if (!err) {
+                    res.json({
+                        success: true,
+                        data: data
+                    });
+                    Carts.updateOne({sessionID : req.sessionID}, {listCartProducts : []}, function(err, data) {
+                        if(!err) {
+                            console.log("xóa cart thành công !")
+                        }
+                    });
+                    const mailOptions = {
+                        from: process.env.EMAIL_ACCOUNT, // sender address
+                        to: process.env.EMAIL_SHOP, // list of receivers
+                        subject: `MOMOSO - BẠN CÓ ĐƠN HÀNG MỚI`, // Subject line
+                        html: `<p>Vui lòng check hệ thống</p>` // plain text body
+                    };
+                    emailHelper.sendEmail(mailOptions);
+                } else {
+                    res.json({
+                        success: false
+        
+                    });
                 }
-            })
-            const mailOptions = {
-                from: process.env.EMAIL_ACCOUNT, // sender address
-                to: process.env.EMAIL_SHOP, // list of receivers
-                subject: `MOMOSO - BẠN CÓ ĐƠN HÀNG MỚI`, // Subject line
-                html: `<p>Vui lòng check hệ thống</p>` // plain text body
-            };
-            emailHelper.sendEmail(mailOptions);
+            });
         } else {
             res.json({
                 success: false
-
             });
         }
     });
-
-  
 });
 
 router.post('/createReview', reviewLimiter, function (req, res) {

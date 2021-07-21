@@ -24,7 +24,7 @@ function orderProcess() {
     //                     })
     //                 }, 1000);
 
-    const money = $('#totalMoney').data('price');
+    const money = $('#totalMoney').attr('data-price');
     if (money > 0) {
         var formStatus = $('#order-form').validate({
             errorClass: "text-danger",
@@ -49,23 +49,12 @@ function orderProcess() {
 
         if (formStatus) {
             var orderData = $('#order-form').serializeArray();
-            const listProducts = $('#subMitFormOrder').data('product');
-            orderData.push({ name: 'listProducts', value : JSON.stringify(listProducts) });
             $.ajax({
                 url: "/api/createOrder",
                 data: orderData,
                 dataType: "json",
                 method: 'POST',
                 success: function (data) {
-                    // setTimeout(function() {
-                    //     $('.popup_wrapper_order').css({
-                    //         "opacity": "1",
-                    //         "visibility": "visible"
-                    //     });
-                    //     $('.popup_off').on('click', function() {
-                    //         $(".popup_wrapper").fadeOut(500);
-                    //     })
-                    // }, 2500);
                     if (data.success) {
                         $('.popup_wrapper_order').css({
                             "opacity": "1",
@@ -79,12 +68,14 @@ function orderProcess() {
                             });
                         })
                     }
-                    setTimeout(function() { window.location.href = "/"; }, 2000);
+                    setTimeout(function() { window.location.href = "/"; }, 5000);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     toast('Thông báo', 'Vui lòng thử lại sau 1 phút nữa', 'info');
                 }
             });
+        }else {
+            toast('Thông báo', 'Vui lòng kiểm tra lại thông tin đặt hàng !', 'danger');
         }
     } else {
         toast('Thông báo', 'Bạn chưa thêm sản phẩm nào vào giỏ hàng !', 'info');
