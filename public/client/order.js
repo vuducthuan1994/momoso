@@ -1,7 +1,18 @@
 $(document).ready(function () {
     $('#subMitFormOrder').on('click', orderProcess);
+
+    $('#payment-method').on('change',onPaymentMethodChange);
 });
 
+function onPaymentMethodChange() {
+    console.log($('#payment-method').val())
+    const payment_method = $('#payment-method').val();
+    if(payment_method == 'bank') {
+        $('#huong-dan-chuyen-khoan').show();
+    } else {
+        $('#huong-dan-chuyen-khoan').hide();
+    }
+}
 function toast(title, msg, type = 'info') {
     $.toast({
         heading: title,
@@ -13,16 +24,6 @@ function toast(title, msg, type = 'info') {
 }
 
 function orderProcess() {
-
-    // setTimeout(function() {
-    //                     $('.popup_wrapper_order').css({
-    //                         "opacity": "1",
-    //                         "visibility": "visible"
-    //                     });
-    //                     $('.popup_off').on('click', function() {
-    //                         $(".popup_order").fadeOut(500);
-    //                     })
-    //                 }, 1000);
 
     const money = $('#totalMoney').attr('data-price');
     if (money > 0) {
@@ -67,7 +68,7 @@ function orderProcess() {
                                 "opacity": "0",
                                 "visibility": "hidden"
                             });
-                        })
+                        });
                     }
                     setTimeout(function() { window.location.href = "/"; }, 5000);
                 },

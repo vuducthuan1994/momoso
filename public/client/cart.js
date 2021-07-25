@@ -162,6 +162,7 @@ function updateCart() {
 }
 
 function addToCart() {
+  
     var selection = {};
     const productId = $(this).attr('data-id');
     const type_add = $(this).attr('data-type');
@@ -195,7 +196,19 @@ function addToCart() {
             method: 'POST',
             success: function(data) {
                 if (data.success) {
+                  
                     toast('Thông báo', 'Thêm thành công vào giỏ hàng!', 'success');
+                    $('.popup_wrapper_add_to_card').css({
+                        "opacity": "1",
+                        "visibility": "visible"
+                    });
+                    $('.popup_off').on('click', function () {
+                
+                        $('.popup_wrapper_add_to_card').css({
+                            "opacity": "0",
+                            "visibility": "hidden"
+                        });
+                    });
                     $('#cart-length').text(data.lengthCart);
                     if(data.lengthCart > 0) {
                         $('.ht-dropdown.main-cart-box').addClass('open');

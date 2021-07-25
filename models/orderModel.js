@@ -24,6 +24,11 @@ var OrderSchema = new Schema({
         required: true,
         trim: true
     },
+    method : {
+        type: String,
+        required: true,
+        trim: true 
+    },
     listProducts : {
         type: [
             {
