@@ -56,36 +56,36 @@
                             </div>
                             <div class="col-md-4 col-sm-5 pull-right">
                                 <select name="shorer" id="shorter" class="form-control select-varient">
-                                    <option {{initSortType sortType 0}} value="0">Sắp xếp:Mặc định</option>
-                                    <option {{initSortType sortType 1}} value="1">Sắp xếp: Tên (A - Z)</option>
-                                    <option {{initSortType sortType 2}} value="2">Sắp xếp:Tên (Z - A)</option>
-                                    <option {{initSortType sortType 3}} value="3">Sắp xếp:Giá (Thấp > Cao)</option>
-                                    <option {{initSortType sortType 4}} value="4">Sắp xếp:Giá (Cao > Thấp)</option>
-                                    <option {{initSortType sortType 5}} value="5">Sắp xếp:Rating (Cao Nhất)</option>
-                                    <option {{initSortType sortType 6}} value="6">Sắp xếp:Rating (Thấp Nhất)</option>
-                                    <option {{initSortType sortType 7}} value="7">Sắp xếp:Model (A - Z)</option>
-                                    <option {{initSortType sortType 8}} value="8">Sắp xếp:Model (Z - A)</option>
+                                    <option {{initSortType sortType 0}} value="0">Sắp xếp theo:Mặc định</option>
+                                    <option {{initSortType sortType 1}} value="1">Sắp xếp theo:Tên (A - Z)</option>
+                                    <option {{initSortType sortType 2}} value="2">Sắp xếp theo:Tên (Z - A)</option>
+                                    <option {{initSortType sortType 3}} value="3">Sắp xếp theo:Giá (Thấp > Cao)</option>
+                                    <option {{initSortType sortType 4}} value="4">Sắp xếp theo:Giá (Cao > Thấp)</option>
+                                    <option {{initSortType sortType 5}} value="5">Sắp xếp theo:Rating (Cao Nhất)</option>
+                                    <option {{initSortType sortType 6}} value="6">Sắp xếp theo:Rating (Thấp Nhất)</option>
+                                    <option {{initSortType sortType 7}} value="7">Sắp xếp theo:Model (A - Z)</option>
+                                    <option {{initSortType sortType 8}} value="8">Sắp xếp theo:Model (Z - A)</option>
                                 </select>
                             </div>
                             <div class="col-md-3 col-sm-3 pull-right">
                                 <select name="shorter" id="pageSizeCategory" class="form-control select-varient">
-                                    <option {{initPageSize pageSize 9}} value='9'>Show: 9 </option>
+                                    <option {{initPageSize pageSize 9}} value='9'>9 sản phẩm</option>
 
                                     {{#ifBigger pageInfo.count 21}}
-                                    <option {{initPageSize pageSize 21}} value='21'>Show: 21 </option>
+                                    <option {{initPageSize pageSize 21}} value='21'>21 sản phẩm</option>
                                     {{else}}
                                     {{/ifBigger}}
 
                                     {{#ifBigger pageInfo.count 50}}
-                                    <option {{initPageSize pageSize 50}} value="50">Show: 50</option>
+                                    <option {{initPageSize pageSize 50}} value="50">50 sản phẩm</option>
                                     {{else}}
                                     {{/ifBigger}}
                                     {{#ifBigger pageInfo.count 75}}
-                                    <option {{initPageSize pageSize 75}} value="75">Show: 75</option>
+                                    <option {{initPageSize pageSize 75}} value="75">75 sản phẩm</option>
                                     {{else}}
                                     {{/ifBigger}}
                                     {{#ifBigger pageInfo.count 100}}
-                                    <option {{initPageSize pageSize 100}} value="100">Show: 100</option>
+                                    <option {{initPageSize pageSize 100}} value="100">100 sản phẩm</option>
                                     {{else}}
                                     {{/ifBigger}}
                                 </select>
@@ -133,8 +133,8 @@
                                                         <!-- Product Price Start -->
                                                         <div class="pro-price mb-15">
                                                             <ul class="pro-price-list">
-                                                                <li data-price="{{this.price}}"
-                                                                    class="price product-price-vnd">{{this.price}}</li>
+                                                                {{!-- <li data-price="{{this.price}}"
+                                                                    class="price product-price-vnd">{{this.price}}</li> --}}
                                                                 <li class="mtb-50">
                                                                     <p>{{this.note}}</p>
                                                                 </li>
@@ -238,8 +238,8 @@
                                                     <!-- Product Content Start -->
                                                     <div class="pro-content text-center">
                                                         <h4><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h4>
-                                                        <p data-price="{{this.price}}" class="price product-price-vnd">
-                                                            <span>{{this.price}}</span></p>
+                                                        {{!-- <p data-price="{{this.price}}" class="price product-price-vnd">
+                                                            <span>{{this.price}}</span></p> --}}
                                                         <div class="action-links2">
                                                             <a class="add-to-cart add-wish-list" data-toggle="tooltip" title="thêm vào danh sách ưa thích" data-id="{{ this._id}}"
                                                                 >thêm vào danh sách ưa thích</a>
@@ -316,8 +316,15 @@
                             
                             <ul class="categorie-list left">
                                 <li class="{{getActiveCategory currentURlSeo 'all'}}" ><a href="{{createURLCategory 'all'}}">Tất cả</a></li>
-                                {{#each allCategory}}
-                                <li class="{{getActiveCategory ../currentURlSeo this.urlSeo}}" ><a href="{{createURLCategory this.urlSeo}}">{{this.name}} ({{this.totalProduct}})</a></li>
+                                {{#each treeMenu}}
+                                <li class="{{getActiveCategory ../currentURlSeo this.urlSeo}}" >
+                                <a href="{{createURLCategory this.urlSeo}}">{{this.name}} ({{this.totalProduct}})</a>
+                                <ul class="sub-categorie pl-30">
+                                    {{#each this.children}}
+                                            <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}} ({{this.totalProduct}})</a></li>
+                                    {{/each}}
+                                </ul>
+                                </li>
                                 {{/each}}
 
                             </ul>
@@ -363,7 +370,7 @@
                         <!-- Manufactures List End -->
                         <!-- Most Viewed Product Start -->
                         <div class="most-viewed">
-                            <h3>most viewed</h3>
+                            <h3>XEM NHIỀU NHẤT</h3>
                             <!-- Most Viewed Product Activation Start -->
                             <div class="most-viewed-product owl-carousel">
 

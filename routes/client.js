@@ -124,7 +124,7 @@ router.get(process.env.PURCHASE_POLICY, async function(req, res) {
 
 router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     let treeMenu = await getTreeMenu();
-
+    console.log(treeMenu)
     const urlSeo = req.params.url;
     const pageSize = req.query.pageSize ? JSON.parse(req.query.pageSize) : 9;
     const sortType = req.query.sortType ? JSON.parse(req.query.sortType) : 0;
@@ -137,7 +137,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
     let mostViewProducts = await getMostViewProduct();
-    let allCategory = await getAllCategory();
+    // let allCategory = await getAllCategory();
     res.render('client/category-product', {
         title: general.title_home + ' - ' + categoryDetail.name,
         imagePreview: process.env.R_BASE_IMAGE + categoryDetail.imageUrl,
@@ -151,7 +151,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         pageSize: pageSize,
         sortType: sortType,
         mostViewProducts: mostViewProducts,
-        allCategory: allCategory.map(item => item.toJSON()),
+        // allCategory: allCategory.map(item => item.toJSON()),
         currentURlSeo: urlSeo,
         minPrice: minPrice,
         maxPrice: maxPrice,

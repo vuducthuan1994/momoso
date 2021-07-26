@@ -1099,7 +1099,7 @@ ul.pull-left.home-4-search i {
     bottom: -45px;
     left: 0;
     text-align: center;
-    background: #1a1a1a;
+    background: #d7ac87;
     padding: 10px 0;
     width: 100%;
     z-index: 10;
@@ -1108,7 +1108,8 @@ ul.pull-left.home-4-search i {
 }
 
 .quick-view:hover {
-    background: #555;
+    background: #cd8c64;
+    background: #cd8c64;
 }
 
 .single-product:hover .quick-view,
@@ -1137,7 +1138,7 @@ ul.pull-left.home-4-search i {
 }
 
 .pro-content h4 {
-    font-size: 16px;
+    font-size: 14px;
     text-transform: capitalize;
     margin: 0 0 10px;
 }
@@ -1186,7 +1187,7 @@ ul.pull-left.home-4-search i {
 
 .pro-content .action-links2 a {
     color: #505050;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     cursor: pointer;
@@ -1554,16 +1555,16 @@ ul.pull-left.home-4-search i {
     height: 46px;
     border-radius: 0px;
     padding: 0 30px;
-    border: 1px solid #1a1a1a;
+    border: 1px solid #d7ac87;
     color: #fff;
-    background: #1a1a1a;
+    background: #d7ac87;
     font-size: 14px;
     text-transform: uppercase;
     font-weight: 600;
 }
 
 .product-button-actions .add-to-cart:hover {
-    background: #555;
+    background: #cd8c64;
 }
 
 .product-button-actions .same-btn {
@@ -2152,7 +2153,7 @@ ul.pull-left.home-4-search i {
 }
 
 .copyright-text a {
-    color: #1a1a1a;
+    color: #d7ac87;
 }
 
 .social-footer-list li a {
@@ -2185,8 +2186,8 @@ ul.pull-left.home-4-search i {
 .newsletter-btn,
 .customer-btn,
 .return-customer-btn {
-    background: #1a1a1a none repeat scroll 0 0;
-    border: 1px solid #1a1a1a;
+    background: #cd8c64 none repeat scroll 0 0;
+    border: 1px solid #cd8c64;
     border-radius: 0;
     color: #fff;
     display: inline-block;
