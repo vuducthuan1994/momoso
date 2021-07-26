@@ -321,7 +321,7 @@
                                 <a href="{{createURLCategory this.urlSeo}}">{{this.name}} ({{this.totalProduct}})</a>
                                 <ul class="sub-categorie pl-30">
                                     {{#each this.children}}
-                                            <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}} ({{this.totalProduct}})</a></li>
+                                            <li class="{{getActiveCategory ../currentURlSeo this.urlSeo}}"><a href="{{createURLCategory this.urlSeo}}">{{this.name}} ({{this.totalProduct}})</a></li>
                                     {{/each}}
                                 </ul>
                                 </li>
