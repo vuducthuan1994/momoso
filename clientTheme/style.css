@@ -175,8 +175,8 @@ body {
     position: absolute;
     right: 0;
     top: 0;
-    width: 55%;
-    height: 360px;
+    width: 35%;
+    height: 250px;
 }
 
 .popup_off {
@@ -185,7 +185,7 @@ body {
     display: block;
     text-align: center;
     text-decoration: none;
-    background: #000;
+    background: #b86847;
     width: 53px;
     height: 25px;
     line-height: 27px;
@@ -488,7 +488,7 @@ input#newsletter-permission {
 
 .primary-menu-list>li>ul.ht-dropdown>li>a,
 .primary-menu-list>li>ul.ht-dropdown>li>ul li a {
-    font-size: 14px;
+    font-size: 13px;
     text-transform: capitalize;
     color: #c5c5c5;
     padding: 5px 0;
@@ -508,7 +508,7 @@ input#newsletter-permission {
 
 .primary-menu-list>li>ul.mega-menu li h3,
 .primary-menu-list>li>ul.mega-menu-2 li h3 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     text-transform: uppercase;
     color: #fff;
@@ -545,7 +545,7 @@ input#newsletter-permission {
 
 .selection-list>li>span,
 .selection-list>li>a span {
-    background: #cc0000 none repeat scroll 0 0;
+    background: #b86847 none repeat scroll 0 0;
     border-radius: 100%;
     color: #fff;
     font-size: 10px;
@@ -1582,12 +1582,14 @@ ul.pull-left.home-4-search i {
     font-size: 17px;
     line-height: 46px;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 .product-button-actions .same-btn:hover {
-    background: #1a1a1a;
+    background: #b86847;
     color: #fff;
-    border-color: #1a1a1a;
+    border-color: #b86847;
+    cursor: pointer;
 }
 
 .social-shared>ul>li {
@@ -1789,12 +1791,12 @@ ul.pull-left.home-4-search i {
 
 #button-review {
     background: transparent;
-    color: #1a1a1a;
+    color: #b86847;
     padding: 0 40px;
 }
 
 #button-review:hover {
-    background: #1a1a1a;
+    background: #b86847;
     color: #fff;
 }
 
@@ -2034,9 +2036,9 @@ ul.pull-left.home-4-search i {
 
 .blog-pagination li.active a,
 .blog-pagination li a:hover {
-    background: #555;
+    background: #b86847;
     color: #fff;
-    background: #1a1a1a;
+    background: #b86847;
 }
 
 
@@ -2153,9 +2155,11 @@ ul.pull-left.home-4-search i {
 }
 
 .copyright-text a {
-    color: #d7ac87;
+    color: #cd8c64;
 }
-
+.text-orange {
+    color: #b86847;
+}
 .social-footer-list li a {
     color: #a2a2a2;
     font-size: 17px;
@@ -2811,7 +2815,8 @@ ul.pull-left.home-4-search i {
 .coupon input[type="submit"],
 .buttons-cart a,
 .coupon-info p.form-row input[type="submit"] {
-    background: #222222 none repeat scroll 0 0;
+    background: #cd8c64 none repeat scroll 0 0;   
+    cursor: pointer;
     border: medium none;
     border-radius: 0;
     box-shadow: none;
@@ -2839,7 +2844,7 @@ ul.pull-left.home-4-search i {
 .buttons-cart input:hover,
 .coupon input[type="submit"]:hover,
 .buttons-cart a:hover {
-    background: #cc0000 none repeat scroll 0 0;
+    background: #d7ac87 none repeat scroll 0 0;
     color: #fff;
 }
 
@@ -2943,7 +2948,7 @@ a.shipping-calculator-button:hover {
 }
 
 .wc-proceed-to-checkout a {
-    background: #cc0000;
+    background: #cd8c64;
     color: #fff;
     display: inline-block;
     font-size: 14px;
@@ -2956,7 +2961,7 @@ a.shipping-calculator-button:hover {
 }
 
 .wc-proceed-to-checkout a:hover {
-    background: #222222;
+    background: #d7ac87;
 }
 
 .amount del {
@@ -3014,7 +3019,7 @@ a.shipping-calculator-button:hover {
 
 .coupon-accordion h3 {
     background-color: #f6f6f6;
-    border-top: 3px solid #cc0000;
+    border-top: 3px solid #cd8c64;
     color: #515151;
     font-size: 14px;
     font-weight: 400;
@@ -3310,7 +3315,7 @@ p.checkout-coupon input[type="submit"] {
 }
 
 .your-order-table table tr.order-total td span {
-    color: #cc0000;
+    color: #b86847;
     font-size: 20px;
 }
 
@@ -3364,7 +3369,7 @@ p.checkout-coupon input[type="submit"] {
 }
 
 .order-button-payment input {
-    background: #cc0000;
+    background: #cd8c64;
     border: medium none;
     color: #fff;
     font-size: 17px;
@@ -3899,7 +3904,7 @@ legend {
 
 .tag-list li:hover a,
 .blog-pagination li a:hover {
-    background: #1a1a1a;
+    background: #b86847;
     color: #fff;
 }
 

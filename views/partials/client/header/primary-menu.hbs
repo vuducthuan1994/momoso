@@ -15,19 +15,22 @@
                     <!-- Home Version Dropdown End -->
                 </li> --}}
 
-                <li class="static-menu"><a href="#"><strong style="color: #d7ac87">Sản phẩm</strong><i class="pe-7s-angle-down"></i></a>
+                <li class="static-menu"><a href="{{createURLCategory 'all'}}"><strong style="color: #d7ac87">Sản phẩm</strong><i class="pe-7s-angle-down"></i></a>
                     <!-- Mega Menu Start -->
                     <ul class="ht-dropdown mega-menu-2">
 
                         {{#each treeMenu}}
-                        <li>
-                            <h3>{{this.name}}</h3>
+                       
+                            <li>
+                             <a href="{{createURLCategory this.urlSeo}}"><h3>{{this.name}}</h3></a>
                             <ul>
                                 {{#each this.children}}
                                 <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a></li>
                                 {{/each}}
                             </ul>
                         </li>
+                      
+                       
                         {{/each}}
                     </ul>
                     <!-- Mega Menu End -->
