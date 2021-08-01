@@ -33,6 +33,7 @@ function orderProcess() {
             messages: {
                 name: {
                     required: "Bạn chưa nhập tên người nhận hàng",
+                    minlength: " Vui lòng nhập lớn hơn hoặc bằng 6 ký tự",
                     maxlength: 'Vui lòng nhập nhỏ hơn hoặc bằng 100 ký tự'
                 },
                 phone: {
@@ -42,7 +43,7 @@ function orderProcess() {
                 },
                 address: {
                     required: "Bạn chưa điền địa chỉ nhận hàng",
-                    minlength: 'Vui lòng nhập lớn hơn 5 ký tự ',
+                    minlength: 'Vui lòng nhập lớn hơn 6 ký tự ',
                     maxlength: 'Vui lòng nhập nhỏ hơn hoặc bằng 100 ký tự'
                 }
             }

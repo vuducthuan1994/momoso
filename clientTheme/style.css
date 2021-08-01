@@ -1530,10 +1530,10 @@ ul.pull-left.home-4-search i {
     text-transform: capitalize;
     line-height: 1;
 }
-
+/* 
 .rating.f-left.mr-10 i {
     color: #999999;
-}
+} */
 
 .pro-price-list .price {
     margin: 0 0 20px 0;
@@ -4263,4 +4263,9 @@ input[type="radio"] {
 
 .product-add-to-cart {
     cursor: pointer;
+}
+@media (min-width: 992px) {
+.detail-right {
+    padding-left: 5rem;
+}
 }

@@ -35,6 +35,14 @@ function convertNumber(num, digits) {
     return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
 }
 module.exports = {
+    getCategory(arr) {
+        if(arr.length > 0) {
+            return arr[0].name;
+        } else {
+            return '';
+        }
+    
+    },
     buildFullDomain(link) {
         if (link == '#') {
             return 'Chưa upload file !';
@@ -348,7 +356,11 @@ module.exports = {
         }
     },
     getDescriptionArtiles(description) {
-        var result = description.substring(0, 85) + '...';
+        var result = description.substring(0, 60) + '...';
+        return result;
+    },
+    getTitleProduct(title) {
+        var result = title.substring(0, 22) + '...';
         return result;
     },
     getPostDetailDate(dt) {

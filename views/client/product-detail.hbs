@@ -24,10 +24,10 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="breadcrumb-content text-center ptb-70">
-                        <h1>{{product.name}}</h1>
+                        <h1>{{getCategory product.category}}</h1>
                         <ul class="breadcrumb-list breadcrumb">
                             <li><a href="/">Trang chủ</a></li>
-                            <li class="active"><a>{{product.name}}</a></li>
+                            <li class="active"><a>Sản phẩm</a></li>
                         </ul>
                     </div>
                 </div>
@@ -55,17 +55,18 @@
                     </div>
                 </div>
                 <!-- Thumbnail Description Start -->
-                <div class="col-sm-7">
+                <div  class="col-sm-7 detail-right">
                     <div class="thubnail-desc fix">
                         <h2 class="product-header">{{product.name}}</h2>
                         <!-- Product Rating Start -->
                         <div class="rating-summary fix mtb-20">
                             <div class="rating f-left mr-10">
                                 {{{getStar product.rate}}}
+                                
                             </div>
                             <div class="rating-feedback f-left">
                                 <a href="#">{{product.totalReview}}</a> /
-                                <a href="#review">Bình luận</a>
+                                <a href="#review">Đánh giá</a>
                             </div>
                         </div>
                         <!-- Product Rating End -->
@@ -86,7 +87,7 @@
                                 <li>Trạng thái:
 
                                     {{#ifEquals product.quantity  0}}
-                                    <span class="text-danger"> Hàng Order</span>
+                                    <span class="text-danger"> Đang Restock</span>
                                     {{else}}
                                     <span> Sẵn hàng</span>
                                     {{/ifEquals}}

@@ -61,12 +61,12 @@
                                         <a class="show-quick-modal" data-idproduct="{{this.one._id}}"><i
                                                 class="pe-7s-look"></i>xem nhanh</a>
                                     </div>
-                                    <span class="sticker-new">{{this.one.type}}</span>
+                                    {{!-- <span class="sticker-new">{{this.one.type}}</span> --}}
                                 </div>
                                 <!-- Product Image End -->
                                 <!-- Product Content Start -->
                                 <div class="pro-content text-center">
-                                    <h4><a href="{{ createURLProduct this.one.urlSeo}}">{{this.one.name}}</a></h4>
+                                    <h4 title="{{this.one.name}}"><a href="{{ createURLProduct this.one.urlSeo}}">{{getTitleProduct this.one.name}}</a></h4>
                                     {{!-- <p data-price="{{this.one.price}}" class="product-price-vnd price">
                                         <span>{{this.one.price}}</span></p> --}}
                                     <div style="margin-top: 1.5rem;" class="action-links2">
@@ -93,12 +93,12 @@
                                             data-toggle="modal" data-target="#myModal"><i class="pe-7s-look"></i>xem
                                             nhanh</a>
                                     </div>
-                                    <span class="sticker-new">{{this.two.type}}</span>
+                                    {{!-- <span class="sticker-new">{{this.two.type}}</span> --}}
                                 </div>
                                 <!-- Product Image End -->
                                 <!-- Product Content Start -->
                                 <div class="pro-content text-center">
-                                    <h4><a href="{{ createURLProduct this.two.urlSeo}}">{{this.two.name}}</a></h4>
+                                    <h4 title="{{this.two.name}}"><a href="{{ createURLProduct this.two.urlSeo}}">{{getTitleProduct this.two.name}}</a></h4>
                                     {{!-- <p data-price="{{this.two.price}}" class="price product-price-vnd">
                                         <span>{{this.two.price}}</span></p> --}}
                                     <div class="action-links2">
@@ -177,12 +177,12 @@
                                     <a class="show-quick-modal" data-idproduct="{{this._id}}" data-toggle="modal"
                                         data-target="#myModal"><i class="pe-7s-look"></i>xem nhanh</a>
                                 </div>
-                                <span class="sticker-new">{{this.type}}</span>
+                                {{!-- <span class="sticker-new">{{this.type}}</span> --}}
                             </div>
                             <!-- Product Image End -->
                             <!-- Product Content Start -->
                             <div class="pro-content text-center">
-                                <h4><a href="{{createURLProduct this.urlSeo}}">{{this.name}}</a></h4>
+                                <h4 title="{{this.name}}"><a href="{{createURLProduct this.urlSeo}}">{{getTitleProduct this.name}}</a></h4>
                                 {{!-- <p data-price="{{this.price}}" class="price product-price-vnd">
                                     <span>{{this.price}}</span></p> --}}
                                 <div class="action-links2">

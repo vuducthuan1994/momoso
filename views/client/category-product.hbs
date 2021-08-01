@@ -393,9 +393,9 @@
                                         <!-- Product Image End -->
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
-                                            <h4><a href="{{createURLProduct this.one.urlSeo}}">
+                                            <h4 title="{{this.one.name}}"><a href="{{createURLProduct this.one.urlSeo}}">
 
-                                                    {{this.one.name}}</a></h4>
+                                                    {{getTitleProduct this.one.name}}</a></h4>
                                             <p data-price="{{this.one.price}}" class="price product-price-vnd">
                                                 <span>{{this.one.price}}</span></p>
                                         </div>
@@ -418,7 +418,7 @@
                                         <!-- Product Image End -->
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
-                                            <h4><a href="{{createURLProduct this.two.urlSeo}}">{{this.two.name}}</a>
+                                            <h4 title="{{this.two.name}}"><a href="{{createURLProduct this.two.urlSeo}}">{{ getTitleProduct this.two.name}}</a>
                                             </h4>
                                             <p data-price="{{this.two.price}}" class="price product-price-vnd">
                                                 <span>{{this.two.price}}</span></p>
@@ -442,7 +442,7 @@
                                         <!-- Product Image End -->
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
-                                            <h4><a href="{{createURLProduct this.three.urlSeo}}">{{this.three.name}}</a>
+                                            <h4 title="{{this.three.name}}"><a href="{{createURLProduct this.three.urlSeo}}">{{getTitleProduct this.three.name}}</a>
                                             </h4>
                                             <p data-price="{{this.three.price}}" class="price product-price-vnd">
                                                 <span>{{this.three.price}}</span></p>
