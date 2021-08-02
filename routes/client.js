@@ -723,10 +723,10 @@ let getAboutUsInfo = function() {
     return new Promise(function(resolve, reject) {
         let about_us = cache.get("about-us");
         if (about_us == undefined) {
-            Settings.findOne({ type: 'about-us' }, function(err, about_us) {
+            Settings.findOne({ type: 'text' }, function(err, data) {
                 if (!err) {
-                    resolve(about_us.content);
-                    cache.set("about-us", about_us.content);
+                    resolve(data.content.about_us);
+                    cache.set("about-us", data.content.about_us);
                 }
             });
         } else {
@@ -739,10 +739,10 @@ let getPurchasePolicyInfo = function() {
     return new Promise(function(resolve, reject) {
         let purchase_policy = cache.get("purchase-policy");
         if (purchase_policy == undefined) {
-            Settings.findOne({ type: 'purchase-policy' }, function(err, purchase_policy) {
+            Settings.findOne({ type: 'text' }, function(err, data) {
                 if (!err) {
-                    resolve(purchase_policy.content);
-                    cache.set("purchase-policy", purchase_policy.content);
+                    resolve(data.content.purchase_policy);
+                    cache.set("purchase-policy",data.content.purchase_policy);
                 }
             });
         } else {

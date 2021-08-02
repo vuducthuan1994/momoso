@@ -7,7 +7,7 @@ const formidable = require('formidable');
 var path = require('path');
 
 
-var isAuthenticated = function(req, res, next) {
+var isAuthenticated = function (req, res, next) {
     if (process.env.ENV == 'DEV') {
         return next();
     }
@@ -16,12 +16,12 @@ var isAuthenticated = function(req, res, next) {
     res.redirect('/');
 }
 
-let resizeImages = function(oldPath, newPath) {
-    return new Promise(function(resolve, reject) {
+let resizeImages = function (oldPath, newPath) {
+    return new Promise(function (resolve, reject) {
         sharp(oldPath)
             .resize(1770, 630, {
                 fit: "cover"
-            }).toFile(newPath, function(err) {
+            }).toFile(newPath, function (err) {
                 if (!err) {
                     resolve(true);
                 } else {
@@ -32,29 +32,30 @@ let resizeImages = function(oldPath, newPath) {
     });
 }
 
-router.get('/', isAuthenticated, function(req, res) {
-    Settings.findOne({ type: 'purchase-policy' }, function(err, purchase_policy) {
-        res.render('admin/pages/config/purchase-policy/index', { messages: req.flash('messages'), title: "Chính sách mua hàng", purchase_policy: purchase_policy.toJSON(), layout: 'admin.hbs' });
-    });
+router.get('/', isAuthenticated, function (req, res) {
+    Settings.findOne({ type: 'text' }, function (err, data) {
+       
+        res.render('admin/pages/config/about-us/index', { messages: req.flash('messages'), title: "Tất cả trang tĩnh", data: data, layout: 'admin.hbs' });
+    }).lean();
 });
 
-router.post('/', isAuthenticated, function(req, res) {
+router.post('/', isAuthenticated, function (req, res) {
     const form = formidable({ multiples: true });
-    form.on('file', async function(name, file) {
-        if (file.name !== '' && file.name !== null && name == 'banner-purchase-policy') {
-            newPath = path.join(__basedir, `public/img/purchase-policy.jpg`);
+    form.on('file', async function (name, file) {
+        if (file.name !== '' && file.name !== null && name == 'banner-about-us') {
+            newPath = path.join(__basedir, `public/img/about-us.jpg`);
             let resize = await resizeImages(file.path, newPath);
-            console.log(resize);
             if (resize) {
                 req.flash('messages', 'Ảnh đã được resize thành công !');
             }
         }
     });
     form.parse(req, (err, fields) => {
+
         if (err) {
             req.flash('messages', "Update không thành cong !");
         } else {
-            Settings.updateOne({ type: 'purchase-policy' }, { content: fields }, function(err, data) {
+            Settings.updateOne({ type: 'text' }, { content: fields }, function (err, data) {
                 if (!err) {
                     req.flash('messages', 'Update thành công !')
                     res.redirect('back');

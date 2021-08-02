@@ -13,7 +13,7 @@
         {{>admin/flash-message/success}}
         {{/each}}
         <div class="row layout-top-spacing">
-            <form id="formSettings" enctype="multipart/form-data" method="POST" action="/admin/config/about-us">
+            <form id="formSettings" enctype="multipart/form-data" method="POST" action="/admin/config/text">
                 <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                     <div class="statbox widget box box-shadow mb-2">
                         <div class="widget-header">
@@ -46,9 +46,18 @@
                         <div class="widget-content widget-content-area br-6">
                             <div class="form-row mb-4">
                                 <div class="form-group col-md-12">
-                                    <label>Giới thiệu</label>
-                                    <textarea value="{{about_us.content.text}}" id="text" name="text"
-                                        class="editor form-control"> {{about_us.content.text}}</textarea>
+                                    <label>Về Momo</label>
+                                    <textarea value="{{data.content.about_us}}" id="about_us" name="about_us"
+                                        class="editor form-control"> {{data.content.text}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                           <div class="widget-content widget-content-area br-6">
+                            <div class="form-row mb-4">
+                                <div class="form-group col-md-12">
+                                    <label>Chính sách mua hàng</label>
+                                    <textarea value="{{data.content.purchase_policy}}" id="purchase_policy" name="purchase_policy"
+                                        class="editor form-control"> {{data.content.purchase_policy}}</textarea>
                                 </div>
                             </div>
                         </div>
