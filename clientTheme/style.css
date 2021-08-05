@@ -2222,7 +2222,7 @@ ul.pull-left.home-4-search i {
 
 #scrollUp {
     position: fixed;
-    bottom: 65px;
+    bottom: 100px;
     right: 30px;
     text-align: center;
     cursor: pointer;
