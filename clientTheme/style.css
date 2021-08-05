@@ -179,6 +179,7 @@ body {
     height: 250px;
 }
 
+
 .popup_off {
     color: #ffffff;
     cursor: pointer;
@@ -4268,4 +4269,10 @@ input[type="radio"] {
 .detail-right {
     padding-left: 5rem;
 }
+}
+
+@media (max-width: 800px) {
+    .test {
+        width: 90%;
+    }
 }
