@@ -9,6 +9,7 @@ $(document).ready(function () {
 
 function selectProductColor() {
     if (!$(this).parent().hasClass('out_of_stock')) {
+        $('.container-list-size').css('display','block');
         $('#list-size li').removeClass('out_of_stock');
         $('#list-size li').removeClass('active');
         $('#small-img li').removeClass('active');

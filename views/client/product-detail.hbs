@@ -113,7 +113,7 @@
                                 {{#ifEquals product.blocksSize.length  0}}
 
                                 {{else}}
-                                <li class="container-list-size">Kích cỡ :
+                                <li style="display: none;" class="container-list-size">Kích cỡ :
                                     <ul id="list-size">
                                         {{#each product.blocksSize}}
                                         <li class="out_of_stock" data-code="{{this.sizeCode}}">
@@ -149,7 +149,7 @@
                         <!-- Product Social Link Share Start -->
 
                         <!-- Go to www.addthis.com/dashboard to customize your tools -->
-                        <div class="addthis_inline_share_toolbox"></div>
+                        {{!-- <div class="addthis_inline_share_toolbox"></div> --}}
 
                         {{!-- 
                         <div class="social-shared">
