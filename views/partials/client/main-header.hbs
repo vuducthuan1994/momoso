@@ -19,35 +19,51 @@
                     </li>
                 </ul>
             </div>
-       
-                {{>client/header/primary-menu}}
-                {{>client/header/header-all}}
-          
+
+            {{>client/header/primary-menu}}
+            {{>client/header/header-all}}
+
             <!-- Mobile Menu  Start -->
             <div class="mobile-menu visible-sm visible-xs">
                 <nav>
                     <ul>
-                        <li><a href="/about-us">Về Momo</a></li>
+                        <li><a href="#">Về Momo</a>
+                            <!-- Home Version Dropdown Start -->
+                            <ul>
+                                <li><a href="/about-us">Câu Chuyện Của Momo</a></li>
+                                <li><a href="/work-with-us">Work With Us</a></li>
+                                <li><a href="/contact">Liên Hệ</a></li>
+                            </ul>
+                            <!-- Home Version Dropdown End -->
+                        </li>
                         <li><a href="#"><strong style="color: #d7ac87">Sản phẩm</strong></a>
                             <!-- Mobile Menu Dropdown Start -->
                             <ul>
-                                    {{#each treeMenu}}
+                                {{#each treeMenu}}
                                 <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a>
                                     <!-- Mobile Menu Sub-Dropdown Start -->
                                     <ul>
                                         {{#each this.children}}
-                                      <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a></li>
-                                         {{/each}}
+                                        <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a></li>
+                                        {{/each}}
                                     </ul>
                                     <!-- Mobile Menu Sub-Dropdown End -->
                                 </li>
                                 {{/each}}
-                      
-                             
+
+
                             </ul>
                             <!-- Mobile Menu Dropdown End -->
                         </li>
-                        <li><a href="/purchase-policy">Chính sách</a></li>
+                        <li><a href="#">Chính Sách</a>
+                            <!-- Home Version Dropdown Start -->
+                            <ul>
+                                <li><a href="/purchase-policy">Chính Sách Mua Hàng & Bảo Hành</a></li>
+                                <li><a href="/loyal-customer">Chương Trình KH Thân Thiết</a></li>
+                                <li><a href="/cooperate-policy">Chính Sách Hợp Tác</a></li>
+                            </ul>
+                            <!-- Home Version Dropdown End -->
+                        </li>
                         <li><a href="/blogs">Tin tức</a></li>
                         <li><a href="/contact">Liên hệ</a></li>
                     </ul>

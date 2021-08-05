@@ -30,7 +30,7 @@ router.post(process.env.SEARCH, async function(req, res) {
                     imagePreview: "https://momostudio.vn/img/home_image.png",
                     layout: 'client.hbs',
                     general: general,
-                    cart: cart ? cart.toJSON() : null,
+                    cart: cart,
                     allCategory: allCategory.map(item => item.toJSON()),
                     products: products.map(item => item.toJSON()),
                     currentUrl: process.env.R_BASE_IMAGE,
@@ -78,7 +78,7 @@ router.get('/', async function(req, res) {
         general: general,
         newProducts: newProducts,
         categorys: categorys,
-        cart: cart ? cart.toJSON() : null,
+        cart: cart,
         bestSellerProduct: bestSellerProduct.map(product => product.toJSON()),
         banners: banners.map(banner => banner.toJSON()),
         newPosts: newPosts.map(post => post.toJSON()),
@@ -89,34 +89,115 @@ router.get('/', async function(req, res) {
     });
 });
 
-router.get(process.env.ABOUT_US, async function(req, res) {
+router.get('/about-us', async function(req, res) {
     let general = await getGeneralConfig();
-    let about_us = await getAboutUsInfo();
+    let about_us = await getText('about_us');
+    console.log(about_us);
     let cart = await getCart(req.sessionID);
     let treeMenu = await getTreeMenu();
-    console.log("hahaha")
-    res.render('client/about-us', {
-        title: general.title_home + ' - ' + "About US",
+    res.render('client/text', {
+        title: general.title_home + ' - ' + "Về Momo",
         layout: 'client.hbs',
+        titlePage: 'Về Momo',
         general: general,
-        about_us: about_us,
-        cart: cart ? cart.toJSON() : null,
+        text: about_us,
+        cart: cart,
         treeMenu: treeMenu
     });
 });
 
-router.get(process.env.PURCHASE_POLICY, async function(req, res) {
+router.get('/cooperate-policy', async function(req, res) {
     let general = await getGeneralConfig();
-    let purchase_policy = await getPurchasePolicyInfo();
+    let cooperate_policy = await getText('cooperate_policy');
     let cart = await getCart(req.sessionID);
     let treeMenu = await getTreeMenu();
-    console.log("hahaha")
-    res.render('client/purchase-policy', {
-        title: general.title_home + ' - ' + "About US",
+    res.render('client/text', {
+        title: general.title_home + ' - ' + "Chính Sách Hợp Tác",
+        layout: 'client.hbs',
+        titlePage: 'Chính Sách Hợp Tác',
+        general: general,
+        text: cooperate_policy,
+        cart: cart,
+        treeMenu: treeMenu
+    });
+});
+
+router.get('/work-with-us', async function(req, res) {
+    let general = await getGeneralConfig();
+    let work_with_us = await getText('work_with_us');
+    let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
+    res.render('client/text', {
+        title: general.title_home + ' - ' + "Work With Us",
+        layout: 'client.hbs',
+        titlePage: 'Work With Us',
+        general: general,
+        text: work_with_us,
+        cart: cart,
+        treeMenu: treeMenu
+    });
+});
+
+router.get('/trung-tam-tro-giup', async function(req, res) {
+    let general = await getGeneralConfig();
+    let trung_tam_tro_giup = await getText('trung_tam_tro_giup');
+    let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
+    res.render('client/text', {
+        title: general.title_home + ' - ' + "Trung Tâm Trợ Giúp",
+        layout: 'client.hbs',
+        titlePage: 'Trung Tâm Trợ Giúp',
+        general: general,
+        text: trung_tam_tro_giup,
+        cart: cart,
+        treeMenu: treeMenu
+    });
+});
+
+router.get('/tuyen-dung', async function(req, res) {
+    let general = await getGeneralConfig();
+    let tuyen_dung = await getText('tuyen_dung');
+    let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
+    res.render('client/text', {
+        title: general.title_home + ' - ' + "Tuyển Dụng",
+        layout: 'client.hbs',
+        titlePage: 'Tuyển Dụng',
+        general: general,
+        text: tuyen_dung,
+        cart: cart,
+        treeMenu: treeMenu
+    });
+});
+
+router.get('/loyal-customer', async function(req, res) {
+    let general = await getGeneralConfig();
+    let loyal_customer = await getText('loyal_customer');
+    let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
+    res.render('client/text', {
+        title: general.title_home + ' - ' + "Chương Trình Khách Hàng Thân Thiết",
+        layout: 'client.hbs',
+        titlePage: 'Chương Trình Khách Hàng Thân Thiết',
+        general: general,
+        text: loyal_customer,
+        cart: cart,
+        treeMenu: treeMenu
+    });
+});
+
+router.get('/purchase-policy', async function(req, res) {
+    let general = await getGeneralConfig();
+    let purchase_policy = await getText('purchase_policy');
+    let cart = await getCart(req.sessionID);
+    let treeMenu = await getTreeMenu();
+    res.render('client/text', {
+        title: general.title_home + ' - ' + "Chính sách mua hàng",
+        titlePage: 'Chính Sách Mua Hàng',
         layout: 'client.hbs',
         general: general,
-        purchase_policy: purchase_policy,
-        cart: cart ? cart.toJSON() : null,
+        text: purchase_policy,
+        cart: cart,
         treeMenu: treeMenu
     });
 });
@@ -144,7 +225,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         layout: 'client.hbs',
         general: general,
         categoryDetail: categoryDetail,
-        cart: cart ? cart.toJSON() : null,
+        cart: cart,
         pageInfo: postsByCategory[0].pageInfo[0],
         products: postsByCategory[0].edges,
         currentPage: currentPage,
@@ -310,7 +391,7 @@ router.get(process.env.CHECK_OUT, async function(req, res) {
         title: "Đặt hàng ngay",
         layout: 'client.hbs',
         general: general,
-        cart: cart ? cart.toJSON() : null,
+        cart: cart,
         currentUrl: process.env.R_BASE_IMAGE + req.url,
         treeMenu: treeMenu
     });
@@ -345,7 +426,7 @@ router.get(`${process.env.BLOG}/:category_url`, async function(req, res) {
             title: general.title_home + "-" + detailCategofy.name,
             layout: 'client.hbs',
             general: general,
-            cart: cart ? cart.toJSON() : null,
+            cart: cart,
             posts: posts ? posts[0].edges : [],
             currentUrl: process.env.R_BASE_IMAGE + req.url,
             treeMenu: treeMenu,
@@ -368,7 +449,7 @@ router.get(process.env.BLOG, async function(req, res) {
         title: general.title_home + " - Các bài viết",
         layout: 'client.hbs',
         general: general,
-        cart: cart ? cart.toJSON() : null,
+        cart: cart,
         posts: posts ? posts[0].edges : [],
         currentUrl: process.env.R_BASE_IMAGE + req.url,
         treeMenu: treeMenu,
@@ -418,7 +499,7 @@ router.get(process.env.CONTACT, async function(req, res) {
         title: general.title_home + " - Liên hệ ngay ",
         layout: 'client.hbs',
         general: general,
-        cart: cart ? cart.toJSON() : null,
+        cart: cart,
         currentUrl: process.env.R_BASE_IMAGE + req.url,
         treeMenu: treeMenu
     });
@@ -427,16 +508,14 @@ router.get(process.env.CONTACT, async function(req, res) {
 router.get(process.env.CART, async function(req, res) {
 
     let general = await getGeneralConfig();
-    let about_us = await getAboutUsInfo();
     let cart = await getCart(req.sessionID);
     let treeMenu = await getTreeMenu();
     res.render('client/cart', {
         title: general.title_home + " - Giỏ hàng",
         layout: 'client.hbs',
         general: general,
-        about_us: about_us,
         imagePreview: process.env.R_BASE_IMAGE + '/img/about-us.jpg',
-        cart: cart ? cart.toJSON() : null,
+        cart: cart,
         currentUrl: process.env.R_BASE_IMAGE + req.url,
         treeMenu: treeMenu
     });
@@ -451,7 +530,7 @@ router.get(process.env.FAVOR_LIST, async function(req, res) {
         title: general.title_home + " - Danh sách ưa thích ",
         layout: 'client.hbs',
         general: general,
-        cart: cart ? cart.toJSON() : null,
+        cart: cart ,
         currentUrl: process.env.R_BASE_IMAGE + req.url,
         treeMenu: treeMenu
     });
@@ -480,7 +559,6 @@ router.get(`${process.env.POST}/:url`, async function(req, res) {
         let relatedPosts = await getRelatedPosts(post);
         let cart = await getCart(req.sessionID);
         let general = await getGeneralConfig();
-        // console.log(post)
         let allCategory = await getCategoryPost();
         let recentPosts = await getPosts(4, 0);
         let nextPost = await findNextPost(post._id);
@@ -495,7 +573,7 @@ router.get(`${process.env.POST}/:url`, async function(req, res) {
             prevPost : prevPost,
             relatedPosts : relatedPosts,
             post: post ? post.toJSON() : null,
-            cart: cart ? cart.toJSON() : null,
+            cart: cart,
             treeMenu: treeMenu,
             recentPosts: recentPosts.map(post => post.toJSON()),
         });
@@ -544,7 +622,7 @@ router.get(`${process.env.PRODUCT}/:url`, async function(req, res) {
             product: product.toJSON(),
             general: general,
             productsRelated: productsRelated,
-            cart: cart ? cart.toJSON() : null,
+            cart: cart,
             reviews: reviews.map(review => review.toJSON()),
             currentUrl: process.env.R_BASE_IMAGE + req.url,
             treeMenu: treeMenu
@@ -617,8 +695,7 @@ let getCart = function(sessionID) {
     return new Promise(function(resolve, reject) {
         Carts.findOne({ sessionID: sessionID }, function(err, cart) {
             resolve(cart);
-
-        });
+        }).lean();
     });
 
 }
@@ -719,34 +796,19 @@ let getBanners = function() {
         }
     });
 }
-let getAboutUsInfo = function() {
-    return new Promise(function(resolve, reject) {
-        let about_us = cache.get("about-us");
-        if (about_us == undefined) {
-            Settings.findOne({ type: 'text' }, function(err, data) {
-                if (!err) {
-                    resolve(data.content.about_us);
-                    cache.set("about-us", data.content.about_us);
-                }
-            });
-        } else {
-            resolve(about_us)
-        }
-    });
-}
 
-let getPurchasePolicyInfo = function() {
+let getText = function(type) {
     return new Promise(function(resolve, reject) {
-        let purchase_policy = cache.get("purchase-policy");
-        if (purchase_policy == undefined) {
+        let data = cache.get(type);
+        if (data == undefined) {
             Settings.findOne({ type: 'text' }, function(err, data) {
                 if (!err) {
-                    resolve(data.content.purchase_policy);
-                    cache.set("purchase-policy",data.content.purchase_policy);
+                    resolve(data.content[type]);
+                    cache.set(type,data.content[type]);
                 }
             });
         } else {
-            resolve(purchase_policy)
+            resolve(data)
         }
     });
 }

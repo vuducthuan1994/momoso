@@ -3,7 +3,15 @@
     <div class="primary-menu">
         <nav>
             <ul class="primary-menu-list text-center">
-                <li><a href="/about-us">Về Momo</a></li>
+                 <li><a href="#">Về Momo<i class="pe-7s-angle-down"></i></a>
+                    <!-- Home Version Dropdown Start -->
+                    <ul class="ht-dropdown">
+                        <li><a href="/about-us">Câu Chuyện Của Momo</a></li>
+                        <li><a href="/work-with-us">Work With Us</a></li>
+                        <li><a href="/contact">Liên Hệ</a></li>
+                    </ul>
+                    <!-- Home Version Dropdown End -->
+                </li>
                 {{!-- <li><a href="index.html">home<i class="pe-7s-angle-down"></i></a>
                     <!-- Home Version Dropdown Start -->
                     <ul class="ht-dropdown">
@@ -15,28 +23,39 @@
                     <!-- Home Version Dropdown End -->
                 </li> --}}
 
-                <li class="static-menu"><a href="{{createURLCategory 'all'}}"><strong style="color: #d7ac87">Sản phẩm</strong><i class="pe-7s-angle-down"></i></a>
+                <li class="static-menu"><a href="{{createURLCategory 'all'}}"><strong style="color: #d7ac87">Sản
+                            phẩm</strong><i class="pe-7s-angle-down"></i></a>
                     <!-- Mega Menu Start -->
                     <ul class="ht-dropdown mega-menu-2">
 
                         {{#each treeMenu}}
-                       
-                            <li>
-                             <a href="{{createURLCategory this.urlSeo}}"><h3>{{this.name}}</h3></a>
+
+                        <li>
+                            <a href="{{createURLCategory this.urlSeo}}">
+                                <h3>{{this.name}}</h3>
+                            </a>
                             <ul>
                                 {{#each this.children}}
                                 <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a></li>
                                 {{/each}}
                             </ul>
                         </li>
-                      
-                       
+
+
                         {{/each}}
                     </ul>
                     <!-- Mega Menu End -->
                 </li>
 
-                 <li><a href="/purchase-policy">Chính sách</a></li>
+                <li><a href="#">Chính Sách<i class="pe-7s-angle-down"></i></a>
+                    <!-- Home Version Dropdown Start -->
+                    <ul class="ht-dropdown">
+                        <li><a href="/purchase-policy">Chính Sách Mua Hàng & Bảo Hành</a></li>
+                        <li><a href="/loyal-customer">Chương Trình KH Thân Thiết</a></li>
+                        <li><a href="/cooperate-policy">Chính Sách Hợp Tác</a></li>
+                    </ul>
+                    <!-- Home Version Dropdown End -->
+                </li>
                 <li><a href="/blogs">Tin tức</a></li>
                 <li><a href="/contact">Liên hệ</a></li>
 
