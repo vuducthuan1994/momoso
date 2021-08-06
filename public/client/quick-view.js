@@ -12,6 +12,7 @@ $(document).ready(function () {
 });
 function setActiveColor() {
     if (!$(this).hasClass('out_of_stock')) {
+        $('#quick-view-listSize').css('display', 'block');
         $('#quick-view-listSize li').removeClass('out_of_stock');
         $('#quick-view-listSize li').removeClass('active');
         
@@ -129,6 +130,7 @@ function getProductById(id) {
 
                 $('#quick-view-listColor ul').html(listImageHTML);
                 $('#quick-view-listSize ul').html(listSizeHTML);
+                $('#quick-view-listSize').css('display', 'none');
                 $('#thumb-menu-owl').owlCarousel({
                     loop: false,
                     navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],

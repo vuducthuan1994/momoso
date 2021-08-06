@@ -157,7 +157,7 @@ router.post('/edit-post/:id', function(req, res) {
             content['recent_image'] = `/img/posts/recent-${fileName}`;
             resizeImage(file.path, thumb_path, 370, 246);
             resizeImage(file.path, banner_path, 1770, 630);
-            resizeImage(file.path, recent_image, 600, 756);
+            resizeImage(file.path, recent_image, 600, 600);
         }
     });
 

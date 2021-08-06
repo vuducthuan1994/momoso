@@ -19,7 +19,7 @@ function toast(title, msg, type = 'info') {
         text: msg,
         showHideTransition: 'plain',
         icon: type,
-        position: 'bottom-right',
+        position: 'top-right',
     });
 }
 
