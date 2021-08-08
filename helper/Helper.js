@@ -417,6 +417,9 @@ module.exports = {
         return process.env.R_DOMAIN + process.env.BLOG;
     },
     getTotalPage(totalProduct, pageSize) {
+        if(totalProduct == 0) {
+            return 0;
+        }
         const totalPage = totalProduct / pageSize;
 
         if (Number(totalPage) === totalPage && totalPage % 1 === 0) {

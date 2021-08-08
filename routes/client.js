@@ -206,7 +206,6 @@ router.get('/purchase-policy', async function(req, res) {
 
 router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     let treeMenu = await getTreeMenu();
-    console.log(treeMenu)
     const urlSeo = req.params.url;
     const pageSize = req.query.pageSize ? JSON.parse(req.query.pageSize) : 9;
     const sortType = req.query.sortType ? JSON.parse(req.query.sortType) : 0;
@@ -215,6 +214,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
     const maxPrice = req.query.maxPrice ? JSON.parse(req.query.maxPrice) : 3000000;
 
     let postsByCategory = await getPostByCategory(urlSeo, pageSize, currentPage, sortType, minPrice, maxPrice);
+
     let categoryDetail = await getCategoryDetail(urlSeo);
     let general = await getGeneralConfig();
     let cart = await getCart(req.sessionID);
@@ -227,7 +227,7 @@ router.get(`${process.env.CATEGORY_PRODUCT}/:url`, async function(req, res) {
         general: general,
         categoryDetail: categoryDetail,
         cart: cart,
-        pageInfo: postsByCategory[0].pageInfo[0],
+        pageInfo: postsByCategory[0].pageInfo[0] || {count : 0},
         products: postsByCategory[0].edges,
         currentPage: currentPage,
         pageSize: pageSize,
