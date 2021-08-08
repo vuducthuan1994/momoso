@@ -42,11 +42,11 @@
                                 {{#each treeMenu}}
                                 <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a>
                                     <!-- Mobile Menu Sub-Dropdown Start -->
-                                    <ul>
+                                    {{!-- <ul>
                                         {{#each this.children}}
                                         <li><a href="{{createURLCategory this.urlSeo}}">{{this.name}}</a></li>
                                         {{/each}}
-                                    </ul>
+                                    </ul> --}}
                                     <!-- Mobile Menu Sub-Dropdown End -->
                                 </li>
                                 {{/each}}
