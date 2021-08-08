@@ -5,6 +5,7 @@ const Products = require('../models/productModel');
 const Carts = require('../models/cartModel');
 const Contacts = require('../models/contactModel');
 const Reviews = require('../models/reviewModel');
+const Comments = require('../models/commentModel');
 const Orders = require('../models/orderModel');
 const rateLimit = require("express-rate-limit");
 const reviewLimiter = rateLimit({
@@ -87,6 +88,22 @@ router.post('/createReview', reviewLimiter, function (req, res) {
                 html: `<h5>URL SẢN PHẨM: ${data.URL}</h5>   <h5>Sản phẩm nhận bình luận: ${data.productName}</h5> <br>  <p> <strong>Nội dung  bình luận:</strong> ${data.comment} </p> <br> <p><i>Vui lòng đăng nhập hệ thống MoMo để biết thêm chi tiết !</i></p>` // plain text body
             };
             emailHelper.sendEmail(mailOptions);
+        } else {
+            console.log(err);
+            res.json({
+                success: false
+            });
+        }
+    });
+});
+
+router.post('/createComment', function (req, res) {
+    Comments.create(req.body, function (err, data) {
+        if (!err) {
+            res.json({
+                success: true,
+                data: data
+            });
         } else {
             console.log(err);
             res.json({

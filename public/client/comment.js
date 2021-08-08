@@ -49,10 +49,12 @@ function commentProcess() {
     }).form();
 
     if (formStatus) {
-        var orderData = $('#comment-form').serializeArray();
+        var commentData = $('#comment-form').serializeArray();
+        const postId =  $('#submitFormComment').attr('data-urlSeo')
+        commentData.push({ name: 'urlSeo', value: postId });
         $.ajax({
             url: "/api/createComment",
-            data: orderData,
+            data: commentData,
             dataType: "json",
             method: 'POST',
             success: function (data) {

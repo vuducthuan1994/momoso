@@ -170,49 +170,23 @@
                     <!-- Blog Realated Post Start -->
                     <!-- Comment Area Start -->
                     <div class="comment-area recent-post">
-                        <h3 class="sidebar-title">3 COMMENTS</h3>
+                        <h3 class="sidebar-title">{{comments.length}} BÌNH LUẬN</h3>
+
+                        {{#each comments}}
                         <!-- Single Comment Start -->
                         <div class="single-comment">
                             <div class="comment-img f-left pr-30">
-                                <img src="img/blog/4.jpg" alt="blog-comment">
+                                <img src="/img/blog/4.jpg" alt="blog-comment">
                             </div>
                             <div class="comment-details fix">
-                                <h4><a href="#">RICE JOHNNY</a></h4>
-                                <span>August 10, 2018 at 11:08 am</span>
-                                <p>But I must explain to you how all this mistaken idea of denouncing pleas praising
-                                    pain born and I will give you a complete account of the system</p>
+                                <h4>{{this.name}}</h4>
+                                <span>{{getFormattedDate this.created_date}}</span>
+                                <p>{{this.message}}</p>
                             </div>
-                            <a class="reply" href="#">reply</a>
+                      
                         </div>
                         <!-- Single Comment End -->
-                        <!-- Single Comment Start -->
-                        <div class="single-comment">
-                            <div class="comment-img f-left pr-30">
-                                <img src="img/blog/4.jpg" alt="blog-comment">
-                            </div>
-                            <div class="comment-details fix">
-                                <h4><a href="#">RICE JOHNNY</a></h4>
-                                <span>August 10, 2018 at 11:08 am</span>
-                                <p>explain to you how all this mistaken idea of denouncing pleas praising pain born and
-                                    I will give you a complete account of the system</p>
-                            </div>
-                            <a class="reply" href="#">reply</a>
-                        </div>
-                        <!-- Single Comment End -->
-                        <!-- Single Comment Start -->
-                        <div class="single-comment ml-20">
-                            <div class="comment-img f-left pr-30">
-                                <img src="img/blog/4.jpg" alt="blog-comment">
-                            </div>
-                            <div class="comment-details fix">
-                                <h4><a href="#">MISTAKEN</a></h4>
-                                <span>August 10, 2018 at 11:09 am</span>
-                                <p>mistaken explain to you how all this mistaken idea of denouncing pleas praising pain
-                                    born and I will give you a complete account of the system</p>
-                            </div>
-                            <a class="reply" href="#">reply</a>
-                        </div>
-                        <!-- Single Comment End -->
+                        {{/each}}
                     </div>
                     <!-- Comment Area End -->
                     <!-- Contact Email Area Start -->
@@ -221,7 +195,7 @@
                             <div class="row">
                                 <h3 class="mb-5">BÌNH LUẬN</h3>
                                 <div class="row">
-                                    <form id="comment-form" class="contact-form" method="POST" action="">
+                                    <form id="comment-form" class="contact-form" autocomplete="off">
                                         <div class="address-wrapper">
                                             <div class="col-md-12">
                                                 <div class="address-fname">
@@ -253,7 +227,7 @@
                                         <p class="form-messege"></p>
                                         <div class="col-xs-12 footer-content mail-content">
                                             <div class="send-email pull-right">
-                                                <input id="submitFormComment" type="submit" value="ĐĂNG NGAY" class="submit">
+                                                <input data-urlSeo="{{post.urlSeo}}" id="submitFormComment"  value="ĐĂNG NGAY" class="submit">
                                             </div>
                                         </div>
                                     </form>
@@ -311,7 +285,7 @@
                     </div>
                     <!-- Category Post End -->
                     <!-- Meta Post Start -->
-                    <div class="categorie recent-post">
+                    {{!-- <div class="categorie recent-post">
                         <h3 class="sidebar-title mt-40">others</h3>
                         <ul class="categorie-list">
                             <li><a href="log-in.html">Log in</a></li>
@@ -319,7 +293,7 @@
                             <li><a href="#">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
                             <li><a href="#">WordPress.org</a></li>
                         </ul>
-                    </div>
+                    </div> --}}
                     <!-- Meta Post End -->
                     <!-- Meta Post Start -->
                     <div class="categorie recent-post">

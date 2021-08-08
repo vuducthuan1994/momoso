@@ -7,6 +7,7 @@ const Categorys = require('../models/categoryModel');
 const CategorysPosts = require('../models/categoryPostModel');
 const Carts = require('../models/cartModel');
 const Review = require('../models/reviewModel');
+const Comments = require('../models/commentModel');
 const Instagram = require('../models/instagramModel');
 let router = express.Router();
 const NodeCache = require("node-cache");
@@ -546,10 +547,20 @@ let getCategoryPost = function() {
             reslove([]);
           }
         }).lean();
-    })
-    
+    });
 }
 
+let getComments = function(urlSeo) {
+    return new Promise(function(reslove,reject) {
+        Comments.find({urlSeo: urlSeo}, function(err,comments) {
+            if(!err) {
+                reslove(comments)
+            } else{
+                reslove([]);
+            }
+        }).lean().sort({created_date : -1});
+    })
+}
 router.get(`${process.env.POST}/:url`, async function(req, res) {
     const urlSeo = req.params.url;
     let post = await getPostDetail(urlSeo);
@@ -563,16 +574,18 @@ router.get(`${process.env.POST}/:url`, async function(req, res) {
         let recentPosts = await getPosts(4, 0);
         let nextPost = await findNextPost(post._id);
         let prevPost = await findPrevPost(post._id);
+        let comments = await getComments(urlSeo);
         res.render('client/post-detail', {
             title: general.title_home + ' - ' + post.title,
             layout: 'client.hbs',
             general: general,
+            comments : comments,
             allCategory : allCategory,
             imagePreview: process.env.R_BASE_IMAGE + post.thumb_image,
             nextPost : nextPost,
             prevPost : prevPost,
             relatedPosts : relatedPosts,
-            post: post ? post.toJSON() : null,
+            post: post,
             cart: cart,
             treeMenu: treeMenu,
             recentPosts: recentPosts.map(post => post.toJSON()),
@@ -644,7 +657,7 @@ let getPostDetail = function(urlSeo) {
                 } else {
                     resolve(null)
                 }
-            });
+            }).lean();
         } else {
             resolve(post)
         }
